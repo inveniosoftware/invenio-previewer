@@ -1,6 +1,7 @@
-{#
+# -*- coding: utf-8 -*-
+##
 ## This file is part of Invenio.
-## Copyright (C) 2013, 2014 CERN.
+## Copyright (C) 2014 CERN.
 ##
 ## Invenio is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License as
@@ -15,18 +16,20 @@
 ## You should have received a copy of the GNU General Public License
 ## along with Invenio; if not, write to the Free Software Foundation, Inc.,
 ## 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-#}
 
-{# Template for when file doesn't exist or file cannot be previewed #}
+"""PDF previewer based on pdf.js."""
 
-{% extends "previewer/preview.html" %}
+from flask import render_template, request
 
 
-{% block body %}
-<div class="container">
-    <div class="col-md-2 col-md-offset-3">
-        <h3><i class="glyphicon glyphicon-remove"></i> Cannot preview file</h3>
-        <p>Sorry, we are unfortunately not able to preview this file.</p>
-    </div>
-</div>
-{% endblock %}
+def can_preview(f):
+    """Check if file can be previewed."""
+    if f.superformat.lower() == '.pdf':
+        return True
+    return False
+
+
+def preview(f):
+    """Preview file."""
+    return render_template("previewer/pdfjs.html", f=f,
+                           embed=request.args.get('embed', type=bool))
