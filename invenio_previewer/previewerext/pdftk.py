@@ -63,7 +63,8 @@ def maxpage(f):
     pdf = get_pdf_path(f)
     if pdf is not None:
         (exit_status, output_std, output_err) = \
-            run_shell_command(cmd_pdftk, args=(str(cfg["CFG_PATH_PDFTK"]), pdf))
+            run_shell_command(cmd_pdftk, args=(
+                str(cfg["CFG_PATH_PDFTK"]), pdf))
         if int(exit_status) == 0 and len(output_err) == 0:
             return jsonify(maxpage=int(output_std.strip().split(" ")[1]))
     return jsonify(maxpage=-1)

@@ -22,13 +22,46 @@ def can_preview(f):
     '''
     Returns if filetype can be previewed.
     '''
-    return f.superformat in ['.pdf', '.jpeg', '.png', '.gif', '.tiff', '.bmp',
-                             '.mpeg4', '.3gpp', '.mov', '.avi', '.mpegps',
-                             '.wmv', '.flv', '.txt', '.css', '.html', '.php',
-                             '.c', '.cpp', '.h', '.hpp', '.js', '.doc', '.docx',
-                             '.xls', '.xlsx', '.ppt', '.pptx', '.pages', '.ai',
-                             '.psd', '.dfx', '.svg', '.eps', '.ps', '.ttf',
-                             '.xps', '.zip', '.rar']
+    return f.superformat in [
+        '.pdf',
+        '.jpeg',
+        '.png',
+        '.gif',
+        '.tiff',
+        '.bmp',
+        '.mpeg4',
+        '.3gpp',
+        '.mov',
+        '.avi',
+        '.mpegps',
+        '.wmv',
+        '.flv',
+        '.txt',
+        '.css',
+        '.html',
+        '.php',
+        '.c',
+        '.cpp',
+        '.h',
+        '.hpp',
+        '.js',
+        '.doc',
+        '.docx',
+        '.xls',
+        '.xlsx',
+        '.ppt',
+        '.pptx',
+        '.pages',
+        '.ai',
+        '.psd',
+        '.dfx',
+        '.svg',
+        '.eps',
+        '.ps',
+        '.ttf',
+        '.xps',
+        '.zip',
+        '.rar']
 
 
 def preview(f):

@@ -71,6 +71,7 @@ def get_record_documents(recid, filename):
         (dummy, name, superformat) = decompose_file(filename)
 
         class LegacyBibDoc(object):
+
             def __init__(self, **kwargs):
                 for key, value in kwargs.items():
                     setattr(self, key, value)

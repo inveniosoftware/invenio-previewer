@@ -17,10 +17,9 @@
 # along with Invenio; if not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
-__all__ = ['previewerext', 'previewers']
 
-from invenio.ext.registry import ModuleAutoDiscoverySubRegistry
 from flask_registry import RegistryProxy
+from invenio.ext.registry import ModuleAutoDiscoverySubRegistry
 from invenio.utils.datastructures import LazyDict
 
 previewerext = RegistryProxy(
@@ -41,3 +40,5 @@ previewers = LazyDict(lambda: dict(map(lambda m: (
     m.__name__.split('.')[-1],
     dict(can_preview=getattr(m, 'can_preview', dummy_can_preview),
          preview=getattr(m, 'preview', dummy_preview))), previewerext)))
+
+__all__ = ('previewerext', 'previewers')

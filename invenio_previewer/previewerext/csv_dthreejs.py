@@ -34,7 +34,7 @@ def validate_csv(f):
             dialect = csv.Sniffer().sniff(csvfile.read(1024))
         except Exception as e:
             current_app.logger.debug(
-                'File %s is not valid CSV: %s' % (f.name+f.superformat, e))
+                'File %s is not valid CSV: %s' % (f.name + f.superformat, e))
             return {
                 'delimiter': '',
                 'encoding': '',
@@ -50,14 +50,14 @@ def validate_csv(f):
             is_valid = True
         except csv.Error as e:
             current_app.logger.debug(
-                'File %s is not valid CSV: %s' % (f.name+f.superformat, e))
+                'File %s is not valid CSV: %s' % (f.name + f.superformat, e))
         finally:
             u.close()
     return {
         'delimiter': dialect.delimiter,
         'encoding': u.result['encoding'],
         'is_valid': is_valid
-        }
+    }
 
 
 def can_preview(f):

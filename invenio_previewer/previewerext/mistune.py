@@ -26,7 +26,7 @@ from flask import render_template, request
 from invenio.ext.cache import cache
 
 
-@cache.memoize(timeout=2*86400)
+@cache.memoize(timeout=2 * 86400)
 def render(f):
     """Render HTML from Markdown file content."""
     with open(f.fullpath, 'rU') as mdfile:
