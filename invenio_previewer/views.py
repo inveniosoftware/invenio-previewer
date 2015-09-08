@@ -22,7 +22,10 @@
 from __future__ import unicode_literals
 
 import itertools
+
 import os
+
+import warnings
 
 from flask import Blueprint, current_app, request
 
@@ -30,6 +33,7 @@ from flask_breadcrumbs import default_breadcrumb_root
 
 from invenio.base.globals import cfg
 from invenio.config import CFG_SITE_RECORD
+
 from invenio_records.views import request_record
 
 from .registry import previewers
@@ -78,7 +82,6 @@ def preview(recid):
 @request_record
 def get_pdf_maxpage(recid):
     """Get maximal page from pdf."""
-    from invenio.legacy.bibdocfile.api import BibRecDocs
-    from .previewerext.pdftk import maxpage
-
-    return maxpage(BibRecDocs(recid).list_latest_files(list_hidden=False)[0])
+    warnings.warn("get_pdf_maxpage endpoint has been deprecated",
+                  PendingDeprecationWarning)
+    return ""

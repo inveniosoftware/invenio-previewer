@@ -21,6 +21,8 @@
 
 import os
 
+import warnings
+
 from flask import url_for, current_app
 from flask_login import current_user
 
@@ -35,17 +37,15 @@ def get_pdf_path(f):
 
 def get_record_files(recid, filename):
     """Yield legacy BibDoc files."""
-    from invenio.legacy.bibdocfile.api import BibRecDocs
-    for f in BibRecDocs(recid).list_latest_files(list_hidden=False):
-        if f.name + f.superformat == filename or filename is None:
-            yield f
+    warnings.warn("get_record_files function has been deprecated",
+                  PendingDeprecationWarning)
+    return []
 
 
 def get_record_documents(recid, filename):
     """Yield LegacyBibDoc files from Documents."""
     from invenio_records.api import get_record
     from invenio_documents.api import Document
-    from invenio.legacy.bibdocfile.api import decompose_file
 
     record = get_record(recid)
     duuids = [uuid for (k, uuid) in record.get('_documents', [])
@@ -68,7 +68,9 @@ def get_record_documents(recid, filename):
         else:
             url = url_for('record.file', recid=recid, filename=filename)
 
-        (dummy, name, superformat) = decompose_file(filename)
+        basename = os.path.basename(filename)
+        (name, ext) = os.path.splitext(basename)
+        superformat = ext[1:]
 
         class LegacyBibDoc(object):
 
