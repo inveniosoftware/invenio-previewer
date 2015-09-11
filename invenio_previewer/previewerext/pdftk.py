@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2013, 2014 CERN.
+# Copyright (C) 2013, 2014, 2015 CERN.
 #
 # Invenio is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -21,7 +21,7 @@
 
 from flask import abort, current_app, jsonify, request, safe_join
 
-from invenio.base.globals import cfg
+from invenio_base.globals import cfg
 from invenio.utils.shell import run_shell_command  # FIXME: subprocess.Popen
 
 from ..tasks import generate_preview

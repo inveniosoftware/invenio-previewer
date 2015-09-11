@@ -31,7 +31,7 @@ from flask import Blueprint, current_app, request
 
 from flask_breadcrumbs import default_breadcrumb_root
 
-from invenio.base.globals import cfg
+from invenio_base.globals import cfg
 from invenio.config import CFG_SITE_RECORD
 
 from invenio_records.views import request_record
