@@ -37,6 +37,7 @@ requirements = [
     'Flask>=0.10.1',
     'six>=1.7.2',
     'invenio-base>=0.2.1',
+    'invenio-celery>=0.1.0',
     'invenio-documents>=0.1.0.post2',
     'invenio-ext>=0.1.0',
     'invenio-records>=0.2.1',

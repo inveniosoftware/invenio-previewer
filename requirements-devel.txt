@@ -23,6 +23,7 @@
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
 -e git+git://github.com/inveniosoftware/invenio-base.git#egg=invenio-base
+-e git+git://github.com/inveniosoftware/invenio-celery.git#egg=invenio-celery
 -e git+git://github.com/inveniosoftware/invenio-documents.git#egg=invenio-documents
 -e git+git://github.com/inveniosoftware/invenio-ext.git#egg=invenio-ext
 -e git+git://github.com/inveniosoftware/invenio-records.git#egg=invenio-records
