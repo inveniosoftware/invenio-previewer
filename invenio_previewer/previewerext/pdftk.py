@@ -22,7 +22,8 @@
 from flask import abort, current_app, jsonify, request, safe_join
 
 from invenio_base.globals import cfg
-from invenio.utils.shell import run_shell_command  # FIXME: subprocess.Popen
+
+from invenio_utils.shell import run_shell_command  # FIXME: subprocess.Popen
 
 from ..tasks import generate_preview
 from ..utils import get_pdf_path

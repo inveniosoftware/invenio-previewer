@@ -23,10 +23,11 @@ import os
 
 from flask import current_app, safe_join
 
+from invenio.celery import celery
+
 from invenio_base.globals import cfg
 
-from invenio.celery import celery
-from invenio.utils.shell import run_shell_command  # FIXME: subprocess.Popen
+from invenio_utils.shell import run_shell_command  # FIXME: subprocess.Popen
 
 from .utils import get_pdf_path
 

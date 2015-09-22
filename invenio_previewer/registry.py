@@ -20,9 +20,9 @@
 
 from flask_registry import RegistryProxy
 
-from invenio.utils.datastructures import LazyDict
-
 from invenio_ext.registry import ModuleAutoDiscoverySubRegistry
+
+from invenio_utils.datastructures import LazyDict
 
 previewerext = RegistryProxy(
     'previewerext',
