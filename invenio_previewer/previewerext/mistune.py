@@ -1,5 +1,5 @@
 # This file is part of Invenio.
-# Copyright (C) 2013, 2014 CERN.
+# Copyright (C) 2013, 2014, 2015 CERN.
 #
 # Invenio is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -19,11 +19,11 @@
 
 from __future__ import absolute_import
 
-import mistune
-
 from flask import render_template, request
 
-from invenio.ext.cache import cache
+from invenio_ext.cache import cache
+
+import mistune
 
 
 @cache.memoize(timeout=2 * 86400)

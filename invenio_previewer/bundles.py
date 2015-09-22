@@ -21,7 +21,7 @@
 
 from __future__ import unicode_literals
 
-from invenio.ext.assets import Bundle, CleanCSSFilter, RequireJSFilter
+from invenio_ext.assets import Bundle, CleanCSSFilter, RequireJSFilter
 
 
 pdfjs = Bundle(
