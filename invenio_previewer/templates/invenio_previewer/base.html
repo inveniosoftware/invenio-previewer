@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+{# -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
 # Copyright (C) 2016 CERN.
@@ -21,6 +21,16 @@
 # In applying this license, CERN does not
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
+#}
 
-[pytest]
-addopts = --pep8 --ignore=docs --cov=invenio_previewer --cov-report=term-missing
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Preview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block head %} {% endblock %}
+  </head>
+  <body>
+    {% block page_body %} {% endblock %}
+  </body>
+</html>

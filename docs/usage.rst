@@ -22,9 +22,7 @@
     as an Intergovernmental Organization or submit itself to any jurisdiction.
 
 
-Changes
-=======
+Usage
+=====
 
--Version 0.1.0 (release 2015-08-13)
-
-- Initial public release.
+.. automodule:: invenio_previewer

@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
+{# -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2016 CERN.
+# Copyright (C) 2014, 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -21,6 +21,23 @@
 # In applying this license, CERN does not
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
+#}
 
-[pytest]
-addopts = --pep8 --ignore=docs --cov=invenio_previewer --cov-report=term-missing
+{#- D3 view for viewing csv files -#}
+
+{%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
+
+{%- block head %}
+  {{ super() }}
+
+  {# Javascript for CSV Previewer #}
+
+  {% assets "csv_previewer_js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
+
+{%- endblock %}
+
+{% block panel %}
+  <div id="d3_csv_previewer" data-csv-source="{{ url_for('invenio_previewer.document', recid=f.record_id, filename=f.get_filename()) }}"
+       data-csv-delimiter="{{ delimiter }}" data-csv-encoding="{{ encoding }}"></div>
+  <a data-csv-target="d3_csv_previewer" href="">{{ _('Show more') }}</a>
+{% endblock %}

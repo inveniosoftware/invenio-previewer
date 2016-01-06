@@ -9,7 +9,7 @@ About
 
 Invenio module for previewing files.
 
-*This is an experimental development preview release.*
+*This is an experimental developer preview release.*
 
 What's new
 ----------
@@ -24,7 +24,7 @@ Installation
 Documentation
 -------------
 
-   http://invenio-previewer.readthedocs.org/en/v0.1.0
+   http://pythonhosted.org/invenio-previewer/
 
 Happy hacking and thanks for flying Invenio-Previewer.
 

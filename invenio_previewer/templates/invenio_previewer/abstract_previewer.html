@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+{# -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
 # Copyright (C) 2016 CERN.
@@ -21,6 +21,19 @@
 # In applying this license, CERN does not
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
+#}
 
-[pytest]
-addopts = --pep8 --ignore=docs --cov=invenio_previewer --cov-report=term-missing
+{%- extends config.PREVIEWER_BASE_TEMPLATE %}
+
+{% block page_body %}
+  {% if request.args.get('embed') %}
+    {% include 'invenio_previewer/top.html' %}
+  {% endif %}
+
+  {% block panel %}
+  {% endblock %}
+
+  {% if request.args.get('embed') %}
+    {% include 'invenio_previewer/bottom.html' %}
+  {% endif %}
+{% endblock %}

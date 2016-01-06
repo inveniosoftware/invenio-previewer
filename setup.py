@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015 CERN.
+# Copyright (C) 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -27,33 +27,53 @@
 import os
 import sys
 
-from setuptools import setup
+from setuptools import find_packages, setup
 from setuptools.command.test import test as TestCommand
 
 readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
 
-requirements = [
-    'Flask>=0.10.1',
-    'six>=1.7.2',
-    'invenio-base>=0.3.0',
-    'invenio-celery>=0.1.0',
-    'invenio-documents>=0.1.0.post2',
-    'invenio-ext>=0.2.1',
-    'invenio-records>=0.2.1',
-    'invenio-utils>=0.1.1',
+tests_require = [
+    'check-manifest>=0.25',
+    'coverage>=4.0',
+    'isort>=4.2.2',
+    'mock>=1.0.0',
+    'pep257>=0.7.0',
+    'pytest-cache>=1.0',
+    'pytest-cov>=1.8.0',
+    'pytest-pep8>=1.0.6',
+    'pytest>=2.8.0',
+    'invenio-assets>=1.0.0a3',
+    'invenio-db>=1.0.0a9',
 ]
 
-test_requirements = [
-    'pytest>=2.8.0',
-    'pytest-cov>=2.1.0',
-    'pytest-pep8>=1.0.6',
-    'coverage>=4.0.0',
+extras_require = {
+    'docs': [
+        'Sphinx>=1.3',
+    ],
+    'tests': tests_require,
+}
+
+extras_require['all'] = []
+for reqs in extras_require.values():
+    extras_require['all'].extend(reqs)
+
+setup_requires = [
+    'invenio',
 ]
+
+install_requires = [
+    'Flask-BabelEx>=0.9.2',
+    'mistune>=0.7.1',
+    'chardet>=2.3.0',
+    'nodeenv>=0.13.6',
+    'invenio-documents>=1.0.0a1',
+],
+
+packages = find_packages()
 
 
 class PyTest(TestCommand):
-
     """PyTest Test."""
 
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
@@ -73,8 +93,11 @@ class PyTest(TestCommand):
     def finalize_options(self):
         """Finalize pytest."""
         TestCommand.finalize_options(self)
-        self.test_args = []
-        self.test_suite = True
+        if hasattr(self, '_test_args'):
+            self.test_suite = ''
+        else:
+            self.test_args = []
+            self.test_suite = True
 
     def run_tests(self):
         """Run tests."""
@@ -94,25 +117,42 @@ setup(
     version=version,
     description=__doc__,
     long_description=readme + '\n\n' + history,
-    keywords='invenio TODO',
+    keywords='invenio previewer',
     license='GPLv2',
     author='CERN',
     author_email='info@invenio-software.org',
     url='https://github.com/inveniosoftware/invenio-previewer',
-    packages=[
-        'invenio_previewer',
-    ],
+    packages=packages,
     zip_safe=False,
     include_package_data=True,
     platforms='any',
-    install_requires=requirements,
-    extras_require={
-        'docs': [
-            'Sphinx>=1.3',
-            'sphinx_rtd_theme>=0.1.7'
+    entry_points={
+        'invenio_base.apps': [
+            'invenio_previewer = invenio_previewer:InvenioPreviewer',
         ],
-        'tests': test_requirements
+        'invenio_i18n.translations': [
+            'messages = invenio_previewer',
+        ],
+        'invenio_assets.bundles': [
+            'csv_previewer_js = invenio_previewer.bundles:csv_previewer_js',
+            'pdfjs_css = invenio_previewer.bundles:pdfjs_css',
+            'pdfjs_js = invenio_previewer.bundles:pdfjs_js',
+            'pdfjs_worker_js = invenio_previewer.bundles:pdfjs_worker_js',
+            'zip_css = invenio_previewer.bundles:zip_css',
+            'zip_js = invenio_previewer.bundles:zip_js',
+        ],
+        'invenio_previewer.previewers': [
+            'csv_dthreejs = invenio_previewer.previewerext.csv_dthreejs',
+            'mistune = invenio_previewer.previewerext.mistune',
+            'pdfjs = invenio_previewer.previewerext.pdfjs',
+            'zip = invenio_previewer.previewerext.zip',
+            'default = invenio_previewer.previewerext.default',
+        ],
     },
+    extras_require=extras_require,
+    install_requires=install_requires,
+    setup_requires=setup_requires,
+    tests_require=tests_require,
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
@@ -122,13 +162,12 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Programming Language :: Python :: 2',
-        # 'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
-        # 'Programming Language :: Python :: 3',
-        # 'Programming Language :: Python :: 3.3',
-        # 'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Development Status :: 1 - Planning',
     ],
-    tests_require=test_requirements,
     cmdclass={'test': PyTest},
 )
