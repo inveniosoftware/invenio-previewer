@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
+{# -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2013, 2014, 2015, 2016 CERN.
+# Copyright (C) 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -21,18 +21,8 @@
 # In applying this license, CERN does not
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
+-#}
 
-"""PDF previewer based on pdf.js."""
-import os
-
-from flask import render_template
-
-
-def can_preview(document):
-    """Check if file can be previewed."""
-    return document.extension.lower() == 'pdf'
-
-
-def preview(document):
-    """Preview file."""
-    return render_template("invenio_previewer/pdfjs.html", f=document)
+{%- macro preview_file(file) %}
+  <iframe width="100%" height="400" src="{{ url_for('.preview', pid=file.pid, filename=file.name) }}"></iframe>
+{%- endmacro %}

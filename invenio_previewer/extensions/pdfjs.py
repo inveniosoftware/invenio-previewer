@@ -22,27 +22,18 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-"""Markdown rendering using mistune library."""
+"""PDF previewer based on pdf.js."""
 
-from __future__ import absolute_import
+from __future__ import absolute_import, print_function
 
 from flask import render_template
 
-import mistune
+
+def can_preview(file):
+    """Check if file can be previewed."""
+    return file.file['uri'].endswith('.pdf')
 
 
-def render(document):
-    """Render HTML from Markdown file content."""
-    with open(document.document.uri, 'rU') as mdfile:
-        return mistune.markdown(mdfile.read())
-
-
-def can_preview(document):
-    """Determine if file can be previewed."""
-    return document.extension == 'md'
-
-
-def preview(document):
-    """Render Markdown."""
-    return render_template("invenio_previewer/mistune.html", f=document,
-                           content=render(document))
+def preview(file):
+    """Preview file."""
+    return render_template("invenio_previewer/pdfjs.html", file=file.file)

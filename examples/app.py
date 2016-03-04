@@ -35,13 +35,21 @@
     $ flask -a app.py db create
 
 
-2. Collect npm, requirements from registered bundles:
+2. Create the database and the tables:
+
+.. code-block:: console
+
+    $ flask -a app.py users create info@invenio-software.org \
+      -a --password infoinfo
+
+
+3. Collect npm, requirements from registered bundles:
 
 .. code-block:: console
     $ flask -a app.py npm
 
 
-3. Install the npm packages:
+4. Install the npm packages:
 
 .. code-block:: console
     $ cd static
@@ -49,114 +57,204 @@
     $ cd ..
 
 
-3. Copy the static files from the Python packages into the Flask
+5. Copy the static files from the Python packages into the Flask
 application's static folder:
 
 .. code-block:: console
     $ flask -a app.py collect -v
 
 
-4. Build the assets as they are defined in bundle.py:
+6. Build the assets as they are defined in bundle.py:
 
 .. code-block:: console
     $ flask -a app.py assets build
 
 
-5. Creation of files of several types, their records and the insertion in our
-application. Grab the last line printed in the terminal after each insertion
-because it is the identifier of the records which is needed in order to
-be able to preview the files:
-
-5.1. A Markdown file:
+7. Run the fixture CLI tool in order to populate the database with
+example data:
 
 .. code-block:: console
-
-    $ echo '## This is Markdown' > /tmp/markdown.md
-    $ echo '{"title": "TestMaDF", "files": [{"uri": "/tmp/markdown.md"}]}' \
-      > markdown.json
-    $ flask -a app.py records create < markdown.json
+    $ flask -a app.py fixtures files
 
 
-5.2. A CSV file:
+8. Run the test server:
 
 .. code-block:: console
-
-    $ echo $'A,B\n1,1\n2,4\n3,9' > /tmp/square.csv
-    $ echo '{"title": "TestCSV", "files": [{"uri": "/tmp/square.csv"}]}' \
-      > csv.json
-    $ flask -a app.py records create < csv.json
+    $ flask -a app.py run
 
 
-5.3. A PDF file:
-
-.. code-block:: console
-
-    $ wget http://stlab.adobe.com/wiki/images/d/d3/Test.pdf -O /tmp/pdfile.pdf
-    $ echo '{"title": "TestPDF", "files": [{"uri": "/tmp/pdfile.pdf"}]}' \
-      > pdf.json
-    $ flask -a app.py records create < pdf.json
+9. Login into the application. Open in a web browser
+`http://localhost:5000/login/ and use the user previously created
+(user: info@invenio-software.org, password: infoinfo).
 
 
-5.4. A ZIP file containing all the previous files:
-
-.. code-block:: console
-
-    $ zip -r /tmp/zipfile.zip /tmp/pdfile.pdf /tmp/markdown.md /tmp/square.csv
-    $ echo '{"title": "TestZip", "files": [{"uri": "/tmp/zipfile.zip"}]}' \
-      > zip.json
-    $ flask -a app.py records create < zip.json
+10. Open a web browser and enter to the url
+`http://localhost:5000/records/RECORD_PID/preview` where
+`RECORD_ID` is a number between 1 and 4.
 
 
-5.5. And a record composed by separated files:
-
-.. code-block:: console
-
-    $ echo '{"title": "TestZip", "files":
-      [{"uri":"/tmp/square.csv"},{"uri": "/tmp/pdfile.pdf"}]}' > multiple.json
-    $ flask -a app.py records create < multiple.json
-
-6. Run the test server:
-
-.. code-block:: console
-    $ flask -a app.py --debug run
-
-7. Open a web browser and enter to the url
-`http://localhost:5000/RECORD_ID/preview` where
-`RECORD_ID` is one of the identifier that you previously grab after the
-insertion of the records.
-
-8. Try to open now with embedded mode using
-`http://localhost:5000/RECORD_ID/preview`
-
-9. Open now the record that contains several files (The last record created).
+11. Open now a record that contains several files (The last record created).
 By default, it is showing the first document, but you can set another file
 using a query string like
-`http://localhost:5000/RECORD_ID/preview?filename=square.csv`
-
+`http://localhost:5000/records/5/preview?filename=csvfile.csv`
+You can use (`csvfile.csv`, `markdown.md`, `pdffile.pdf`)
 """
 
 from __future__ import absolute_import, print_function
 
 import os
+from uuid import uuid4
 
 from flask import Flask
 from flask_babelex import Babel
 from flask_cli import FlaskCLI
+from invenio_access import InvenioAccess
+from invenio_accounts import InvenioAccounts
+from invenio_accounts.views import blueprint as accounts_blueprint
 from invenio_assets import InvenioAssets
-from invenio_db import InvenioDB
-from invenio_records import InvenioRecords
+from invenio_db import InvenioDB, db
+from invenio_pidstore.providers.recordid import RecordIdProvider
+from invenio_records import InvenioRecords, Record
 
+from invenio_files_rest import InvenioFilesREST
+from invenio_files_rest.models import Bucket, Location, ObjectVersion
 from invenio_previewer import InvenioPreviewer
+from invenio_records_ui import InvenioRecordsUI
 
 # Create Flask application
 app = Flask(__name__)
 app.config.update(
+    SECRET_KEY='CHANGEME',
     SQLALCHEMY_DATABASE_URI=os.environ.get(
         'SQLALCHEMY_DATABASE_URI', 'sqlite:///test.db'),
+    RECORDS_UI_DEFAULT_PERMISSION_FACTORY=None,
+    REST_ENABLE_CORS=True,
+    RECORDS_UI_ENDPOINTS=dict(
+        recid=dict(
+            pid_type='recid',
+            route='/records/<pid_value>',
+            template='invenio_records_ui/detail.html',
+        ),
+        recid_previewer=dict(
+            pid_type='recid',
+            route='/records/<pid_value>/preview',
+            view_imp='invenio_previewer.views:preview',
+        ),
+    )
 )
 Babel(app)
 FlaskCLI(app)
 InvenioDB(app)
-InvenioRecords(app)
-InvenioPreviewer(app)
 InvenioAssets(app)
+InvenioAccounts(app)
+InvenioAccess(app)
+InvenioRecords(app)
+InvenioFilesREST(app)
+InvenioPreviewer(app)
+InvenioRecordsUI(app)
+
+app.register_blueprint(accounts_blueprint)
+
+
+@app.cli.group()
+def fixtures():
+    """Command for working with test data."""
+
+
+def create_object(bucket, file_name, stream):
+    """Object creation inside the bucket using the file and its content."""
+    ObjectVersion.create(bucket, file_name, stream=stream)
+    recid = uuid4()
+    provider = RecordIdProvider.create(object_type='rec', object_uuid=recid)
+    data = {
+        'pid_value': provider.pid.pid_value,
+        'files': [
+            {
+                'uri': '/files/{0}/{1}'.format(str(bucket.id), file_name),
+                'key': file_name,
+                'bucket': str(bucket.id),
+                'local': True
+            }
+        ]
+    }
+    Record.create(data, id_=recid)
+
+
+@fixtures.command()
+def files():
+    """Load files."""
+    data_path = os.path.join(os.path.dirname(__file__), 'data')
+    # Clear data
+    ObjectVersion.query.delete()
+    Bucket.query.delete()
+    Location.query.delete()
+    db.session.commit()
+
+    # Create location
+    loc = Location(name='local', uri=data_path, default=True)
+    db.session.commit()
+
+    # Bucket
+    bucket = Bucket.create(loc)
+    print(bucket.id)
+
+    # Markdown file
+    markdown_file = 'markdown.md'
+    with open(os.path.join(data_path, markdown_file), 'r') as fp:
+        create_object(bucket, markdown_file, fp)
+
+    # CSV file
+    csv_file = 'csvfile.csv'
+    with open(os.path.join(data_path, csv_file), 'r') as fp:
+        create_object(bucket, csv_file, fp)
+
+    # PDF file
+    pdf_file = 'pdffile.pdf'
+    with open(os.path.join(data_path, pdf_file), 'r') as fp:
+        create_object(bucket, pdf_file, fp)
+
+    # ZIP file
+    zip_file = 'zipfile.zip'
+    with open(os.path.join(data_path, zip_file), 'r') as fp:
+        create_object(bucket, zip_file, fp)
+
+    # Multiple files
+    recid = uuid4()
+    provider = RecordIdProvider.create(object_type='rec', object_uuid=recid)
+    data = {
+        'pid_value': provider.pid.pid_value,
+        'files': []
+    }
+
+    # Template to create different files
+    template_file = {
+        'uri': '/files/{0}/{1}',
+        'key': '',
+        'bucket': str(bucket.id),
+        'local': True
+    }
+
+    # Creation of markdown file dictionary
+    markdown_file_data = template_file.copy()
+    markdown_file_data['uri'] = markdown_file_data['uri'].format(
+            str(bucket.id), markdown_file)
+    markdown_file_data['key'] = markdown_file
+    data['files'].append(markdown_file_data)
+
+    # Creation of csv file dictionary
+    csv_file_data = template_file.copy()
+    csv_file_data['uri'] = csv_file_data['uri'].format(
+            str(bucket.id), csv_file)
+    csv_file_data['key'] = csv_file
+    data['files'].append(csv_file_data)
+
+    # Creation of pdf file dictionary
+    pdf_file_data = template_file.copy()
+    pdf_file_data['uri'] = pdf_file_data['uri'].format(
+            str(bucket.id), pdf_file)
+    pdf_file_data['key'] = pdf_file
+    data['files'].append(pdf_file_data)
+
+    Record.create(data, id_=recid)
+
+    db.session.commit()

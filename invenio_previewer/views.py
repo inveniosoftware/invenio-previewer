@@ -26,12 +26,9 @@
 
 from __future__ import absolute_import, print_function
 
-import mimetypes
-import os
+from flask import Blueprint, current_app, request
 
-from flask import Blueprint, Response, current_app, request
-from invenio_documents import Document
-from invenio_records import Record
+from invenio_files_rest.models import ObjectVersion
 
 blueprint = Blueprint(
     'invenio_previewer',
@@ -41,76 +38,54 @@ blueprint = Blueprint(
 )
 
 
-class DocumentPreviewer(object):
-    """Provides some extra information about documents."""
+class PreviewFile(object):
+    """Preview file default implementation."""
 
-    def __init__(self, record_id, document):
-        """Class initialization."""
-        self.record_id = record_id
-        self.path = os.path.dirname(document.uri)
-        self.extension = document.uri[document.uri.rfind('.') + 1:]
-        self.name = document.uri[
-                     len(self.path) + 1: - len(self.extension) - 1]
-        self.document = document
+    def __init__(self, file, pid, record):
+        """Default constructor."""
+        self.file = file
+        self.pid = pid
+        self.record = record
 
-    def get_filename(self):
-        """Calculate the file name."""
-        return '{0}.{1}'.format(self.name, self.extension)
+    def open(self):
+        """Open the file."""
+        assert 'bucket' in self.file
+        assert 'key' in self.file
+        assert self.file['local']
 
-
-def get_document_previewer(record_id, filename):
-    """Look for a record and return the file."""
-    record = Record.get_record(record_id)
-
-    len_documents = len(Document(record, '/files/').record['files'])
-
-    for i_document in range(len_documents):
-        document = Document(record, '/files/{0}/uri'.format(i_document))
-        document_previewer = DocumentPreviewer(record_id, document)
-        if not filename or document_previewer.get_filename() == filename:
-            return document_previewer
+        obj = ObjectVersion.get(self.file['bucket'], self.file['key'])
+        return obj.file.storage().open()
 
 
-def get_previewers():
+def get_file(pid, record, filename=None):
+    """Return the PreviewFile associated with the record."""
+    for file in record['files']:
+        if file['key'] == filename or not filename:
+            return PreviewFile(file, pid, record)
+
+
+def get_previewers(previewer):
     """Return available previewers ordered by PREVIEWER_PREVIEWERS_ORDER."""
     result = []
+
     previewers_available = {
         previewer.__name__: previewer for previewer in
         current_app.extensions['invenio-previewer'].previewers
     }
 
-    for previewer in current_app.config.get('PREVIEWER_PREVIEWERS_ORDER'):
-        if previewer in previewers_available:
-            result.append(previewers_available[previewer])
+    for item in previewer or current_app.config.get(
+            'PREVIEWER_PREVIEWERS_ORDER'):
+        if item in previewers_available:
+            result.append(previewers_available[item])
+
     return result
 
 
-@blueprint.route('/<recid>/preview', methods=['GET', 'POST'])
-def preview(recid):
+def preview(pid, record, **kwargs):
     """Preview file for given record."""
-    document_previewer = get_document_previewer(
-        recid, request.args.get('filename', type=str))
+    file = get_file(pid, record, request.args.get('filename', type=str))
 
-    for plugin in get_previewers():
-        if plugin.can_preview(document_previewer):
-            return plugin.preview(document_previewer)
-
-
-@blueprint.route('/document/<recid>/<filename>')
-def document(recid, filename):
-    """Return a stream with the file specified in the record."""
-    document_previewer = get_document_previewer(recid, filename)
-
-    def stream_file(uri):
-        with open(uri, 'rb') as f:
-            while True:
-                chunk = f.read(1024)
-                if chunk:
-                    yield chunk
-                else:
-                    return
-    stream = stream_file(document_previewer.document.uri)
-
-    return Response(stream,
-                    mimetype=mimetypes.guess_type(
-                        document_previewer.document.uri)[0])
+    for plugin in get_previewers(previewer=[file.file.get('previewer')] if
+                                 file.file.get('previewer') else None):
+        if plugin.can_preview(file):
+            return plugin.preview(file)

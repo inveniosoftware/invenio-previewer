@@ -40,6 +40,9 @@
     padding-top: 5px;
     padding-bottom: 5px;
 }
+.panel-heading-alert {
+    background-image: radial-gradient(circle farthest-corner at left top, #B20000 0%, #B20000 100%) !important;
+}
 .panel-title {
      color: hsl(0,0%,85%);
      font-size: 14px;
@@ -56,10 +59,18 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <div class="panel-title">
-      <i class="fa fa-file-zip-o"></i> {{ '{0}.{1}'.format(f.name, f.extension) }}
+      <i class="fa fa-file-zip-o"></i> {{ file.key }}
       <div id="fullScreenMode" title="{{ _('Full screen') }}" class="pull-right"><i class="fa fa-fw fa-arrows-alt"></i></div>
     </div>
   </div>
+  {% if limit_reached %}
+  <div class="panel-heading panel-heading-alert">
+    <div class="panel-title">
+      <i class="fa fa-exclamation"></i>
+      {{ _('The previewer is not showing all the files') }}
+    </div>
+  </div>
+  {% endif %}
   <div class="panel-body">
     <ul class="tree list-unstyled">
       {%- for t in tree recursive %}

@@ -50,11 +50,11 @@ def _mock_entry_points(group=None):
         'invenio_previewer.previewers': [
             MockEntryPoint(
                 'default',
-                'invenio_previewer.previewerext.default',
+                'invenio_previewer.extensions.default',
                 ),
             MockEntryPoint(
                 'zip',
-                'invenio_previewer.previewerext.zip',
+                'invenio_previewer.extensions.zip',
                 ),
         ],
     }

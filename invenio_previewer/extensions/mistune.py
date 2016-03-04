@@ -22,16 +22,33 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-"""Default rendering returning a default web page."""
+"""Markdown rendering using mistune library."""
+
+from __future__ import absolute_import, unicode_literals
 
 from flask import render_template
 
-
-def can_preview(document):
-    """Return if file type can be previewed."""
-    return True
+import mistune
 
 
-def preview(document):
-    """Return appropriate template and passes the file and an embed flag."""
-    return render_template("invenio_previewer/default.html", f=document)
+def render(file):
+    """Render HTML from Markdown file content."""
+    fp = file.open()
+    content = fp.read()
+    result = mistune.markdown(content.decode('utf-8'))
+    fp.close()
+    return result
+
+
+def can_preview(file):
+    """Determine if file can be previewed."""
+    if file.file['local']:
+        return file.file['uri'].endswith('.md')
+    return False
+
+
+def preview(file):
+    """Render Markdown."""
+    return render_template("invenio_previewer/mistune.html",
+                           file=file.file,
+                           content=render(file))

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2016 CERN.
+# Copyright (C) 2013, 2014, 2015, 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -22,4 +22,18 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-"""Implementations of different viewers."""
+"""Default rendering returning a default web page."""
+
+from __future__ import absolute_import, print_function
+
+from flask import render_template
+
+
+def can_preview(file):
+    """Return if file type can be previewed."""
+    return True
+
+
+def preview(file):
+    """Return appropriate template and passes the file and an embed flag."""
+    return render_template("invenio_previewer/default.html", f=file.file)

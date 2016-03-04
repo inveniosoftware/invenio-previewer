@@ -61,11 +61,11 @@ class InvenioPreviewer(object):
         app.config.setdefault(
             'PREVIEWER_PREVIEWERS_ORDER',
             [
-                'invenio_previewer.previewerext.csv_dthreejs',
-                'invenio_previewer.previewerext.mistune',
-                'invenio_previewer.previewerext.pdfjs',
-                'invenio_previewer.previewerext.zip',
-                'invenio_previewer.previewerext.default',
+                'invenio_previewer.extensions.csv_dthreejs',
+                'invenio_previewer.extensions.mistune',
+                'invenio_previewer.extensions.pdfjs',
+                'invenio_previewer.extensions.zip',
+                'invenio_previewer.extensions.default',
             ]
         )
 

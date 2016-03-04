@@ -341,7 +341,7 @@
     {% assets "pdfjs_css" %}<link href="{{ ASSET_URL }}" rel="stylesheet">{% endassets %}
     {% assets "pdfjs_js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
     <script>
-      PDFView.open('{{ url_for('invenio_previewer.document', recid=f.record_id, filename=f.get_filename()) }}');
+      PDFView.open('{{ file.uri }}');
     </script>
   </body>
 </html>

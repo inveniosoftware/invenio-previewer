@@ -28,147 +28,191 @@
 from __future__ import absolute_import, print_function
 
 import os
-import random
 import shutil
-import string
 import tempfile
 import uuid
 import zipfile
 
 from flask import url_for
-from invenio_db import db
+from invenio_db import InvenioDB, db
+from invenio_pidstore.providers.recordid import RecordIdProvider
 from invenio_records.api import Record
 
+from invenio_files_rest import InvenioFilesREST
+from invenio_files_rest.models import Bucket, Location, ObjectVersion
 
-def test_view_preview_default_extension(app_assets_db):
+
+def test_view_preview_default_extension(app_assets):
     """Test view by default."""
-    with app_assets_db.test_request_context():
-        with app_assets_db.test_client() as client:
-            rec_uuid = uuid.uuid4()
-            with db.session.begin_nested():
-                Record.create({
-                    "title": "TestDefault",
-                    "files": [{"uri": "/tmp/TestDefault.def"}]
-                }, id_=rec_uuid)
-            url = url_for('invenio_previewer.preview', recid=rec_uuid)
-            response = client.get(url)
-            assert 'we are unfortunately not' in response.data.decode('utf-8')
+    InvenioDB(app_assets)
+    InvenioFilesREST(app_assets)
+    with app_assets.test_request_context():
+        with app_assets.test_client() as client:
+            db.drop_all()
+            db.create_all()
 
-
-def test_view_preview_markdown_extension(app_assets_db):
-    """Test view with md files."""
-    with app_assets_db.test_request_context():
-        with app_assets_db.test_client() as client:
+            # Creation of the unpreviweable file
             tmpdirname = tempfile.mktemp()
             if not os.path.exists(tmpdirname):
                 os.makedirs(tmpdirname)
-            filename_path = os.path.join(tmpdirname, 'markdown.md')
-            with open(filename_path, 'w') as file:
-                file.write("### Testing markdown ###")
+            file_name = 'TestDefault.def'
+            filename_path = os.path.join(tmpdirname, file_name)
+            with open(filename_path, 'w') as fp:
+                fp.write("Empty")
 
-            rec_uuid = uuid.uuid4()
-            with db.session.begin_nested():
-                Record.create({
-                    "title": "TestDefault",
-                    "files": [{"uri": filename_path}]
-                }, id_=rec_uuid)
-            url = url_for('invenio_previewer.preview', recid=rec_uuid)
+            # Creation of the record and record_file
+            pid_value = create_rest_files(tmpdirname, file_name, filename_path)
+            db.session.commit()
+
+            url = url_for('invenio_records_ui.recid_previewer',
+                          pid_value=pid_value)
+            response = client.get(url)
+            assert 'we are unfortunately not' in response.data.decode(
+                    'utf-8')
+            shutil.rmtree(tmpdirname)
+
+
+def test_view_preview_markdown_extension(app_assets):
+    """Test view with md files."""
+    app_assets.testing = True
+    InvenioDB(app_assets)
+    InvenioFilesREST(app_assets)
+    with app_assets.test_request_context():
+        with app_assets.test_client() as client:
+            db.drop_all()
+            db.create_all()
+
+            # Creation of the markdown file
+            tmpdirname = tempfile.mktemp()
+            if not os.path.exists(tmpdirname):
+                os.makedirs(tmpdirname)
+            file_name = 'markdown.md'
+            filename_path = os.path.join(tmpdirname, file_name)
+            with open(filename_path, 'w') as fp:
+                fp.write("### Testing markdown ###")
+
+            # Creation of the record and record_file
+            pid_value = create_rest_files(tmpdirname, file_name, filename_path)
+            db.session.commit()
+
+            url = url_for('invenio_records_ui.recid_previewer',
+                          pid_value=pid_value)
             response = client.get(url)
             assert '<h3>Testing markdown' in response.data.decode('utf-8')
             shutil.rmtree(tmpdirname)
 
 
-def test_view_preview_pdf_extension(app_assets_db):
+def test_view_preview_pdf_extension(app_assets):
     """Test view with pdf files."""
-    with app_assets_db.test_request_context():
-        with app_assets_db.test_client() as client:
+    InvenioDB(app_assets)
+    InvenioFilesREST(app_assets)
+    with app_assets.test_request_context():
+        with app_assets.test_client() as client:
+            db.drop_all()
+            db.create_all()
+
+            # Creation of the pdf file
             tmpdirname = tempfile.mktemp()
             if not os.path.exists(tmpdirname):
                 os.makedirs(tmpdirname)
-            filename_path = os.path.join(tmpdirname, 'pdf.pdf')
+            file_name = 'pdf.pdf'
+            filename_path = os.path.join(tmpdirname, file_name)
+            with open(filename_path, 'w') as fp:
+                fp.write("Empty")
 
-            rec_uuid = uuid.uuid4()
-            with db.session.begin_nested():
-                Record.create({
-                    "title": "TestDefault",
-                    "files": [{"uri": filename_path}]
-                }, id_=rec_uuid)
-            url = url_for('invenio_previewer.preview', recid=rec_uuid)
+            # Creation of the record and record_file
+            pid_value = create_rest_files(tmpdirname, file_name, filename_path)
+            db.session.commit()
+
+            url = url_for('invenio_records_ui.recid_previewer',
+                          pid_value=pid_value)
             response = client.get(url)
             assert 'PDFView.open(\'' in response.data.decode('utf-8')
             shutil.rmtree(tmpdirname)
 
 
-def test_view_preview_csv_dthreejs_extension(app_assets_db):
+def test_view_preview_csv_dthreejs_extension(app_assets):
     """Test view with csv files."""
-    with app_assets_db.test_request_context():
-        with app_assets_db.test_client() as client:
+    InvenioDB(app_assets)
+    InvenioFilesREST(app_assets)
+    with app_assets.test_request_context():
+        with app_assets.test_client() as client:
+            db.drop_all()
+            db.create_all()
+
+            # Creation of the csv file
             tmpdirname = tempfile.mktemp()
             if not os.path.exists(tmpdirname):
                 os.makedirs(tmpdirname)
-            filename_path = os.path.join(tmpdirname, 'comma.csv')
-            with open(filename_path, 'w') as file:
-                file.write("A,B\n1,2")
+            file_name = 'comma.csv'
+            filename_path = os.path.join(tmpdirname, file_name)
+            with open(filename_path, 'w') as fp:
+                fp.write("A,B\n1,2")
 
-            rec_uuid = uuid.uuid4()
-            with db.session.begin_nested():
-                Record.create({
-                    "title": "TestDefault",
-                    "files": [{"uri": filename_path}]
-                }, id_=rec_uuid)
-            url = url_for('invenio_previewer.preview', recid=rec_uuid)
+            # Creation of the record and record_file
+            pid_value = create_rest_files(tmpdirname, file_name, filename_path)
+            db.session.commit()
+
+            url = url_for('invenio_records_ui.recid_previewer',
+                          pid_value=pid_value)
             response = client.get(url)
             assert 'data-csv-source="' in response.data.decode('utf-8')
             shutil.rmtree(tmpdirname)
 
 
-def test_view_preview_zip_extension(app_assets_db):
+def test_view_preview_zip_extension(app_assets):
     """Test view with zip files."""
-    with app_assets_db.test_request_context():
-        with app_assets_db.test_client() as client:
+    InvenioDB(app_assets)
+    InvenioFilesREST(app_assets)
+    with app_assets.test_request_context():
+        with app_assets.test_client() as client:
+            db.drop_all()
+            db.create_all()
+
+            # Creation of the zip file
             tmpdirname = tempfile.mktemp()
             if not os.path.exists(tmpdirname):
                 os.makedirs(tmpdirname)
-            filename_path = os.path.join(tmpdirname, 'zipfile.zip')
+            file_name = 'zipfile.zip'
+            filename_path = os.path.join(tmpdirname, file_name)
             zipf = zipfile.ZipFile(filename_path, 'w')
             zipf.writestr('Example.txt', 'This is an example')
             zipf.close()
 
-            rec_uuid = uuid.uuid4()
-            with db.session.begin_nested():
-                Record.create({
-                    "title": "TestDefault",
-                    "files": [{"uri": filename_path}]
-                }, id_=rec_uuid)
-            url = url_for('invenio_previewer.preview', recid=rec_uuid)
+            # Creation of the record and record_file
+            pid_value = create_rest_files(tmpdirname, file_name, filename_path)
+            db.session.commit()
+
+            url = url_for('invenio_records_ui.recid_previewer',
+                          pid_value=pid_value)
             response = client.get(url)
             assert 'Example.txt' in response.data.decode('utf-8')
             shutil.rmtree(tmpdirname)
 
 
-def test_view_documents(app_assets_db):
-    """Test the view invenio_previewer.document"""
-    with app_assets_db.test_request_context():
-        with app_assets_db.test_client() as client:
-            tmpdirname = tempfile.mktemp()
-            if not os.path.exists(tmpdirname):
-                os.makedirs(tmpdirname)
-            content = ''.join(random.choice(string.ascii_letters)
-                              for i in range(16536))
-
-            filename = 'file.txt'
-            filename_path = os.path.join(tmpdirname, filename)
-            with open(filename_path, 'w') as file:
-                file.write(content)
-
-            rec_uuid = uuid.uuid4()
-            with db.session.begin_nested():
-                Record.create({
-                    "title": "TestDefault",
-                    "files": [{"uri": filename_path}]
-                }, id_=rec_uuid)
-            url = url_for('invenio_previewer.document',
-                          recid=rec_uuid, filename=filename)
-            response = client.get(url)
-            assert content == response.data.decode('ascii')
-            shutil.rmtree(tmpdirname)
+def create_rest_files(tmpdirname, file_name, filename_path):
+    """Create a file with the file and its content."""
+    rec_uuid = uuid.uuid4()
+    provider = RecordIdProvider.create(object_type='rec',
+                                       object_uuid=rec_uuid)
+    pid_value = provider.pid.pid_value
+    with db.session.begin_nested():
+        loc = Location(name='local', uri=tmpdirname, default=True)
+    with db.session.begin_nested():
+        bucket = Bucket.create(loc)
+        with open(filename_path, 'rb') as fp:
+            ObjectVersion.create(bucket, file_name, stream=fp)
+        Record.create({
+            "pid_value": pid_value,
+            "title": "TestDefault",
+            "files": [
+                {
+                    "uri": '/files/{0}/{1}'.format(str(bucket.id),
+                                                   file_name),
+                    'bucket': str(bucket.id),
+                    'key': file_name,
+                    'local': True
+                }
+            ]
+        }, id_=rec_uuid)
+    return pid_value

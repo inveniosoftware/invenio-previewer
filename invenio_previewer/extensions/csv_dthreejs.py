@@ -24,42 +24,47 @@
 
 """Render Bar chart from csv file."""
 
+from __future__ import absolute_import, print_function
+
 import csv
-import os
 
 from chardet.universaldetector import UniversalDetector
 
 from flask import current_app, render_template
 
 
-def validate_csv(document):
+def validate_csv(file):
     """Return dialect information about given csv file."""
-    with open(document.document.uri, 'rU') as csvfile:
-        is_valid = False
-        try:
-            dialect = csv.Sniffer().sniff(csvfile.read(1024))
-        except Exception as e:
-            current_app.logger.debug(
-                'File %s is not valid CSV: %s' % (document.get_filename(), e))
-            return {
-                'delimiter': '',
-                'encoding': '',
-                'is_valid': is_valid
-            }
-        universal_detector = UniversalDetector()
-        dialect.strict = True
-        csvfile.seek(0)
-        reader = csv.reader(csvfile, dialect)
-        try:
-            for row in reader:
-                universal_detector.feed(
-                    dialect.delimiter.join(row).encode('utf-8'))
-            is_valid = True
-        except csv.Error as e:
-            current_app.logger.debug(
-                'File %s is not valid CSV: %s' % (document.get_filename(), e))
-        finally:
-            universal_detector.close()
+    fp = file.open()
+    bytes_to_read = current_app.config.get(
+            'PREVIEWER_EXTENSIONS_CSV_VALIDATION_BYTES', 1024)
+    content = fp.read(bytes_to_read).decode('utf-8')
+    fp.close()
+
+    is_valid = False
+    try:
+        dialect = csv.Sniffer().sniff(content)
+    except Exception as e:
+        current_app.logger.debug(
+            'File {0} is not valid CSV: {1}'.format(file.file['uri'], e))
+        return {
+            'delimiter': '',
+            'encoding': '',
+            'is_valid': False
+        }
+    universal_detector = UniversalDetector()
+    dialect.strict = True
+    reader = csv.reader(content, dialect)
+    try:
+        for row in reader:
+            universal_detector.feed(
+                dialect.delimiter.join(row).encode('utf-8'))
+        is_valid = True
+    except csv.Error as e:
+        current_app.logger.debug(
+            'File {0} is not valid CSV: {1}'.format(file.file['uri'], e))
+    finally:
+        universal_detector.close()
     return {
         'delimiter': dialect.delimiter,
         'encoding': universal_detector.result['encoding'],
@@ -67,17 +72,17 @@ def validate_csv(document):
     }
 
 
-def can_preview(document):
+def can_preview(file):
     """Determine if the given file can be previewed."""
-    if document.extension == 'csv':
-        return validate_csv(document)['is_valid']
-    else:
-        return False
+    if file.file['local']:
+        if file.file['uri'].endswith('.csv'):
+            return validate_csv(file)['is_valid']
+    return False
 
 
-def preview(document):
+def preview(file):
     """Render appropiate template with embed flag."""
-    file_info = validate_csv(document)
-    return render_template("invenio_previewer/csv_bar.html", f=document,
+    file_info = validate_csv(file)
+    return render_template("invenio_previewer/csv_bar.html", file=file.file,
                            delimiter=file_info['delimiter'],
                            encoding=file_info['encoding'])

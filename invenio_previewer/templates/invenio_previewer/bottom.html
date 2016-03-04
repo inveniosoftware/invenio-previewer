@@ -25,6 +25,8 @@
 
 {# Creates the bottom for embed and base previews #}
 
+{%- from "invenio_previewer/_macros.html" import preview_file %}
+
 
 {# Modal for embed code, hidden unless called upon #}
 <div id="embedModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="embedModalLabel" aria-hidden="true">
@@ -35,7 +37,7 @@
   <div class="modal-body">
     <textarea style="width:90%;height:100px;">
     {% autoescape on %}
-      <iframe width="100%" height="400" src="{{ url_for('.preview', recid=f.record_id, filename=f.get_filename()) }}"></iframe>
+      {{ preview_file(file) }}
     {% endautoescape %}
     </textarea>
   </div>
@@ -84,10 +86,10 @@
 # based on embed flag #}
 <div id="bottom">
   <div class="container row">
-    <div class="span5 offset1"><h3>Previewing: {{ f.get_filename() }}</h3></div>
+    <div class="span5 offset1"><h3>Previewing: {{ file.key }}</h3></div>
     <div class="span3">
       <a role="button" class="btn btn-inverse" data-toggle="modal" href="#embedModal">Embed&nbsp;&nbsp<i class="icon-share icon-white"></i></a>
-      <a role="button" class="btn btn-inverse" onclick="parent.window.location.href='{{ config.CFG_SITE_URL }}/document/{{ f.record_id }}/{{ f.get_filename() }}'">Download&nbsp;&nbsp<i class="icon-download icon-white"></i></a>
+      <a role="button" class="btn btn-inverse" href="{{ file.uri }}">Download&nbsp;&nbsp<i class="icon-download icon-white"></i></a>
     </div>
   </div>
 </div>

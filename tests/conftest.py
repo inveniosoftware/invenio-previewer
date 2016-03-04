@@ -45,8 +45,9 @@ from sqlalchemy_utils.functions import create_database, database_exists, \
     drop_database
 
 from invenio_previewer import InvenioPreviewer
-from invenio_previewer.previewerext import csv_dthreejs, default, mistune, \
+from invenio_previewer.extensions import csv_dthreejs, default, mistune, \
     pdfjs, zip
+from invenio_records_ui import InvenioRecordsUI
 
 
 @pytest.fixture()
@@ -95,10 +96,26 @@ def app_assets(request):
     app = Flask('testapp',
                 static_folder=instance_path,
                 instance_path=instance_path)
+    app.config.update(dict(
+        RECORDS_UI_DEFAULT_PERMISSION_FACTORY=None,
+        RECORDS_UI_ENDPOINTS=dict(
+            recid=dict(
+                pid_type='recid',
+                route='/records/<pid_value>',
+                template='invenio_records_ui/detail.html',
+            ),
+            recid_previewer=dict(
+                pid_type='recid',
+                route='/records/<pid_value>/preview',
+                view_imp='invenio_previewer.views:preview',
+            ),
+        )
+    ))
     Babel(app)
     FlaskCLI(app)
     InvenioAssets(app)
     previewer = InvenioPreviewer(app)
+    InvenioRecordsUI(app)
     previewer.register_previewer(zip)
     previewer.register_previewer(mistune)
     previewer.register_previewer(pdfjs)
@@ -118,20 +135,5 @@ def app_assets(request):
     def teardown():
         shutil.rmtree(instance_path)
         os.chdir(initial_dir)
-    request.addfinalizer(teardown)
-    return app
-
-
-@pytest.fixture(scope="session")
-def app_assets_db(request):
-    """Flask application fixture with assets and database initialization."""
-    app = app_assets(request)
-    InvenioDB(app)
-    with app.app_context():
-        db.create_all()
-
-    def teardown():
-        with app.app_context():
-            db.drop_all()
     request.addfinalizer(teardown)
     return app

@@ -29,31 +29,41 @@ Previewer needs to be enabled by setting following config variable.
     CFG_PREVIEW_PREFERENCE = {'.zip': ['zip']}
 """
 
+from __future__ import absolute_import, print_function
+
 import os
 import zipfile
 
-from flask import render_template
+from flask import render_template, current_app
 
 
-def make_tree(archive_name):
+def make_tree(file, max_items):
     """Create tree structure from ZIP archive."""
-    zf = zipfile.ZipFile(archive_name)
+    fp = file.open()
+    zf = zipfile.ZipFile(fp)
     tree = {'type': 'folder', 'id': -1, 'children': {}}
+    try:
+        for i, info in enumerate(zf.infolist()):
+            if i > max_items:
+                raise BufferError('Too much files inside the ZIP file')
+            comps = info.filename.split(os.sep)
+            node = tree
+            for c in comps:
+                if c not in node['children']:
+                    if c == '':
+                        node['type'] = 'folder'
+                        continue
+                    node['children'][c] = {
+                        'name': c, 'type': 'item', 'id': 'item{0}'.format(i),
+                        'children': {}}
+                node = node['children'][c]
+            node['size'] = info.file_size
+    except BufferError:
+        return tree, True
+    finally:
+        fp.close()
 
-    for i, info in enumerate(zf.infolist()):
-        comps = info.filename.split(os.sep)
-        node = tree
-        for c in comps:
-            if c not in node['children']:
-                if c == '':
-                    node['type'] = 'folder'
-                    continue
-                node['children'][c] = {
-                    'name': c, 'type': 'item', 'id': 'item%s' % i,
-                    'children': {}}
-            node = node['children'][c]
-        node['size'] = info.file_size
-    return tree
+    return tree, False
 
 
 def children_to_list(node):
@@ -68,13 +78,19 @@ def children_to_list(node):
     return node
 
 
-def can_preview(document):
+def can_preview(file):
     """Return True if filetype can be previewed."""
-    return document.extension.lower() == 'zip'
+    if file.file['local']:
+        return file.file['uri'].endswith('.zip')
+    return False
 
 
-def preview(document):
+def preview(file):
     """Return appropriate template and pass the file and an embed flag."""
-    tree = children_to_list(make_tree(document.document.uri))['children']
-    return render_template("invenio_previewer/zip.html", f=document,
-                           tree=tree)
+    max_files = current_app.config.get(
+            'PREVIEWER_EXTENSIONS_ZIP_MAX_FILES', 1000)
+    tree, limit_reached = make_tree(file, max_files)
+    list = children_to_list(tree)['children']
+    return render_template("invenio_previewer/zip.html",
+                           file=file.file, tree=list,
+                           limit_reached=limit_reached)

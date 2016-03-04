@@ -33,11 +33,10 @@
   {# Javascript for CSV Previewer #}
 
   {% assets "csv_previewer_js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
-
 {%- endblock %}
 
 {% block panel %}
-  <div id="d3_csv_previewer" data-csv-source="{{ url_for('invenio_previewer.document', recid=f.record_id, filename=f.get_filename()) }}"
+  <div id="d3_csv_previewer" data-csv-source="{{ file.uri }}"
        data-csv-delimiter="{{ delimiter }}" data-csv-encoding="{{ encoding }}"></div>
   <a data-csv-target="d3_csv_previewer" href="">{{ _('Show more') }}</a>
 {% endblock %}
