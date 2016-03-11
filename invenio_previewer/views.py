@@ -22,13 +22,19 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-"""Invenio module for previewing files."""
+"""View method for Invenio-Records-UI for previewing files."""
 
 from __future__ import absolute_import, print_function
 
+import pkg_resources
 from flask import Blueprint, current_app, request
 
-from invenio_files_rest.models import ObjectVersion
+try:
+    pkg_resources.get_distribution('invenio-files-rest')
+    HAS_FILES_REST = True
+except pkg_resources.DistributionNotFound:
+    HAS_FILES_REST = False
+
 
 blueprint = Blueprint(
     'invenio_previewer',
@@ -49,6 +55,11 @@ class PreviewFile(object):
 
     def open(self):
         """Open the file."""
+        if not HAS_FILES_REST:
+            raise RuntimeError(
+                "Invenio-Files-REST must be installed for open to work.")
+
+        from invenio_files_rest.models import ObjectVersion
         assert 'bucket' in self.file
         assert 'key' in self.file
         assert self.file['local']
@@ -82,7 +93,20 @@ def get_previewers(previewer):
 
 
 def preview(pid, record, **kwargs):
-    """Preview file for given record."""
+    """Preview file for given record.
+
+    Plug this method into your ``RECORDS_UI_ENDPOINTS`` configuration:
+
+    .. code-block:: python
+
+        RECORDS_UI_ENDPOINTS = dict(
+            recid=dict(
+                # ...
+                route='/records/<pid_value/preview/<filename>',
+                view_imp='invenio_previewer.views.preview',
+            )
+        )
+    """
     file = get_file(pid, record, request.args.get('filename', type=str))
 
     for plugin in get_previewers(previewer=[file.file.get('previewer')] if

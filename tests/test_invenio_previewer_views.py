@@ -22,7 +22,6 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-
 """Views module tests."""
 
 from __future__ import absolute_import, print_function
@@ -35,11 +34,10 @@ import zipfile
 
 from flask import url_for
 from invenio_db import InvenioDB, db
-from invenio_pidstore.providers.recordid import RecordIdProvider
-from invenio_records.api import Record
-
 from invenio_files_rest import InvenioFilesREST
 from invenio_files_rest.models import Bucket, Location, ObjectVersion
+from invenio_pidstore.providers.recordid import RecordIdProvider
+from invenio_records.api import Record
 
 
 def test_view_preview_default_extension(app_assets):

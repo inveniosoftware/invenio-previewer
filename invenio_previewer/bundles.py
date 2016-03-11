@@ -45,11 +45,14 @@ csv_previewer_js = Bundle(
     ),
     output="gen/csv_previewer.%(version)s.js",
 )
+"""JavaScript bundle for D3.js CSV previewer."""
 
 pdfjs_css = Bundle(
     "css/pdfjs/viewer.css",
     output='gen/pdfjs.%(version)s.css',
 )
+"""CSS bundle for PDFjs previewer."""
+
 
 pdfjs_worker_js = Bundle(
     NpmBundle(
@@ -60,6 +63,7 @@ pdfjs_worker_js = Bundle(
     "node_modules/pdf-viewer/ready/generic/build/pdf.worker.js",
     output='gen/pdfjs.worker.js',
 )
+"""JavaScript bundle for PDFjs previewer."""
 
 pdfjs_js = Bundle(
     NpmBundle(
@@ -77,6 +81,7 @@ pdfjs_js = Bundle(
     "js/pdfjs/pdf_viewer.js",
     output='gen/pdfjs.%(version)s.js',
 )
+"""JavaScript bundle for PDFjs previewer."""
 
 zip_css = Bundle(
     "node_modules/bootstrap/dist/css/bootstrap.css",
@@ -88,6 +93,7 @@ zip_css = Bundle(
     ),
     output='gen/zip.%(version)s.css'
 )
+"""CSS bundle for ZIP file previewer."""
 
 zip_js = Bundle(
     NpmBundle(
@@ -99,3 +105,4 @@ zip_js = Bundle(
     "js/zip/fullscreen.js",
     output='gen/zip.%(version)s.js',
 )
+"""JavaScript bundle for ZIP file previewer."""

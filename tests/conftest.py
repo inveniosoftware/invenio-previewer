@@ -41,13 +41,13 @@ from invenio_assets import InvenioAssets
 from invenio_assets.cli import assets, collect, npm
 from invenio_db import InvenioDB, db
 from invenio_records import InvenioRecords
+from invenio_records_ui import InvenioRecordsUI
 from sqlalchemy_utils.functions import create_database, database_exists, \
     drop_database
 
 from invenio_previewer import InvenioPreviewer
 from invenio_previewer.extensions import csv_dthreejs, default, mistune, \
     pdfjs, zip
-from invenio_records_ui import InvenioRecordsUI
 
 
 @pytest.fixture()

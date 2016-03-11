@@ -22,29 +22,25 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-# Check manifest will not automatically add these two files:
-include .dockerignore
-include .editorconfig
-include .tx/config
-recursive-include invenio_previewer *.html *.js *.css
-recursive-include invenio_previewer *.po *.pot *.mo
-
-# added by check_manifest.py
 include *.rst
 include *.sh
 include *.txt
-include LICENSE
+include .dockerignore
+include .editorconfig
+include .tx/config
 include babel.ini
+include LICENSE
 include pytest.ini
 recursive-include docs *.bat
 recursive-include docs *.py
 recursive-include docs *.rst
 recursive-include docs Makefile
-recursive-include tests *.py
-recursive-include examples *.py
 recursive-include examples *.csv
 recursive-include examples *.html
 recursive-include examples *.md
 recursive-include examples *.pdf
+recursive-include examples *.py
 recursive-include examples *.zip
-
+recursive-include invenio_previewer *.html *.js *.css
+recursive-include invenio_previewer *.po *.pot *.mo
+recursive-include tests *.py

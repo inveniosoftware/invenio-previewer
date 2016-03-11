@@ -22,7 +22,39 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-"""Invenio module for previewing files."""
+"""Invenio module for previewing files.
+
+- TODO
+
+Limitations:
+- Does not make derived formats.
+
+Initialization
+--------------
+
+Configuring Records-UI
+----------------------
+
+Bundled previewers
+------------------
+
+- Short description + limitations of each previewer.
+
+Local vs. remote files
+----------------------
+
+Override default previewers
+---------------------------
+
+- PREVIEWER_PREVIEWERS_ORDER
+
+Custom previewer
+----------------
+- Writing module (short description of API)
+- Bundles
+- Registering entry point (+ naming)
+
+"""
 
 from __future__ import absolute_import, print_function
 

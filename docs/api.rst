@@ -25,6 +25,60 @@
 API Docs
 ========
 
-invenio_previewer
------------------
+.. automodule:: invenio_previewer.ext
+   :members:
+   :undoc-members:
 
+
+Views
+-----
+
+.. automodule:: invenio_previewer.views
+   :members:
+   :undoc-members:
+
+Previewers
+----------
+
+CSV (d3.js)
+~~~~~~~~~~~
+
+.. automodule:: invenio_previewer.extensions.csv_dthreejs
+   :members:
+   :undoc-members:
+
+Default
+~~~~~~~
+
+.. automodule:: invenio_previewer.extensions.default
+   :members:
+   :undoc-members:
+
+Markdown
+~~~~~~~~
+
+.. automodule:: invenio_previewer.extensions.mistune
+   :members:
+   :undoc-members:
+
+PDF (pdf.js)
+~~~~~~~~~~~~
+
+.. automodule:: invenio_previewer.extensions.pdfjs
+   :members:
+   :undoc-members:
+
+ZIP
+~~~
+
+.. automodule:: invenio_previewer.extensions.zip
+   :members:
+   :undoc-members:
+
+
+Bundles
+-------
+
+.. automodule:: invenio_previewer.bundles
+   :members:
+   :undoc-members:

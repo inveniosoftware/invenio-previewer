@@ -25,7 +25,15 @@
 Authors
 =======
 
-Invenio module for previewing files.
+Invenio module for previewing files:
 
-- CERN <info@invenio-software.org>
+- Adrian Pawel Baran <adrian.pawel.baran@cern.ch>
+- Adrian-Tudor Panescu <adrian.tudor.panescu@cern.ch>
+- Javier Delgado <javier.delgado.fernandez@cern.ch>
 - Javier Delgado Fernandez <javier.delgado.fernandez@cern.ch>
+- Jiri Kuncar <jiri.kuncar@cern.ch>
+- Lars Holm Nielsen <lars.holm.nielsen@cern.ch>
+- Leonardo Rossi <leonardo.r@cern.ch>
+- Sami Hiltunen <sami.mikael.hiltunen@cern.ch>
+- Tibor Simko <tibor.simko@cern.ch>
+- Yoan Blanc <yoan.blanc@cern.ch>

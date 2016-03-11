@@ -22,9 +22,7 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-
-"""Minimal Flask application example for development.
-
+r"""Minimal Flask application example for development.
 
 1. Create the database and the tables:
 
@@ -113,13 +111,13 @@ from invenio_accounts import InvenioAccounts
 from invenio_accounts.views import blueprint as accounts_blueprint
 from invenio_assets import InvenioAssets
 from invenio_db import InvenioDB, db
-from invenio_pidstore.providers.recordid import RecordIdProvider
-from invenio_records import InvenioRecords, Record
-
 from invenio_files_rest import InvenioFilesREST
 from invenio_files_rest.models import Bucket, Location, ObjectVersion
-from invenio_previewer import InvenioPreviewer
+from invenio_pidstore.providers.recordid import RecordIdProvider
+from invenio_records import InvenioRecords, Record
 from invenio_records_ui import InvenioRecordsUI
+
+from invenio_previewer import InvenioPreviewer
 
 # Create Flask application
 app = Flask(__name__)

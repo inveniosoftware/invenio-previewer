@@ -25,8 +25,10 @@
 """Simple ZIP archive previewer.
 
 Previewer needs to be enabled by setting following config variable.
+
 .. code-block:: python
-    CFG_PREVIEW_PREFERENCE = {'.zip': ['zip']}
+
+   CFG_PREVIEW_PREFERENCE = {'.zip': ['zip']}
 """
 
 from __future__ import absolute_import, print_function

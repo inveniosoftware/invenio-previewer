@@ -25,10 +25,8 @@
 """Invenio module for previewing files."""
 
 import os
-import sys
 
 from setuptools import find_packages, setup
-from setuptools.command.test import test as TestCommand
 
 readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
@@ -37,19 +35,20 @@ tests_require = [
     'check-manifest>=0.25',
     'coverage>=4.0',
     'isort>=4.2.2',
-    'mock>=1.0.0',
-    'pep257>=0.7.0',
+    'mock>=1.3.0',
+    'pydocstyle>=1.0.0',
     'pytest-cache>=1.0',
     'pytest-cov>=1.8.0',
     'pytest-pep8>=1.0.6',
     'pytest>=2.8.0',
-    'invenio-assets>=1.0.0a3',
-    'invenio-db>=1.0.0a9',
 ]
 
 extras_require = {
     'docs': [
         'Sphinx>=1.3',
+    ],
+    'files': [
+        'invenio-files-rest>=1.0.0.dev20150000',
     ],
     'tests': tests_require,
 }
@@ -59,57 +58,21 @@ for reqs in extras_require.values():
     extras_require['all'].extend(reqs)
 
 setup_requires = [
-    'invenio',
+    'Babel>=1.3',
+    'pytest-runner>=2.6.2',
 ]
 
 install_requires = [
-    'Flask-BabelEx>=0.9.2',
-    'mistune>=0.7.1',
+    'Flask-BabelEx>=0.9.3',
+    'mistune>=0.7.2',
     'chardet>=2.3.0',
-    'nodeenv>=0.13.6',
-    'requests>=2.9.1',
-    'invenio-access>=1.0.0a4',
-    'invenio-accounts>=1.0.0a9',
-    'invenio-documents>=1.0.0a1',
-    'invenio-pidstore>=1.0.0a5',
+    'invenio-assets>=1.0.0a3',
+    'invenio-pidstore>=1.0.0a6',
     'invenio-records-ui>=1.0.0a4',
 ],
 
 packages = find_packages()
 
-
-class PyTest(TestCommand):
-    """PyTest Test."""
-
-    user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
-
-    def initialize_options(self):
-        """Init pytest."""
-        TestCommand.initialize_options(self)
-        self.pytest_args = []
-        try:
-            from ConfigParser import ConfigParser
-        except ImportError:
-            from configparser import ConfigParser
-        config = ConfigParser()
-        config.read('pytest.ini')
-        self.pytest_args = config.get('pytest', 'addopts').split(' ')
-
-    def finalize_options(self):
-        """Finalize pytest."""
-        TestCommand.finalize_options(self)
-        if hasattr(self, '_test_args'):
-            self.test_suite = ''
-        else:
-            self.test_args = []
-            self.test_suite = True
-
-    def run_tests(self):
-        """Run tests."""
-        # import here, cause outside the eggs aren't loaded
-        import pytest
-        errno = pytest.main(self.pytest_args)
-        sys.exit(errno)
 
 # Get the version string. Cannot be done with import!
 g = {}
@@ -172,7 +135,6 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
-        'Development Status :: 1 - Planning',
+        'Development Status :: 3 - Alpha',
     ],
-    cmdclass={'test': PyTest},
 )
