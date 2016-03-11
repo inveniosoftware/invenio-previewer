@@ -31,13 +31,15 @@ import shutil
 import tempfile
 import uuid
 import zipfile
+from datetime import datetime
 
-from flask import url_for
+from flask import render_template_string, url_for
 from invenio_db import InvenioDB, db
 from invenio_files_rest import InvenioFilesREST
 from invenio_files_rest.models import Bucket, Location, ObjectVersion
 from invenio_pidstore.providers.recordid import RecordIdProvider
 from invenio_records.api import Record
+from invenio_records_ui import InvenioRecordsUI
 
 
 def test_view_preview_default_extension(app_assets):
@@ -214,3 +216,44 @@ def create_rest_files(tmpdirname, file_name, filename_path):
             ]
         }, id_=rec_uuid)
     return pid_value
+
+
+def test_view_macro_file_list(app):
+    """Test file list macro."""
+    app.config.update(
+        RECORDS_UI_ENDPOINTS=dict(
+            recid=dict(
+                pid_type='recid',
+                route='/records/<pid_value>',
+                template='invenio_records_ui/detail.html',
+            ),
+        )
+    )
+    InvenioRecordsUI(app)
+
+    with app.test_request_context():
+        files = [
+            {
+                'uri': 'http://domain/test1.txt',
+                'key': 'test1.txt',
+                'size': 10,
+                'date': datetime(2016, 7, 10).strftime("%d/%m/%y"),
+            },
+            {
+                'uri': 'http://otherdomain/test2.txt',
+                'key': 'test2.txt',
+                'size': 12,
+                'date': datetime(2016, 7, 12).strftime("%d/%m/%y"),
+            },
+        ]
+        result = render_template_string("""
+            {%- from "invenio_records_ui/_macros.html" import file_list %}
+            {{ file_list(files) }}
+            """, files=files)
+
+        assert '<a class="forcewrap" href="http://domain/test1.txt"' in result
+        assert '<td class="nowrap">10/07/16</td>' in result
+        assert '<td class="nowrap">10</td>' in result
+        assert 'href="http://otherdomain/test2.txt"' in result
+        assert '<td class="nowrap">12/07/16</td>' in result
+        assert '<td class="nowrap">12</td>' in result

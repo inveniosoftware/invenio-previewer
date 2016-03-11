@@ -38,15 +38,17 @@ import zipfile
 
 from flask import render_template, current_app
 
+from invenio_previewer.config import PREVIEWER_EXTENSIONS_ZIP_MAX_FILES
 
-def make_tree(file, max_items):
+
+def make_tree(file):
     """Create tree structure from ZIP archive."""
     fp = file.open()
     zf = zipfile.ZipFile(fp)
     tree = {'type': 'folder', 'id': -1, 'children': {}}
     try:
         for i, info in enumerate(zf.infolist()):
-            if i > max_items:
+            if i > PREVIEWER_EXTENSIONS_ZIP_MAX_FILES:
                 raise BufferError('Too much files inside the ZIP file')
             comps = info.filename.split(os.sep)
             node = tree
@@ -89,9 +91,7 @@ def can_preview(file):
 
 def preview(file):
     """Return appropriate template and pass the file and an embed flag."""
-    max_files = current_app.config.get(
-            'PREVIEWER_EXTENSIONS_ZIP_MAX_FILES', 1000)
-    tree, limit_reached = make_tree(file, max_files)
+    tree, limit_reached = make_tree(file)
     list = children_to_list(tree)['children']
     return render_template("invenio_previewer/zip.html",
                            file=file.file, tree=list,

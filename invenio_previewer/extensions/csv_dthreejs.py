@@ -29,16 +29,15 @@ from __future__ import absolute_import, print_function
 import csv
 
 from chardet.universaldetector import UniversalDetector
-
 from flask import current_app, render_template
+
+from invenio_previewer.config import PREVIEWER_EXTENSIONS_CSV_VALIDATION_BYTES
 
 
 def validate_csv(file):
     """Return dialect information about given csv file."""
     fp = file.open()
-    bytes_to_read = current_app.config.get(
-            'PREVIEWER_EXTENSIONS_CSV_VALIDATION_BYTES', 1024)
-    content = fp.read(bytes_to_read).decode('utf-8')
+    content = fp.read(PREVIEWER_EXTENSIONS_CSV_VALIDATION_BYTES).decode('utf-8')
     fp.close()
 
     is_valid = False
