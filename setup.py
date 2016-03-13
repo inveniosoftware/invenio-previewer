@@ -41,9 +41,6 @@ tests_require = [
     'pytest-cov>=1.8.0',
     'pytest-pep8>=1.0.6',
     'pytest>=2.8.0',
-    'invenio-access>=1.0.0a4',
-    'invenio-accounts>=1.0.0a9',
-    'invenio-db[mysql,postgresql]>=1.0.0a9',
 ]
 
 extras_require = {

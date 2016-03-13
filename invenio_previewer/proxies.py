@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015, 2016 CERN.
+# Copyright (C) 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -22,11 +22,12 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-"""Package configuration."""
+"""Proxy for current previewer."""
 
-PREVIEWER_CSV_VALIDATION_BYTES = 1024
-"""Number of bytes read by CSV previewer to validate the file."""
+from __future__ import absolute_import, print_function
 
+from flask import current_app
+from werkzeug.local import LocalProxy
 
-PREVIEWER_ZIP_MAX_FILES = 1000
-"""Max number of files showed in the ZIP previewer."""
+current_previewer = LocalProxy(
+    lambda: current_app.extensions['invenio-previewer'])

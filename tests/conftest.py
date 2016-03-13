@@ -31,6 +31,8 @@ import os
 import shutil
 import subprocess
 import tempfile
+import uuid
+from zipfile import ZipFile
 
 import pytest
 from click.testing import CliRunner
@@ -39,64 +41,33 @@ from flask_babelex import Babel
 from flask_cli import FlaskCLI, ScriptInfo
 from invenio_assets import InvenioAssets
 from invenio_assets.cli import assets, collect, npm
-from invenio_db import InvenioDB, db
+from invenio_db import db as db_
+from invenio_db import InvenioDB
+from invenio_files_rest import InvenioFilesREST
+from invenio_files_rest.models import Bucket, Location
+from invenio_pidstore.providers.recordid import RecordIdProvider
 from invenio_records import InvenioRecords
+from invenio_records.api import Record
 from invenio_records_ui import InvenioRecordsUI
-from sqlalchemy_utils.functions import create_database, database_exists, \
-    drop_database
+from six import BytesIO
+from sqlalchemy_utils.functions import create_database, database_exists
 
 from invenio_previewer import InvenioPreviewer
-from invenio_previewer.extensions import csv_dthreejs, default, mistune, \
-    pdfjs, zip
 
 
-@pytest.fixture()
+@pytest.yield_fixture(scope='session', autouse=True)
 def app():
-    """Flask application fixture."""
-    app = Flask('testapp')
-    app.config.update(
-        TESTING=True
-    )
-    InvenioPreviewer(app)
-    return app
-
-
-@pytest.fixture()
-def app_db(request):
     """Flask application fixture with database initialization."""
-    app = Flask('testapp')
-    app.config.update(
+    instance_path = tempfile.mkdtemp()
+
+    app_ = Flask(
+        'testapp', static_folder=instance_path, instance_path=instance_path)
+    app_.config.update(
         TESTING=True,
         SQLALCHEMY_DATABASE_URI=os.environ.get(
-            'SQLALCHEMY_DATABASE_URI', 'sqlite:///test.db'),
-    )
-    FlaskCLI(app)
-    InvenioDB(app)
-    InvenioRecords(app)
-    InvenioPreviewer(app)
-
-    with app.app_context():
-        if not database_exists(str(db.engine.url)):
-            create_database(str(db.engine.url))
-        db.create_all()
-
-    def teardown():
-        with app.app_context():
-            drop_database(str(db.engine.url))
-    request.addfinalizer(teardown)
-    return app
-
-
-@pytest.fixture(scope="session")
-def app_assets(request):
-    """Flask application fixture with assets."""
-    initial_dir = os.getcwd()
-    instance_path = tempfile.mkdtemp()
-    os.chdir(instance_path)
-    app = Flask('testapp',
-                static_folder=instance_path,
-                instance_path=instance_path)
-    app.config.update(dict(
+            'SQLALCHEMY_DATABASE_URI',
+            'sqlite:///:memory:'),
+        SQLALCHEMY_TRACK_MODIFICATIONS=True,
         RECORDS_UI_DEFAULT_PERMISSION_FACTORY=None,
         RECORDS_UI_ENDPOINTS=dict(
             recid=dict(
@@ -109,18 +80,40 @@ def app_assets(request):
                 route='/records/<pid_value>/preview',
                 view_imp='invenio_previewer.views:preview',
             ),
-        )
-    ))
-    Babel(app)
-    FlaskCLI(app)
-    InvenioAssets(app)
-    previewer = InvenioPreviewer(app)
-    InvenioRecordsUI(app)
-    previewer.register_previewer(zip)
-    previewer.register_previewer(mistune)
-    previewer.register_previewer(pdfjs)
-    previewer.register_previewer(csv_dthreejs)
-    previewer.register_previewer(default)
+        ),
+        SERVER_NAME='localhost'
+    )
+    FlaskCLI(app_)
+    Babel(app_)
+    InvenioAssets(app_)
+    InvenioDB(app_)
+    InvenioRecords(app_)
+    InvenioPreviewer(app_)
+    InvenioRecordsUI(app_)
+    InvenioFilesREST(app_)
+
+    with app_.app_context():
+        yield app_
+
+    shutil.rmtree(instance_path)
+
+
+@pytest.yield_fixture()
+def db(app):
+    """Setup database."""
+    if not database_exists(str(db_.engine.url)):
+        create_database(str(db_.engine.url))
+    db_.create_all()
+    yield db_
+    db_.session.remove()
+    db_.drop_all()
+
+
+@pytest.yield_fixture(scope='session')
+def webassets(app):
+    """Flask application fixture with assets."""
+    initial_dir = os.getcwd()
+    os.chdir(app.instance_path)
 
     script_info = ScriptInfo(create_app=lambda info: app)
     script_info._loaded_app = app
@@ -128,12 +121,63 @@ def app_assets(request):
     runner = CliRunner()
     runner.invoke(npm, obj=script_info)
 
-    subprocess.call(["npm", "install", instance_path])
+    subprocess.call(['npm', 'install'])
     runner.invoke(collect, ['-v'], obj=script_info)
     runner.invoke(assets, ['build'], obj=script_info)
 
-    def teardown():
-        shutil.rmtree(instance_path)
-        os.chdir(initial_dir)
-    request.addfinalizer(teardown)
-    return app
+    yield app
+
+    os.chdir(initial_dir)
+
+
+@pytest.yield_fixture()
+def location(db):
+    """File system location."""
+    tmppath = tempfile.mkdtemp()
+
+    loc = Location(
+        name='testloc',
+        uri=tmppath,
+        default=True
+    )
+    db.session.add(loc)
+    db.session.commit()
+
+    yield loc
+
+    shutil.rmtree(tmppath)
+
+
+@pytest.fixture()
+def bucket(db, location):
+    """File system location."""
+    bucket = Bucket.create(location)
+    db.session.commit()
+    return bucket
+
+
+@pytest.fixture()
+def record(db):
+    """Record fixture."""
+    rec_uuid = uuid.uuid4()
+    provider = RecordIdProvider.create(
+        object_type='rec', object_uuid=rec_uuid)
+    record = Record.create({
+        'control_number': provider.pid.pid_value,
+        'title': 'TestDefault',
+    }, id_=rec_uuid)
+    db.session.commit()
+    return record
+
+
+@pytest.fixture()
+def zip_fp(db):
+    """ZIP file stream."""
+    fp = BytesIO()
+
+    zipf = ZipFile(fp, 'w')
+    zipf.writestr('Example.txt', 'This is an example')
+    zipf.close()
+
+    fp.seek(0)
+    return fp

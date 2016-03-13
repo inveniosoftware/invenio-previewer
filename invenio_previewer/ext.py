@@ -31,22 +31,58 @@ import pkg_resources
 from .views import blueprint
 
 
+class _InvenioPreviewerState(object):
+    """State object."""
+
+    def __init__(self, app, entry_point_group=None):
+        """Initialize state."""
+        self.app = app
+        self.entry_point_group = entry_point_group
+        self.previewers = {}
+
+    def register_previewer(self, name, previewer):
+        """Register a previewer in the system."""
+        if name in self.previewers:
+            assert name not in self.previewers, \
+                "Previewer with same name already registered"
+        self.previewers[name] = previewer
+
+    def load_entry_point_group(self, entry_point_group):
+        """Load previewers from an entry point group."""
+        for ep in pkg_resources.iter_entry_points(group=entry_point_group):
+            self.register_previewer(ep.name, ep.load())
+
+    def iter_previewers(self, previewers=None):
+        """Get previewers ordered by PREVIEWER_PREVIEWERS_ORDER."""
+        if self.entry_point_group is not None:
+            self.load_entry_point_group(self.entry_point_group)
+            self.entry_point_group = None
+
+        previewers = previewers or \
+            self.app.config.get('PREVIEWER_PREFERENCE', [])
+
+        for item in previewers:
+            if item in self.previewers:
+                yield self.previewers[item]
+
+
 class InvenioPreviewer(object):
     """Invenio-Previewer extension."""
 
     def __init__(self, app, **kwargs):
         """Extension initialization."""
-        self.previewers = []
-        self.init_app(app, **kwargs)
+        if app:
+            self._state = self.init_app(app, **kwargs)
 
     def init_app(self, app, entry_point_group='invenio_previewer.previewers'):
         """Flask application initialization."""
         self.init_config(app)
         app.register_blueprint(blueprint)
-        if entry_point_group:
-            self.load_entry_point_group(entry_point_group)
-
-        app.extensions['invenio-previewer'] = self
+        state = _InvenioPreviewerState(
+            app,
+            entry_point_group=entry_point_group)
+        app.extensions['invenio-previewer'] = state
+        return state
 
     def init_config(self, app):
         """Initialize configuration."""
@@ -59,22 +95,10 @@ class InvenioPreviewer(object):
             'invenio_previewer/abstract_previewer.html')
 
         app.config.setdefault(
-            'PREVIEWER_PREVIEWERS_ORDER',
-            [
-                'invenio_previewer.extensions.csv_dthreejs',
-                'invenio_previewer.extensions.mistune',
-                'invenio_previewer.extensions.pdfjs',
-                'invenio_previewer.extensions.zip',
-                'invenio_previewer.extensions.default',
-            ]
+            'PREVIEWER_PREFERENCE',
+            ['csv_dthreejs', 'mistune', 'pdfjs', 'zip', ]
         )
 
-    def register_previewer(self, previewer):
-        """Register a previewer in the system."""
-        if previewer not in self.previewers:
-            self.previewers.append(previewer)
-
-    def load_entry_point_group(self, entry_point_group):
-        """Load previewers from an entry point group."""
-        for ep in pkg_resources.iter_entry_points(group=entry_point_group):
-            self.register_previewer(ep.load())
+    def __getattr__(self, name):
+        """Proxy to state object."""
+        return getattr(self._state, name, None)
