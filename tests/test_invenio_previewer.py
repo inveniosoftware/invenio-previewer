@@ -81,4 +81,5 @@ def test_entrypoint_previewer():
     """Test the entry points."""
     app = Flask('testapp')
     ext = InvenioPreviewer(app)
+    ext.load_entry_point_group('invenio_previewer.previewers')
     assert len(ext.previewers) == 2

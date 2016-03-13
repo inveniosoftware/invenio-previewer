@@ -27,7 +27,10 @@
 from __future__ import absolute_import, print_function
 
 import pkg_resources
-from flask import Blueprint, current_app, request
+from flask import Blueprint, abort, request
+
+from .extensions import default
+from .proxies import current_previewer
 
 try:
     pkg_resources.get_distribution('invenio-files-rest')
@@ -42,6 +45,7 @@ blueprint = Blueprint(
     template_folder='templates',
     static_folder='static',
 )
+"""Blueprint used to register template and static folders."""
 
 
 class PreviewFile(object):
@@ -75,23 +79,6 @@ def get_file(pid, record, filename=None):
             return PreviewFile(file, pid, record)
 
 
-def get_previewers(previewer):
-    """Return available previewers ordered by PREVIEWER_PREVIEWERS_ORDER."""
-    result = []
-
-    previewers_available = {
-        previewer.__name__: previewer for previewer in
-        current_app.extensions['invenio-previewer'].previewers
-    }
-
-    for item in previewer or current_app.config.get(
-            'PREVIEWER_PREVIEWERS_ORDER'):
-        if item in previewers_available:
-            result.append(previewers_available[item])
-
-    return result
-
-
 def preview(pid, record, **kwargs):
     """Preview file for given record.
 
@@ -102,14 +89,22 @@ def preview(pid, record, **kwargs):
         RECORDS_UI_ENDPOINTS = dict(
             recid=dict(
                 # ...
-                route='/records/<pid_value/preview/<filename>',
+                route='/records/<pid_value/preview',
                 view_imp='invenio_previewer.views.preview',
             )
         )
     """
-    file = get_file(pid, record, request.args.get('filename', type=str))
+    file = get_file(
+        pid, record, filename=request.args.get('filename', type=str))
 
-    for plugin in get_previewers(previewer=[file.file.get('previewer')] if
-                                 file.file.get('previewer') else None):
+    if file is None:
+        abort(404)
+
+    file_previewer = file.file.get('previewer')
+    previewers = current_previewer.iter_previewers(
+        previewers=[file_previewer] if file_previewer else None)
+
+    for plugin in previewers:
         if plugin.can_preview(file):
             return plugin.preview(file)
+    return default.preview(file)

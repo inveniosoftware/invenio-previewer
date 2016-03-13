@@ -28,62 +28,68 @@ r"""Minimal Flask application example for development.
 
 .. code-block:: console
 
-    $ cd examples
-    $ flask -a app.py db init
-    $ flask -a app.py db create
+   $ cd examples
+   $ pip install -r requirements.txt
+   $ flask -a app.py db init
+   $ flask -a app.py db create
 
 
 2. Create the database and the tables:
 
 .. code-block:: console
 
-    $ flask -a app.py users create info@invenio-software.org \
-      -a --password infoinfo
+   $ flask -a app.py users create info@invenio-software.org -a
 
 
 3. Collect npm, requirements from registered bundles:
 
 .. code-block:: console
-    $ flask -a app.py npm
+
+   $ flask -a app.py npm
 
 
 4. Install the npm packages:
 
 .. code-block:: console
-    $ cd static
-    $ npm install
-    $ cd ..
+
+   $ cd static
+   $ npm install
+   $ cd ..
 
 
 5. Copy the static files from the Python packages into the Flask
 application's static folder:
 
 .. code-block:: console
-    $ flask -a app.py collect -v
+
+   $ flask -a app.py collect -v
 
 
 6. Build the assets as they are defined in bundle.py:
 
 .. code-block:: console
-    $ flask -a app.py assets build
+
+   $ flask -a app.py assets build
 
 
 7. Run the fixture CLI tool in order to populate the database with
 example data:
 
 .. code-block:: console
-    $ flask -a app.py fixtures files
+
+   $ flask -a app.py fixtures files
 
 
 8. Run the test server:
 
 .. code-block:: console
-    $ flask -a app.py run
+
+   $ flask -a app.py run
 
 
 9. Login into the application. Open in a web browser
 `http://localhost:5000/login/ and use the user previously created
-(user: info@invenio-software.org, password: infoinfo).
+(user: info@invenio-software.org).
 
 
 10. Open a web browser and enter to the url
@@ -108,7 +114,6 @@ from flask_babelex import Babel
 from flask_cli import FlaskCLI
 from invenio_access import InvenioAccess
 from invenio_accounts import InvenioAccounts
-from invenio_accounts.views import blueprint as accounts_blueprint
 from invenio_assets import InvenioAssets
 from invenio_db import InvenioDB, db
 from invenio_files_rest import InvenioFilesREST
@@ -125,8 +130,8 @@ app.config.update(
     SECRET_KEY='CHANGEME',
     SQLALCHEMY_DATABASE_URI=os.environ.get(
         'SQLALCHEMY_DATABASE_URI', 'sqlite:///test.db'),
+    SQLALCHEMY_TRACK_MODIFICATIONS=True,
     RECORDS_UI_DEFAULT_PERMISSION_FACTORY=None,
-    REST_ENABLE_CORS=True,
     RECORDS_UI_ENDPOINTS=dict(
         recid=dict(
             pid_type='recid',
@@ -142,16 +147,14 @@ app.config.update(
 )
 Babel(app)
 FlaskCLI(app)
-InvenioDB(app)
-InvenioAssets(app)
 InvenioAccounts(app)
 InvenioAccess(app)
+InvenioDB(app)
+InvenioAssets(app)
 InvenioRecords(app)
 InvenioFilesREST(app)
 InvenioPreviewer(app)
 InvenioRecordsUI(app)
-
-app.register_blueprint(accounts_blueprint)
 
 
 @app.cli.group()
@@ -162,8 +165,8 @@ def fixtures():
 def create_object(bucket, file_name, stream):
     """Object creation inside the bucket using the file and its content."""
     ObjectVersion.create(bucket, file_name, stream=stream)
-    recid = uuid4()
-    provider = RecordIdProvider.create(object_type='rec', object_uuid=recid)
+    rec_uuid = uuid4()
+    provider = RecordIdProvider.create(object_type='rec', object_uuid=rec_uuid)
     data = {
         'pid_value': provider.pid.pid_value,
         'files': [
@@ -175,18 +178,13 @@ def create_object(bucket, file_name, stream):
             }
         ]
     }
-    Record.create(data, id_=recid)
+    Record.create(data, id_=rec_uuid)
 
 
 @fixtures.command()
 def files():
     """Load files."""
     data_path = os.path.join(os.path.dirname(__file__), 'data')
-    # Clear data
-    ObjectVersion.query.delete()
-    Bucket.query.delete()
-    Location.query.delete()
-    db.session.commit()
 
     # Create location
     loc = Location(name='local', uri=data_path, default=True)
@@ -194,31 +192,30 @@ def files():
 
     # Bucket
     bucket = Bucket.create(loc)
-    print(bucket.id)
 
     # Markdown file
     markdown_file = 'markdown.md'
-    with open(os.path.join(data_path, markdown_file), 'r') as fp:
+    with open(os.path.join(data_path, markdown_file), 'rb') as fp:
         create_object(bucket, markdown_file, fp)
 
     # CSV file
     csv_file = 'csvfile.csv'
-    with open(os.path.join(data_path, csv_file), 'r') as fp:
+    with open(os.path.join(data_path, csv_file), 'rb') as fp:
         create_object(bucket, csv_file, fp)
 
     # PDF file
     pdf_file = 'pdffile.pdf'
-    with open(os.path.join(data_path, pdf_file), 'r') as fp:
+    with open(os.path.join(data_path, pdf_file), 'rb') as fp:
         create_object(bucket, pdf_file, fp)
 
     # ZIP file
     zip_file = 'zipfile.zip'
-    with open(os.path.join(data_path, zip_file), 'r') as fp:
+    with open(os.path.join(data_path, zip_file), 'rb') as fp:
         create_object(bucket, zip_file, fp)
 
     # Multiple files
-    recid = uuid4()
-    provider = RecordIdProvider.create(object_type='rec', object_uuid=recid)
+    rec_uuid = uuid4()
+    provider = RecordIdProvider.create(object_type='rec', object_uuid=rec_uuid)
     data = {
         'pid_value': provider.pid.pid_value,
         'files': []
@@ -253,6 +250,6 @@ def files():
     pdf_file_data['key'] = pdf_file
     data['files'].append(pdf_file_data)
 
-    Record.create(data, id_=recid)
+    Record.create(data, id_=rec_uuid)
 
     db.session.commit()

@@ -22,7 +22,7 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-"""Render Bar chart from csv file."""
+"""Render a CSV file using d3.js."""
 
 from __future__ import absolute_import, print_function
 
@@ -31,15 +31,19 @@ import csv
 from chardet.universaldetector import UniversalDetector
 from flask import current_app, render_template
 
-from invenio_previewer.config import PREVIEWER_EXTENSIONS_CSV_VALIDATION_BYTES
-
 
 def validate_csv(file):
     """Return dialect information about given csv file."""
+    # Read first X bytes from file.
     fp = file.open()
-    content = fp.read(PREVIEWER_EXTENSIONS_CSV_VALIDATION_BYTES).decode('utf-8')
-    fp.close()
+    try:
+        content = fp.read(
+            current_app.config.get('PREVIEWER_CSV_VALIDATION_BYTES', 1024)
+        ).decode('utf-8')
+    finally:
+        fp.close()
 
+    # Snif dialect of CSV using csv module.
     is_valid = False
     try:
         dialect = csv.Sniffer().sniff(content)
@@ -51,6 +55,8 @@ def validate_csv(file):
             'encoding': '',
             'is_valid': False
         }
+
+    # Snif dialect of CSV using chardet module.
     universal_detector = UniversalDetector()
     dialect.strict = True
     reader = csv.reader(content, dialect)
@@ -64,6 +70,7 @@ def validate_csv(file):
             'File {0} is not valid CSV: {1}'.format(file.file['uri'], e))
     finally:
         universal_detector.close()
+
     return {
         'delimiter': dialect.delimiter,
         'encoding': universal_detector.result['encoding'],

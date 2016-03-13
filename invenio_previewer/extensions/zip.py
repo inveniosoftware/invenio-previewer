@@ -22,33 +22,25 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-"""Simple ZIP archive previewer.
-
-Previewer needs to be enabled by setting following config variable.
-
-.. code-block:: python
-
-   CFG_PREVIEW_PREFERENCE = {'.zip': ['zip']}
-"""
+"""Simple ZIP archive previewer."""
 
 from __future__ import absolute_import, print_function
 
 import os
 import zipfile
 
-from flask import render_template, current_app
-
-from invenio_previewer.config import PREVIEWER_EXTENSIONS_ZIP_MAX_FILES
+from flask import current_app, render_template
 
 
 def make_tree(file):
     """Create tree structure from ZIP archive."""
+    max_files_count = current_app.config.get('PREVIEWER_ZIP_MAX_FILES', 1000)
     fp = file.open()
     zf = zipfile.ZipFile(fp)
     tree = {'type': 'folder', 'id': -1, 'children': {}}
     try:
         for i, info in enumerate(zf.infolist()):
-            if i > PREVIEWER_EXTENSIONS_ZIP_MAX_FILES:
+            if i > max_files_count:
                 raise BufferError('Too much files inside the ZIP file')
             comps = info.filename.split(os.sep)
             node = tree
@@ -93,6 +85,7 @@ def preview(file):
     """Return appropriate template and pass the file and an embed flag."""
     tree, limit_reached = make_tree(file)
     list = children_to_list(tree)['children']
-    return render_template("invenio_previewer/zip.html",
-                           file=file.file, tree=list,
-                           limit_reached=limit_reached)
+    return render_template(
+        "invenio_previewer/zip.html",
+        file=file.file, tree=list, limit_reached=limit_reached
+    )

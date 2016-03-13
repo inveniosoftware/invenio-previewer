@@ -24,10 +24,18 @@
 
 r"""Invenio module for previewing files.
 
-Invenio-Records-UI is a core component of Invenio which provides configurable
-extensions to preview files in a web browser. It uses Invenio-Records to get the
-information about the file to preview and it is using some third-party modules
-that provide some extra funcionality.
+Invenio-Previewer provides extensible file previewers for Invenio. It
+integrates with Invenio-Records-UI via a custom view function. Currently the
+module comes with viewers for the following files types:
+
+- PDF (using PDF.js)
+- ZIP
+- CSV (using d3.js)
+- Markdown (using Mistune library)
+
+Invenio-Previewer only provides the front-end layer for displaying previews
+of files. Specifically Invenio-Previewer does not take care of generating
+derived formats such thumbnails etc.
 
 Initialization
 --------------
@@ -40,39 +48,14 @@ version 1.0+):
 >>> app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
 >>> ext_cli = FlaskCLI(app)
 
-You initialize Records-Previewer like a normal Flask extension, however
-Invenio-Records-UI is dependent on Invenio-Records-UI and Invenio-files-REST,
-so you need to initialize these extensions and its dependencies first:
-
->>> from flask_babelex import Babel
->>> ext_babel = Babel(app)
->>> from invenio_db import InvenioDB, db
->>> ext_db = InvenioDB(app)
->>> from invenio_assets import InvenioAssets
->>> ext_assets = InvenioAssets(app)
->>> from invenio_access import InvenioAccess
->>> from invenio_accounts import InvenioAccounts
->>> ext_accounts = InvenioAccounts(app)
->>> ext_access = InvenioAccess(app)
->>> from invenio_records import InvenioRecords
->>> from invenio_records_ui import InvenioRecordsUI
->>> ext_records = InvenioRecords(app)
->>> ext_records_ui = InvenioRecordsUI(app)
->>> from invenio_files_rest import InvenioFilesREST
->>> ext_files_rest = InvenioFilesREST(app)
->>> from invenio_previewer import InvenioPreviewer
->>> ext_previewer = InvenioPreviewer(app)
-
-Configuring Records-UI
-----------------------
-We need to configure Records-UI since the endpoint for the previewer is declared
-here. Let's map the route ``/records/<pid_value>/preview`` which shows us the
-preview of the file in our browser.
+Configuration
+~~~~~~~~~~~~~
+Invenio-Previewer is enabled by adding a Records-UI endpoint with a custom
+view function set to ``invenio_previewer.views:preview``:
 
 >>> app.config.update(
-...     SECRET_KEY='CHANGEME',
+...     SQLALCHEMY_TRACK_MODIFICATIONS=False,
 ...     RECORDS_UI_DEFAULT_PERMISSION_FACTORY=None,
-...     REST_ENABLE_CORS=True,
 ...     RECORDS_UI_ENDPOINTS=dict(
 ...         recid=dict(
 ...             pid_type='recid',
@@ -87,119 +70,184 @@ preview of the file in our browser.
 ...     )
 ... )
 
+Here, we configure the URL route to ``/records/<pid_value>/preview``, but you
+can set it to whatever you like. Records-UI takes care resolving
+the URL to a record and check access control for the record.
+
+Extensions
+~~~~~~~~~~
+Now that we have configured the Flask application, let's initialize all
+dependent Invenio extensions:
+
+>>> from flask_babelex import Babel
+>>> from invenio_assets import InvenioAssets
+>>> from invenio_db import InvenioDB, db
+>>> from invenio_records import InvenioRecords
+>>> from invenio_records_ui import InvenioRecordsUI
+>>> from invenio_files_rest import InvenioFilesREST
+>>> ext_babel = Babel(app)
+>>> ext_assets = InvenioAssets(app)
+>>> ext_db = InvenioDB(app)
+>>> ext_records = InvenioRecords(app)
+>>> ext_records_ui = InvenioRecordsUI(app)
+>>> ext_files_rest = InvenioFilesREST(app)
+
+The above modules provides the following features to Invenio-Previewer:
+
+- Invenio-Assets: JavaScript/CSS bundling for interactive previewers.
+- Invenio-Records-UI: Retrieval of record and access control.
+- Invenio-Files-REST: Access to local files (required only if the previewer
+  plugin needs access to the content of a file).
+
+Lastly, initialize Invenio-Previewer and create an Flask application context:
+
+>>> from invenio_previewer import InvenioPreviewer
+>>> ext_previewer = InvenioPreviewer(app)
+
+In order for the following examples to work, you need to work within an Flask
+application context so let’s push one:
+
+>>> app.app_context().push()
+
+Also, for the examples to work we need to create the database and tables
+(note, in this example we use an in-memory SQLite database):
+
+>>> from invenio_db import db
+>>> db.create_all()
+
 Previewing a file
 -----------------
-Before we can display a document, we need to create a bucket and a record
-storing some information about the file. We need also to create a PID for the
-record:
+Invenio-Previewer looks into record's metadata to find which files can be
+viewed, so first we need to create a record with a persistent identifier and
+add a file into it.
 
-First of all, lets create the uuid and the PID provider:
+Creating a file
+~~~~~~~~~~~~~~~
+Let's start by creating a file in Invenio-Files-REST:
+
+>>> import tempfile
+>>> from six import BytesIO
+>>> from invenio_files_rest.models import Bucket, Location, \
+...    ObjectVersion
+>>> tmpdir = tempfile.mkdtemp()
+>>> loc = Location(name='local', uri=tmpdir, default=True)
+>>> bucket = Bucket.create(loc)
+>>> obj= ObjectVersion.create(
+...     bucket, 'markdown.md', stream=BytesIO(b'# Test MD'))
+>>> db.session.commit()
+
+Creating a record
+~~~~~~~~~~~~~~~~~
+
+Next, let's create a persistent identifier:
+
 >>> from uuid import uuid4
 >>> from invenio_pidstore.providers.recordid import RecordIdProvider
->>> recid = uuid4()
->>> provider = RecordIdProvider.create(object_type='rec', object_uuid=recid)
-
-Now, we are going to create the bucket and store the file inside:
->>> from invenio_files_rest.models import Bucket, Location, ObjectVersion
->>> file_name = 'markdown.md'
->>> bucket = Bucket.create(loc)
->>> loc = Location(name='local', uri=data_path, default=True)
->>> db.session.commit()
->>> ObjectVersion.create(bucket, file_name, stream=stream)
+>>> rec_uuid = uuid4()
+>>> provider = RecordIdProvider.create(
+...     object_type='rec', object_uuid=rec_uuid)
 
 Let's create the record with the file information:
+
 >>> from invenio_records import Record
 >>> data = {
-...     'pid_value': provider.pid.pid_value,
+...     'control_number': provider.pid.pid_value,
 ...     'files': [
 ...         {
-...             'uri': '/files/{0}/{1}'.format(str(bucket.id), file_name),
-...             'key': file_name,
+...             'uri': '/files/{0}/{1}'.format(str(bucket.id), 'markdown.md'),
+...             'key': 'markdown.md',
 ...             'bucket': str(bucket.id),
 ...             'local': True,
 ...         }
 ...     ]
 ... }
->>> Record.create(data, id_=recid)
+>>> record = Record.create(data, id_=rec_uuid)
 >>> db.session.commit()
 
+Previewing file
+~~~~~~~~~~~~~~~
+
 We should be able to see now the result HTML generated from the markdown file:
+
 >>> with app.test_client() as client:
 ...     res = client.get('/records/1/preview')
->>> res.data
+>>> res.status_code
+200
+
+A lot is happening here so let's take it in steps:
+
+1. Records-UI resolves ``/records/1/preview`` into a record and persistent
+   identifier which is then passed to Invenio-Previewer.
+2. Invenio-Previewer looks to the ``files`` key in the record and expect to
+   find a list of dictionaries, with each dictionary representing a file
+   (note: by default the first file in the list will be previewed).
+3. Invenio-Previewer determines the file extensions and searchers for a
+   preview plugin to handle the request.
+4. The preview plugin now finally takes care of all rendering.
 
 
 Bundled previewers
 ------------------
+This module contains several previewers out-of-the-box:
 
-This module contains several previewers out of the box:
-
-- Markdown: Previews a markdown file. It is based on python ``mistune`` library.
-
-- ``CSV`` - Previews ``comma separated values`` files but it can actually works
-  with any other tabular data format in plain text based on the idea of
-  separated values due to it is detecting the delimiter between the characters
-  automatically. On the client side, the file is previewed using ``D3JS``
+- Markdown: Previews a markdown file. It is based on python `mistune`
   library.
 
-- ``PDF`` - Previews a ``portable document format`` file in your browser using
-  ``PDFJS`` library.
+- ``CSV`` - Previews `CSV` files but it can actually works
+  with any other tabular data format in plain text based on the idea of
+  separated values due to it is detecting the delimiter between the characters
+  automatically. On the client side, the file is previewed using `d3.js`
+  library.
 
-- ``ZIP`` - Previews file tree inside the archive. You can specify a files limit
-  to avoid a temporary lock in both of client and server side when you are dealing
-  with large ZIP files. By default, this limit is set 1000 files.
+- ``PDF`` - Previews a PDF file in your browser using `PDF.JS` library.
+
+- ``ZIP`` - Previews file tree inside the archive. You can specify a files
+  limit to avoid a temporary lock in both of client and server side when you
+  are dealing with large ZIP files. By default, this limit is set 1000 files.
 
 - ``Default`` - This previewer is intended to be a fallback previewer to those
   cases when there is no previewer to deal with some file type. It is showing a
-  simple message.
+  simple message that the file cannot be previewed.
 
 Local vs. remote files
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~
+Some of the bundled previewers are only working with locally managed  files
+(i.e. files stored in Invenio-Files-REST, which supports many different storage
+backends). This is the case of CSV, Markdown and ZIP previewers. The PDF
+previewer doesn't need have the files stored locally.
 
-Some of the extensions are only working with local files. This is the case of
-CSV, Markdown and ZIP previewers. A file is considered local if it is stored in
-Invenio-Files-REST. However, the PDF previewer doesn't need have the files
-stored locally.
+Override default previewer
+--------------------------
+The default previewer for a file can be overridden in two ways:
 
-Behind this behaviour there are only security reasons: The server needs to open
-and process the file.
-
-Override default previewers
----------------------------
-
-- ``PREVIEWER_PREVIEWERS_ORDER`` - Contains a list of string which specify the
-  order of the previewers. The first item in the list is the most prioritized
-  previewer in case of collision. It is a good practise to use a fallback
-  previewer (i.e. ``default`` previwer) which can works with all file types,
-  otherwise, the system returns a 500 HTTP error code. The system is going to
-  use only, and only only the previewers that are listed in this variable.
+1. By providing a ``previewer`` key in the file, with the name of the previewer
+   to use. This works on a per-file basis.
+2. By list the previewer plugin search order in ``PREVIEWER_PREFERENCES``. The
+   first item in the list is the most prioritized previewer in case of
+   collision.
 
 Custom previewer
 ----------------
-The implementation of a custom preview is an easy process which do not require
-to have a deep acknowledgment about the Invenio architecture.
+The implementation of a custom previewer is an easy process. You basically only
+need to write two methods and declare the entry point and the priority of your
+previewer.
 
-Basically you only need to write two methods and declare the entry point and the
-priority of your previewer.
+Let's try to create a ``.txt.`` file previewer. We need to provide two methods
+in a Python module: ``can_preview()`` and ``preview()``.
 
-We are going to instantiate the process creating a TXT previewer:
+1. ``can_preview()`` is called in order to check if a given file can be
+   previewed and should return a boolean.
+2. ``preview()`` is called to actually render the preview.
 
-Implementation:
-We need to create the Python module which is going to contain the
-``can_preview`` and ``preview`` methods. Both of them expect a ``PreviewFile``
-object (You can see the implementation of this file on
-``invenio_previewer.views`` module). As you are probably guessing,
-the ``can_preview`` method should return a boolean specifying if the previewer
-can shows the file.
+Both methods is passed a ``PreviewFile`` instance, which contains the extract
+file dictionary, the record and the persistent identifier. ``PreviewFile`` also
+provides a method which can be used to open the file, in case it is managed by
+Invenio-Files-REST.
 
-In the case of the ``preview`` method, what you should return is a Flask HTTP
-response so we can return also a simple string.
-
-For our TXT previewer, we can create a file with the following content:
+For our ``txt`` previewer, we can create a file with the following content:
 
 >>> def can_preview(file):
 ...     return file.file['uri'].endswith('.txt')
-
 >>> def preview(file):
 ...     fp = file.open()
 ...     content = fp.read().decode('utf-8')
@@ -215,9 +263,9 @@ a new entry with specifying the python path of your module:
 >>>     'tex_previewer = myproject.modules.previewer.extensions.txt_previewer',
 >>> ]
 
-The configuration above made it is only making to our project to be aware of the
-module but the previewer can not be used. As we said before, you need to add it
-to ``PREVIEWER_PREVIEWERS_ORDER`` in the correct position. The first position
+The configuration above made it is only making to our project to be aware of
+the module but the previewer can not be used. As we said before, you need to
+add it to ``PREVIEWER_PREFERENCES`` in the correct position. The first position
 is going to be perfect in the case of this TXT previewer:
 >>> PREVIEWER_PREVIEWERS_ORDER=
 >>>     [
@@ -233,8 +281,8 @@ Now, the previewer is ready to be used.
 Bundles:
 In the previously described previewer, we were returning a simple string as
 response  but a real implementation should return a HTML. This HTML should
-extends ``invenio_previewer/abstract_previewer.html`` in order to take advantage
-of many presentation features.
+extends ``invenio_previewer/abstract_previewer.html`` in order to take
+advantage of many presentation features.
 
 But when you are defining a new template, maybe you are requiring some files
 like javascript or style documents. For those cases, you need to create a
