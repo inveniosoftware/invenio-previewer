@@ -105,7 +105,7 @@ Lastly, initialize Invenio-Previewer and create an Flask application context:
 >>> ext_previewer = InvenioPreviewer(app)
 
 In order for the following examples to work, you need to work within an Flask
-application context so let’s push one:
+application context so let's push one:
 
 >>> app.app_context().push()
 

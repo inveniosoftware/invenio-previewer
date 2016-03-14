@@ -28,6 +28,7 @@ from __future__ import absolute_import, print_function
 
 import pkg_resources
 
+from . import config
 from .views import blueprint
 
 
@@ -90,14 +91,10 @@ class InvenioPreviewer(object):
             'PREVIEWER_BASE_TEMPLATE',
             app.config.get('BASE_TEMPLATE',
                            'invenio_previewer/base.html'))
-        app.config.setdefault(
-            'PREVIEWER_ABSTRACT_TEMPLATE',
-            'invenio_previewer/abstract_previewer.html')
 
-        app.config.setdefault(
-            'PREVIEWER_PREFERENCE',
-            ['csv_dthreejs', 'mistune', 'pdfjs', 'zip', ]
-        )
+        for k in dir(config):
+            if k.startswith('PREVIEWER_'):
+                app.config.setdefault(k, getattr(config, k))
 
     def __getattr__(self, name):
         """Proxy to state object."""

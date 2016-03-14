@@ -30,3 +30,8 @@ PREVIEWER_CSV_VALIDATION_BYTES = 1024
 
 PREVIEWER_ZIP_MAX_FILES = 1000
 """Max number of files showed in the ZIP previewer."""
+
+PREVIEWER_PREFERENCE = ['csv_dthreejs', 'mistune', 'pdfjs', 'zip', ]
+"""Decides which previewers are available and their priority."""
+
+PREVIEWER_ABSTRACT_TEMPLATE = 'invenio_previewer/abstract_previewer.html'
