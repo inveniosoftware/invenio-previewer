@@ -68,11 +68,9 @@ pdfjs_worker_js = Bundle(
 pdfjs_js = Bundle(
     NpmBundle(
         npm={
-            "jquery": "~1.9.1",
             "pdf-viewer": "0.8.1",  # PDFJS. It doesn't have an official repo.
         }
     ),
-    "node_modules/jquery/jquery.js",
     "node_modules/pdf-viewer/ready/generic/web/compatibility.js",
     "node_modules/pdf-viewer/ready/generic/web/l10n.js",
     "node_modules/pdf-viewer/ready/generic/web/viewer.js",
@@ -96,12 +94,6 @@ zip_css = Bundle(
 """CSS bundle for ZIP file previewer."""
 
 zip_js = Bundle(
-    NpmBundle(
-        npm={
-             "jquery": "~1.9.1",
-        }
-    ),
-    "node_modules/jquery/jquery.js",
     "js/zip/fullscreen.js",
     output='gen/zip.%(version)s.js',
 )
