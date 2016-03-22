@@ -72,6 +72,9 @@ install_requires = [
     'invenio-assets>=1.0.0a3',
     'invenio-pidstore>=1.0.0a6',
     'invenio-records-ui>=1.0.0a4',
+    'ipython>=4.1.0',
+    'nbconvert>=4.1.0',
+    'nbformat>=4.0.1',
 ],
 
 packages = find_packages()
@@ -158,6 +161,7 @@ setup(
             'mistune = invenio_previewer.extensions.mistune',
             'pdfjs = invenio_previewer.extensions.pdfjs',
             'zip = invenio_previewer.extensions.zip',
+            'ipynb = invenio_previewer.extensions.ipynb',
             'default = invenio_previewer.extensions.default',
         ],
     },

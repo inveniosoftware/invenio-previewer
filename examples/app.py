@@ -94,13 +94,13 @@ example data:
 
 10. Open a web browser and enter to the url
 `http://localhost:5000/records/RECORD_PID/preview` where
-`RECORD_ID` is a number between 1 and 4.
+`RECORD_ID` is a number between 1 and 5.
 
 
 11. Open now a record that contains several files (The last record created).
 By default, it is showing the first document, but you can set another file
 using a query string like
-`http://localhost:5000/records/5/preview?filename=csvfile.csv`
+`http://localhost:5000/records/6/preview?filename=csvfile.csv`
 You can use (`csvfile.csv`, `markdown.md`, `pdffile.pdf`)
 """
 
@@ -212,6 +212,11 @@ def files():
     zip_file = 'zipfile.zip'
     with open(os.path.join(data_path, zip_file), 'rb') as fp:
         create_object(bucket, zip_file, fp)
+
+    # IPYNB file
+    ipynb_file = 'notebook.ipynb'
+    with open(os.path.join(data_path, ipynb_file), 'rb') as fp:
+        create_object(bucket, ipynb_file, fp)
 
     # Multiple files
     rec_uuid = uuid4()

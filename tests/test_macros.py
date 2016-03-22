@@ -157,6 +157,70 @@ def test_xml_extension(app, webassets, bucket, record):
         assert '&lt;/el&gt;' in res.get_data(as_text=True)
 
 
+def test_ipynb_extension(app, webassets, bucket, record):
+    """Test view with IPython notebooks files."""
+    create_file(
+        record, bucket, 'test.ipynb', BytesIO(b'''
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "This is an example notebook."
+      ]
+    }
+  ],
+  "metadata":{
+      "kernelspec":{
+         "display_name":"Python 2",
+         "language":"python",
+         "name":"python2"
+      },
+      "language_info":{
+         "codemirror_mode":{
+            "name":"ipython",
+            "version":2
+         },
+         "file_extension":".py",
+         "mimetype":"text/x-python",
+         "name":"python",
+         "nbconvert_exporter":"python",
+         "pygments_lexer":"ipython2",
+         "version":"2.7.10"
+      }
+   },
+  "nbformat":4,
+  "nbformat_minor":0
+}'''))
+
+    with app.test_client() as client:
+        res = client.get(preview_url(record['recid'], 'test.ipynb'))
+        assert 'This is an example notebook.' in res.get_data(as_text=True)
+
+
+def test_no_local_file(app, webassets, bucket, record):
+    """Test a not local file which can not be previewed."""
+    filename = 'default'
+    stream = BytesIO(b'empty')
+
+    ObjectVersion.create(bucket, filename, stream=stream)
+    record.update(dict(
+        files=[dict(
+            uri='/files/{0}/{1}'.format(str(bucket.id), filename),
+            bucket=str(bucket.id),
+            filename=filename,
+            local=False,
+        ), ]
+    ))
+    record.commit()
+    db.session.commit()
+
+    with app.test_client() as client:
+        res = client.get(preview_url(record['recid'], filename))
+        assert 'we are unfortunately not' in res.get_data(as_text=True)
+
+
 def test_view_macro_file_list(app):
     """Test file list macro."""
     with app.test_request_context():

@@ -33,12 +33,16 @@ PREVIEWER_MAX_FILE_SIZE_BYTES = 1 * 1024 * 1024
 PREVIEWER_ZIP_MAX_FILES = 1000
 """Max number of files showed in the ZIP previewer."""
 
+PREVIEWER_ZIP_MAX_FILES = 1000
+"""Max number of files showed in the ZIP previewer."""
+
 PREVIEWER_PREFERENCE = [
     'csv_dthreejs',
     'json_prismjs',
     'xml_prismjs',
     'mistune',
     'pdfjs',
+    'ipynb',
     'zip',
 ]
 """Decides which previewers are available and their priority."""
