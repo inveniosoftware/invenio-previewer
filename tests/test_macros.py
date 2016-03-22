@@ -39,17 +39,17 @@ def create_file(record, bucket, filename, stream):
         files=[dict(
             uri='/files/{0}/{1}'.format(str(bucket.id), filename),
             bucket=str(bucket.id),
-            key=filename,
-            local=True,
+            filename=filename,
         ), ]
     ))
     record.commit()
     db.session.commit()
 
 
-def preview_url(pid_val):
+def preview_url(pid_val, filename):
     """Preview URL."""
-    return url_for('invenio_records_ui.recid_previewer', pid_value=pid_val)
+    return url_for('invenio_records_ui.recid_previewer',
+                   pid_value=pid_val, filename=filename)
 
 
 def test_default_extension(app, db, webassets, bucket, record):
@@ -57,7 +57,7 @@ def test_default_extension(app, db, webassets, bucket, record):
     create_file(record, bucket, 'testfile', BytesIO(b'empty'))
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid']))
+        res = client.get(preview_url(record['recid'], 'testfile'))
         assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
@@ -67,7 +67,7 @@ def test_markdown_extension(app, db, webassets, bucket, record):
         record, bucket, 'markdown.md', BytesIO(b'### Testing markdown ###'))
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid']))
+        res = client.get(preview_url(record['recid'], 'markdown.md'))
         assert '<h3>Testing markdown' in res.get_data(as_text=True)
 
 
@@ -77,7 +77,7 @@ def test_pdf_extension(app, db, webassets, bucket, record):
         record, bucket, 'test.pdf', BytesIO(b'Content not used'))
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid']))
+        res = client.get(preview_url(record['recid'], 'test.pdf'))
         assert 'PDFView.open(\'' in res.get_data(as_text=True)
 
 
@@ -87,7 +87,7 @@ def test_csv_dthreejs_extension(app, db, webassets, bucket, record):
         record, bucket, 'test.csv', BytesIO(b'A,B\n1,2'))
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid']))
+        res = client.get(preview_url(record['recid'], 'test.csv'))
         assert 'data-csv-source="' in res.get_data(as_text=True)
 
 
@@ -97,7 +97,7 @@ def test_zip_extension(app, db, webassets, bucket, record, zip_fp):
         record, bucket, 'test.zip', zip_fp)
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid']))
+        res = client.get(preview_url(record['recid'], 'test.zip'))
         assert 'Example.txt' in res.get_data(as_text=True)
 
 
@@ -107,20 +107,20 @@ def test_view_macro_file_list(app):
         files = [
             {
                 'uri': 'http://domain/test1.txt',
-                'key': 'test1.txt',
+                'filename': 'test1.txt',
                 'size': 10,
                 'date': '2016-07-12',
             },
             {
                 'uri': 'http://otherdomain/test2.txt',
-                'key': 'test2.txt',
+                'filename': 'test2.txt',
                 'size': 12,
                 'date': '2016-07-12',
             },
         ]
 
         result = render_template_string("""
-            {%- from "invenio_previewer/_macros.html" import file_list %}
+            {%- from "invenio_previewer/macros.html" import file_list %}
             {{ file_list(files) }}
             """, files=files)
 

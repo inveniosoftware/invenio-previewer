@@ -77,7 +77,7 @@ def app():
             ),
             recid_previewer=dict(
                 pid_type='recid',
-                route='/records/<pid_value>/preview',
+                route='/records/<pid_value>/preview/<filename>',
                 view_imp='invenio_previewer.views:preview',
             ),
         ),

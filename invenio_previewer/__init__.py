@@ -64,7 +64,7 @@ view function set to ``invenio_previewer.views:preview``:
 ...         ),
 ...         recid_previewer=dict(
 ...             pid_type='recid',
-...             route='/records/<pid_value>/preview',
+...             route='/records/<pid_value>/preview/<filename>',
 ...             view_imp='invenio_previewer.views:preview',
 ...         ),
 ...     )
@@ -154,10 +154,10 @@ Let's create the record with the file information:
 ...     'control_number': provider.pid.pid_value,
 ...     'files': [
 ...         {
-...             'uri': '/files/{0}/{1}'.format(str(bucket.id), 'markdown.md'),
-...             'key': 'markdown.md',
+...             'filename': obj.key,
 ...             'bucket': str(bucket.id),
-...             'local': True,
+...             'checksum': obj.file.checksum,
+...             'size': obj.file.size,
 ...         }
 ...     ]
 ... }
@@ -170,14 +170,14 @@ Previewing file
 We should be able to see now the result HTML generated from the markdown file:
 
 >>> with app.test_client() as client:
-...     res = client.get('/records/1/preview')
+...     res = client.get('/records/1/preview/markdown.md')
 >>> res.status_code
 200
 
 A lot is happening here so let's take it in steps:
 
-1. Records-UI resolves ``/records/1/preview`` into a record and persistent
-   identifier which is then passed to Invenio-Previewer.
+1. Records-UI resolves ``/records/1/preview/markdown.md`` into a record and
+   persistent identifier which is then passed to Invenio-Previewer.
 2. Invenio-Previewer looks to the ``files`` key in the record and expect to
    find a list of dictionaries, with each dictionary representing a file
    (note: by default the first file in the list will be previewed).

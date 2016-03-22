@@ -76,9 +76,7 @@ def children_to_list(node):
 
 def can_preview(file):
     """Return True if filetype can be previewed."""
-    if file.file['local']:
-        return file.file['uri'].endswith('.zip')
-    return False
+    return file.is_local() and file.has_extensions('.zip')
 
 
 def preview(file):

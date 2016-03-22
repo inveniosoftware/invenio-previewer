@@ -26,6 +26,8 @@
 
 from __future__ import absolute_import, print_function
 
+from os.path import splitext
+
 import pkg_resources
 from flask import Blueprint, abort, request
 
@@ -57,6 +59,20 @@ class PreviewFile(object):
         self.pid = pid
         self.record = record
 
+    def is_local(self):
+        """Check if file is local."""
+        return 'bucket' in self.file
+
+    def has_extensions(self, *exts):
+        """Check if file has one of the extensions."""
+        file_ext = splitext(self.file['filename'])[1]
+        file_ext = file_ext.lower()
+
+        for e in exts:
+            if file_ext == e:
+                return True
+        return False
+
     def open(self):
         """Open the file."""
         if not HAS_FILES_REST:
@@ -65,21 +81,20 @@ class PreviewFile(object):
 
         from invenio_files_rest.models import ObjectVersion
         assert 'bucket' in self.file
-        assert 'key' in self.file
-        assert self.file['local']
+        assert 'filename' in self.file
 
-        obj = ObjectVersion.get(self.file['bucket'], self.file['key'])
+        obj = ObjectVersion.get(self.file['bucket'], self.file['filename'])
         return obj.file.storage().open()
 
 
 def get_file(pid, record, filename=None):
     """Return the PreviewFile associated with the record."""
-    for file in record['files']:
-        if file['key'] == filename or not filename:
-            return PreviewFile(file, pid, record)
+    for f in record['files']:
+        if filename and f['filename'] == filename:
+            return PreviewFile(f, pid, record)
 
 
-def preview(pid, record, **kwargs):
+def preview(pid, record, template=None):
     """Preview file for given record.
 
     Plug this method into your ``RECORDS_UI_ENDPOINTS`` configuration:
@@ -94,8 +109,13 @@ def preview(pid, record, **kwargs):
             )
         )
     """
+    filename = request.view_args.get(
+        'filename',
+        request.args.get('filename', type=str)
+    )
+
     file = get_file(
-        pid, record, filename=request.args.get('filename', type=str))
+        pid, record, filename=filename)
 
     if file is None:
         abort(404)

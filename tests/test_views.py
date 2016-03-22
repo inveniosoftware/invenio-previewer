@@ -48,7 +48,7 @@ def test_view_macro_file_list(app):
         ]
 
         result = render_template_string("""
-            {%- from "invenio_previewer/_macros.html" import file_list %}
+            {%- from "invenio_previewer/macros.html" import file_list %}
             {{ file_list(files) }}
             """, files=files)
 

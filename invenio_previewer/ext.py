@@ -88,9 +88,7 @@ class InvenioPreviewer(object):
     def init_config(self, app):
         """Initialize configuration."""
         app.config.setdefault(
-            'PREVIEWER_BASE_TEMPLATE',
-            app.config.get('BASE_TEMPLATE',
-                           'invenio_previewer/base.html'))
+            'PREVIEWER_BASE_TEMPLATE', 'invenio_previewer/base.html')
 
         for k in dir(config):
             if k.startswith('PREVIEWER_'):

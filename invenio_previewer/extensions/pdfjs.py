@@ -31,7 +31,7 @@ from flask import render_template
 
 def can_preview(file):
     """Check if file can be previewed."""
-    return file.file['uri'].endswith('.pdf')
+    return file.has_extensions('.pdf', '.pdfa')
 
 
 def preview(file):

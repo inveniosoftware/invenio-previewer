@@ -80,9 +80,8 @@ def validate_csv(file):
 
 def can_preview(file):
     """Determine if the given file can be previewed."""
-    if file.file['local']:
-        if file.file['uri'].endswith('.csv'):
-            return validate_csv(file)['is_valid']
+    if file.is_local() and file.has_extensions('.csv', '.dsv'):
+        return validate_csv(file)['is_valid']
     return False
 
 

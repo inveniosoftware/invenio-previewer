@@ -42,9 +42,7 @@ def render(file):
 
 def can_preview(file):
     """Determine if file can be previewed."""
-    if file.file['local']:
-        return file.file['uri'].endswith('.md')
-    return False
+    return file.is_local() and file.has_extensions('.md')
 
 
 def preview(file):
