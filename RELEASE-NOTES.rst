@@ -2,7 +2,7 @@
  Invenio-Previewer v1.0.0a1
 ============================
 
-Invenio-Previewer v1.0.0a1 was released on March 11, 2016.
+Invenio-Previewer v1.0.0a1 was released on March 30, 2016.
 
 About
 -----
