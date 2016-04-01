@@ -65,7 +65,7 @@ def test_previwable_test(app):
     file = {
         'type': 'md'
     }
-    template = "{% if file is previewable %}Previwable" \
+    template = "{% if file.type is previewable %}Previwable" \
                "{% else %}Not previwable{% endif %}"
     assert render_template_string(template, file=file) == "Previwable"
 

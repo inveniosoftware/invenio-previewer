@@ -31,6 +31,7 @@ import zipfile
 
 from flask import current_app, render_template
 
+from ..proxies import current_previewer
 
 previewable_extensions = ['zip']
 
@@ -88,5 +89,9 @@ def preview(file):
     list = children_to_list(tree)['children']
     return render_template(
         "invenio_previewer/zip.html",
-        file=file.file, tree=list, limit_reached=limit_reached
+        file=file.file,
+        tree=list,
+        limit_reached=limit_reached,
+        js_bundles=current_previewer.js_bundles + ['previewer_fullscreen_js'],
+        css_bundles=current_previewer.css_bundles,
     )

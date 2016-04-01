@@ -31,6 +31,7 @@ import csv
 from chardet.universaldetector import UniversalDetector
 from flask import current_app, render_template
 
+from ..proxies import current_previewer
 
 previewable_extensions = ['csv', 'dsv']
 
@@ -91,6 +92,11 @@ def can_preview(file):
 def preview(file):
     """Render appropiate template with embed flag."""
     file_info = validate_csv(file)
-    return render_template("invenio_previewer/csv_bar.html", file=file.file,
-                           delimiter=file_info['delimiter'],
-                           encoding=file_info['encoding'])
+    return render_template(
+        'invenio_previewer/csv_bar.html',
+        file=file.file,
+        delimiter=file_info['delimiter'],
+        encoding=file_info['encoding'],
+        js_bundles=current_previewer.js_bundles + ['previewer_zip_js'],
+        css_bundles=current_previewer.css_bundles,
+    )

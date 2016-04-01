@@ -139,12 +139,13 @@ setup(
             'messages = invenio_previewer',
         ],
         'invenio_assets.bundles': [
-            'csv_previewer_js = invenio_previewer.bundles:csv_previewer_js',
-            'pdfjs_css = invenio_previewer.bundles:pdfjs_css',
-            'pdfjs_js = invenio_previewer.bundles:pdfjs_js',
-            'pdfjs_worker_js = invenio_previewer.bundles:pdfjs_worker_js',
-            'zip_css = invenio_previewer.bundles:zip_css',
-            'zip_js = invenio_previewer.bundles:zip_js',
+            'previewer_csv_js = invenio_previewer.bundles:csv_previewer_js',
+            'previewer_pdfjs_css = invenio_previewer.bundles:pdfjs_css',
+            'previewer_pdfjs_js = invenio_previewer.bundles:pdfjs_js',
+            'previewer_pdfjs_worker_js '
+            '= invenio_previewer.bundles:pdfjs_worker_js',
+            'previewer_fullscreen_js '
+            '= invenio_previewer.bundles:fullscreen_js',
         ],
         'invenio_previewer.previewers': [
             'csv_dthreejs = invenio_previewer.extensions.csv_dthreejs',

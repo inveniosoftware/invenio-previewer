@@ -25,15 +25,12 @@
 
 {%- extends config.PREVIEWER_BASE_TEMPLATE %}
 
-{% block page_body %}
-  {% if request.args.get('embed') %}
-    {% include 'invenio_previewer/top.html' %}
-  {% endif %}
-
-  {% block panel %}
-  {% endblock %}
-
-  {% if request.args.get('embed') %}
-    {% include 'invenio_previewer/bottom.html' %}
-  {% endif %}
-{% endblock %}
+{%- block page_body %}
+  {%- if request.args.get('embed') %}
+    {%- include 'invenio_previewer/top.html' %}
+  {%- endif %}
+  {%- block panel %}{% endblock %}
+  {%- if request.args.get('embed') %}
+    {%- include 'invenio_previewer/bottom.html' %}
+  {%- endif %}
+{%- endblock %}

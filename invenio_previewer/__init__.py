@@ -249,7 +249,7 @@ Invenio-Files-REST.
 
 For our ``txt`` previewer, we can create a file with the following content:
 
->>> def previewable_extensions = ['txt']
+>>> previewable_extensions = ['txt']
 >>> def can_preview(file):
 ...     return file.file['uri'].endswith('.txt')
 >>> def preview(file):

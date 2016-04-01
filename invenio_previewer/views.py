@@ -29,7 +29,7 @@ from __future__ import absolute_import, print_function
 from os.path import splitext
 
 import pkg_resources
-from flask import Blueprint, abort, current_app, request
+from flask import Blueprint, abort, request
 
 from .extensions import default
 from .proxies import current_previewer
@@ -131,8 +131,6 @@ def preview(pid, record, template=None):
 
 
 @blueprint.app_template_test('previewable')
-def is_previewable(file):
+def is_previewable(extension):
     """Test if a file can be previewed checking its extension."""
-    previewable_extensions = current_app.extensions[
-        'invenio-previewer'].previewable_extensions
-    return file['type'] in previewable_extensions
+    return extension in current_previewer.previewable_extensions

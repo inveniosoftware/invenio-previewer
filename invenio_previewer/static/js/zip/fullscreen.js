@@ -17,54 +17,54 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-var previewIframe = parent.document.getElementById('preview-iframe');
-if (previewIframe) {
+var f = parent.document.getElementById('preview-iframe');
+if (f) {
   var handleFullScreenClick = (function () {
     var isFullScreen = false;
 
-    var pos = previewIframe.style.position,
-        zIndex = previewIframe.style.zIndex,
-        height = previewIframe.style.height,
-        width = previewIframe.style.width,
-        top = previewIframe.style.top,
-        left = previewIframe.style.left,
-        backgroundColor = previewIframe.style.backgroundColor;
+    var pos = f.style.position,
+        zIndex = f.style.zIndex,
+        height = f.style.height,
+        width = f.style.width,
+        top = f.style.top,
+        left = f.style.left,
+        backgroundColor = f.style.backgroundColor;
 
     return function () {
       if (isFullScreen) {
         isFullScreen = false;
-        previewIframe.style.position = pos;
-        previewIframe.style.zIndex = zIndex;
-        previewIframe.style.height = height;
-        previewIframe.style.width = width;
-        previewIframe.style.top = top;
-        previewIframe.style.left = left;
-        previewIframe.style.backgroundColor = backgroundColor;
+        f.style.position = pos;
+        f.style.zIndex = zIndex;
+        f.style.height = height;
+        f.style.width = width;
+        f.style.top = top;
+        f.style.left = left;
+        f.style.backgroundColor = backgroundColor;
 
-        parent.document.body.style.overflow = ""
+        parent.document.body.style.overflow = "";
       } else {
         isFullScreen = true;
-        previewIframe.style.position = "fixed";
-        previewIframe.style.zIndex = 9999;
-        previewIframe.style.height = "100%";
-        previewIframe.style.width = "100%";
-        previewIframe.style.top = 0;
-        previewIframe.style.left = 0;
-        previewIframe.style.backgroundColor="white";
+        f.style.position = "fixed";
+        f.style.zIndex = 9999;
+        f.style.height = "100%";
+        f.style.width = "100%";
+        f.style.top = 0;
+        f.style.left = 0;
+        f.style.backgroundColor="white";
 
-        parent.document.body.style.overflow = "hidden"
+        parent.document.body.style.overflow = "hidden";
       }
-    }
+    };
   }());
 
-  var fullScreenButton = previewIframe.contentDocument.getElementById('fullScreenMode');
-  var secfullScreenButton = previewIframe.contentDocument.getElementById('secondaryFullScreenMode');
-  if (fullScreenButton) fullScreenButton.addEventListener('click', handleFullScreenClick);
-  if (secfullScreenButton) secfullScreenButton.addEventListener('click', handleFullScreenClick);
+  var fsbtn = f.contentDocument.getElementById('fullScreenMode');
+  var secfsbtn = f.contentDocument.getElementById('secondaryFullScreenMode');
+  if (fsbtn) fsbtn.addEventListener('click', handleFullScreenClick);
+  if (secfsbtn) secfsbtn.addEventListener('click', handleFullScreenClick);
 } else {
-  var fullScreenButton = document.getElementById('fullScreenMode');
-  var secfullScreenButton = document.getElementById('secondaryFullScreenMode');
+  var fsbtn = document.getElementById('fullScreenMode');
+  var secfsbtn = document.getElementById('secondaryFullScreenMode');
 
-  if (fullScreenButton) fullScreenButton.remove();
-  if (secfullScreenButton) secfullScreenButton.remove();
+  if (fsbtn) fsbtn.remove();
+  if (secfsbtn) secfsbtn.remove();
 }

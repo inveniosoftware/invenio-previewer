@@ -21,16 +21,28 @@
 # In applying this license, CERN does not
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
-#}
-
+-#}
 <!DOCTYPE html>
 <html>
   <head>
     <title>{{_('Preview')}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% block head %} {% endblock %}
+    {%- block head %}
+    {%- for bdl in css_bundles %}
+      {%- assets bdl %}
+    <link href="{{ ASSET_URL }}" rel="stylesheet">
+      {%- endassets %}
+    {%- endfor %}
+    {%- endblock %}
   </head>
   <body>
-    {% block page_body %} {% endblock %}
+    {%- block page_body %}{% endblock %}
+    {%- block javascript %}
+    {%- for bdl in js_bundles %}
+      {%- assets bdl %}
+    <script src="{{ ASSET_URL }}"></script>
+      {%- endassets %}
+    {%- endfor %}
+    {%- endblock %}
   </body>
 </html>

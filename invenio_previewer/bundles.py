@@ -29,12 +29,34 @@ from __future__ import unicode_literals
 from flask_assets import Bundle
 from invenio_assets import NpmBundle, RequireJSFilter
 
+previewer_base_css = Bundle(
+    "node_modules/bootstrap/dist/css/bootstrap.css",
+    NpmBundle(
+        npm={
+            "bootstrap": "~3.3.6",
+            "font-awesome": "~4.5.0",
+        }
+    ),
+    output='gen/previewer-base.%(version)s.css'
+)
+"""CSS bundle for ZIP file previewer."""
+
+
+previewer_base_js = Bundle(
+    NpmBundle(
+        npm={
+            "bootstrap": "~3.3.6",
+            "jquery": "~1.9.1",
+        }
+    ),
+    "node_modules/bootstrap/dist/js/bootstrap.js",
+    output='gen/previewer-base.%(version)s.js',
+)
+"""JavaScript bundle for basic tools."""
+
 csv_previewer_js = Bundle(
     NpmBundle(
-        'node_modules/almond/almond.js',
         npm={
-            "almond": "~0.3.1",
-            "jquery": "~1.9.1",
             "flightjs": "~1.5.1",
             "d3": "~3.5.12",
         }
@@ -77,30 +99,14 @@ pdfjs_js = Bundle(
     "node_modules/pdf-viewer/ready/generic/build/pdf.js",
     "node_modules/pdf-viewer/ready/generic/build/pdf.worker.js",
     "js/pdfjs/pdf_viewer.js",
+    "js/zip/fullscreen.js",
     output='gen/pdfjs.%(version)s.js',
 )
 """JavaScript bundle for PDFjs previewer."""
 
-zip_css = Bundle(
-    "node_modules/bootstrap/dist/css/bootstrap.css",
-    NpmBundle(
-        npm={
-            "bootstrap": "~3.3.6",
-            "font-awesome": "~4.5.0",
-        }
-    ),
-    output='gen/zip.%(version)s.css'
-)
-"""CSS bundle for ZIP file previewer."""
-
-zip_js = Bundle(
-    NpmBundle(
-        npm={
-            "bootstrap": "~3.3.6",
-        }
-    ),
+fullscreen_js = Bundle(
     "js/zip/fullscreen.js",
-    "node_modules/bootstrap/dist/js/bootstrap.js",
-    output='gen/zip.%(version)s.js',
+    filters='uglifyjs',
+    output='gen/fullscreen.%(version)s.js',
 )
 """JavaScript bundle for ZIP file previewer."""

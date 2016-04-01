@@ -29,9 +29,7 @@
 
 {%- block head %}
   {{ super() }}
-
-  {# Javascript for CSV Previewer #}
-
+  {#- Javascript for CSV Previewer #}
   {% assets "csv_previewer_js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
 {%- endblock %}
 

@@ -35,3 +35,9 @@ PREVIEWER_PREFERENCE = ['csv_dthreejs', 'mistune', 'pdfjs', 'zip', ]
 """Decides which previewers are available and their priority."""
 
 PREVIEWER_ABSTRACT_TEMPLATE = 'invenio_previewer/abstract_previewer.html'
+
+PREVIEWER_BASE_CSS_BUNDLES = ['invenio_theme_css']
+"""Basic bundle which includes Font-Awesome/Bootstrap."""
+
+PREVIEWER_BASE_JS_BUNDLES = ['invenio_theme_js']
+"""Basic bundle which includes Bootstrap/jQuery."""

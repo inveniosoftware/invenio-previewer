@@ -27,6 +27,7 @@
 from __future__ import absolute_import, print_function
 
 import pkg_resources
+from werkzeug.utils import cached_property
 
 from . import config
 from .views import blueprint
@@ -40,7 +41,22 @@ class _InvenioPreviewerState(object):
         self.app = app
         self.entry_point_group = entry_point_group
         self.previewers = {}
-        self.previewable_extensions = set()
+        self._previewable_extensions = set()
+
+    @cached_property
+    def previewable_extensions(self):
+        if self.entry_point_group is not None:
+            self.load_entry_point_group(self.entry_point_group)
+            self.entry_point_group = None
+        return self._previewable_extensions
+
+    @property
+    def css_bundles(self):
+        return self.app.config['PREVIEWER_BASE_CSS_BUNDLES']
+
+    @property
+    def js_bundles(self):
+        return self.app.config['PREVIEWER_BASE_JS_BUNDLES']
 
     def register_previewer(self, name, previewer):
         """Register a previewer in the system."""
@@ -49,7 +65,7 @@ class _InvenioPreviewerState(object):
                 "Previewer with same name already registered"
         self.previewers[name] = previewer
         if hasattr(previewer, 'previewable_extensions'):
-            self.previewable_extensions |= set(
+            self._previewable_extensions |= set(
                     previewer.previewable_extensions)
 
     def load_entry_point_group(self, entry_point_group):
