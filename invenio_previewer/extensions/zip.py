@@ -32,6 +32,9 @@ import zipfile
 from flask import current_app, render_template
 
 
+previewable_extensions = ['zip']
+
+
 def make_tree(file):
     """Create tree structure from ZIP archive."""
     max_files_count = current_app.config.get('PREVIEWER_ZIP_MAX_FILES', 1000)

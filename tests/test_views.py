@@ -58,3 +58,22 @@ def test_view_macro_file_list(app):
         assert 'href="http://otherdomain/test2.txt"' in result
         assert '<td class="nowrap">2016-07-12</td>' in result
         assert '<td class="nowrap">12</td>' in result
+
+
+def test_previwable_test(app):
+    """Test template test."""
+    file = {
+        'type': 'md'
+    }
+    template = "{% if file is previewable %}Previwable" \
+               "{% else %}Not previwable{% endif %}"
+    assert render_template_string(template, file=file) == "Previwable"
+
+    file['type'] = 'no'
+    assert render_template_string(template, file=file) == "Not previwable"
+
+    file['type'] = 'pdf'
+    assert render_template_string(template, file=file) == "Previwable"
+
+    file['type'] = ''
+    assert render_template_string(template, file=file) == "Not previwable"

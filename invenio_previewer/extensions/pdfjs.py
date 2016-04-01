@@ -29,6 +29,9 @@ from __future__ import absolute_import, print_function
 from flask import render_template
 
 
+previewable_extensions = ['pdf', 'pdfa']
+
+
 def can_preview(file):
     """Check if file can be previewed."""
     return file.has_extensions('.pdf', '.pdfa')

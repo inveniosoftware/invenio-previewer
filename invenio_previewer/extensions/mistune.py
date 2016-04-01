@@ -31,6 +31,9 @@ from flask import render_template
 import mistune
 
 
+previewable_extensions = ['md']
+
+
 def render(file):
     """Render HTML from Markdown file content."""
     fp = file.open()

@@ -94,7 +94,13 @@ zip_css = Bundle(
 """CSS bundle for ZIP file previewer."""
 
 zip_js = Bundle(
+    NpmBundle(
+        npm={
+            "bootstrap": "~3.3.6",
+        }
+    ),
     "js/zip/fullscreen.js",
+    "node_modules/bootstrap/dist/js/bootstrap.js",
     output='gen/zip.%(version)s.js',
 )
 """JavaScript bundle for ZIP file previewer."""

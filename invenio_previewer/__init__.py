@@ -233,11 +233,14 @@ need to write two methods and declare the entry point and the priority of your
 previewer.
 
 Let's try to create a ``.txt.`` file previewer. We need to provide two methods
-in a Python module: ``can_preview()`` and ``preview()``.
+in a Python module: ``can_preview()`` and ``preview()`` and also a variable
+specifying which extensions can preview: ``previewable_extensions`` .
 
 1. ``can_preview()`` is called in order to check if a given file can be
    previewed and should return a boolean.
 2. ``preview()`` is called to actually render the preview.
+3. ``previewable_extensions`` is a list of string saying which files extensions
+   can preview.
 
 Both methods is passed a ``PreviewFile`` instance, which contains the extract
 file dictionary, the record and the persistent identifier. ``PreviewFile`` also
@@ -246,6 +249,7 @@ Invenio-Files-REST.
 
 For our ``txt`` previewer, we can create a file with the following content:
 
+>>> def previewable_extensions = ['txt']
 >>> def can_preview(file):
 ...     return file.file['uri'].endswith('.txt')
 >>> def preview(file):

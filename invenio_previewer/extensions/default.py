@@ -28,6 +28,8 @@ from __future__ import absolute_import, print_function
 
 from flask import render_template
 
+previewable_extensions = []
+
 
 def can_preview(file):
     """Return if file type can be previewed."""

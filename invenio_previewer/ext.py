@@ -40,6 +40,7 @@ class _InvenioPreviewerState(object):
         self.app = app
         self.entry_point_group = entry_point_group
         self.previewers = {}
+        self.previewable_extensions = set()
 
     def register_previewer(self, name, previewer):
         """Register a previewer in the system."""
@@ -47,6 +48,9 @@ class _InvenioPreviewerState(object):
             assert name not in self.previewers, \
                 "Previewer with same name already registered"
         self.previewers[name] = previewer
+        if hasattr(previewer, 'previewable_extensions'):
+            self.previewable_extensions |= set(
+                    previewer.previewable_extensions)
 
     def load_entry_point_group(self, entry_point_group):
         """Load previewers from an entry point group."""

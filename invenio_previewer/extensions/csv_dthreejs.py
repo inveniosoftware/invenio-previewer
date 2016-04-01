@@ -32,6 +32,9 @@ from chardet.universaldetector import UniversalDetector
 from flask import current_app, render_template
 
 
+previewable_extensions = ['csv', 'dsv']
+
+
 def validate_csv(file):
     """Return dialect information about given csv file."""
     # Read first X bytes from file.

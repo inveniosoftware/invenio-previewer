@@ -340,8 +340,9 @@
 
     {% assets "pdfjs_css" %}<link href="{{ ASSET_URL }}" rel="stylesheet">{% endassets %}
     {% assets "pdfjs_js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
+    {% assets "invenio_theme_js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
     <script>
-      PDFView.open('{{ file.uri }}');
+      PDFView.open('{{ url_for('invenio_files_rest.object_api', bucket_id=file.bucket, key=file.filename) }}');
     </script>
   </body>
 </html>
