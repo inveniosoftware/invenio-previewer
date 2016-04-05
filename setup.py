@@ -145,8 +145,6 @@ setup(
             'previewer_csv_js = invenio_previewer.bundles:csv_previewer_js',
             'previewer_pdfjs_css = invenio_previewer.bundles:pdfjs_css',
             'previewer_pdfjs_js = invenio_previewer.bundles:pdfjs_js',
-            'previewer_pdfjs_worker_js '
-            '= invenio_previewer.bundles:pdfjs_worker_js',
             'previewer_fullscreen_js '
             '= invenio_previewer.bundles:fullscreen_js',
             'previewer_prism_js '

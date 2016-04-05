@@ -79,7 +79,7 @@ def test_pdf_extension(app, webassets, bucket, record):
 
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.pdf'))
-        assert 'PDFView.open(\'' in res.get_data(as_text=True)
+        assert 'PDFViewerApplication.open(\'' in res.get_data(as_text=True)
 
 
 def test_csv_dthreejs_extension(app, webassets, bucket, record):

@@ -44,5 +44,9 @@ recursive-include examples *.py
 recursive-include examples *.zip
 recursive-include invenio_previewer *.html *.js *.css
 recursive-include invenio_previewer *.po *.pot *.mo
+recursive-include invenio_previewer *.cur
+recursive-include invenio_previewer *.gif
+recursive-include invenio_previewer *.png
+recursive-include invenio_previewer *.properties
+recursive-include invenio_previewer *.svg
 recursive-include tests *.py
-

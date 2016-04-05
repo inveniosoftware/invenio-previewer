@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/* Modifications copyright (C) 2016 CERN. */
 /* globals PDFJS, PDFBug, FirefoxCom, Stats, ProgressBar,
            DownloadManager, getFileName, getPDFFileNameFromURL,
            PDFHistory, Preferences, SidebarView, ViewHistory, Stats,
@@ -25,7 +26,7 @@
 
 'use strict';
 
-var DEFAULT_URL = 'compressed.tracemonkey-pldi-09.pdf';
+var DEFAULT_URL = '';
 var DEFAULT_SCALE_DELTA = 1.1;
 var MIN_SCALE = 0.25;
 var MAX_SCALE = 10.0;
@@ -34,12 +35,10 @@ var SCALE_SELECT_PADDING = 22;
 var PAGE_NUMBER_LOADING_INDICATOR = 'visiblePageIsLoading';
 var DISABLE_AUTO_FETCH_LOADING_BAR_TIMEOUT = 5000;
 
-function configure(PDFJS) {
-  PDFJS.imageResourcesPath = './images/';
-  PDFJS.workerSrc = '../build/pdf.worker.js';
-  PDFJS.cMapUrl = '../web/cmaps/';
-  PDFJS.cMapPacked = true;
-}
+PDFJS.imageResourcesPath = '/static/js/pdfjs/web/images/';
+PDFJS.workerSrc = '/static/node_modules/pdfjs-dist/build/pdf.worker.js';
+PDFJS.cMapUrl = '/static/node_modules/pdfjs-dist/cmaps/pdfjs/';
+PDFJS.cMapPacked = true;
 
 var mozL10n = document.mozL10n || document.webL10n;
 
@@ -1926,10 +1925,6 @@ var PDFHistory = (function () {
         // since the 'DOMContentLoaded' event is not fired on 'pageshow'.
         window.addEventListener('beforeunload', pdfHistoryBeforeUnload, false);
       }, false);
-
-      window.addEventListener('presentationmodechanged', function(e) {
-        self.isViewerInPresentationMode = !!e.detail.active;
-      });
     },
 
     clearHistoryState: function pdfHistory_clearHistoryState() {
@@ -2182,10 +2177,8 @@ var SecondaryToolbar = {
     // Define the toolbar buttons.
     this.toggleButton = options.toggleButton;
     this.presentationModeButton = options.presentationModeButton;
-    this.openFile = options.openFile;
     this.print = options.print;
     this.download = options.download;
-    this.viewBookmark = options.viewBookmark;
     this.firstPage = options.firstPage;
     this.lastPage = options.lastPage;
     this.pageRotateCw = options.pageRotateCw;
@@ -2200,10 +2193,8 @@ var SecondaryToolbar = {
       // (except for toggleHandTool, hand_tool.js is responsible for it):
       { element: this.presentationModeButton,
         handler: this.presentationModeClick },
-      { element: this.openFile, handler: this.openFileClick },
       { element: this.print, handler: this.printClick },
       { element: this.download, handler: this.downloadClick },
-      { element: this.viewBookmark, handler: this.viewBookmarkClick },
       { element: this.firstPage, handler: this.firstPageClick },
       { element: this.lastPage, handler: this.lastPageClick },
       { element: this.pageRotateCw, handler: this.pageRotateCwClick },
@@ -2221,16 +2212,6 @@ var SecondaryToolbar = {
   },
 
   // Event handling functions.
-  presentationModeClick: function secondaryToolbarPresentationModeClick(evt) {
-    PDFViewerApplication.requestPresentationMode();
-    this.close();
-  },
-
-  openFileClick: function secondaryToolbarOpenFileClick(evt) {
-    document.getElementById('fileInput').click();
-    this.close();
-  },
-
   printClick: function secondaryToolbarPrintClick(evt) {
     window.print();
     this.close();
@@ -2238,10 +2219,6 @@ var SecondaryToolbar = {
 
   downloadClick: function secondaryToolbarDownloadClick(evt) {
     PDFViewerApplication.download();
-    this.close();
-  },
-
-  viewBookmarkClick: function secondaryToolbarViewBookmarkClick(evt) {
     this.close();
   },
 
@@ -6197,12 +6174,8 @@ var PDFViewerApplication = {
     SecondaryToolbar.initialize({
       toolbar: document.getElementById('secondaryToolbar'),
       toggleButton: document.getElementById('secondaryToolbarToggle'),
-      presentationModeButton:
-        document.getElementById('secondaryPresentationMode'),
-      openFile: document.getElementById('secondaryOpenFile'),
       print: document.getElementById('secondaryPrint'),
       download: document.getElementById('secondaryDownload'),
-      viewBookmark: document.getElementById('secondaryViewBookmark'),
       firstPage: document.getElementById('firstPage'),
       lastPage: document.getElementById('lastPage'),
       pageRotateCw: document.getElementById('pageRotateCw'),
@@ -6845,24 +6818,6 @@ var PDFViewerApplication = {
           self.switchSidebarView('outline', true);
         }
       });
-      pdfDocument.getAttachments().then(function(attachments) {
-        var container = document.getElementById('attachmentsView');
-        self.attachments = new PDFAttachmentView({
-          container: container,
-          attachments: attachments,
-          downloadManager: new DownloadManager()
-        });
-        self.attachments.render();
-        document.getElementById('viewAttachments').disabled = !attachments;
-
-        if (!attachments && !container.classList.contains('hidden')) {
-          self.switchSidebarView('thumbs');
-        }
-        if (attachments &&
-            self.preferenceSidebarViewOnLoad === SidebarView.ATTACHMENTS) {
-          self.switchSidebarView('attachments', true);
-        }
-      });
     });
 
     if (self.preferenceSidebarViewOnLoad === SidebarView.THUMBS) {
@@ -6975,11 +6930,9 @@ var PDFViewerApplication = {
     }
     var thumbsView = document.getElementById('thumbnailView');
     var outlineView = document.getElementById('outlineView');
-    var attachmentsView = document.getElementById('attachmentsView');
 
     var thumbsButton = document.getElementById('viewThumbnail');
     var outlineButton = document.getElementById('viewOutline');
-    var attachmentsButton = document.getElementById('viewAttachments');
 
     switch (view) {
       case 'thumbs':
@@ -6987,10 +6940,8 @@ var PDFViewerApplication = {
 
         thumbsButton.classList.add('toggled');
         outlineButton.classList.remove('toggled');
-        attachmentsButton.classList.remove('toggled');
         thumbsView.classList.remove('hidden');
         outlineView.classList.add('hidden');
-        attachmentsView.classList.add('hidden');
 
         this.forceRendering();
 
@@ -7005,22 +6956,15 @@ var PDFViewerApplication = {
         }
         thumbsButton.classList.remove('toggled');
         outlineButton.classList.add('toggled');
-        attachmentsButton.classList.remove('toggled');
         thumbsView.classList.add('hidden');
         outlineView.classList.remove('hidden');
-        attachmentsView.classList.add('hidden');
         break;
 
       case 'attachments':
-        if (attachmentsButton.disabled) {
-          return;
-        }
         thumbsButton.classList.remove('toggled');
         outlineButton.classList.remove('toggled');
-        attachmentsButton.classList.add('toggled');
         thumbsView.classList.add('hidden');
         outlineView.classList.add('hidden');
-        attachmentsView.classList.remove('hidden');
         break;
     }
   },
@@ -7181,7 +7125,6 @@ function validateFileURL(file) {
 }
 
 function webViewerLoad(evt) {
-    configure(PDFJS);
     PDFViewerApplication.initialize().then(webViewerInitialized);
 }
 
@@ -7199,7 +7142,6 @@ function webViewerInitialized() {
   document.body.appendChild(fileInput);
 
   if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-    document.getElementById('openFile').setAttribute('hidden', 'true');
     document.getElementById('secondaryOpenFile').setAttribute('hidden', 'true');
   } else {
     document.getElementById('fileInput').value = null;
@@ -7275,12 +7217,6 @@ function webViewerInitialized() {
     document.getElementById('secondaryPrint').classList.add('hidden');
   }
 
-  if (!PDFViewerApplication.supportsFullscreen) {
-    document.getElementById('presentationMode').classList.add('hidden');
-    document.getElementById('secondaryPresentationMode').
-      classList.add('hidden');
-  }
-
   if (PDFViewerApplication.supportsIntegratedFind) {
     document.getElementById('viewFind').classList.add('hidden');
   }
@@ -7327,11 +7263,6 @@ function webViewerInitialized() {
       PDFViewerApplication.outline.toggleOutlineTree();
     });
 
-  document.getElementById('viewAttachments').addEventListener('click',
-    function() {
-      PDFViewerApplication.switchSidebarView('attachments');
-    });
-
   document.getElementById('previous').addEventListener('click',
     function() {
       PDFViewerApplication.page--;
@@ -7371,12 +7302,6 @@ function webViewerInitialized() {
     }
     PDFViewerApplication.pdfViewer.currentScaleValue = this.value;
   });
-
-  document.getElementById('presentationMode').addEventListener('click',
-    SecondaryToolbar.presentationModeClick.bind(SecondaryToolbar));
-
-  document.getElementById('openFile').addEventListener('click',
-    SecondaryToolbar.openFileClick.bind(SecondaryToolbar));
 
   document.getElementById('print').addEventListener('click',
     SecondaryToolbar.printClick.bind(SecondaryToolbar));
@@ -7491,14 +7416,6 @@ document.addEventListener('namedaction', function (e) {
   }
 }, true);
 
-window.addEventListener('presentationmodechanged', function (e) {
-  var active = e.detail.active;
-  var switchInProgress = e.detail.switchInProgress;
-  PDFViewerApplication.pdfViewer.presentationModeState =
-    switchInProgress ? PresentationModeState.CHANGING :
-    active ? PresentationModeState.FULLSCREEN : PresentationModeState.NORMAL;
-});
-
 window.addEventListener('updateviewarea', function (evt) {
   if (!PDFViewerApplication.initialized) {
     return;
@@ -7518,8 +7435,6 @@ window.addEventListener('updateviewarea', function (evt) {
   });
   var href =
     PDFViewerApplication.pdfLinkService.getAnchorUrl(location.pdfOpenParams);
-  document.getElementById('viewBookmark').href = href;
-  document.getElementById('secondaryViewBookmark').href = href;
 
   // Update the current bookmark in the browsing history.
   PDFViewerApplication.pdfHistory.updateCurrentBookmark(location.pdfOpenParams,
@@ -7596,9 +7511,6 @@ window.addEventListener('change', function webViewerChange(evt) {
   PDFViewerApplication.setTitleUsingUrl(file.name);
 
   // URL does not reflect proper document location - hiding some icons.
-  document.getElementById('viewBookmark').setAttribute('hidden', 'true');
-  document.getElementById('secondaryViewBookmark').
-    setAttribute('hidden', 'true');
   document.getElementById('download').setAttribute('hidden', 'true');
   document.getElementById('secondaryDownload').setAttribute('hidden', 'true');
 }, true);

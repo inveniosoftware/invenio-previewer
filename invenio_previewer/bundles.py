@@ -75,31 +75,16 @@ pdfjs_css = Bundle(
 )
 """CSS bundle for PDFjs previewer."""
 
-
-pdfjs_worker_js = Bundle(
-    NpmBundle(
-        npm={
-            "pdf-viewer": "0.8.1",  # PDFJS. It doesn't have an official repo.
-        }
-    ),
-    "node_modules/pdf-viewer/ready/generic/build/pdf.worker.js",
-    output='gen/pdfjs.worker.js',
-)
-"""JavaScript bundle for PDFjs previewer."""
-
 pdfjs_js = Bundle(
     NpmBundle(
         npm={
-            "pdf-viewer": "0.8.1",  # PDFJS. It doesn't have an official repo.
+            "pdfjs-dist": "1.4.192",
         }
     ),
-    "node_modules/pdf-viewer/ready/generic/web/compatibility.js",
-    "node_modules/pdf-viewer/ready/generic/web/l10n.js",
-    "node_modules/pdf-viewer/ready/generic/web/viewer.js",
-    "node_modules/pdf-viewer/ready/generic/build/pdf.js",
-    "node_modules/pdf-viewer/ready/generic/build/pdf.worker.js",
-    "js/pdfjs/pdf_viewer.js",
-    "js/zip/fullscreen.js",
+    "node_modules/pdfjs-dist/web/compatibility.js",
+    "node_modules/pdfjs-dist/build/pdf.js",
+    "js/pdfjs/l10n.js",
+    "js/pdfjs/viewer.js",
     output='gen/pdfjs.%(version)s.js',
 )
 """JavaScript bundle for PDFjs previewer."""

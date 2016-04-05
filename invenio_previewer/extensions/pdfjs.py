@@ -44,8 +44,8 @@ def preview(file):
         'invenio_previewer/pdfjs.html',
         file=file.file,
         css_bundles=['previewer_pdfjs_css'],
-        js_bundles=current_previewer.js_bundles + [
-            'previewer_pdfjs_js', 'previewer_fullscreen_js'],
+        js_bundles=['previewer_pdfjs_js',  'previewer_fullscreen_js'
+                    ] + current_previewer.js_bundles,
         file_url=url_for(
             'invenio_files_rest.object_api',
             bucket_id=file.file['bucket'],
