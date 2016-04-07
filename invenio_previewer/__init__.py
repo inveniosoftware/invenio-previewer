@@ -32,6 +32,7 @@ module comes with viewers for the following files types:
 - ZIP
 - CSV (using d3.js)
 - Markdown (using Mistune library)
+- XML and JSON (using Prism.js)
 
 Invenio-Previewer only provides the front-end layer for displaying previews
 of files. Specifically Invenio-Previewer does not take care of generating
@@ -190,8 +191,13 @@ Bundled previewers
 ------------------
 This module contains several previewers out-of-the-box:
 
-- Markdown: Previews a markdown file. It is based on python `mistune`
+- ``Markdown``: Previews a markdown file. It is based on python `mistune`
   library.
+
+- ``JSON/XML``: Previews JSON and XML files. It pretty-prints the contents
+  and applies syntax highlighting using the `Prism.js` library.
+  You can also configure the maximum file size in order to avoid client and
+  server freezes. By default it is set to 1MB.
 
 - ``CSV`` - Previews `CSV` files but it can actually works
   with any other tabular data format in plain text based on the idea of
@@ -213,8 +219,8 @@ Local vs. remote files
 ~~~~~~~~~~~~~~~~~~~~~~
 Some of the bundled previewers are only working with locally managed  files
 (i.e. files stored in Invenio-Files-REST, which supports many different storage
-backends). This is the case of CSV, Markdown and ZIP previewers. The PDF
-previewer doesn't need have the files stored locally.
+backends). This is the case for JSON, XML, CSV, Markdown and ZIP previewers.
+The PDF previewer doesn't need have the files stored locally.
 
 Override default previewer
 --------------------------
@@ -274,6 +280,8 @@ is going to be perfect in the case of this TXT previewer:
 >>> PREVIEWER_PREVIEWERS_ORDER=
 >>>     [
 >>>         'invenio_previewer.extensions.csv_dthreejs',
+>>>         'invenio_previewer.extensions.json_prismjs',
+>>>         'invenio_previewer.extensions.xml_prismjs',
 >>>         'invenio_previewer.extensions.mistune',
 >>>         'invenio_previewer.extensions.pdfjs',
 >>>         'invenio_previewer.extensions.zip',

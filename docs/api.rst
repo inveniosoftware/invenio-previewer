@@ -54,6 +54,13 @@ Default
    :members:
    :undoc-members:
 
+JSON (prism.js)
+~~~~~~~~~~~~~~~
+
+.. automodule:: invenio_previewer.extensions.json_prismjs
+   :members:
+   :undoc-members:
+
 Markdown
 ~~~~~~~~
 
@@ -65,6 +72,13 @@ PDF (pdf.js)
 ~~~~~~~~~~~~
 
 .. automodule:: invenio_previewer.extensions.pdfjs
+   :members:
+   :undoc-members:
+
+XML (prism.js)
+~~~~~~~~~~~~~~
+
+.. automodule:: invenio_previewer.extensions.xml_prismjs
    :members:
    :undoc-members:
 

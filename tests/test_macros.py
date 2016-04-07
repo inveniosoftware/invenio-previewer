@@ -29,17 +29,18 @@ from __future__ import absolute_import, print_function
 from flask import render_template_string, url_for
 from invenio_db import db
 from invenio_files_rest.models import ObjectVersion
-from six import BytesIO
+from six import BytesIO, b
 
 
 def create_file(record, bucket, filename, stream):
     """Create a file and add in record."""
-    ObjectVersion.create(bucket, filename, stream=stream)
+    obj = ObjectVersion.create(bucket, filename, stream=stream)
     record.update(dict(
         files=[dict(
             uri='/files/{0}/{1}'.format(str(bucket.id), filename),
             bucket=str(bucket.id),
             filename=filename,
+            size=obj.file.size
         ), ]
     ))
     record.commit()
@@ -52,7 +53,7 @@ def preview_url(pid_val, filename):
                    pid_value=pid_val, filename=filename)
 
 
-def test_default_extension(app, db, webassets, bucket, record):
+def test_default_extension(app, webassets, bucket, record):
     """Test view by default."""
     create_file(record, bucket, 'testfile', BytesIO(b'empty'))
 
@@ -61,7 +62,7 @@ def test_default_extension(app, db, webassets, bucket, record):
         assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
-def test_markdown_extension(app, db, webassets, bucket, record):
+def test_markdown_extension(app, webassets, bucket, record):
     """Test view with md files."""
     create_file(
         record, bucket, 'markdown.md', BytesIO(b'### Testing markdown ###'))
@@ -71,7 +72,7 @@ def test_markdown_extension(app, db, webassets, bucket, record):
         assert '<h3>Testing markdown' in res.get_data(as_text=True)
 
 
-def test_pdf_extension(app, db, webassets, bucket, record):
+def test_pdf_extension(app, webassets, bucket, record):
     """Test view with pdf files."""
     create_file(
         record, bucket, 'test.pdf', BytesIO(b'Content not used'))
@@ -81,7 +82,7 @@ def test_pdf_extension(app, db, webassets, bucket, record):
         assert 'PDFView.open(\'' in res.get_data(as_text=True)
 
 
-def test_csv_dthreejs_extension(app, db, webassets, bucket, record):
+def test_csv_dthreejs_extension(app, webassets, bucket, record):
     """Test view with pdf files."""
     create_file(
         record, bucket, 'test.csv', BytesIO(b'A,B\n1,2'))
@@ -91,7 +92,7 @@ def test_csv_dthreejs_extension(app, db, webassets, bucket, record):
         assert 'data-csv-source="' in res.get_data(as_text=True)
 
 
-def test_zip_extension(app, db, webassets, bucket, record, zip_fp):
+def test_zip_extension(app, webassets, bucket, record, zip_fp):
     """Test view with pdf files."""
     create_file(
         record, bucket, 'test.zip', zip_fp)
@@ -99,6 +100,61 @@ def test_zip_extension(app, db, webassets, bucket, record, zip_fp):
     with app.test_client() as client:
         res = client.get(preview_url(record['recid'], 'test.zip'))
         assert 'Example.txt' in res.get_data(as_text=True)
+
+
+def test_json_extension(app, webassets, bucket, record):
+    """Test view with JSON files."""
+    json_data = '{"name":"invenio","num":42,'\
+                '"flt":3.14159,"lst":[1,2,3],'\
+                '"obj":{"field":"some","num":4}}'
+    create_file(record, bucket, 'test.json', BytesIO(b(json_data)))
+
+    with app.test_client() as client:
+        res = client.get(preview_url(record['recid'], 'test.json'))
+        assert 'class="language-json"' in res.get_data(as_text=True)
+
+        rendered_json = '{\n'\
+                        '    "name": "invenio",\n'\
+                        '    "num": 42,\n'\
+                        '    "flt": 3.14159,\n'\
+                        '    "lst": [\n'\
+                        '        1,\n'\
+                        '        2,\n'\
+                        '        3\n'\
+                        '    ],\n'\
+                        '    "obj": {\n'\
+                        '        "field": "some",\n'\
+                        '        "num": 4\n'\
+                        '    }\n'\
+                        '}'
+        assert rendered_json in res.get_data(as_text=True)
+
+
+def test_max_file_size(app, webassets, bucket, record):
+    """Test file size limitation."""
+    max_file_size = app.config.get(
+        'PREVIEWER_MAX_FILE_SIZE_BYTES', 1 * 1024 * 1024)
+    too_large_string = '1' * (max_file_size + 1)
+    create_file(record, bucket, 'test.json', BytesIO(b(too_large_string)))
+
+    with app.test_client() as client:
+        res = client.get(preview_url(record['recid'], 'test.json'))
+        assert 'we are unfortunately not' in res.get_data(as_text=True)
+
+
+def test_xml_extension(app, webassets, bucket, record):
+    """Test view with XML files."""
+    xml_data = b'<el a="some"><c>1</c><c>2</c></el>'
+    create_file(
+        record, bucket, 'test.xml', BytesIO(xml_data))
+
+    with app.test_client() as client:
+        res = client.get(preview_url(record['recid'], 'test.xml'))
+        assert 'class="language-markup"' in res.get_data(as_text=True)
+        assert '&lt;el a=&#34;some&#34;&gt;' in res.get_data(as_text=True)
+        assert '&lt;c&gt;1&lt;/c&gt;' in res.get_data(as_text=True)
+        assert '&lt;c&gt;2&lt;/c&gt;' in res.get_data(as_text=True)
+        assert '&lt;/el&gt;' in res.get_data(as_text=True)
 
 
 def test_view_macro_file_list(app):

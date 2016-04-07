@@ -29,6 +29,7 @@ Invenio module for previewing files:
 
 - Adrian Pawel Baran <adrian.pawel.baran@cern.ch>
 - Adrian-Tudor Panescu <adrian.tudor.panescu@cern.ch>
+- Alexander Ioannidis <a.ioannidis@cern.ch>
 - Javier Delgado <javier.delgado.fernandez@cern.ch>
 - Javier Delgado Fernandez <javier.delgado.fernandez@cern.ch>
 - Jiri Kuncar <jiri.kuncar@cern.ch>

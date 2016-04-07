@@ -110,3 +110,28 @@ fullscreen_js = Bundle(
     output='gen/fullscreen.%(version)s.js',
 )
 """JavaScript bundle for ZIP file previewer."""
+
+prism_js = Bundle(
+    NpmBundle(
+        npm={
+            "prismjs": "1.4.1",
+        },
+    ),
+    "node_modules/prismjs/prism.js",
+    "node_modules/prismjs/components/prism-json.js",
+    filters="uglifyjs",
+    output='gen/prism.%(version)s.js',
+)
+"""JavaScript bundle for prism.js syntax highlighter."""
+
+prism_css = Bundle(
+    NpmBundle(
+        npm={
+            "prismjs": "1.4.1",
+        },
+    ),
+    "node_modules/prismjs/themes/prism.css",
+    "css/prismjs/simple.css",
+    output='gen/prism.%(version)s.css'
+)
+"""CSS bundle for prism.js syntax highlighter."""

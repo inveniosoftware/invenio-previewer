@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
+{# -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015, 2016 CERN.
+# Copyright (C) 2016 CERN.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -21,32 +21,14 @@
 # In applying this license, CERN does not
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
+#}
 
-"""Package configuration."""
+{%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
 
-PREVIEWER_CSV_VALIDATION_BYTES = 1024
-"""Number of bytes read by CSV previewer to validate the file."""
-
-PREVIEWER_MAX_FILE_SIZE_BYTES = 1 * 1024 * 1024
-"""Maximum file size in bytes for JSON/XML files."""
-
-PREVIEWER_ZIP_MAX_FILES = 1000
-"""Max number of files showed in the ZIP previewer."""
-
-PREVIEWER_PREFERENCE = [
-    'csv_dthreejs',
-    'json_prismjs',
-    'xml_prismjs',
-    'mistune',
-    'pdfjs',
-    'zip',
-]
-"""Decides which previewers are available and their priority."""
-
-PREVIEWER_ABSTRACT_TEMPLATE = 'invenio_previewer/abstract_previewer.html'
-
-PREVIEWER_BASE_CSS_BUNDLES = ['invenio_theme_css']
-"""Basic bundle which includes Font-Awesome/Bootstrap."""
-
-PREVIEWER_BASE_JS_BUNDLES = ['invenio_theme_js']
-"""Basic bundle which includes Bootstrap/jQuery."""
+{% block panel %}
+<pre>
+  <code class="language-markup">
+    {{- content|e|safe -}}
+  </code>
+</pre>
+{% endblock %}
