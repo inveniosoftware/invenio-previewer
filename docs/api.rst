@@ -75,6 +75,13 @@ PDF (pdf.js)
    :members:
    :undoc-members:
 
+Simple Images
+~~~~~~~~~~~~~
+
+.. automodule:: invenio_previewer.extensions.simple_image
+   :members:
+   :undoc-members:
+
 XML (prism.js)
 ~~~~~~~~~~~~~~
 

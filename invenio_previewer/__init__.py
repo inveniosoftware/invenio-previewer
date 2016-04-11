@@ -33,6 +33,7 @@ module comes with viewers for the following files types:
 - CSV (using d3.js)
 - Markdown (using Mistune library)
 - XML and JSON (using Prism.js)
+- Simple images (PNG, JPG, GIF)
 
 Invenio-Previewer only provides the front-end layer for displaying previews
 of files. Specifically Invenio-Previewer does not take care of generating
@@ -207,6 +208,10 @@ This module contains several previewers out-of-the-box:
 
 - ``PDF`` - Previews a PDF file in your browser using `PDF.JS` library.
 
+- ``Simple Images``: Previews simple images. Supported formats are JPG, PNG
+  and GIF. There is also a configurable file size limit, which by default is
+  set to 512KB.
+
 - ``ZIP`` - Previews file tree inside the archive. You can specify a files
   limit to avoid a temporary lock in both of client and server side when you
   are dealing with large ZIP files. By default, this limit is set 1000 files.
@@ -220,7 +225,7 @@ Local vs. remote files
 Some of the bundled previewers are only working with locally managed  files
 (i.e. files stored in Invenio-Files-REST, which supports many different storage
 backends). This is the case for JSON, XML, CSV, Markdown and ZIP previewers.
-The PDF previewer doesn't need have the files stored locally.
+The PDF and Image previewer doesn't need to have the files stored locally.
 
 Override default previewer
 --------------------------
@@ -282,6 +287,7 @@ is going to be perfect in the case of this TXT previewer:
 >>>         'invenio_previewer.extensions.csv_dthreejs',
 >>>         'invenio_previewer.extensions.json_prismjs',
 >>>         'invenio_previewer.extensions.xml_prismjs',
+>>>         'invenio_previewer.extensions.simple_image',
 >>>         'invenio_previewer.extensions.mistune',
 >>>         'invenio_previewer.extensions.pdfjs',
 >>>         'invenio_previewer.extensions.zip',

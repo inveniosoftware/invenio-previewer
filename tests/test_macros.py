@@ -199,6 +199,17 @@ def test_ipynb_extension(app, webassets, bucket, record):
         assert 'This is an example notebook.' in res.get_data(as_text=True)
 
 
+def test_simple_image_extension(app, webassets, bucket, record):
+    """Test view with simple image files (PNG)."""
+    create_file(
+        record, bucket, 'test.png', BytesIO(b'Content not used'))
+
+    with app.test_client() as client:
+        res = client.get(preview_url(record['recid'], 'test.png'))
+        assert '<img src="' in res.get_data(as_text=True)
+        assert 'style="max-width: 100%;">' in res.get_data(as_text=True)
+
+
 def test_no_local_file(app, webassets, bucket, record):
     """Test a not local file which can not be previewed."""
     filename = 'default'

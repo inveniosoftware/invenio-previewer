@@ -151,12 +151,13 @@ setup(
             '= invenio_previewer.bundles:fullscreen_js',
             'previewer_prism_js '
             '= invenio_previewer.bundles:prism_js',
-            'previewer_prism_css = '
-            'invenio_previewer.bundles:prism_css',
+            'previewer_prism_css '
+            '= invenio_previewer.bundles:prism_css',
         ],
         'invenio_previewer.previewers': [
             'csv_dthreejs = invenio_previewer.extensions.csv_dthreejs',
             'json_prismjs = invenio_previewer.extensions.json_prismjs',
+            'simple_image = invenio_previewer.extensions.simple_image',
             'xml_prismjs = invenio_previewer.extensions.xml_prismjs',
             'mistune = invenio_previewer.extensions.mistune',
             'pdfjs = invenio_previewer.extensions.pdfjs',

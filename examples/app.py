@@ -94,7 +94,7 @@ example data:
 
 10. Open a web browser and enter to the url
 `http://localhost:5000/records/RECORD_PID/preview` where
-`RECORD_ID` is a number between 1 and 5.
+`RECORD_ID` is a number between 1 and 10.
 
 
 11. Open now a record that contains several files (The last record created).
@@ -164,7 +164,7 @@ def fixtures():
 
 def create_object(bucket, file_name, stream):
     """Object creation inside the bucket using the file and its content."""
-    ObjectVersion.create(bucket, file_name, stream=stream)
+    obj = ObjectVersion.create(bucket, file_name, stream=stream)
     rec_uuid = uuid4()
     provider = RecordIdProvider.create(object_type='rec', object_uuid=rec_uuid)
     data = {
@@ -173,6 +173,8 @@ def create_object(bucket, file_name, stream):
             {
                 'uri': '/files/{0}/{1}'.format(str(bucket.id), file_name),
                 'key': file_name,
+                'filename': file_name,
+                'size': obj.file.size,
                 'bucket': str(bucket.id),
                 'local': True
             }
@@ -193,32 +195,24 @@ def files():
     # Bucket
     bucket = Bucket.create(loc)
 
-    # Markdown file
-    markdown_file = 'markdown.md'
-    with open(os.path.join(data_path, markdown_file), 'rb') as fp:
-        create_object(bucket, markdown_file, fp)
+    # Example files from the data folder
+    example_files = (
+        'markdown.md',
+        'csvfile.csv',
+        'zipfile.zip',
+        'jsonfile.json',
+        'xmlfile.xml',
+        'notebook.ipynb',
+        'jpgfile.jpg',
+        'pngfile.png',
+    )
 
-    # CSV file
-    csv_file = 'csvfile.csv'
-    with open(os.path.join(data_path, csv_file), 'rb') as fp:
-        create_object(bucket, csv_file, fp)
+    # Create single file records
+    for f in example_files:
+        with open(os.path.join(data_path, f), 'rb') as fp:
+            create_object(bucket, f, fp)
 
-    # PDF file
-    pdf_file = 'pdffile.pdf'
-    with open(os.path.join(data_path, pdf_file), 'rb') as fp:
-        create_object(bucket, pdf_file, fp)
-
-    # ZIP file
-    zip_file = 'zipfile.zip'
-    with open(os.path.join(data_path, zip_file), 'rb') as fp:
-        create_object(bucket, zip_file, fp)
-
-    # IPYNB file
-    ipynb_file = 'notebook.ipynb'
-    with open(os.path.join(data_path, ipynb_file), 'rb') as fp:
-        create_object(bucket, ipynb_file, fp)
-
-    # Multiple files
+    # Create a multi-file record
     rec_uuid = uuid4()
     provider = RecordIdProvider.create(object_type='rec', object_uuid=rec_uuid)
     data = {
@@ -230,30 +224,17 @@ def files():
     template_file = {
         'uri': '/files/{0}/{1}',
         'key': '',
+        'filename': '',
         'bucket': str(bucket.id),
         'local': True
     }
 
-    # Creation of markdown file dictionary
-    markdown_file_data = template_file.copy()
-    markdown_file_data['uri'] = markdown_file_data['uri'].format(
-            str(bucket.id), markdown_file)
-    markdown_file_data['key'] = markdown_file
-    data['files'].append(markdown_file_data)
-
-    # Creation of csv file dictionary
-    csv_file_data = template_file.copy()
-    csv_file_data['uri'] = csv_file_data['uri'].format(
-            str(bucket.id), csv_file)
-    csv_file_data['key'] = csv_file
-    data['files'].append(csv_file_data)
-
-    # Creation of pdf file dictionary
-    pdf_file_data = template_file.copy()
-    pdf_file_data['uri'] = pdf_file_data['uri'].format(
-            str(bucket.id), pdf_file)
-    pdf_file_data['key'] = pdf_file
-    data['files'].append(pdf_file_data)
+    for filename in example_files:
+        file_data = template_file.copy()
+        file_data['uri'] = file_data['uri'].format(str(bucket.id), filename)
+        file_data['key'] = filename
+        file_data['filename'] = filename
+        data['files'].append(file_data)
 
     Record.create(data, id_=rec_uuid)
 

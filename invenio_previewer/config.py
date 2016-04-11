@@ -30,11 +30,15 @@ PREVIEWER_CSV_VALIDATION_BYTES = 1024
 PREVIEWER_MAX_FILE_SIZE_BYTES = 1 * 1024 * 1024
 """Maximum file size in bytes for JSON/XML files."""
 
+PREVIEWER_MAX_IMAGE_SIZE_BYTES = 0.5 * 1024 * 1024
+"""Maximum file size in bytes for image files."""
+
 PREVIEWER_ZIP_MAX_FILES = 1000
 """Max number of files showed in the ZIP previewer."""
 
 PREVIEWER_PREFERENCE = [
     'csv_dthreejs',
+    'simple_image',
     'json_prismjs',
     'xml_prismjs',
     'mistune',
