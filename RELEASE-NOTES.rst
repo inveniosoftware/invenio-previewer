@@ -1,8 +1,8 @@
 ============================
- Invenio-Previewer v1.0.0a1
+ Invenio-Previewer v1.0.0a2
 ============================
 
-Invenio-Previewer v1.0.0a1 was released on March 30, 2016.
+Invenio-Previewer v1.0.0a2 was released on April 22, 2016.
 
 About
 -----
@@ -19,7 +19,7 @@ What's new
 Installation
 ------------
 
-   $ pip install invenio-previewer==1.0.0a1
+   $ pip install invenio-previewer==1.0.0a2
 
 Documentation
 -------------
