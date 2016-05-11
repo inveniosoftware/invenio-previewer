@@ -173,7 +173,6 @@ def create_object(bucket, file_name, stream):
             {
                 'uri': '/files/{0}/{1}'.format(str(bucket.id), file_name),
                 'key': file_name,
-                'filename': file_name,
                 'size': obj.file.size,
                 'bucket': str(bucket.id),
                 'local': True
@@ -224,7 +223,6 @@ def files():
     template_file = {
         'uri': '/files/{0}/{1}',
         'key': '',
-        'filename': '',
         'bucket': str(bucket.id),
         'local': True
     }
@@ -233,7 +231,6 @@ def files():
         file_data = template_file.copy()
         file_data['uri'] = file_data['uri'].format(str(bucket.id), filename)
         file_data['key'] = filename
-        file_data['filename'] = filename
         data['files'].append(file_data)
 
     Record.create(data, id_=rec_uuid)

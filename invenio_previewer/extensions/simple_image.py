@@ -52,5 +52,5 @@ def preview(file):
         file_url=url_for(
             'invenio_files_rest.object_api',
             bucket_id=file.file['bucket'],
-            key=file.file['filename'])
+            key=file.file['key'])
     )

@@ -65,7 +65,7 @@ class PreviewFile(object):
 
     def has_extensions(self, *exts):
         """Check if file has one of the extensions."""
-        file_ext = splitext(self.file['filename'])[1]
+        file_ext = splitext(self.file['key'])[1]
         file_ext = file_ext.lower()
 
         for e in exts:
@@ -81,16 +81,16 @@ class PreviewFile(object):
 
         from invenio_files_rest.models import ObjectVersion
         assert 'bucket' in self.file
-        assert 'filename' in self.file
+        assert 'key' in self.file
 
-        obj = ObjectVersion.get(self.file['bucket'], self.file['filename'])
+        obj = ObjectVersion.get(self.file['bucket'], self.file['key'])
         return obj.file.storage().open()
 
 
 def get_file(pid, record, filename=None):
     """Return the PreviewFile associated with the record."""
     for f in record['files']:
-        if filename and f['filename'] == filename:
+        if filename and f['key'] == filename:
             return PreviewFile(f, pid, record)
 
 

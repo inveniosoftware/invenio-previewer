@@ -156,7 +156,7 @@ Let's create the record with the file information:
 ...     'control_number': provider.pid.pid_value,
 ...     'files': [
 ...         {
-...             'filename': obj.key,
+...             'key': obj.key,
 ...             'bucket': str(bucket.id),
 ...             'checksum': obj.file.checksum,
 ...             'size': obj.file.size,

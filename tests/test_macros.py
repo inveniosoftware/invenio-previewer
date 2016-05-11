@@ -39,7 +39,7 @@ def create_file(record, bucket, filename, stream):
         files=[dict(
             uri='/files/{0}/{1}'.format(str(bucket.id), filename),
             bucket=str(bucket.id),
-            filename=filename,
+            key=filename,
             size=obj.file.size
         ), ]
     ))
@@ -220,7 +220,7 @@ def test_no_local_file(app, webassets, bucket, record):
         files=[dict(
             uri='/files/{0}/{1}'.format(str(bucket.id), filename),
             bucket=str(bucket.id),
-            filename=filename,
+            key=filename,
             local=False,
         ), ]
     ))
@@ -238,13 +238,13 @@ def test_view_macro_file_list(app):
         files = [
             {
                 'uri': 'http://domain/test1.txt',
-                'filename': 'test1.txt',
+                'key': 'test1.txt',
                 'size': 10,
                 'date': '2016-07-12',
             },
             {
                 'uri': 'http://otherdomain/test2.txt',
-                'filename': 'test2.txt',
+                'key': 'test2.txt',
                 'size': 12,
                 'date': '2016-07-12',
             },
