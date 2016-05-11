@@ -58,7 +58,7 @@ def test_default_extension(app, webassets, bucket, record):
     create_file(record, bucket, 'testfile', BytesIO(b'empty'))
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid'], 'testfile'))
+        res = client.get(preview_url(record['control_number'], 'testfile'))
         assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
@@ -68,7 +68,7 @@ def test_markdown_extension(app, webassets, bucket, record):
         record, bucket, 'markdown.md', BytesIO(b'### Testing markdown ###'))
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid'], 'markdown.md'))
+        res = client.get(preview_url(record['control_number'], 'markdown.md'))
         assert '<h3>Testing markdown' in res.get_data(as_text=True)
 
 
@@ -78,7 +78,7 @@ def test_pdf_extension(app, webassets, bucket, record):
         record, bucket, 'test.pdf', BytesIO(b'Content not used'))
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid'], 'test.pdf'))
+        res = client.get(preview_url(record['control_number'], 'test.pdf'))
         assert 'PDFView.open(\'' in res.get_data(as_text=True)
 
 
@@ -88,7 +88,7 @@ def test_csv_dthreejs_extension(app, webassets, bucket, record):
         record, bucket, 'test.csv', BytesIO(b'A,B\n1,2'))
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid'], 'test.csv'))
+        res = client.get(preview_url(record['control_number'], 'test.csv'))
         assert 'data-csv-source="' in res.get_data(as_text=True)
 
 
@@ -98,7 +98,7 @@ def test_zip_extension(app, webassets, bucket, record, zip_fp):
         record, bucket, 'test.zip', zip_fp)
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid'], 'test.zip'))
+        res = client.get(preview_url(record['control_number'], 'test.zip'))
         assert 'Example.txt' in res.get_data(as_text=True)
 
 
@@ -110,7 +110,7 @@ def test_json_extension(app, webassets, bucket, record):
     create_file(record, bucket, 'test.json', BytesIO(b(json_data)))
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid'], 'test.json'))
+        res = client.get(preview_url(record['control_number'], 'test.json'))
         assert 'class="language-json"' in res.get_data(as_text=True)
 
         rendered_json = '{\n'\
@@ -138,7 +138,7 @@ def test_max_file_size(app, webassets, bucket, record):
     create_file(record, bucket, 'test.json', BytesIO(b(too_large_string)))
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid'], 'test.json'))
+        res = client.get(preview_url(record['control_number'], 'test.json'))
         assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
@@ -149,7 +149,7 @@ def test_xml_extension(app, webassets, bucket, record):
         record, bucket, 'test.xml', BytesIO(xml_data))
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid'], 'test.xml'))
+        res = client.get(preview_url(record['control_number'], 'test.xml'))
         assert 'class="language-markup"' in res.get_data(as_text=True)
         assert '&lt;el a=&#34;some&#34;&gt;' in res.get_data(as_text=True)
         assert '&lt;c&gt;1&lt;/c&gt;' in res.get_data(as_text=True)
@@ -195,7 +195,7 @@ def test_ipynb_extension(app, webassets, bucket, record):
 }'''))
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid'], 'test.ipynb'))
+        res = client.get(preview_url(record['control_number'], 'test.ipynb'))
         assert 'This is an example notebook.' in res.get_data(as_text=True)
 
 
@@ -205,7 +205,7 @@ def test_simple_image_extension(app, webassets, bucket, record):
         record, bucket, 'test.png', BytesIO(b'Content not used'))
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid'], 'test.png'))
+        res = client.get(preview_url(record['control_number'], 'test.png'))
         assert '<img src="' in res.get_data(as_text=True)
         assert 'style="max-width: 100%;">' in res.get_data(as_text=True)
 
@@ -228,7 +228,7 @@ def test_no_local_file(app, webassets, bucket, record):
     db.session.commit()
 
     with app.test_client() as client:
-        res = client.get(preview_url(record['recid'], filename))
+        res = client.get(preview_url(record['control_number'], filename))
         assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
