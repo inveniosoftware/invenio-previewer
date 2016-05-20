@@ -50,11 +50,11 @@ def _mock_entry_points(group=None):
             MockEntryPoint(
                 'default',
                 'invenio_previewer.extensions.default',
-                ),
+            ),
             MockEntryPoint(
                 'zip',
                 'invenio_previewer.extensions.zip',
-                ),
+            ),
         ],
     }
     names = data.keys() if group is None else [group]

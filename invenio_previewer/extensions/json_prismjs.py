@@ -46,7 +46,7 @@ def validate_json(file):
     """Validate a JSON file."""
     max_file_size = current_app.config.get(
         'PREVIEWER_MAX_FILE_SIZE_BYTES', 1 * 1024 * 1024)
-    if 'size' in file.file and file.file['size'] > max_file_size:
+    if file.size > max_file_size:
         return False
 
     with file.open() as fp:
@@ -68,7 +68,7 @@ def preview(file):
     """Render appropiate template with embed flag."""
     return render_template(
         'invenio_previewer/json_prismjs.html',
-        file=file.file,
+        file=file,
         content=render(file),
         js_bundles=['previewer_prism_js'],
         css_bundles=['previewer_prism_css'],

@@ -327,7 +327,7 @@
       {%- endassets %}
     {%- endfor %}
     <script>
-      PDFViewerApplication.open('{{ url_for('invenio_files_rest.object_api', bucket_id=file.bucket, key=file.key) }}');
+      PDFViewerApplication.open('{{ file.uri }}');
     </script>
   </body>
 </html>

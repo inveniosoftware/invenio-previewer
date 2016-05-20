@@ -55,3 +55,6 @@ PREVIEWER_BASE_CSS_BUNDLES = ['invenio_theme_css']
 
 PREVIEWER_BASE_JS_BUNDLES = ['invenio_theme_js']
 """Basic bundle which includes Bootstrap/jQuery."""
+
+PREVIEWER_RECORD_FILE_FACOTRY = None
+"""Factory for extracting files from records."""

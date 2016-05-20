@@ -53,7 +53,7 @@ def validate_csv(file):
         dialect = csv.Sniffer().sniff(content)
     except Exception as e:
         current_app.logger.debug(
-            'File {0} is not valid CSV: {1}'.format(file.file['uri'], e))
+            'File {0} is not valid CSV: {1}'.format(file.uri, e))
         return {
             'delimiter': '',
             'encoding': '',
@@ -94,7 +94,7 @@ def preview(file):
     file_info = validate_csv(file)
     return render_template(
         'invenio_previewer/csv_bar.html',
-        file=file.file,
+        file=file,
         delimiter=file_info['delimiter'],
         encoding=file_info['encoding'],
         js_bundles=current_previewer.js_bundles + ['previewer_zip_js'],

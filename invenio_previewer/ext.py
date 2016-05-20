@@ -27,10 +27,29 @@
 from __future__ import absolute_import, print_function
 
 import pkg_resources
-from werkzeug.utils import cached_property
+import six
+from flask import current_app
+from pkg_resources import DistributionNotFound, get_distribution
+from werkzeug.utils import cached_property, import_string
 
 from . import config
 from .views import blueprint
+
+
+def obj_or_import_string(value, default=None):
+    """Import string or return object."""
+    if isinstance(value, six.string_types):
+        return import_string(value)
+    elif value:
+        return value
+    return default
+
+
+def load_or_import_from_config(key, app=None, default=None):
+    """Load or import value from config."""
+    app = app or current_app
+    imp = app.config.get(key)
+    return obj_or_import_string(imp, default=default)
 
 
 class _InvenioPreviewerState(object):
@@ -50,6 +69,23 @@ class _InvenioPreviewerState(object):
             self.entry_point_group = None
         return self._previewable_extensions
 
+    @cached_property
+    def record_file_factory(self):
+        """Load default record file factory."""
+        try:
+            get_distribution('invenio-records-files')
+            from invenio_records_files.utils import record_file_factory
+            default = record_file_factory
+        except DistributionNotFound:
+            def default(pid, record, filename):
+                return None
+
+        return load_or_import_from_config(
+            'PREVIEWER_RECORD_FILE_FACOTRY',
+            app=self.app,
+            default=default,
+        )
+
     @property
     def css_bundles(self):
         return self.app.config['PREVIEWER_BASE_CSS_BUNDLES']
@@ -66,7 +102,7 @@ class _InvenioPreviewerState(object):
         self.previewers[name] = previewer
         if hasattr(previewer, 'previewable_extensions'):
             self._previewable_extensions |= set(
-                    previewer.previewable_extensions)
+                previewer.previewable_extensions)
 
     def load_entry_point_group(self, entry_point_group):
         """Load previewers from an entry point group."""

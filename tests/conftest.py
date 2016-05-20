@@ -44,10 +44,10 @@ from invenio_assets.cli import assets, collect, npm
 from invenio_db import db as db_
 from invenio_db import InvenioDB
 from invenio_files_rest import InvenioFilesREST
-from invenio_files_rest.models import Bucket, Location
+from invenio_files_rest.models import Bucket, Location, ObjectVersion
 from invenio_pidstore.providers.recordid import RecordIdProvider
 from invenio_records import InvenioRecords
-from invenio_records.api import Record
+from invenio_records_files.api import Record, RecordsBuckets
 from invenio_records_ui import InvenioRecordsUI
 from six import BytesIO
 from sqlalchemy_utils.functions import create_database, database_exists
@@ -79,6 +79,7 @@ def app():
                 pid_type='recid',
                 route='/records/<pid_value>/preview/<filename>',
                 view_imp='invenio_previewer.views:preview',
+                record_class='invenio_records_files.api:Record',
             ),
         ),
         SERVER_NAME='localhost'
@@ -157,6 +158,14 @@ def bucket(db, location):
 
 
 @pytest.fixture()
+def testfile(db, bucket):
+    """File system location."""
+    obj = ObjectVersion.create(bucket, 'testfile', stream=BytesIO(b'atest'))
+    db.session.commit()
+    return obj
+
+
+@pytest.fixture()
 def record(db):
     """Record fixture."""
     rec_uuid = uuid.uuid4()
@@ -166,6 +175,25 @@ def record(db):
         'control_number': provider.pid.pid_value,
         'title': 'TestDefault',
     }, id_=rec_uuid)
+    db.session.commit()
+    return record
+
+
+@pytest.fixture()
+def record_with_file(db, record, testfile):
+    """Record with a test file."""
+    rb = RecordsBuckets(record_id=record.id, bucket_id=testfile.bucket_id)
+    db.session.add(rb)
+    record.update(dict(
+        _files=[dict(
+            bucket=str(testfile.bucket_id),
+            key=testfile.key,
+            size=testfile.file.size,
+            checksum=str(testfile.file.checksum),
+            version_id=str(testfile.version_id),
+        ), ]
+    ))
+    record.commit()
     db.session.commit()
     return record
 

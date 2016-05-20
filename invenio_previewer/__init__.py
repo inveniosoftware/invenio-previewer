@@ -68,6 +68,7 @@ view function set to ``invenio_previewer.views:preview``:
 ...             pid_type='recid',
 ...             route='/records/<pid_value>/preview/<filename>',
 ...             view_imp='invenio_previewer.views:preview',
+...             record_class='invenio_records_files.api:Record',
 ...         ),
 ...     )
 ... )
@@ -151,19 +152,12 @@ Next, let's create a persistent identifier:
 
 Let's create the record with the file information:
 
->>> from invenio_records import Record
+>>> from invenio_records_files.api import Record, RecordsBuckets
 >>> data = {
 ...     'control_number': provider.pid.pid_value,
-...     'files': [
-...         {
-...             'key': obj.key,
-...             'bucket': str(bucket.id),
-...             'checksum': obj.file.checksum,
-...             'size': obj.file.size,
-...         }
-...     ]
 ... }
 >>> record = Record.create(data, id_=rec_uuid)
+>>> record.model.records_buckets = RecordsBuckets(bucket=bucket)
 >>> db.session.commit()
 
 Previewing file
@@ -310,6 +304,7 @@ bundle. Check ``Invenio-Assets`` out to learn how to add them.
 from __future__ import absolute_import, print_function
 
 from .ext import InvenioPreviewer
+from .proxies import current_previewer
 from .version import __version__
 
-__all__ = ('__version__', 'InvenioPreviewer')
+__all__ = ('__version__', 'current_previewer', 'InvenioPreviewer')

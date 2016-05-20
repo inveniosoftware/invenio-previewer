@@ -29,18 +29,22 @@ from __future__ import absolute_import, print_function
 from flask import render_template_string, url_for
 from invenio_db import db
 from invenio_files_rest.models import ObjectVersion
+from invenio_records_files.api import RecordsBuckets
 from six import BytesIO, b
 
 
 def create_file(record, bucket, filename, stream):
     """Create a file and add in record."""
     obj = ObjectVersion.create(bucket, filename, stream=stream)
+    rb = RecordsBuckets(record_id=record.id, bucket_id=obj.bucket_id)
+    db.session.add(rb)
     record.update(dict(
-        files=[dict(
-            uri='/files/{0}/{1}'.format(str(bucket.id), filename),
+        _files=[dict(
             bucket=str(bucket.id),
             key=filename,
-            size=obj.file.size
+            size=obj.file.size,
+            checksum=str(obj.file.checksum),
+            version_id=str(obj.version_id),
         ), ]
     ))
     record.commit()
@@ -208,28 +212,6 @@ def test_simple_image_extension(app, webassets, bucket, record):
         res = client.get(preview_url(record['control_number'], 'test.png'))
         assert '<img src="' in res.get_data(as_text=True)
         assert 'style="max-width: 100%;">' in res.get_data(as_text=True)
-
-
-def test_no_local_file(app, webassets, bucket, record):
-    """Test a not local file which can not be previewed."""
-    filename = 'default'
-    stream = BytesIO(b'empty')
-
-    ObjectVersion.create(bucket, filename, stream=stream)
-    record.update(dict(
-        files=[dict(
-            uri='/files/{0}/{1}'.format(str(bucket.id), filename),
-            bucket=str(bucket.id),
-            key=filename,
-            local=False,
-        ), ]
-    ))
-    record.commit()
-    db.session.commit()
-
-    with app.test_client() as client:
-        res = client.get(preview_url(record['control_number'], filename))
-        assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
 def test_view_macro_file_list(app):

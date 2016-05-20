@@ -27,10 +27,8 @@
 from __future__ import absolute_import, unicode_literals
 
 import nbformat
-
-from nbconvert import HTMLExporter
-
 from flask import render_template
+from nbconvert import HTMLExporter
 
 
 def render(file):
@@ -56,7 +54,9 @@ def preview(file):
     """Render the IPython Notebook."""
     body, resources = render(file)
     default_ipython_style = resources['inlining']['css'][1]
-    return render_template('invenio_previewer/ipynb.html',
-                           file=file.file,
-                           content=body,
-                           style=default_ipython_style)
+    return render_template(
+        'invenio_previewer/ipynb.html',
+        file=file,
+        content=body,
+        style=default_ipython_style
+    )

@@ -26,7 +26,7 @@
 
 from __future__ import absolute_import, print_function
 
-from flask import render_template, url_for
+from flask import render_template
 
 from ..proxies import current_previewer
 
@@ -42,12 +42,10 @@ def preview(file):
     """Preview file."""
     return render_template(
         'invenio_previewer/pdfjs.html',
-        file=file.file,
+        file=file,
         css_bundles=['previewer_pdfjs_css'],
-        js_bundles=['previewer_pdfjs_js',  'previewer_fullscreen_js'
-                    ] + current_previewer.js_bundles,
-        file_url=url_for(
-            'invenio_files_rest.object_api',
-            bucket_id=file.file['bucket'],
-            key=file.file['key'])
+        js_bundles=[
+            'previewer_pdfjs_js',
+            'previewer_fullscreen_js'
+        ] + current_previewer.js_bundles,
     )

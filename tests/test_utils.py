@@ -22,32 +22,15 @@
 # waive the privileges and immunities granted to it by virtue of its status
 # as an Intergovernmental Organization or submit itself to any jurisdiction.
 
-"""Previews simple image files."""
+"""Test of utilities module."""
 
 from __future__ import absolute_import, print_function
 
-from flask import current_app, render_template
-
-previewable_extensions = ['jpg', 'jpeg', 'png', 'gif']
+from invenio_previewer import current_previewer
 
 
-def validate(file):
-    """Validate a simple image file."""
-    max_file_size = current_app.config.get(
-        'PREVIEWER_MAX_IMAGE_SIZE_BYTES', 0.5 * 1024 * 1024)
-    return file.size <= max_file_size
-
-
-def can_preview(file):
-    """Determine if the given file can be previewed."""
-    supported_extensions = ('.jpg', '.jpeg', '.png', '.gif')
-    return file.has_extensions(*supported_extensions) and validate(file)
-
-
-def preview(file):
-    """Render appropiate template with embed flag."""
-    return render_template(
-        'invenio_previewer/simple_image.html',
-        file=file,
-        file_url=file.uri
-    )
+def test_default_file_reader(app, record_with_file, testfile):
+    """Test view by default."""
+    file_ = current_previewer.record_file_factory(
+        None, record_with_file, testfile.key)
+    assert file_.version_id == testfile.version_id
