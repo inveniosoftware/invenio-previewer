@@ -81,6 +81,12 @@ def app():
                 view_imp='invenio_previewer.views:preview',
                 record_class='invenio_records_files.api:Record',
             ),
+            recid_files=dict(
+                pid_type='recid',
+                route='/record/<pid_value>/files/<filename>',
+                view_imp='invenio_files_rest.views.file_download_ui',
+                record_class='invenio_records_files.api:Record',
+            ),
         ),
         SERVER_NAME='localhost'
     )
