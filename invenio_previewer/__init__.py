@@ -124,9 +124,30 @@ Invenio-Previewer looks into record's metadata to find which files can be
 viewed, so first we need to create a record with a persistent identifier and
 add a file into it.
 
+Creating a record
+~~~~~~~~~~~~~~~~~
+
+Let's start by creating a persistent identifier:
+
+>>> from uuid import uuid4
+>>> from invenio_pidstore.providers.recordid import RecordIdProvider
+>>> rec_uuid = uuid4()
+>>> provider = RecordIdProvider.create(
+...     object_type='rec', object_uuid=rec_uuid)
+
+Also, let's create the record:
+
+>>> from invenio_records_files.api import Record, RecordsBuckets
+>>> data = {
+...     'control_number': provider.pid.pid_value,
+... }
+>>> record = Record.create(data, id_=rec_uuid)
+>>> db.session.commit()
+
 Creating a file
 ~~~~~~~~~~~~~~~
-Let's start by creating a file in Invenio-Files-REST:
+Next, let's create an Invenio-Files-REST location + bucket and assign it to the
+record:
 
 >>> import tempfile
 >>> from six import BytesIO
@@ -135,29 +156,13 @@ Let's start by creating a file in Invenio-Files-REST:
 >>> tmpdir = tempfile.mkdtemp()
 >>> loc = Location(name='local', uri=tmpdir, default=True)
 >>> bucket = Bucket.create(loc)
->>> obj= ObjectVersion.create(
-...     bucket, 'markdown.md', stream=BytesIO(b'# Test MD'))
+>>> rb = RecordsBuckets(record_id=record.id, bucket_id=bucket.id)
+>>> db.session.add(rb)
 >>> db.session.commit()
 
-Creating a record
-~~~~~~~~~~~~~~~~~
+We can then add a file into the record:
 
-Next, let's create a persistent identifier:
-
->>> from uuid import uuid4
->>> from invenio_pidstore.providers.recordid import RecordIdProvider
->>> rec_uuid = uuid4()
->>> provider = RecordIdProvider.create(
-...     object_type='rec', object_uuid=rec_uuid)
-
-Let's create the record with the file information:
-
->>> from invenio_records_files.api import Record, RecordsBuckets
->>> data = {
-...     'control_number': provider.pid.pid_value,
-... }
->>> record = Record.create(data, id_=rec_uuid)
->>> record.model.records_buckets = RecordsBuckets(bucket=bucket)
+>>> record.files['markdown.md'] = BytesIO(b'# Test MD')
 >>> db.session.commit()
 
 Previewing file
