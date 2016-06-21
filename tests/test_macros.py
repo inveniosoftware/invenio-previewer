@@ -104,6 +104,7 @@ def test_zip_extension(app, webassets, bucket, record, zip_fp):
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.zip'))
         assert 'Example.txt' in res.get_data(as_text=True)
+        assert u'Lé UTF8 test.txt' in res.get_data(as_text=True)
 
 
 def test_json_extension(app, webassets, bucket, record):

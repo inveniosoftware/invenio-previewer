@@ -211,6 +211,7 @@ def zip_fp(db):
 
     zipf = ZipFile(fp, 'w')
     zipf.writestr('Example.txt', 'This is an example')
+    zipf.writestr('Lé UTF8 test.txt', 'This is an example')
     zipf.close()
 
     fp.seek(0)

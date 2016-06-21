@@ -31,6 +31,7 @@ import zipfile
 
 from flask import current_app, render_template
 
+from .._compat import text_type
 from ..proxies import current_previewer
 
 previewable_extensions = ['zip']
@@ -49,6 +50,8 @@ def make_tree(file):
             comps = info.filename.split(os.sep)
             node = tree
             for c in comps:
+                if not isinstance(c, text_type):
+                    c = c.decode('utf8')
                 if c not in node['children']:
                     if c == '':
                         node['type'] = 'folder'
