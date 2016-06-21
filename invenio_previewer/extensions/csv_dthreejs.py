@@ -70,8 +70,8 @@ def validate_csv(file):
                 dialect.delimiter.join(row).encode('utf-8'))
         is_valid = True
     except csv.Error as e:
-        current_app.logger.debug(
-            'File {0} is not valid CSV: {1}'.format(file.file['uri'], e))
+        current_app.logger.info(
+            'File {0} is not valid CSV: {1}'.format(file.file.key, e))
     finally:
         universal_detector.close()
 
