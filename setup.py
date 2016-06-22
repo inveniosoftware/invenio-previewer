@@ -49,7 +49,7 @@ tests_require = [
 
 extras_require = {
     'docs': [
-        'Sphinx>=1.3',
+        'Sphinx>=1.4.2',
     ],
     'files': [
         'invenio-files-rest>=1.0.0a1',
