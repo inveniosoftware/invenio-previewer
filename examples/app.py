@@ -38,7 +38,7 @@ r"""Minimal Flask application example for development.
 
 .. code-block:: console
 
-   $ flask -a app.py users create info@invenio-software.org -a
+   $ flask -a app.py users create info@inveniosoftware.org -a
 
 
 3. Collect npm, requirements from registered bundles:
@@ -89,7 +89,7 @@ example data:
 
 9. Login into the application. Open in a web browser
 `http://localhost:5000/login/ and use the user previously created
-(user: info@invenio-software.org).
+(user: info@inveniosoftware.org).
 
 
 10. Open a web browser and enter to the url
