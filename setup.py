@@ -48,7 +48,7 @@ tests_require = [
 ]
 
 extras_require = {
-    'docs': [
+    'docs': [   
         'Sphinx>=1.4.2',
     ],
     'files': [
@@ -153,6 +153,7 @@ setup(
             'previewer_csv_js = invenio_previewer.bundles:csv_previewer_js',
             'previewer_pdfjs_css = invenio_previewer.bundles:pdfjs_css',
             'previewer_pdfjs_js = invenio_previewer.bundles:pdfjs_js',
+            'video_css = invenio_previewer.bundles:video_css',
             'previewer_fullscreen_js '
             '= invenio_previewer.bundles:fullscreen_js',
             'previewer_prism_js '
@@ -169,6 +170,7 @@ setup(
             'pdfjs = invenio_previewer.extensions.pdfjs',
             'zip = invenio_previewer.extensions.zip',
             'ipynb = invenio_previewer.extensions.ipynb',
+            'video = invenio_previewer.extensions.video',
             'default = invenio_previewer.extensions.default',
         ],
     },

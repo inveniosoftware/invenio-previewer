@@ -44,6 +44,7 @@ PREVIEWER_PREFERENCE = [
     'mistune',
     'pdfjs',
     'ipynb',
+    'video',
     'zip',
 ]
 """Decides which previewers are available and their priority."""

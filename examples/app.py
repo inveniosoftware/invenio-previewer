@@ -103,7 +103,6 @@ You can use (`csvfile.csv`, `markdown.md`, `pdffile.pdf`)
 from __future__ import absolute_import, print_function
 
 import os
-import hashlib
 from uuid import uuid4
 
 from flask import Flask, render_template
@@ -117,14 +116,16 @@ from invenio_assets import InvenioAssets
 from invenio_db import InvenioDB, db
 from invenio_files_rest import InvenioFilesREST
 from invenio_files_rest.models import Bucket, Location, ObjectVersion
+from invenio_pidstore.minters import recid_minter
 from invenio_pidstore.providers.recordid import RecordIdProvider
-from invenio_records import InvenioRecords, Record as _RECORD
+from invenio_records import Record as _RECORD
+from invenio_records import InvenioRecords
+from invenio_records_files.api import Record
 from invenio_records_files.models import RecordsBuckets
 from invenio_records_ui import InvenioRecordsUI
-from invenio_records_files.api import Record
+
 from invenio_previewer import InvenioPreviewer
 from invenio_previewer.views import blueprint as previewer_blueprint
-
 
 # Create Flask application
 app = Flask(__name__)
@@ -173,31 +174,17 @@ app.register_blueprint(accounts_blueprint)
 
 def create_object(bucket, file_name, stream):
     """Object creation inside the bucket using the file and its content."""
-    obj = ObjectVersion.create(bucket, file_name, stream=stream)
     rec_uuid = uuid4()
 
-    provider = RecordIdProvider.create(
-        object_type='rec', object_uuid=rec_uuid
-    )
+    pid = recid_minter(rec_uuid, {})
 
-    data = {
-        'pid_value': provider.pid.pid_value,
-        'files': [
-            {
-                'bucket': str(bucket.id),
-                'key': file_name,
-                'size': obj.file.size,
-                'checksum': obj.file.checksum,
-                'version_id': str(obj.version_id),
-                'links':{
-                    'self': '/files/{0}/{1}'.format(str(bucket.id), file_name)
-                },
-                'type': str(os.path.splitext(file_name)[1][1:]),
-            }
-        ]
-    }
-    record = Record.create(data, id_=rec_uuid)
+    record = Record.create({}, id_=rec_uuid)
     rb = RecordsBuckets.create(record=record.model, bucket=bucket)
+
+    record.files[file_name] = stream
+    record.files[file_name]['filetype'] = str(
+        os.path.splitext(file_name)[1][1:]
+    )
 
 
 @app.cli.group()
@@ -227,6 +214,8 @@ def files():
         'notebook.ipynb',
         'jpgfile.jpg',
         'pngfile.png',
+        'mp4file.mp4',
+        'webmfile.webm',
     )
 
     # Create single file records
