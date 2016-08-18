@@ -30,22 +30,23 @@ r"""Minimal Flask application example for development.
 
    $ cd examples
    $ pip install -r requirements.txt
-   $ flask -a app.py db init
-   $ flask -a app.py db create
+   $ export FLASK_APP=app.py
+   $ flask db init
+   $ flask db create
 
 
-2. Create the database and the tables:
+2. Create the user:
 
 .. code-block:: console
 
-   $ flask -a app.py users create info@inveniosoftware.org -a
+   $ flask users create info@inveniosoftware.org -a
 
 
 3. Collect npm, requirements from registered bundles:
 
 .. code-block:: console
 
-   $ flask -a app.py npm
+   $ flask npm
 
 
 4. Install the npm packages:
@@ -62,14 +63,14 @@ application's static folder:
 
 .. code-block:: console
 
-   $ flask -a app.py collect -v
+   $ flask collect -v
 
 
 6. Build the assets as they are defined in bundle.py:
 
 .. code-block:: console
 
-   $ flask -a app.py assets build
+   $ flask assets build
 
 
 7. Run the fixture CLI tool in order to populate the database with
@@ -77,7 +78,7 @@ example data:
 
 .. code-block:: console
 
-   $ flask -a app.py fixtures files
+   $ flask fixtures files
 
 
 8. Run the test server:
@@ -87,17 +88,12 @@ example data:
    $ flask -a app.py run
 
 
-9. Login into the application. Open in a web browser
-`http://localhost:5000/login/ and use the user previously created
-(user: info@inveniosoftware.org).
-
-
-10. Open a web browser and enter to the url
+9. Open a web browser and enter to the url
 `http://localhost:5000/records/RECORD_PID/preview` where
 `RECORD_ID` is a number between 1 and 10.
 
 
-11. Open now a record that contains several files (The last record created).
+10. Open now a record that contains several files (The last record created).
 By default, it is showing the first document, but you can set another file
 using a query string like
 `http://localhost:5000/records/6/preview?filename=csvfile.csv`
@@ -107,22 +103,28 @@ You can use (`csvfile.csv`, `markdown.md`, `pdffile.pdf`)
 from __future__ import absolute_import, print_function
 
 import os
+import hashlib
 from uuid import uuid4
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_babelex import Babel
 from flask_cli import FlaskCLI
+from flask_menu import Menu
 from invenio_access import InvenioAccess
 from invenio_accounts import InvenioAccounts
+from invenio_accounts.views import blueprint as accounts_blueprint
 from invenio_assets import InvenioAssets
 from invenio_db import InvenioDB, db
 from invenio_files_rest import InvenioFilesREST
 from invenio_files_rest.models import Bucket, Location, ObjectVersion
 from invenio_pidstore.providers.recordid import RecordIdProvider
-from invenio_records import InvenioRecords, Record
+from invenio_records import InvenioRecords, Record as _RECORD
+from invenio_records_files.models import RecordsBuckets
 from invenio_records_ui import InvenioRecordsUI
-
+from invenio_records_files.api import Record
 from invenio_previewer import InvenioPreviewer
+from invenio_previewer.views import blueprint as previewer_blueprint
+
 
 # Create Flask application
 app = Flask(__name__)
@@ -137,16 +139,25 @@ app.config.update(
             pid_type='recid',
             route='/records/<pid_value>',
             template='invenio_records_ui/detail.html',
+            record_class='invenio_records_files.api:Record',
         ),
-        recid_previewer=dict(
+        recid_preview=dict(
             pid_type='recid',
-            route='/records/<pid_value>/preview',
-            view_imp='invenio_previewer.views:preview',
+            route='/records/<pid_value>/preview/<filename>',
+            view_imp='invenio_previewer.views.preview',
+            record_class='invenio_records_files.api:Record',
+        ),
+        recid_files=dict(
+            pid_type='recid',
+            route='/record/<pid_value>/files/<filename>',
+            view_imp='invenio_files_rest.views.file_download_ui',
+            record_class='invenio_records_files.api:Record',
         ),
     )
 )
 Babel(app)
 FlaskCLI(app)
+Menu(app)
 InvenioAccounts(app)
 InvenioAccess(app)
 InvenioDB(app)
@@ -157,29 +168,41 @@ InvenioPreviewer(app)
 InvenioRecordsUI(app)
 
 
-@app.cli.group()
-def fixtures():
-    """Command for working with test data."""
+app.register_blueprint(accounts_blueprint)
 
 
 def create_object(bucket, file_name, stream):
     """Object creation inside the bucket using the file and its content."""
     obj = ObjectVersion.create(bucket, file_name, stream=stream)
     rec_uuid = uuid4()
-    provider = RecordIdProvider.create(object_type='rec', object_uuid=rec_uuid)
+
+    provider = RecordIdProvider.create(
+        object_type='rec', object_uuid=rec_uuid
+    )
+
     data = {
         'pid_value': provider.pid.pid_value,
         'files': [
             {
-                'uri': '/files/{0}/{1}'.format(str(bucket.id), file_name),
+                'bucket': str(bucket.id),
                 'key': file_name,
                 'size': obj.file.size,
-                'bucket': str(bucket.id),
-                'local': True
+                'checksum': obj.file.checksum,
+                'version_id': str(obj.version_id),
+                'links':{
+                    'self': '/files/{0}/{1}'.format(str(bucket.id), file_name)
+                },
+                'type': str(os.path.splitext(file_name)[1][1:]),
             }
         ]
     }
-    Record.create(data, id_=rec_uuid)
+    record = Record.create(data, id_=rec_uuid)
+    rb = RecordsBuckets.create(record=record.model, bucket=bucket)
+
+
+@app.cli.group()
+def fixtures():
+    """Command for working with test data."""
 
 
 @fixtures.command()
@@ -213,25 +236,29 @@ def files():
 
     # Create a multi-file record
     rec_uuid = uuid4()
-    provider = RecordIdProvider.create(object_type='rec', object_uuid=rec_uuid)
+
+    provider = RecordIdProvider.create(
+        object_type='rec', object_uuid=rec_uuid
+    )
+
     data = {
         'pid_value': provider.pid.pid_value,
-        'files': []
+        '_files': []
     }
 
     # Template to create different files
     template_file = {
-        'uri': '/files/{0}/{1}',
-        'key': '',
         'bucket': str(bucket.id),
-        'local': True
+        'key': '',
+        'uri': '/files/{0}/{1}',
+        'local': True,
     }
 
     for filename in example_files:
         file_data = template_file.copy()
         file_data['uri'] = file_data['uri'].format(str(bucket.id), filename)
         file_data['key'] = filename
-        data['files'].append(file_data)
+        data['_files'].append(file_data)
 
     Record.create(data, id_=rec_uuid)
 
