@@ -68,6 +68,7 @@ setup_requires = [
 ]
 
 install_requires = [
+    'Flask>=0.11.1',
     'Flask-BabelEx>=0.9.3',
     'mistune>=0.7.2',
     'chardet>=2.3.0',

@@ -37,8 +37,8 @@ from zipfile import ZipFile
 import pytest
 from click.testing import CliRunner
 from flask import Flask
+from flask.cli import ScriptInfo
 from flask_babelex import Babel
-from flask_cli import FlaskCLI, ScriptInfo
 from invenio_assets import InvenioAssets
 from invenio_assets.cli import assets, collect, npm
 from invenio_db import db as db_
@@ -90,7 +90,6 @@ def app():
         ),
         SERVER_NAME='localhost'
     )
-    FlaskCLI(app_)
     Babel(app_)
     InvenioAssets(app_)
     InvenioDB(app_)

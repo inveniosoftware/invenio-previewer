@@ -111,7 +111,6 @@ from uuid import uuid4
 
 from flask import Flask
 from flask_babelex import Babel
-from flask_cli import FlaskCLI
 from invenio_access import InvenioAccess
 from invenio_accounts import InvenioAccounts
 from invenio_assets import InvenioAssets
@@ -146,7 +145,6 @@ app.config.update(
     )
 )
 Babel(app)
-FlaskCLI(app)
 InvenioAccounts(app)
 InvenioAccess(app)
 InvenioDB(app)
