@@ -36,6 +36,7 @@ history = open('CHANGES.rst').read()
 tests_require = [
     'check-manifest>=0.25',
     'coverage>=4.0',
+    'Flask-Assets>=0.12',
     'invenio-db[versioning]>=1.0.0a9',
     'invenio-records-files>=1.0.0a3',
     'isort>=4.2.2',

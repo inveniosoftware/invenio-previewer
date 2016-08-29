@@ -37,10 +37,11 @@ from zipfile import ZipFile
 import pytest
 from click.testing import CliRunner
 from flask import Flask
+from flask_assets import assets
 from flask_babelex import Babel
 from flask_cli import FlaskCLI, ScriptInfo
 from invenio_assets import InvenioAssets
-from invenio_assets.cli import assets, collect, npm
+from invenio_assets.cli import collect, npm
 from invenio_db import db as db_
 from invenio_db import InvenioDB
 from invenio_files_rest import InvenioFilesREST
