@@ -34,7 +34,7 @@
 {%- endblock %}
 
 {% block panel %}
-  <div id="d3_csv_previewer" data-csv-source="{{ file.uri }}"
+  <div id="d3_csv_previewer" data-csv-source="{{ url_for('invenio_records_ui.recid_download', pid_value=file.pid.pid_value, filename=file.file.key) }}"
        data-csv-delimiter="{{ delimiter }}" data-csv-encoding="{{ encoding }}"></div>
   <a data-csv-target="d3_csv_previewer" href="">{{ _('Show more') }}</a>
 {% endblock %}

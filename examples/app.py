@@ -94,7 +94,7 @@ example data:
 
 
 10. Open a web browser and enter to the url
-`http://localhost:5000/records/RECORD_PID/preview` where
+`http://localhost:5000/records/RECORD_PID/preview/FILENAME` where
 `RECORD_ID` is a number between 1 and 10.
 
 
@@ -119,7 +119,8 @@ from invenio_db import InvenioDB, db
 from invenio_files_rest import InvenioFilesREST
 from invenio_files_rest.models import Bucket, Location, ObjectVersion
 from invenio_pidstore.providers.recordid import RecordIdProvider
-from invenio_records import InvenioRecords, Record
+from invenio_records import InvenioRecords
+from invenio_records_files.api import Record, RecordsBuckets
 from invenio_records_ui import InvenioRecordsUI
 
 from invenio_previewer import InvenioPreviewer
@@ -138,10 +139,17 @@ app.config.update(
             route='/records/<pid_value>',
             template='invenio_records_ui/detail.html',
         ),
+        recid_download=dict(
+            pid_type='recid',
+            route='/records/<pid_value>/files/<filename>',
+            view_imp='invenio_files_rest.views.file_download_ui',
+            record_class='invenio_records_files.api:Record',
+        ),
         recid_previewer=dict(
             pid_type='recid',
-            route='/records/<pid_value>/preview',
+            route='/records/<pid_value>/preview/<filename>',
             view_imp='invenio_previewer.views:preview',
+            record_class='invenio_records_files.api:Record',
         ),
     )
 )
@@ -168,17 +176,19 @@ def create_object(bucket, file_name, stream):
     provider = RecordIdProvider.create(object_type='rec', object_uuid=rec_uuid)
     data = {
         'pid_value': provider.pid.pid_value,
-        'files': [
+        '_files': [
             {
-                'uri': '/files/{0}/{1}'.format(str(bucket.id), file_name),
-                'key': file_name,
+                'bucket': str(obj.bucket_id),
+                'key': obj.key,
                 'size': obj.file.size,
-                'bucket': str(bucket.id),
-                'local': True
+                'checksum': str(obj.file.checksum),
+                'version_id': str(obj.version_id),
             }
         ]
     }
-    Record.create(data, id_=rec_uuid)
+    record = Record.create(data, id_=rec_uuid)
+    rb = RecordsBuckets(record_id=record.id, bucket_id=obj.bucket_id)
+    db.session.add(rb)
 
 
 @fixtures.command()
@@ -188,10 +198,8 @@ def files():
 
     # Create location
     loc = Location(name='local', uri=data_path, default=True)
+    db.session.add(loc)
     db.session.commit()
-
-    # Bucket
-    bucket = Bucket.create(loc)
 
     # Example files from the data folder
     example_files = (
@@ -208,6 +216,9 @@ def files():
     # Create single file records
     for f in example_files:
         with open(os.path.join(data_path, f), 'rb') as fp:
+            # Bucket
+            bucket = Bucket.create(loc)
+
             create_object(bucket, f, fp)
 
     # Create a multi-file record
@@ -215,22 +226,19 @@ def files():
     provider = RecordIdProvider.create(object_type='rec', object_uuid=rec_uuid)
     data = {
         'pid_value': provider.pid.pid_value,
-        'files': []
-    }
-
-    # Template to create different files
-    template_file = {
-        'uri': '/files/{0}/{1}',
-        'key': '',
-        'bucket': str(bucket.id),
-        'local': True
+        '_files': []
     }
 
     for filename in example_files:
-        file_data = template_file.copy()
-        file_data['uri'] = file_data['uri'].format(str(bucket.id), filename)
-        file_data['key'] = filename
-        data['files'].append(file_data)
+        with open(os.path.join(data_path, f), 'rb') as fp:
+            obj = ObjectVersion.create(bucket, filename, stream=fp)
+            data['_files'].append({
+                'bucket': str(obj.bucket_id),
+                'key': obj.key,
+                'size': obj.file.size,
+                'checksum': str(obj.file.checksum),
+                'version_id': str(obj.version_id),
+            })
 
     Record.create(data, id_=rec_uuid)
 
