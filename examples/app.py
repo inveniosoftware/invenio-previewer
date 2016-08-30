@@ -30,22 +30,23 @@ r"""Minimal Flask application example for development.
 
    $ cd examples
    $ pip install -r requirements.txt
-   $ flask -a app.py db init
-   $ flask -a app.py db create
+   $ export FLASK_APP=app.py
+   $ flask db init
+   $ flask db create
 
 
 2. Create the database and the tables:
 
 .. code-block:: console
 
-   $ flask -a app.py users create info@inveniosoftware.org -a
+   $ flask users create info@inveniosoftware.org -a
 
 
 3. Collect npm, requirements from registered bundles:
 
 .. code-block:: console
 
-   $ flask -a app.py npm
+   $ flask npm
 
 
 4. Install the npm packages:
@@ -62,14 +63,14 @@ application's static folder:
 
 .. code-block:: console
 
-   $ flask -a app.py collect -v
+   $ flask collect -v
 
 
 6. Build the assets as they are defined in bundle.py:
 
 .. code-block:: console
 
-   $ flask -a app.py assets build
+   $ flask assets build
 
 
 7. Run the fixture CLI tool in order to populate the database with
@@ -77,14 +78,14 @@ example data:
 
 .. code-block:: console
 
-   $ flask -a app.py fixtures files
+   $ flask fixtures files
 
 
 8. Run the test server:
 
 .. code-block:: console
 
-   $ flask -a app.py run
+   $ flask run
 
 
 9. Login into the application. Open in a web browser
@@ -111,7 +112,6 @@ from uuid import uuid4
 
 from flask import Flask
 from flask_babelex import Babel
-from flask_cli import FlaskCLI
 from invenio_access import InvenioAccess
 from invenio_accounts import InvenioAccounts
 from invenio_assets import InvenioAssets
@@ -146,7 +146,6 @@ app.config.update(
     )
 )
 Babel(app)
-FlaskCLI(app)
 InvenioAccounts(app)
 InvenioAccess(app)
 InvenioDB(app)
