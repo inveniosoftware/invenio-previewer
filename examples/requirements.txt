@@ -1,3 +1,10 @@
-invenio-access>=1.0.0a4
-invenio-accounts>=1.0.0a9
-invenio-db>=1.0.0a9
+flask-menu
+invenio-access>=1.0.0a9
+invenio-accounts>=1.0.0a13
+invenio-assets>=1.0.0b1
+invenio-db>=1.0.0a10
+invenio-files_rest>=1.0.0a6
+invenio-pidstore>=1.0.0a9
+invenio-records>=1.0.0a17
+invenio-records_ui>=1.0.0a7
+invenio-previewer>=1.0.0a5

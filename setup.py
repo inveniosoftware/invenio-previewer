@@ -48,7 +48,7 @@ tests_require = [
 ]
 
 extras_require = {
-    'docs': [
+    'docs': [   
         'Sphinx>=1.4.2',
     ],
     'files': [
@@ -71,9 +71,15 @@ install_requires = [
     'Flask-BabelEx>=0.9.3',
     'mistune>=0.7.2',
     'chardet>=2.3.0',
-    'invenio-assets>=1.0.0a3',
-    'invenio-pidstore>=1.0.0a6',
-    'invenio-records-ui>=1.0.0a4',
+    'invenio-access>=1.0.0a9',
+    'invenio-accounts>=1.0.0a13',
+    'invenio_assets>=1.0.0b1',
+    'invenio_db>=1.0.0a10',
+    'invenio_files_rest>=1.0.0a6',
+    'invenio_pidstore>=1.0.0a9',
+    'invenio_previewer>=1.0.0a5',
+    'invenio_records>=1.0.0a17',
+    'invenio_records_ui>=1.0.0a7',
     'ipython>=4.1.0',
     'nbconvert>=4.1.0',
     'nbformat>=4.0.1',
@@ -147,6 +153,7 @@ setup(
             'previewer_csv_js = invenio_previewer.bundles:csv_previewer_js',
             'previewer_pdfjs_css = invenio_previewer.bundles:pdfjs_css',
             'previewer_pdfjs_js = invenio_previewer.bundles:pdfjs_js',
+            'video_css = invenio_previewer.bundles:video_css',
             'previewer_fullscreen_js '
             '= invenio_previewer.bundles:fullscreen_js',
             'previewer_prism_js '
@@ -163,6 +170,7 @@ setup(
             'pdfjs = invenio_previewer.extensions.pdfjs',
             'zip = invenio_previewer.extensions.zip',
             'ipynb = invenio_previewer.extensions.ipynb',
+            'video = invenio_previewer.extensions.video',
             'default = invenio_previewer.extensions.default',
         ],
     },

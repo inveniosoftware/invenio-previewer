@@ -120,3 +120,9 @@ prism_css = Bundle(
     output='gen/prism.%(version)s.css'
 )
 """CSS bundle for prism.js syntax highlighter."""
+
+video_css = Bundle(
+    "css/video/video.css",
+    output='gen/video.%(version)s.css',
+)
+"""CSS bundle for Video previewer."""
