@@ -27,12 +27,6 @@
 
 {%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
 
-{%- block head %}
-  {{ super() }}
-  {#- Javascript for CSV Previewer #}
-  {% assets "csv_previewer_js" %}<script src="{{ ASSET_URL }}"></script>{% endassets %}
-{%- endblock %}
-
 {% block panel %}
   <div id="d3_csv_previewer" data-csv-source="{{ file.uri }}"
        data-csv-delimiter="{{ delimiter }}" data-csv-encoding="{{ encoding }}"></div>
