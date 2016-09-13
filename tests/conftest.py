@@ -38,9 +38,10 @@ import pytest
 from click.testing import CliRunner
 from flask import Flask
 from flask.cli import ScriptInfo
+from flask_assets import assets
 from flask_babelex import Babel
 from invenio_assets import InvenioAssets
-from invenio_assets.cli import assets, collect, npm
+from invenio_assets.cli import collect, npm
 from invenio_db import db as db_
 from invenio_db import InvenioDB
 from invenio_files_rest import InvenioFilesREST
@@ -53,6 +54,7 @@ from six import BytesIO
 from sqlalchemy_utils.functions import create_database, database_exists
 
 from invenio_previewer import InvenioPreviewer
+from invenio_previewer.bundles import previewer_base_css, previewer_base_js
 
 
 @pytest.yield_fixture(scope='session', autouse=True)
@@ -91,12 +93,18 @@ def app():
         SERVER_NAME='localhost'
     )
     Babel(app_)
-    InvenioAssets(app_)
+    assets_ext = InvenioAssets(app_)
     InvenioDB(app_)
     InvenioRecords(app_)
-    InvenioPreviewer(app_)
+    previewer = InvenioPreviewer(app_)._state
     InvenioRecordsUI(app_)
     InvenioFilesREST(app_)
+
+    # Add base assets bundles for jQuery and Bootstrap
+    # Note: These bundles aren't included by default since package consumers
+    # should handle assets and their dependencies manually.
+    assets_ext.env.register(previewer.js_bundles[0], previewer_base_js)
+    assets_ext.env.register(previewer.css_bundles[0], previewer_base_css)
 
     with app_.app_context():
         yield app_
