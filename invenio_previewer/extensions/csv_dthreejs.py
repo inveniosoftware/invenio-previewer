@@ -28,7 +28,7 @@ from __future__ import absolute_import, print_function
 
 import csv
 
-from chardet.universaldetector import UniversalDetector
+import chardet
 from flask import current_app, render_template
 
 from ..proxies import current_previewer
@@ -39,45 +39,25 @@ previewable_extensions = ['csv', 'dsv']
 def validate_csv(file):
     """Return dialect information about given csv file."""
     # Read first X bytes from file.
-    fp = file.open()
-    try:
-        content = fp.read(
+    with file.open() as fp:
+        sample = fp.read(
             current_app.config.get('PREVIEWER_CSV_VALIDATION_BYTES', 1024)
-        ).decode('utf-8')
-    finally:
-        fp.close()
-
-    # Snif dialect of CSV using csv module.
-    is_valid = False
+        )
     try:
-        dialect = csv.Sniffer().sniff(content)
+        # Detect encoding and dialect
+        encoding = chardet.detect(sample).get('encoding')
+        delimiter = csv.Sniffer().sniff(sample.decode(encoding))
+        is_valid = True
     except Exception as e:
         current_app.logger.debug(
             'File {0} is not valid CSV: {1}'.format(file.uri, e))
-        return {
-            'delimiter': '',
-            'encoding': '',
-            'is_valid': False
-        }
-
-    # Snif dialect of CSV using chardet module.
-    universal_detector = UniversalDetector()
-    dialect.strict = True
-    reader = csv.reader(content, dialect)
-    try:
-        for row in reader:
-            universal_detector.feed(
-                dialect.delimiter.join(row).encode('utf-8'))
-        is_valid = True
-    except csv.Error as e:
-        current_app.logger.info(
-            'File {0} is not valid CSV: {1}'.format(file.file.key, e))
-    finally:
-        universal_detector.close()
+        encoding = ''
+        delimiter = ''
+        is_valid = False
 
     return {
-        'delimiter': dialect.delimiter,
-        'encoding': universal_detector.result['encoding'],
+        'delimiter': delimiter,
+        'encoding': encoding,
         'is_valid': is_valid
     }
 
