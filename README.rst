@@ -46,4 +46,4 @@ Invenio module for previewing files.
 *This is an experimental developer preview release.*
 
 * Free software: GPLv2 license
-* Documentation: https://pythonhosted.org/invenio-previewer/
+* Documentation: https://invenio-previewer.readthedocs.io/

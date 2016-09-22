@@ -32,7 +32,7 @@ Installation
 Documentation
 -------------
 
-   http://pythonhosted.org/invenio-previewer/
+   https://invenio-previewer.readthedocs.io/
 
 Happy hacking and thanks for flying Invenio-Previewer.
 
