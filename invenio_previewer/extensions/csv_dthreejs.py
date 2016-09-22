@@ -46,7 +46,7 @@ def validate_csv(file):
     try:
         # Detect encoding and dialect
         encoding = chardet.detect(sample).get('encoding')
-        delimiter = csv.Sniffer().sniff(sample.decode(encoding))
+        delimiter = csv.Sniffer().sniff(sample.decode(encoding)).delimiter
         is_valid = True
     except Exception as e:
         current_app.logger.debug(

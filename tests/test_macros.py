@@ -92,6 +92,16 @@ def test_csv_dthreejs_extension(app, webassets, bucket, record):
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.csv'))
         assert 'data-csv-source="' in res.get_data(as_text=True)
+        assert 'data-csv-delimiter=","' in res.get_data(as_text=True)
+
+
+def test_csv_dthreejs_delimiter(app, webassets, bucket, record):
+    """Test view with csv files."""
+    create_file(record, bucket, 'test.csv', BytesIO(b'A#B\n1#2'))
+    with app.test_client() as client:
+        res = client.get(preview_url(record['control_number'], 'test.csv'))
+        assert 'data-csv-source="' in res.get_data(as_text=True)
+        assert 'data-csv-delimiter="#"' in res.get_data(as_text=True)
 
 
 def test_zip_extension(app, webassets, bucket, record, zip_fp):
