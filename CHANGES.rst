@@ -25,16 +25,7 @@
 Changes
 =======
 
-Version 1.0.0a7 (release 2016-09-22)
-------------------------------------
-
-- Detects encoding of zipped filenames before attempting to preview.
-- Handles a wider variety of files than Python's csv module can't
-  support (e.g. unsupported Unicode characters and encodings).
-- Properly handles invalid zipfiles.
-
-
-Version 1.0.0a6 (release 2016-09-13)
+Version 1.0.0a8 (release 2016-09-23)
 ------------------------------------
 
 - Initial public release.
