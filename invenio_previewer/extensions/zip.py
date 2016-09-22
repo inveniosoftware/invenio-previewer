@@ -28,6 +28,8 @@ from __future__ import absolute_import, print_function
 
 import os
 import zipfile
+import chardet
+from six import binary_type
 
 from flask import current_app, render_template
 
@@ -40,33 +42,45 @@ previewable_extensions = ['zip']
 def make_tree(file):
     """Create tree structure from ZIP archive."""
     max_files_count = current_app.config.get('PREVIEWER_ZIP_MAX_FILES', 1000)
-    fp = file.open()
-    zf = zipfile.ZipFile(fp)
     tree = {'type': 'folder', 'id': -1, 'children': {}}
+
     try:
-        for i, info in enumerate(zf.infolist()):
-            if i > max_files_count:
-                raise BufferError('Too much files inside the ZIP file')
-            comps = info.filename.split(os.sep)
-            node = tree
-            for c in comps:
-                if not isinstance(c, text_type):
-                    c = c.decode('utf8')
-                if c not in node['children']:
-                    if c == '':
-                        node['type'] = 'folder'
-                        continue
-                    node['children'][c] = {
-                        'name': c, 'type': 'item', 'id': 'item{0}'.format(i),
-                        'children': {}}
-                node = node['children'][c]
-            node['size'] = info.file_size
+        with file.open() as fp:
+            zf = zipfile.ZipFile(fp)
+            # Detect filenames encoding.
+            sample = ' '.join(zf.namelist()[:max_files_count])
+            if not isinstance(sample, binary_type):
+                sample = sample.encode('utf-16be')
+            encoding = chardet.detect(sample).get('encoding')
+            for i, info in enumerate(zf.infolist()):
+                if i > max_files_count:
+                    raise BufferError('Too many files inside the ZIP file.')
+                comps = info.filename.split(os.sep)
+                node = tree
+                for c in comps:
+                    if not isinstance(c, text_type):
+                        c = c.decode(encoding)
+                    if c not in node['children']:
+                        if c == '':
+                            node['type'] = 'folder'
+                            continue
+                        node['children'][c] = {
+                            'name': c,
+                            'type': 'item',
+                            'id': 'item{0}'.format(i),
+                            'children': {}
+                        }
+                    node = node['children'][c]
+                node['size'] = info.file_size
     except BufferError:
-        return tree, True
+        return tree, True, None
+    except (zipfile.error, zipfile.LargeZipFile) as e:
+        current_app.logger.warning(str(e), exc_info=True)
+        return tree, False, 'Zipfile is not previewable.'
     finally:
         fp.close()
 
-    return tree, False
+    return tree, False, None
 
 
 def children_to_list(node):
@@ -88,13 +102,14 @@ def can_preview(file):
 
 def preview(file):
     """Return appropriate template and pass the file and an embed flag."""
-    tree, limit_reached = make_tree(file)
+    tree, limit_reached, error = make_tree(file)
     list = children_to_list(tree)['children']
     return render_template(
         "invenio_previewer/zip.html",
         file=file,
         tree=list,
         limit_reached=limit_reached,
+        error=error,
         js_bundles=current_previewer.js_bundles + ['previewer_fullscreen_js'],
         css_bundles=current_previewer.css_bundles,
     )

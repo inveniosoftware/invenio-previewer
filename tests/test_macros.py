@@ -26,7 +26,6 @@
 
 from __future__ import absolute_import, print_function
 
-import pytest
 from flask import render_template_string, url_for
 from invenio_db import db
 from invenio_files_rest.models import ObjectVersion
@@ -96,7 +95,7 @@ def test_csv_dthreejs_extension(app, webassets, bucket, record):
 
 
 def test_zip_extension(app, webassets, bucket, record, zip_fp):
-    """Test view with pdf files."""
+    """Test view with a zip file."""
     create_file(
         record, bucket, 'test.zip', zip_fp)
 
@@ -104,6 +103,16 @@ def test_zip_extension(app, webassets, bucket, record, zip_fp):
         res = client.get(preview_url(record['control_number'], 'test.zip'))
         assert 'Example.txt' in res.get_data(as_text=True)
         assert u'Lé UTF8 test.txt' in res.get_data(as_text=True)
+
+
+def test_invalid_zip(app, webassets, bucket, record):
+    """Test view with an invalid zipfile."""
+    create_file(
+        record, bucket, 'test.zip', BytesIO(b'not a zipfile'))
+
+    with app.test_client() as client:
+        res = client.get(preview_url(record['control_number'], 'test.zip'))
+        assert 'Zipfile is not previewable' in res.get_data(as_text=True)
 
 
 def test_json_extension(app, webassets, bucket, record):

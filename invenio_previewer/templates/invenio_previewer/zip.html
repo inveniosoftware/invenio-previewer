@@ -56,16 +56,24 @@
 
 {%- block panel %}
 <div class="panel panel-default">
-  <div class="panel-heading">
-    <div class="panel-title">
-      <i class="fa fa-file-zip-o"></i> {{ file.filename }}
-      <div id="fullScreenMode" title="{{ _('Full screen') }}" class="pull-right"><i class="fa fa-fw fa-arrows-alt"></i></div>
-    </div>
-  </div>
-  {% if- limit_reached %}
+{% if error %}
   <div class="panel-heading panel-heading-alert">
     <div class="panel-title">
-      <i class="fa fa-exclamation"></i>
+      <i class="fa fa-fw fa-exclamation"></i>
+      {{ _(error) }}
+    </div>
+  </div>
+{% else %}
+<div class="panel-heading">
+  <div class="panel-title">
+    <i class="fa fa-file-zip-o"></i> {{ file.filename }}
+    <div id="fullScreenMode" title="{{ _('Full screen') }}" class="pull-right"><i class="fa fa-fw fa-arrows-alt"></i></div>
+  </div>
+</div>
+  {%- if limit_reached %}
+  <div class="panel-heading panel-heading-alert">
+    <div class="panel-title">
+      <i class="fa fa-fw fa-exclamation"></i>
       {{ _('The previewer is not showing all the files') }}
     </div>
   </div>
@@ -91,5 +99,6 @@
       {%- endfor %}
     </ul>
   </div>
+{%- endif %}
 </div>
 {%- endblock %}

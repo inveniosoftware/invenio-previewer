@@ -217,8 +217,8 @@ def zip_fp(db):
     fp = BytesIO()
 
     zipf = ZipFile(fp, 'w')
-    zipf.writestr('Example.txt', 'This is an example')
-    zipf.writestr('Lé UTF8 test.txt', 'This is an example')
+    zipf.writestr('Example.txt', 'This is an example'.encode('utf-8'))
+    zipf.writestr(u'Lé UTF8 test.txt', 'This is an example'.encode('utf-8'))
     zipf.close()
 
     fp.seek(0)
