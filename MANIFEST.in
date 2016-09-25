@@ -30,6 +30,7 @@ include .editorconfig
 include .tx/config
 include babel.ini
 include docs/requirements.txt
+include docs/requirements.txt
 include examples/requirements.txt
 include LICENSE
 include pytest.ini

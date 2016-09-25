@@ -1,1 +1,2 @@
 -e .[docs,files,tests]
+-e .[docs,tests]
