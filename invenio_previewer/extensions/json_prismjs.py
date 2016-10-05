@@ -31,15 +31,18 @@ from collections import OrderedDict
 
 from flask import current_app, render_template
 
+from ..utils import detect_encoding
+
 previewable_extensions = ['json']
 
 
 def render(file):
     """Pretty print the JSON file for rendering."""
     with file.open() as fp:
-        file_content = fp.read().decode('utf-8')
-        parsed_json = json.loads(file_content, object_pairs_hook=OrderedDict)
-        return json.dumps(parsed_json, indent=4, separators=(',', ': '))
+        encoding = detect_encoding(fp, default='utf-8')
+        file_content = fp.read().decode(encoding)
+        json_data = json.loads(file_content, object_pairs_hook=OrderedDict)
+        return json.dumps(json_data, indent=4, separators=(',', ': '))
 
 
 def validate_json(file):

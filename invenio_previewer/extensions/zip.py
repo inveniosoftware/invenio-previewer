@@ -28,10 +28,10 @@ from __future__ import absolute_import, print_function
 
 import os
 import zipfile
-import chardet
-from six import binary_type
 
+import cchardet as chardet
 from flask import current_app, render_template
+from six import binary_type
 
 from .._compat import text_type
 from ..proxies import current_previewer
@@ -51,7 +51,7 @@ def make_tree(file):
             sample = ' '.join(zf.namelist()[:max_files_count])
             if not isinstance(sample, binary_type):
                 sample = sample.encode('utf-16be')
-            encoding = chardet.detect(sample).get('encoding')
+            encoding = chardet.detect(sample).get('encoding', 'utf-8')
             for i, info in enumerate(zf.infolist()):
                 if i > max_files_count:
                     raise BufferError('Too many files inside the ZIP file.')
@@ -74,11 +74,11 @@ def make_tree(file):
                 node['size'] = info.file_size
     except BufferError:
         return tree, True, None
-    except (zipfile.error, zipfile.LargeZipFile) as e:
+    except (zipfile.LargeZipFile):
+        return tree, False, 'Zipfile is too large to be previewed.'
+    except Exception as e:
         current_app.logger.warning(str(e), exc_info=True)
         return tree, False, 'Zipfile is not previewable.'
-    finally:
-        fp.close()
 
     return tree, False, None
 

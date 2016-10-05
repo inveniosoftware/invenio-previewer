@@ -30,13 +30,16 @@ import xml.dom.minidom
 
 from flask import current_app, render_template
 
+from ..utils import detect_encoding
+
 previewable_extensions = ['xml']
 
 
 def render(file):
     """Pretty print the XML file for rendering."""
     with file.open() as fp:
-        file_content = fp.read().decode('utf-8')
+        encoding = detect_encoding(fp, default='utf-8')
+        file_content = fp.read().decode(encoding)
         parsed_xml = xml.dom.minidom.parseString(file_content)
         return parsed_xml.toprettyxml(indent='  ', newl='')
 

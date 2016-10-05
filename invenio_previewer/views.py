@@ -26,7 +26,7 @@
 
 from __future__ import absolute_import, print_function
 
-from flask import Blueprint, abort, request
+from flask import Blueprint, abort, current_app, request
 
 from .api import PreviewFile
 from .extensions import default
@@ -76,8 +76,15 @@ def preview(pid, record, template=None):
     for plugin in current_previewer.iter_previewers(
             previewers=[file_previewer] if file_previewer else None):
         if plugin.can_preview(fileobj):
-            return plugin.preview(fileobj)
-
+            try:
+                return plugin.preview(fileobj)
+            except Exception:
+                current_app.logger.warning(
+                    ('Preview failed for {key}, in {pid_type}:{pid_value}'
+                     .format(key=fileobj.file.key,
+                             pid_type=fileobj.pid.pid_type,
+                             pid_value=fileobj.pid.pid_value)),
+                    exc_info=True)
     return default.preview(fileobj)
 
 

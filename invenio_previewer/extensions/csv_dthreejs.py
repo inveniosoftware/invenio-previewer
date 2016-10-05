@@ -28,26 +28,24 @@ from __future__ import absolute_import, print_function
 
 import csv
 
-import chardet
 from flask import current_app, render_template
 
 from ..proxies import current_previewer
+from ..utils import detect_encoding
 
 previewable_extensions = ['csv', 'dsv']
 
 
 def validate_csv(file):
     """Return dialect information about given csv file."""
-    # Read first X bytes from file.
-    with file.open() as fp:
-        sample = fp.read(
-            current_app.config.get('PREVIEWER_CSV_VALIDATION_BYTES', 1024)
-        )
     try:
         # Detect encoding and dialect
-        encoding = chardet.detect(sample).get('encoding')
-        delimiter = csv.Sniffer().sniff(sample.decode(encoding)).delimiter
-        is_valid = True
+        with file.open() as fp:
+            encoding = detect_encoding(fp, default='utf-8')
+            sample = fp.read(
+                current_app.config.get('PREVIEWER_CSV_VALIDATION_BYTES', 1024))
+            delimiter = csv.Sniffer().sniff(sample.decode(encoding)).delimiter
+            is_valid = True
     except Exception as e:
         current_app.logger.debug(
             'File {0} is not valid CSV: {1}'.format(file.uri, e))
