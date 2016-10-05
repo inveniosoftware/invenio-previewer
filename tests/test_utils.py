@@ -26,7 +26,11 @@
 
 from __future__ import absolute_import, print_function
 
+from mock import patch
+from six import BytesIO
+
 from invenio_previewer import current_previewer
+from invenio_previewer.utils import detect_encoding
 
 
 def test_default_file_reader(app, record_with_file, testfile):
@@ -34,3 +38,14 @@ def test_default_file_reader(app, record_with_file, testfile):
     file_ = current_previewer.record_file_factory(
         None, record_with_file, testfile.key)
     assert file_.version_id == testfile.version_id
+
+
+def test_detect_encoding(app):
+    """Test encoding detection."""
+    f = BytesIO(u'Γκρήκ Στρίνγκ'.encode('utf-8'))
+    initial_position = f.tell()
+    assert detect_encoding(f).lower() == 'utf-8'
+    assert f.tell() == initial_position
+
+    with patch('cchardet.detect', Exception):
+        assert detect_encoding(f) is None

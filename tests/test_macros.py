@@ -26,10 +26,13 @@
 
 from __future__ import absolute_import, print_function
 
+import zipfile
+
 from flask import render_template_string, url_for
 from invenio_db import db
 from invenio_files_rest.models import ObjectVersion
 from invenio_records_files.api import RecordsBuckets
+from mock import patch
 from six import BytesIO, b
 
 
@@ -75,6 +78,11 @@ def test_markdown_extension(app, webassets, bucket, record):
         res = client.get(preview_url(record['control_number'], 'markdown.md'))
         assert '<h3>Testing markdown' in res.get_data(as_text=True)
 
+        with patch('mistune.markdown', side_effect=Exception):
+            res = client.get(preview_url(record['control_number'],
+                                         'markdown.md'))
+            assert 'we are unfortunately not' in res.get_data(as_text=True)
+
 
 def test_pdf_extension(app, webassets, bucket, record):
     """Test view with pdf files."""
@@ -93,6 +101,10 @@ def test_csv_dthreejs_extension(app, webassets, bucket, record):
         res = client.get(preview_url(record['control_number'], 'test.csv'))
         assert 'data-csv-source="' in res.get_data(as_text=True)
         assert 'data-csv-delimiter=","' in res.get_data(as_text=True)
+
+        with patch('csv.Sniffer', side_effect=Exception):
+            res = client.get(preview_url(record['control_number'], 'test.csv'))
+            assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
 def test_csv_dthreejs_delimiter(app, webassets, bucket, record):
@@ -114,15 +126,13 @@ def test_zip_extension(app, webassets, bucket, record, zip_fp):
         assert 'Example.txt' in res.get_data(as_text=True)
         assert u'Lé UTF8 test.txt' in res.get_data(as_text=True)
 
+        with patch('zipfile.ZipFile', side_effect=zipfile.LargeZipFile):
+            res = client.get(preview_url(record['control_number'], 'test.zip'))
+            assert 'Zipfile is too large' in res.get_data(as_text=True)
 
-def test_invalid_zip(app, webassets, bucket, record):
-    """Test view with an invalid zipfile."""
-    create_file(
-        record, bucket, 'test.zip', BytesIO(b'not a zipfile'))
-
-    with app.test_client() as client:
-        res = client.get(preview_url(record['control_number'], 'test.zip'))
-        assert 'Zipfile is not previewable' in res.get_data(as_text=True)
+        with patch('zipfile.ZipFile', side_effect=Exception):
+            res = client.get(preview_url(record['control_number'], 'test.zip'))
+            assert 'Zipfile is not previewable' in res.get_data(as_text=True)
 
 
 def test_json_extension(app, webassets, bucket, record):
@@ -152,6 +162,11 @@ def test_json_extension(app, webassets, bucket, record):
                         '}'
         assert rendered_json in res.get_data(as_text=True)
 
+        with patch('json.dumps', side_effect=Exception):
+            res = client.get(preview_url(record['control_number'],
+                                         'test.json'))
+            assert 'we are unfortunately not' in res.get_data(as_text=True)
+
 
 def test_max_file_size(app, webassets, bucket, record):
     """Test file size limitation."""
@@ -178,6 +193,10 @@ def test_xml_extension(app, webassets, bucket, record):
         assert '&lt;c&gt;1&lt;/c&gt;' in res.get_data(as_text=True)
         assert '&lt;c&gt;2&lt;/c&gt;' in res.get_data(as_text=True)
         assert '&lt;/el&gt;' in res.get_data(as_text=True)
+
+        with patch('xml.dom.minidom.Node.toprettyxml', side_effect=Exception):
+            res = client.get(preview_url(record['control_number'], 'test.xml'))
+            assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
 def test_ipynb_extension(app, webassets, bucket, record):
