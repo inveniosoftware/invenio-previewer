@@ -36,7 +36,7 @@ history = open('CHANGES.rst').read()
 tests_require = [
     'check-manifest>=0.25',
     'coverage>=4.0',
-    'invenio-db[versioning]>=1.0.0a9',
+    'invenio-db[versioning]>=1.0.0b3',
     'invenio-records-files>=1.0.0a3',
     'isort>=4.2.2',
     'mock>=1.3.0',
@@ -52,8 +52,8 @@ extras_require = {
         'Sphinx>=1.4.2',
     ],
     'files': [
-        'invenio-files-rest>=1.0.0a1',
-        'invenio-records-files>=1.0.0a2',
+        'invenio-files-rest>=1.0.0a9',
+        'invenio-records-files>=1.0.0a8',
     ],
     'tests': tests_require,
 }
@@ -72,9 +72,9 @@ install_requires = [
     'Flask-BabelEx>=0.9.3',
     'mistune>=0.7.2',
     'cchardet>=1.0.0',
-    'invenio-assets>=1.0.0a3',
-    'invenio-pidstore>=1.0.0a6',
-    'invenio-records-ui>=1.0.0a7',
+    'invenio-assets>=1.0.0b4',
+    'invenio-pidstore>=1.0.0b1',
+    'invenio-records-ui>=1.0.0a8',
     'ipython>=4.1.0',
     'nbconvert>=4.1.0',
     'nbformat>=4.0.1',
