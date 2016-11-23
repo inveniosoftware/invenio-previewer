@@ -41,7 +41,7 @@ blueprint = Blueprint(
 """Blueprint used to register template and static folders."""
 
 
-def preview(pid, record, template=None):
+def preview(pid, record, template=None, **kwargs):
     """Preview file for given record.
 
     Plug this method into your ``RECORDS_UI_ENDPOINTS`` configuration:
@@ -51,7 +51,7 @@ def preview(pid, record, template=None):
         RECORDS_UI_ENDPOINTS = dict(
             recid=dict(
                 # ...
-                route='/records/<pid_value/preview',
+                route='/records/<pid_value/preview/<path:filename>',
                 view_imp='invenio_previewer.views.preview',
                 record_class='invenio_records_files.api:Record',
             )

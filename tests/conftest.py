@@ -86,7 +86,7 @@ def app():
             recid_files=dict(
                 pid_type='recid',
                 route='/record/<pid_value>/files/<filename>',
-                view_imp='invenio_files_rest.views.file_download_ui',
+                view_imp='invenio_records_files.utils.file_download_ui',
                 record_class='invenio_records_files.api:Record',
             ),
         ),
