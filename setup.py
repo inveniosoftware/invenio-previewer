@@ -76,7 +76,7 @@ install_requires = [
     'invenio-pidstore>=1.0.0b1',
     'invenio-records-ui>=1.0.0a8',
     'ipython>=4.1.0',
-    'nbconvert>=4.1.0',
+    'nbconvert[execute]>=4.1.0',
     'nbformat>=4.0.1',
 ],
 
