@@ -49,7 +49,7 @@ tests_require = [
 
 extras_require = {
     'docs': [
-        'Sphinx>=1.4.2',
+        'Sphinx>=1.5.1',
     ],
     'files': [
         'invenio-files-rest>=1.0.0a9',
@@ -78,7 +78,7 @@ install_requires = [
     'ipython>=4.1.0',
     'nbconvert[execute]>=4.1.0',
     'nbformat>=4.0.1',
-],
+]
 
 packages = find_packages()
 

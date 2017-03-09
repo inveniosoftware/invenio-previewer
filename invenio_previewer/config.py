@@ -30,6 +30,9 @@ PREVIEWER_CSV_VALIDATION_BYTES = 1024
 PREVIEWER_CHARDET_BYTES = 1024
 """Number of bytes to read for character encoding detection by `cchardet`."""
 
+PREVIEWER_CHARDET_CONFIDENCE = 0.9
+"""Confidence threshold for character encoding detection by `cchardet`."""
+
 PREVIEWER_MAX_FILE_SIZE_BYTES = 1 * 1024 * 1024
 """Maximum file size in bytes for JSON/XML files."""
 

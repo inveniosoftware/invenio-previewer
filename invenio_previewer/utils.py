@@ -41,7 +41,13 @@ def detect_encoding(fp, default=None):
     try:
         sample = fp.read(
             current_app.config.get('PREVIEWER_CHARDET_BYTES', 1024))
-        return cchardet.detect(sample).get('encoding', default)
+        # Result contains 'confidence' and 'encoding'
+        result = cchardet.detect(sample)
+        threshold = current_app.config.get('PREVIEWER_CHARDET_CONFIDENCE', 0.9)
+        if result.get('confidence', 0) > threshold:
+            return result.get('encoding', default)
+        else:
+            return default
     except Exception:
         current_app.logger.warning('Encoding detection failed.', exc_info=True)
         return default
