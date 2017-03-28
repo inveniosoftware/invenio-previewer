@@ -271,6 +271,7 @@ Once we have our code, we should register our previewer in the previwer entry
 point. So, go to your ``setup.py`` and create a new entry (If it doesn't exist)
 to declare ``invenio_previewer.previewers`` entry points. Then, you should add
 a new entry with specifying the python path of your module:
+
 >>> 'invenio_previewer.previewers': [
 >>>     'tex_previewer = myproject.modules.previewer.extensions.txt_previewer',
 >>> ]
@@ -279,6 +280,7 @@ The configuration above made it is only making to our project to be aware of
 the module but the previewer can not be used. As we said before, you need to
 add it to ``PREVIEWER_PREFERENCES`` in the correct position. The first position
 is going to be perfect in the case of this TXT previewer:
+
 >>> PREVIEWER_PREVIEWERS_ORDER=
 >>>     [
 >>>         'invenio_previewer.extensions.csv_dthreejs',
