@@ -128,6 +128,7 @@ setup(
             'mistune = invenio_previewer.extensions.mistune',
             'pdfjs = invenio_previewer.extensions.pdfjs',
             'zip = invenio_previewer.extensions.zip',
+            'tar = invenio_previewer.extensions.tar',
             'ipynb = invenio_previewer.extensions.ipynb',
             'default = invenio_previewer.extensions.default',
         ],
