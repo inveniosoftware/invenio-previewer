@@ -47,7 +47,7 @@ PREVIEWER_PREFERENCE = [
     'simple_image',
     'json_prismjs',
     'xml_prismjs',
-    'mistune',
+    'showdown',
     'pdfjs',
     'ipynb',
     'zip',

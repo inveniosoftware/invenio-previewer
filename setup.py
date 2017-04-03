@@ -70,7 +70,6 @@ setup_requires = [
 install_requires = [
     'Flask>=0.11.1',
     'Flask-BabelEx>=0.9.3',
-    'mistune>=0.7.2',
     'cchardet>=1.0.0',
     'invenio-assets>=1.0.0b4',
     'invenio-pidstore>=1.0.0b1',
@@ -125,7 +124,7 @@ setup(
             'json_prismjs = invenio_previewer.extensions.json_prismjs',
             'simple_image = invenio_previewer.extensions.simple_image',
             'xml_prismjs = invenio_previewer.extensions.xml_prismjs',
-            'mistune = invenio_previewer.extensions.mistune',
+            'showdown = invenio_previewer.extensions.showdown',
             'pdfjs = invenio_previewer.extensions.pdfjs',
             'zip = invenio_previewer.extensions.zip',
             'ipynb = invenio_previewer.extensions.ipynb',

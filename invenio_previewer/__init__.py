@@ -31,7 +31,7 @@ module comes with viewers for the following files types:
 - PDF (using PDF.js)
 - ZIP
 - CSV (using d3.js)
-- Markdown (using Mistune library)
+- Markdown (using Showdown library)
 - XML and JSON (using Prism.js)
 - Simple images (PNG, JPG, GIF)
 
@@ -189,7 +189,7 @@ Bundled previewers
 ------------------
 This module contains several previewers out-of-the-box:
 
-- ``Markdown``: Previews a markdown file. It is based on python `mistune`
+- ``Markdown``: Previews a markdown file. It is based on JavaScript `Showdown`
   library.
 
 - ``JSON/XML``: Previews JSON and XML files. It pretty-prints the contents
@@ -285,7 +285,7 @@ is going to be perfect in the case of this TXT previewer:
 >>>         'invenio_previewer.extensions.json_prismjs',
 >>>         'invenio_previewer.extensions.xml_prismjs',
 >>>         'invenio_previewer.extensions.simple_image',
->>>         'invenio_previewer.extensions.mistune',
+>>>         'invenio_previewer.extensions.showdown',
 >>>         'invenio_previewer.extensions.pdfjs',
 >>>         'invenio_previewer.extensions.zip',
 >>>         'invenio_previewer.extensions.default',
