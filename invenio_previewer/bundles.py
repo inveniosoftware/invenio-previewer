@@ -59,6 +59,7 @@ csv_previewer_js = Bundle(
         npm={
             "flightjs": "~1.5.1",
             "d3": "~3.5.12",
+            "jquery": "~1.9.1"
         }
     ),
     Bundle(
