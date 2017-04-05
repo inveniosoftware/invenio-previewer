@@ -65,7 +65,9 @@ application's static folder:
    $ flask -a app.py collect -v
 
 
-6. Build the assets as they are defined in bundle.py:
+6. Build the assets as they are defined in bundle.py.
+This assumes that uglifyjs and r.js commands are available. To install
+them, run `npm install -g uglifyjs requirejs`.
 
 .. code-block:: console
 
@@ -117,6 +119,7 @@ from invenio_assets import InvenioAssets
 from invenio_db import InvenioDB, db
 from invenio_files_rest import InvenioFilesREST
 from invenio_files_rest.models import Bucket, Location, ObjectVersion
+from invenio_i18n import InvenioI18N
 from invenio_pidstore.providers.recordid import RecordIdProvider
 from invenio_records import InvenioRecords, Record
 from invenio_records_ui import InvenioRecordsUI
@@ -145,6 +148,7 @@ app.config.update(
     )
 )
 Babel(app)
+InvenioI18N(app)
 InvenioAccounts(app)
 InvenioAccess(app)
 InvenioDB(app)
