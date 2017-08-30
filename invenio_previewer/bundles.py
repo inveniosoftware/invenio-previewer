@@ -121,3 +121,14 @@ prism_css = Bundle(
     output='gen/prism.%(version)s.css'
 )
 """CSS bundle for prism.js syntax highlighter."""
+
+showdown_js = Bundle(
+    NpmBundle(
+        npm={
+            "showdown": "1.6.4"
+        },
+    ),
+    "node_modules/showdown/dist/showdown.min.js",
+    "js/showdown/showdown.js",
+    output='gen/prism.%(version)s.js'
+)

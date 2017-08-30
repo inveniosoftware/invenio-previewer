@@ -64,7 +64,7 @@ JSON (prism.js)
 Markdown
 ~~~~~~~~
 
-.. automodule:: invenio_previewer.extensions.mistune
+.. automodule:: invenio_previewer.extensions.showdown
    :members:
    :undoc-members:
 
