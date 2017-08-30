@@ -28,6 +28,7 @@ r"""Minimal Flask application example for development.
 
 .. code-block:: console
 
+   $ pip install -e .[files]
    $ cd examples
    $ pip install -r requirements.txt
    $ flask -a app.py db init
