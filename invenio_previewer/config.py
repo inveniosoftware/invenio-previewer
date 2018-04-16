@@ -11,6 +11,9 @@
 PREVIEWER_CSV_VALIDATION_BYTES = 1024
 """Number of bytes read by CSV previewer to validate the file."""
 
+PREVIEWER_CSV_SNIFFER_ALLOWED_DELIMITERS = None
+"""Allowed delimiter characters passed to the ``csv.Sniffer.sniff`` method."""
+
 PREVIEWER_CHARDET_BYTES = 1024
 """Number of bytes to read for character encoding detection by `cchardet`."""
 

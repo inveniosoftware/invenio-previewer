@@ -28,7 +28,11 @@ def validate_csv(file):
             encoding = detect_encoding(fp, default='utf-8')
             sample = fp.read(
                 current_app.config.get('PREVIEWER_CSV_VALIDATION_BYTES', 1024))
-            delimiter = csv.Sniffer().sniff(sample.decode(encoding)).delimiter
+            allowed_delimiters = current_app.config.get(
+                'PREVIEWER_CSV_SNIFFER_ALLOWED_DELIMITERS', None)
+            delimiter = csv.Sniffer().sniff(
+                sample=sample.decode(encoding),
+                delimiters=allowed_delimiters).delimiter
             is_valid = True
     except Exception as e:
         current_app.logger.debug(
