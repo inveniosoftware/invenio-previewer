@@ -28,21 +28,25 @@
     <title>{{_('Preview')}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {%- block head %}
-    {%- for bdl in css_bundles %}
+    {{ webpack['manifest.js'] }}
+    {{ webpack['previewer_theme.css'] }}
+    {#{%- for bdl in css_bundles %}
       {%- assets bdl %}
     <link href="{{ ASSET_URL }}" rel="stylesheet">
       {%- endassets %}
-    {%- endfor %}
+    {%- endfor %}#}
     {%- endblock %}
   </head>
   <body>
     {%- block page_body %}{% endblock %}
     {%- block javascript %}
-    {%- for bdl in js_bundles %}
+    {{ webpack['vendor.js'] }}
+    {{ webpack['previewer_app.js'] }}
+    {#{%- for bdl in js_bundles %}
       {%- assets bdl %}
     <script src="{{ ASSET_URL }}"></script>
       {%- endassets %}
-    {%- endfor %}
+    {%- endfor %}#}
     {%- endblock %}
   </body>
 </html>

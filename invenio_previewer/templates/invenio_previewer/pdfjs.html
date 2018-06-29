@@ -316,7 +316,11 @@
       </div>
     </div>
 
-    {%- for bdl in css_bundles %}
+    {{ webpack['manifest.js'] }}
+    {{ webpack['previewer_theme.css'] }}
+    {{ webpack['vendor.js'] }}
+    {{ webpack['previewer_app.js'] }}
+    {#{%- for bdl in css_bundles %}
       {%- assets bdl %}
     <link href="{{ ASSET_URL }}" rel="stylesheet">
       {%- endassets %}
@@ -325,7 +329,7 @@
       {%- assets bdl %}
     <script src="{{ ASSET_URL }}"></script>
       {%- endassets %}
-    {%- endfor %}
+    {%- endfor %}#}
     <script>
       PDFViewerApplication.open('{{ file.uri }}');
     </script>

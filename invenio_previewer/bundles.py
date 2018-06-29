@@ -121,3 +121,20 @@ prism_css = Bundle(
     output='gen/prism.%(version)s.css'
 )
 """CSS bundle for prism.js syntax highlighter."""
+
+previewer = WebpackBundle(
+    __name__,
+    'assets',
+    entry={
+        'previewer_app': './js/invenio_previewer/app.js',
+        'previewer_theme': './scss/invenio_previewer/theme.scss',
+    },
+    dependencies={
+        'jquery': '~3.2.1',
+        "bootstrap": '~3.3.6',
+        "font-awesome": '~4.5.0',
+        'd3': '^3.5.17',
+        'flightjs': '~1.5.1',
+        'pdfjs-dist': '1.4.192',
+        'prismjs': '1.4.1'
+    })

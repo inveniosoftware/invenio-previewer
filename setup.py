@@ -120,6 +120,9 @@ setup(
             'previewer_prism_css '
             '= invenio_previewer.bundles:prism_css',
         ],
+        'invenio_assets.webpack': {
+            'invenio_previewer = invenio_previewer.bundles:previewer'
+        },
         'invenio_previewer.previewers': [
             'csv_dthreejs = invenio_previewer.extensions.csv_dthreejs',
             'json_prismjs = invenio_previewer.extensions.json_prismjs',
