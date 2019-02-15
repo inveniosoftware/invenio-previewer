@@ -13,7 +13,9 @@ export FLASK_APP=app.py
 
 pip install -r requirements.txt
 
-# ./app-teardown.sh
+./app-teardown.sh
+
+mkdir instance
 
 # Create the database
 flask db init
