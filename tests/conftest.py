@@ -42,8 +42,8 @@ from flask_assets import assets
 from flask_babelex import Babel
 from invenio_assets import InvenioAssets
 from invenio_assets.cli import collect, npm
-from invenio_db import db as db_
 from invenio_db import InvenioDB
+from invenio_db import db as db_
 from invenio_files_rest import InvenioFilesREST
 from invenio_files_rest.models import Bucket, Location, ObjectVersion
 from invenio_pidstore.providers.recordid import RecordIdProvider
