@@ -28,6 +28,7 @@ from __future__ import absolute_import, unicode_literals
 
 import mistune
 from flask import render_template
+
 from ..utils import detect_encoding
 
 previewable_extensions = ['md']

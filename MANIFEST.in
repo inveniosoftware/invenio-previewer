@@ -41,9 +41,15 @@ recursive-include docs *.rst
 recursive-include docs Makefile
 recursive-include examples *.csv
 recursive-include examples *.html
+recursive-include examples *.ipynb
+recursive-include examples *.jpg
+recursive-include examples *.json
 recursive-include examples *.md
 recursive-include examples *.pdf
+recursive-include examples *.png
 recursive-include examples *.py
+recursive-include examples *.sh
+recursive-include examples *.xml
 recursive-include examples *.zip
 recursive-include invenio_previewer *.html *.js *.css
 recursive-include invenio_previewer *.po *.pot *.mo
