@@ -50,6 +50,7 @@ from invenio_pidstore.providers.recordid import RecordIdProvider
 from invenio_records import InvenioRecords
 from invenio_records_files.api import Record, RecordsBuckets
 from invenio_records_ui import InvenioRecordsUI
+from invenio_records_ui.views import create_blueprint_from_app
 from six import BytesIO
 from sqlalchemy_utils.functions import create_database, database_exists
 
@@ -98,13 +99,14 @@ def app():
     InvenioRecords(app_)
     previewer = InvenioPreviewer(app_)._state
     InvenioRecordsUI(app_)
+    app_.register_blueprint(create_blueprint_from_app(app_))
     InvenioFilesREST(app_)
 
     # Add base assets bundles for jQuery and Bootstrap
     # Note: These bundles aren't included by default since package consumers
     # should handle assets and their dependencies manually.
-    assets_ext.env.register(previewer.js_bundles[0], previewer_base_js)
-    assets_ext.env.register(previewer.css_bundles[0], previewer_base_css)
+    # assets_ext.env.register(previewer.js_bundles[0], previewer_base_js)
+    # assets_ext.env.register(previewer.css_bundles[0], previewer_base_css)
 
     with app_.app_context():
         yield app_
@@ -165,7 +167,7 @@ def location(db):
 @pytest.fixture()
 def bucket(db, location):
     """File system location."""
-    bucket = Bucket.create(location)
+    bucket = Bucket.create()
     db.session.commit()
     return bucket
 

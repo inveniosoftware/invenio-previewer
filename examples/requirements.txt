@@ -1,2 +1,2 @@
-invenio-access==1.0.0
-invenio-db==1.0.0
+invenio-access>=1.1.0
+invenio-accounts>=1.1.0

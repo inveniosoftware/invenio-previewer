@@ -25,7 +25,6 @@
 """Invenio module for previewing files."""
 
 import os
-import sys
 
 from setuptools import find_packages, setup
 from setuptools.command.test import test as TestCommand  # noqa
@@ -36,8 +35,8 @@ history = open('CHANGES.rst').read()
 tests_require = [
     'check-manifest>=0.25',
     'coverage>=4.0',
-    'invenio-db[versioning]>=1.0.0b3',
-    'invenio-records-files>=1.0.0a3',
+    'invenio-db[versioning]>=1.0.2',
+    'invenio-records-files>=1.0.0a11',
     'isort>=4.2.2',
     'mock>=1.3.0',
     'pydocstyle>=1.0.0',
@@ -52,8 +51,8 @@ extras_require = {
         'Sphinx>=1.5.1',
     ],
     'files': [
-        'invenio-files-rest>=1.0.0a9',
-        'invenio-records-files>=1.0.0a8',
+        'invenio-files-rest>=1.0.0a23',
+        'invenio-records-files>=1.0.0a11',
     ],
     'tests': tests_require,
 }
@@ -72,9 +71,9 @@ install_requires = [
     'Flask-BabelEx>=0.9.3',
     'mistune>=0.7.2',
     'cchardet>=1.0.0',
-    'invenio-assets>=1.0.0, <1.1.0',
+    'invenio-assets>=1.1.0',
     'invenio-pidstore>=1.0.0b1',
-    'invenio-records-ui>=1.0.0a8',
+    'invenio-records-ui>=1.0.1',
     'ipython>=4.1.0',
     'nbconvert[execute]>=4.1.0',
     'nbformat>=4.0.1',
