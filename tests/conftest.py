@@ -102,12 +102,6 @@ def app():
     app_.register_blueprint(create_blueprint_from_app(app_))
     InvenioFilesREST(app_)
 
-    # Add base assets bundles for jQuery and Bootstrap
-    # Note: These bundles aren't included by default since package consumers
-    # should handle assets and their dependencies manually.
-    # assets_ext.env.register(previewer.js_bundles[0], previewer_base_js)
-    # assets_ext.env.register(previewer.css_bundles[0], previewer_base_css)
-
     with app_.app_context():
         yield app_
 
