@@ -1,4 +1,4 @@
 {
-  "hello": "json",
-  "app": "invenio-previewer"
+  "app": "invenio-previewer",
+  "hello": "json"
 }

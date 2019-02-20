@@ -15,6 +15,7 @@ from collections import OrderedDict
 
 from flask import current_app, render_template
 
+from ..proxies import current_previewer
 from ..utils import detect_encoding
 
 previewable_extensions = ['json']
@@ -57,6 +58,6 @@ def preview(file):
         'invenio_previewer/json_prismjs.html',
         file=file,
         content=render(file),
-        js_bundles=['previewer_prism_js'],
-        css_bundles=['previewer_prism_css'],
+        js_bundles=current_previewer.js_bundles + ['prism_js.js'],
+        css_bundles=['prism_css.css']
     )

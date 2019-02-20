@@ -27,9 +27,8 @@ var/
 *.egg
 
 # Example application
-examples/test.db
+examples/instance/
 examples/static/
-examples/temp/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

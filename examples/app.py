@@ -31,6 +31,8 @@ from uuid import uuid4
 
 from flask import Flask
 from flask_babelex import Babel
+from invenio_access import InvenioAccess
+from invenio_accounts import InvenioAccounts
 from invenio_assets import InvenioAssets
 from invenio_db import InvenioDB, db
 from invenio_files_rest import InvenioFilesREST
@@ -75,6 +77,8 @@ app.config.update(
 )
 Babel(app)
 InvenioI18N(app)
+InvenioAccounts(app)
+InvenioAccess(app)
 InvenioDB(app)
 InvenioAssets(app)
 InvenioRecords(app)
@@ -103,8 +107,10 @@ def fixtures():
         'jsonfile.json',
         'xmlfile.xml',
         'notebook.ipynb',
+        'pdffile.pdf',
         'jpgfile.jpg',
         'pngfile.png',
+        'pdffile.pdf',
     )
 
     rec_uuid = uuid4()

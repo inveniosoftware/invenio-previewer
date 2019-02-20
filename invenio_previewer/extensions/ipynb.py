@@ -37,10 +37,11 @@ def can_preview(file):
 def preview(file):
     """Render the IPython Notebook."""
     body, resources = render(file)
-    default_ipython_style = resources['inlining']['css'][1]
+    # Extracting the style from file and serve it as inline
+    inline_style = resources['inlining']['css'][1]
     return render_template(
         'invenio_previewer/ipynb.html',
         file=file,
         content=body,
-        style=default_ipython_style
+        inline_style=inline_style
     )

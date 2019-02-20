@@ -75,7 +75,7 @@ def test_pdf_extension(app, webassets, bucket, record):
 
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.pdf'))
-        assert 'PDFViewerApplication.open(\'' in res.get_data(as_text=True)
+        assert 'PDFView.open(\'' in res.get_data(as_text=True)
 
 
 def test_csv_dthreejs_extension(app, webassets, bucket, record):
@@ -128,7 +128,7 @@ def test_json_extension(app, webassets, bucket, record):
 
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.json'))
-        assert 'class="language-json"' in res.get_data(as_text=True)
+        assert 'class="language-javascript"' in res.get_data(as_text=True)
 
         rendered_json = '{\n'\
                         '    "name": "invenio",\n'\
@@ -227,8 +227,7 @@ def test_ipynb_extension(app, webassets, bucket, record):
 
 def test_simple_image_extension(app, webassets, bucket, record):
     """Test view with simple image files (PNG)."""
-    create_file(
-        record, bucket, 'test.png', BytesIO(b'Content not used'))
+    create_file(record, bucket, 'test.png', BytesIO(b'Content not used'))
 
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.png'))

@@ -12,7 +12,7 @@
 {% block head %}
     {{ super() }}
     <style>
-        {{style|safe}}
+        {{ inline_style | safe }}
     </style>
 {% endblock %}
 

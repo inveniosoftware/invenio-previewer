@@ -33,6 +33,8 @@ def can_preview(file):
 
 def preview(file):
     """Render Markdown."""
-    return render_template("invenio_previewer/mistune.html",
-                           file=file,
-                           content=render(file))
+    return render_template(
+        "invenio_previewer/mistune.html",
+        file=file,
+        content=render(file)
+    )
