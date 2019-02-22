@@ -31,12 +31,11 @@
            RenderingStates, UNKNOWN_SCALE, DEFAULT_SCALE_VALUE,
            IGNORE_CURRENT_POSITION_ON_ZOOM: true */
 
-import PDFJS from 'pdfjs-dist';
+import pdfLib from 'pdfjs-dist';
 
-// TODO: Find a way to load worker and cmap
-PDFJS.workerSrc = '/static/js/pdfjs/pdf.worker.js';
-PDFJS.cMapUrl = '/static/node_modules/pdfjs-dist/cmaps/';
-PDFJS.cMapPacked = true;
+pdfLib.PDFJS.workerSrc = '/static/js/pdfjs/pdf.worker.min.js';
+pdfLib.PDFJS.cMapUrl = '/static/js/pdfjs/cmaps/';
+pdfLib.PDFJS.cMapPacked = true;
 
 var CSS_UNITS = 96.0 / 72.0;
 var DEFAULT_SCALE = 1.0;
