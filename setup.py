@@ -60,7 +60,7 @@ install_requires = [
     'ipython>=4.1.0',
     'nbconvert[execute]>=4.1.0',
     'nbformat>=4.0.1',
-    'tornado>=4.1,<=5.1.1',   # required by nbconvert->jupyter-client
+    'tornado>=4.1,<=5.1.1',  # required by nbconvert -> jupyter-client
 ]
 
 packages = find_packages()
