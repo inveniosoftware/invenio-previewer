@@ -32,6 +32,8 @@ python:
 
 matrix:
   fast_finish: true
+  allow_failures:
+    - env: REQUIREMENTS=devel
 
 before_install:
   - "travis_retry pip install --upgrade pip setuptools py"
@@ -56,9 +58,9 @@ after_success:
 
 deploy:
   provider: pypi
-  user: lnielsen
+  user: inveniosoftware
   password:
-    secure: J0zG6fiWaGAo6E8DkAQ2CP4bSxDCHHd3lYz3T784APcP7PtNpGflWihgcsJJy9QL22F7kRmkgFuGBsjpAEhUU35J5KVg7NswLPOtUpsTNBjQ75UClfrQSEJHtuPkxXjdteWEOMjE+CcpFO02kXPU12dXyS0X0e091jduQxezUHJWAlM22A7IFzldMb9FoKzL1vwXv/BV6JCaQA9R9/zqvbYz8kPm/rob9Vm1N8lnQV9wA3E98NUFvMNAv0mZkSq9K2v2SZC06CVCy8gD+PTrUu/E4x7bbwOlrp4ZAb7pZGhjbE8q/8O+1CEpIbZLExn00PFJ4nW1tjrhI14hIabc2DQ3+MR1q4RC0UKDo8sg/9PjqCQY1ayp6jgzxETLKAeck/FZ3n+D69N9IUdNqZptmRfePkGaZsOmS3r/3s1Ct+kgpCvu37oaxRperU0rG9jB4Vea+ZHS6NETSUA6gMJxFAqIJLYggIhdxs1wmdcZ2zxDg3qfkSXq0C5fiyCSYVhfe3lMZhCXp4Ly8iivibDquDXdlblLnykh+8mN88Ll0KO8ZLQ+9awSaS7jalzgjgHZXox8HRA3zg0Q5xtVoTaLdOl0U1fuGfhBJfCHLHZjqnTElJx1cahgDtJ+jI6KizCdBCVPLdMfsbITHDiomoa5SmU3gGMc95Nxa8z6I2ntwsQ=
+    secure: "D0nJxy6c+YAIQCIy29cf0XkhzRA2zhI9TDFXi9GV+s5qcfgR8ds58CDgAdj/ErdvkWA5VBC13BS+668LWMtFIQENZ44Onc3J2UkiF8vHyzChu0FqtgCMT/qbFNeUIlJ6lwTsgAcWnQkh2jt3yTOvnbRuNdIKViyJpd6TWkKHl4khB7s4PWtyXsV7DshZhykAGqCFU2jizt1JDq2EuHNcvq79CjSwaGKdOBWWYzj6PalhOKae6/7bmg+4wQ+p0OwigIrI0irbes+xnVXEVmWalYTpLiLQaWmUrPKHpL0F6TVjFHPMYscFtp+d9Z+ROHAjsc5KN3uJmlrS6cGSHOVFxWBF6xnrJxWGd3hQboZXEvrzJno1R6pXTU7rh3/LINgXY+zS75GUPSIBvkHcvdlW6Ph8zTHE2FR67kUfFGv4ImwElMj2yt+B11n0DxdsKlSevduelnGLSeJWutow3VHetAIMXDBnHm1OYhOtqpHpmuulyX5tnbOcsDLnXPNX9GUUKZ3pUEjmINwWjfvEbV8fvfyPGl4gSsM7a+rtjlbX6CTA2GSPJaJl9LzBq5Ocnwt85iT/3IXtwiY4MEU3rwmNSI5SpTgP+eZfmrOw22ji0NpSxsJoTpcZ7gPij6C0DXmpnvBXQVjYPBLtFnTHBk11K2ZFAzYefcQprmdk8WIVEPU="
   distributions: "compile_catalog sdist bdist_wheel"
   on:
     tags: true
