@@ -10,6 +10,9 @@
  Invenio-Previewer
 ===================
 
+.. image:: https://img.shields.io/github/license/inveniosoftware/invenio-previewer.svg
+        :target: https://github.com/inveniosoftware/invenio-previewer/blob/master/LICENSE
+
 .. image:: https://img.shields.io/travis/inveniosoftware/invenio-previewer.svg
         :target: https://travis-ci.org/inveniosoftware/invenio-previewer
 
@@ -19,13 +22,14 @@
 .. image:: https://img.shields.io/pypi/v/invenio-previewer.svg
         :target: https://pypi.org/pypi/invenio-previewer
 
-.. image:: https://img.shields.io/github/license/inveniosoftware/invenio-previewer.svg
-        :target: https://github.com/inveniosoftware/invenio-previewer/blob/master/LICENSE
-
 
 Invenio module for previewing files.
 
-*This is an experimental developer preview release.*
+Features:
+
+- File previewing.
+- Support for PDF, ZIP, CSV, MARKDOWN, XML, JSON, PNG, JPG and GIF out-of-the-box.
+- Extensible API to create new previewers.
 
 * Free software: MIT license
 * Documentation: https://invenio-previewer.readthedocs.io/
