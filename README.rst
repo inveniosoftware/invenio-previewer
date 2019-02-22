@@ -19,6 +19,9 @@
 .. image:: https://img.shields.io/pypi/v/invenio-previewer.svg
         :target: https://pypi.org/pypi/invenio-previewer
 
+.. image:: https://img.shields.io/github/license/inveniosoftware/invenio-previewer.svg
+        :target: https://github.com/inveniosoftware/invenio-previewer/blob/master/LICENSE
+
 
 Invenio module for previewing files.
 
