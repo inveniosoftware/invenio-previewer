@@ -39,6 +39,7 @@ PREVIEWER_PREFERENCE = [
 """Decides which previewers are available and their priority."""
 
 PREVIEWER_ABSTRACT_TEMPLATE = 'invenio_previewer/abstract_previewer.html'
+"""Parent template used by the available previewers."""
 
 PREVIEWER_BASE_CSS_BUNDLES = ['previewer_theme.css']
 """Basic bundle which includes Font-Awesome/Bootstrap."""

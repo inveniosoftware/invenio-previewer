@@ -6,7 +6,7 @@
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-"""IPython notebooks previewer."""
+"""Jupyter Notebook previewer."""
 
 from __future__ import absolute_import, unicode_literals
 
@@ -37,11 +37,10 @@ def can_preview(file):
 def preview(file):
     """Render the IPython Notebook."""
     body, resources = render(file)
-    # Extracting the style from file and serve it as inline
-    inline_style = resources['inlining']['css'][1]
+    default_jupyter_nb_style = resources['inlining']['css'][1]
     return render_template(
         'invenio_previewer/ipynb.html',
         file=file,
         content=body,
-        inline_style=inline_style
+        inline_style=default_jupyter_nb_style
     )

@@ -49,11 +49,8 @@ def preview(pid, record, template=None, **kwargs):
     if not fileobj:
         abort(404)
 
-    # Try to see if specific previewer is requested?
-    try:
-        file_previewer = fileobj['previewer']
-    except KeyError:
-        file_previewer = None
+    # Try to see if specific previewer is set
+    file_previewer = fileobj.get('previewer')
 
     # Find a suitable previewer
     fileobj = PreviewFile(pid, record, fileobj)

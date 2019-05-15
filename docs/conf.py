@@ -47,7 +47,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Invenio-Previewer'
-copyright = u'2016, CERN'
+copyright = u'2016-2019, CERN'
 author = u'CERN'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -312,7 +312,12 @@ texinfo_documents = [
 
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/': None}
+intersphinx_mapping = {
+    'https://docs.python.org/': None,
+    'invenio_records_ui': (
+        'https://invenio-records-ui.readthedocs.io/en/latest/', None
+    )
+}
 
 # Autodoc configuraton.
 autoclass_content = 'both'

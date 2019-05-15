@@ -31,5 +31,4 @@ Features:
 - Support for PDF, ZIP, CSV, MARKDOWN, XML, JSON, PNG, JPG and GIF out-of-the-box.
 - Extensible API to create new previewers.
 
-* Free software: MIT license
-* Documentation: https://invenio-previewer.readthedocs.io/
+Further documentation available: https://invenio-previewer.readthedocs.io/

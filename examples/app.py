@@ -13,7 +13,7 @@ r"""Minimal Flask application example for development.
 .. code-block:: console
 
    $ cd examples
-   $ ./app-setup.py
+   $ ./app-setup.sh
 
 2. Our record with pid 1 contains several files. You can check out the
 different types of files by changing the filename in the url
@@ -127,7 +127,6 @@ def fixtures():
     for f in demo_files:
         with open(os.path.join(demo_files_path, f), 'rb') as fp:
             record.files[f] = fp
-
     record.files.flush()
     record.commit()
     db.session.commit()
