@@ -21,12 +21,12 @@ tests_require = [
     'coverage>=4.0',
     'invenio-db[versioning]>=1.0.2',
     'invenio-records-files>=1.0.0a11',
-    'isort>=4.2.2',
+    'isort>=4.3.4',
     'mock>=1.3.0',
     'pydocstyle>=1.0.0',
     'pytest-cov>=1.8.0',
     'pytest-pep8>=1.0.6',
-    'pytest>=2.8.0',
+    'pytest>=3.7.0',
 ]
 
 extras_require = {
