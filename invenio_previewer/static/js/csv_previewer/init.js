@@ -6,13 +6,15 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-requirejs(['js/csv_previewer/csv_d3js', 'js/csv_previewer/loader'], function(CSV_D3JS, Loader) {
-  $(function () {
-    $("[data-csv-source]").each(function () {
-      CSV_D3JS.attachTo($(this));
-    });
-    $("[data-csv-target]").each(function () {
-      Loader.attachTo($(this));
-    });
-  });
+import $ from 'jquery';
+import CSV_D3JS from './csv_d3js';
+import Loader from './loader.js';
+
+$(function () {
+  $("[data-csv-source]").each(function () {
+    CSV_D3JS.attachTo($(this));
+  })
+  $("[data-csv-target]").each(function () {
+    Loader.attachTo($(this));
+  })
 })

@@ -85,6 +85,6 @@ ZIP
 Bundles
 -------
 
-.. automodule:: invenio_previewer.bundles
+.. automodule:: invenio_previewer.webpack
    :members:
    :undoc-members:

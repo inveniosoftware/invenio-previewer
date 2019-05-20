@@ -13,19 +13,15 @@ from __future__ import absolute_import, print_function
 
 import os
 import shutil
-import subprocess
 import tempfile
 import uuid
 from zipfile import ZipFile
 
 import pytest
-from click.testing import CliRunner
 from flask import Flask
-from flask.cli import ScriptInfo
-from flask_assets import assets
 from flask_babelex import Babel
+from flask_webpackext import current_webpack
 from invenio_assets import InvenioAssets
-from invenio_assets.cli import collect, npm
 from invenio_db import InvenioDB
 from invenio_db import db as db_
 from invenio_files_rest import InvenioFilesREST
@@ -39,7 +35,6 @@ from six import BytesIO
 from sqlalchemy_utils.functions import create_database, database_exists
 
 from invenio_previewer import InvenioPreviewer
-from invenio_previewer.bundles import previewer_base_css, previewer_base_js
 
 
 @pytest.yield_fixture(scope='session', autouse=True)
@@ -64,7 +59,7 @@ def app():
             ),
             recid_previewer=dict(
                 pid_type='recid',
-                route='/records/<pid_value>/preview/<filename>',
+                route='/records/<pid_value>/preview',
                 view_imp='invenio_previewer.views:preview',
                 record_class='invenio_records_files.api:Record',
             ),
@@ -78,10 +73,10 @@ def app():
         SERVER_NAME='localhost'
     )
     Babel(app_)
-    assets_ext = InvenioAssets(app_)
+    InvenioAssets(app_)
     InvenioDB(app_)
     InvenioRecords(app_)
-    previewer = InvenioPreviewer(app_)._state
+    InvenioPreviewer(app_)._state
     InvenioRecordsUI(app_)
     app_.register_blueprint(create_blueprint_from_app(app_))
     InvenioFilesREST(app_)
@@ -108,19 +103,8 @@ def webassets(app):
     """Flask application fixture with assets."""
     initial_dir = os.getcwd()
     os.chdir(app.instance_path)
-
-    script_info = ScriptInfo(create_app=lambda info: app)
-    script_info._loaded_app = app
-
-    runner = CliRunner()
-    runner.invoke(npm, obj=script_info)
-
-    subprocess.call(['npm', 'install'])
-    runner.invoke(collect, ['-v'], obj=script_info)
-    runner.invoke(assets, ['build'], obj=script_info)
-
+    current_webpack.project.buildall()
     yield app
-
     os.chdir(initial_dir)
 
 

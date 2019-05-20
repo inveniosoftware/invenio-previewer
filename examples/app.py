@@ -18,7 +18,8 @@ r"""Minimal Flask application example for development.
 2. Our record with pid 1 contains several files. You can check out the
 different types of files by changing the filename in the url
 to one of the following values: markdown.md, csvfile.csv, zipfile.zip,
-jsonfile.json, xmlfile.xml, notebook.ipynb, jpgfile.jpg, pngfile.png
+jsonfile.json, xmlfile.xml, notebook.ipynb, jpgfile.jpg, pngfile.png,
+pdffile.pdf
 
 `http://localhost:5000/records/1/preview?filename=csvfile.csv`
 """
@@ -30,6 +31,8 @@ from uuid import uuid4
 
 from flask import Flask
 from flask_babelex import Babel
+from invenio_access import InvenioAccess
+from invenio_accounts import InvenioAccounts
 from invenio_assets import InvenioAssets
 from invenio_db import InvenioDB, db
 from invenio_files_rest import InvenioFilesREST
@@ -49,7 +52,7 @@ app = Flask(__name__)
 app.config.update(
     SECRET_KEY='CHANGEME',
     SQLALCHEMY_DATABASE_URI=os.environ.get(
-        'SQLALCHEMY_DATABASE_URI', 'sqlite:///test.db'),
+        'SQLALCHEMY_DATABASE_URI', 'sqlite:///instance/test.db'),
     SQLALCHEMY_TRACK_MODIFICATIONS=True,
     RECORDS_UI_DEFAULT_PERMISSION_FACTORY=None,
     RECORDS_UI_ENDPOINTS=dict(
@@ -74,6 +77,8 @@ app.config.update(
 )
 Babel(app)
 InvenioI18N(app)
+InvenioAccounts(app)
+InvenioAccess(app)
 InvenioDB(app)
 InvenioAssets(app)
 InvenioRecords(app)
@@ -86,7 +91,7 @@ app.register_blueprint(create_blueprint_from_app(app))
 @app.cli.command()
 def fixtures():
     """Command for working with test data."""
-    temp_path = os.path.join(os.path.dirname(__file__), 'temp')
+    temp_path = os.path.join(os.path.dirname(__file__), 'instance/temp')
     demo_files_path = os.path.join(os.path.dirname(__file__), 'demo_files')
 
     # Create location
@@ -102,8 +107,10 @@ def fixtures():
         'jsonfile.json',
         'xmlfile.xml',
         'notebook.ipynb',
+        'pdffile.pdf',
         'jpgfile.jpg',
         'pngfile.png',
+        'pdffile.pdf',
     )
 
     rec_uuid = uuid4()

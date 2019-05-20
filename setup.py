@@ -54,13 +54,13 @@ install_requires = [
     'Flask-BabelEx>=0.9.3',
     'mistune>=0.7.2',
     'cchardet>=1.0.0',
-    'invenio-assets>=1.1.0',
+    'invenio-assets>=1.1.2',
     'invenio-pidstore>=1.0.0',
     'invenio-records-ui>=1.0.1',
     'ipython>=4.1.0',
     'nbconvert[execute]>=4.1.0',
     'nbformat>=4.0.1',
-    'tornado>=4.1,<=5.1.1',   # required by nbconvert->jupyter-client
+    'tornado>=4.1,<=5.1.1',  # required by nbconvert -> jupyter-client
 ]
 
 packages = find_packages()
@@ -92,17 +92,9 @@ setup(
         'invenio_i18n.translations': [
             'messages = invenio_previewer',
         ],
-        'invenio_assets.bundles': [
-            'previewer_csv_js = invenio_previewer.bundles:csv_previewer_js',
-            'previewer_pdfjs_css = invenio_previewer.bundles:pdfjs_css',
-            'previewer_pdfjs_js = invenio_previewer.bundles:pdfjs_js',
-            'previewer_fullscreen_js '
-            '= invenio_previewer.bundles:fullscreen_js',
-            'previewer_prism_js '
-            '= invenio_previewer.bundles:prism_js',
-            'previewer_prism_css '
-            '= invenio_previewer.bundles:prism_css',
-        ],
+        'invenio_assets.webpack': {
+            'invenio_previewer_theme = invenio_previewer.webpack:previewer'
+        },
         'invenio_previewer.previewers': [
             'csv_dthreejs = invenio_previewer.extensions.csv_dthreejs',
             'json_prismjs = invenio_previewer.extensions.json_prismjs',

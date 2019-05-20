@@ -33,5 +33,4 @@ def preview(file):
     return render_template(
         'invenio_previewer/simple_image.html',
         file=file,
-        file_url=file.uri
     )

@@ -41,3 +41,17 @@ recursive-include invenio_previewer *.png
 recursive-include invenio_previewer *.properties
 recursive-include invenio_previewer *.svg
 recursive-include tests *.py
+
+# added by check_manifest.py
+recursive-include examples *.ipynb
+recursive-include examples *.jpg
+recursive-include examples *.json
+recursive-include examples *.png
+recursive-include examples *.sh
+recursive-include examples *.xml
+
+
+# added by check_manifest.py
+recursive-include invenio_previewer *.bcmap
+recursive-include invenio_previewer *.ico
+recursive-include invenio_previewer *.scss

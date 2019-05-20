@@ -40,10 +40,10 @@ PREVIEWER_PREFERENCE = [
 
 PREVIEWER_ABSTRACT_TEMPLATE = 'invenio_previewer/abstract_previewer.html'
 
-PREVIEWER_BASE_CSS_BUNDLES = ['invenio_theme_css']
+PREVIEWER_BASE_CSS_BUNDLES = ['previewer_theme.css']
 """Basic bundle which includes Font-Awesome/Bootstrap."""
 
-PREVIEWER_BASE_JS_BUNDLES = ['invenio_theme_js']
+PREVIEWER_BASE_JS_BUNDLES = ['vendor.js']
 """Basic bundle which includes Bootstrap/jQuery."""
 
 PREVIEWER_RECORD_FILE_FACOTRY = None

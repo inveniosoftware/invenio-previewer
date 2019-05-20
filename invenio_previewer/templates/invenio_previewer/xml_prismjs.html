@@ -10,9 +10,5 @@
 {%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
 
 {% block panel %}
-<pre>
-  <code class="language-markup">
-    {{- content|e|safe -}}
-  </code>
-</pre>
+<pre><code class="language-markup">{{- content | e | safe -}}</code></pre>
 {% endblock %}

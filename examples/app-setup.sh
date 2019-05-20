@@ -13,7 +13,9 @@ export FLASK_APP=app.py
 
 pip install -r requirements.txt
 
-# ./app-teardown.sh
+./app-teardown.sh
+
+mkdir instance
 
 # Create the database
 flask db init
@@ -26,7 +28,7 @@ npm install
 cd ..
 
 flask collect -v
-flask assets build
+flask webpack buildall
 
 flask fixtures
 flask run
