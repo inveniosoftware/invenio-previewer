@@ -14,9 +14,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {%- block head %}
-      {% for css_bundle in css_bundles %}
-        {{ webpack[css_bundle] }}
-      {% endfor %}
+      {% if config.PREVIEWER_ASSETS_USE_WEBPACK %}
+        {% for css_bundle in css_bundles %}
+          {{ webpack[css_bundle] }}
+        {% endfor %}
+      {% else %}
+        {%- for bdl in css_bundles %}
+          {%- assets bdl %}
+            <link href="{{ ASSET_URL }}" rel="stylesheet">
+          {%- endassets %}
+        {%- endfor %}
+      {% endif %}
     {%- endblock %}
   </head>
 
@@ -24,10 +32,18 @@
     {%- block page_body %}{%- endblock %}
 
     {%- block javascript %}
-      {{ webpack['manifest.js'] }}
-      {% for js_bundle in js_bundles %}
-        {{ webpack[js_bundle] }}
-      {% endfor %}
+      {% if config.PREVIEWER_ASSETS_USE_WEBPACK %}
+        {{ webpack['manifest.js'] }}
+        {% for js_bundle in js_bundles %}
+          {{ webpack[js_bundle] }}
+        {% endfor %}
+      {% else %}
+        {%- for bdl in js_bundles %}
+          {%- assets bdl %}
+            <script src="{{ ASSET_URL }}"></script>
+          {%- endassets %}
+        {%- endfor %}
+      {% endif %}
     {%- endblock %}
   </body>
 </html>

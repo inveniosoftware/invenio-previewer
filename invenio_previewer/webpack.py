@@ -30,7 +30,7 @@ from flask_webpackext import WebpackBundle
 
 previewer = WebpackBundle(
     __name__,
-    'static',
+    'assets',
     entry={
         'd3_csv': './js/csv_previewer/init.js',
         'previewer_theme': './scss/style.scss',

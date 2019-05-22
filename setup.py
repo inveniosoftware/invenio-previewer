@@ -92,6 +92,17 @@ setup(
         'invenio_i18n.translations': [
             'messages = invenio_previewer',
         ],
+        'invenio_assets.bundles': [
+            'previewer_theme.css = '
+            'invenio_previewer.bundles:previewer_base_css',
+            'previewer_theme.js = invenio_previewer.bundles:previewer_base_js',
+            'd3_csv.js = invenio_previewer.bundles:csv_previewer_js',
+            'pdfjs_css.css = invenio_previewer.bundles:pdfjs_css',
+            'pdfjs_js.js = invenio_previewer.bundles:pdfjs_js',
+            'fullscreen_js.js = invenio_previewer.bundles:fullscreen_js',
+            'prism_js.js = invenio_previewer.bundles:prism_js',
+            'prism_css.css = invenio_previewer.bundles:prism_css',
+        ],
         'invenio_assets.webpack': {
             'invenio_previewer_theme = invenio_previewer.webpack:previewer'
         },

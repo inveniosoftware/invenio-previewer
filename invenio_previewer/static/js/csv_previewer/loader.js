@@ -5,39 +5,45 @@
  * Invenio is free software; you can redistribute it and/or modify it
  * under the terms of the MIT License; see LICENSE file for more details.
  */
+'use strict';
 
-import flight from "flightjs";
+define(function(require) {
 
-function Loader() {
-  var Loader;
+  var $ = require('node_modules/jquery/dist/jquery'),
+      d3 = require('node_modules/d3/d3');
 
-  this.handleShowLoader = function(ev, data) {
-    if (data.id === Loader.id) {
-      this.$node.show();
-    }
-  };
+  return require('node_modules/flightjs/build/flight').component(Loader);
 
-  this.handleHideLoader = function(ev, data) {
-    if (data.id === Loader.id) {
-      this.$node.hide();
-    }
-  };
+  function Loader() {
+    var Loader;
 
-  this.after("initialize", function() {
-    Loader = this;
-    Loader.id = Loader.$node.data("csv-target");
+    this.handleShowLoader = function (ev, data) {
+      if (data.id === Loader.id){
+        this.$node.show();
+      }
+    };
 
-    Loader.on(document, "showLoader", Loader.handleShowLoader);
-    Loader.on(document, "hideLoader", Loader.handleHideLoader);
-    Loader.on("click", function(ev) {
-      ev.preventDefault();
-      Loader.trigger(document, "loadNext", {
-        id: Loader.id,
+    this.handleHideLoader = function (ev, data) {
+      if (data.id === Loader.id){
+        this.$node.hide();
+      }
+    };
+
+    this.after('initialize', function () {
+      Loader = this;
+      Loader.id = Loader.$node.data('csv-target');
+
+      Loader.on(document, 'showLoader', Loader.handleShowLoader);
+      Loader.on(document, 'hideLoader', Loader.handleHideLoader);
+      Loader.on('click', function (ev) {
+        ev.preventDefault();
+        Loader.trigger(document, 'loadNext', {
+          id: Loader.id
+        });
       });
+
+      Loader.$node.hide();
     });
+  }
 
-    Loader.$node.hide();
-  });
-}
-
-export default flight.component(Loader);
+});
