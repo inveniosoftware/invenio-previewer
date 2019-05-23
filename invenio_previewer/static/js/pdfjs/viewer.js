@@ -31,28 +31,32 @@
            RenderingStates, UNKNOWN_SCALE, DEFAULT_SCALE_VALUE,
            IGNORE_CURRENT_POSITION_ON_ZOOM: true */
 
-import pdfLib from 'pdfjs-dist';
+'use strict';
 
-pdfLib.PDFJS.workerSrc = '/static/js/pdfjs/pdf.worker.min.js';
-pdfLib.PDFJS.cMapUrl = '/static/js/pdfjs/cmaps/';
-pdfLib.PDFJS.cMapPacked = true;
-
-var CSS_UNITS = 96.0 / 72.0;
-var DEFAULT_SCALE = 1.0;
-var DEFAULT_SCALE_DELTA = 1.1;
-var DEFAULT_SCALE_VALUE = 'auto';
 var DEFAULT_URL = '';
-var DISABLE_AUTO_FETCH_LOADING_BAR_TIMEOUT = 5000;
-var MAX_AUTO_SCALE = 1.25;
-var MAX_SCALE = 10.0;
+var DEFAULT_SCALE_DELTA = 1.1;
 var MIN_SCALE = 0.25;
-var PAGE_NUMBER_LOADING_INDICATOR = 'visiblePageIsLoading';
+var MAX_SCALE = 10.0;
 var SCALE_SELECT_CONTAINER_PADDING = 8;
 var SCALE_SELECT_PADDING = 22;
-var SCROLLBAR_PADDING = 40;
+var PAGE_NUMBER_LOADING_INDICATOR = 'visiblePageIsLoading';
+var DISABLE_AUTO_FETCH_LOADING_BAR_TIMEOUT = 5000;
+
+PDFJS.imageResourcesPath = '/static/js/pdfjs/web/images/';
+PDFJS.workerSrc = '/static/node_modules/pdfjs-dist/build/pdf.worker.js';
+PDFJS.cMapUrl = '/static/node_modules/pdfjs-dist/cmaps/pdfjs/';
+PDFJS.cMapPacked = true;
+
+var mozL10n = document.mozL10n || document.webL10n;
+
+
+var CSS_UNITS = 96.0 / 72.0;
+var DEFAULT_SCALE_VALUE = 'auto';
+var DEFAULT_SCALE = 1.0;
 var UNKNOWN_SCALE = 0;
+var MAX_AUTO_SCALE = 1.25;
+var SCROLLBAR_PADDING = 40;
 var VERTICAL_PADDING = 5;
-var mozL10n = window.document.mozL10n || window.document.webL10n;
 
 function getFileName(url) {
   var anchor = url.indexOf('#');
@@ -1890,13 +1894,13 @@ var PDFHistory = (function () {
         // navigating back and forward.
         self.allowHashChange = false;
         window.addEventListener('popstate', rewriteHistoryAfterBack);
-        window.history.back();
+        history.back();
 
         function rewriteHistoryAfterBack() {
           window.removeEventListener('popstate', rewriteHistoryAfterBack);
           window.addEventListener('popstate', rewriteHistoryAfterForward);
           self._pushToHistory(params, false, true);
-          window.history.forward();
+          history.forward();
         }
         function rewriteHistoryAfterForward() {
           window.removeEventListener('popstate', rewriteHistoryAfterForward);
@@ -2772,7 +2776,7 @@ var GrabToPan = (function GrabToPanClosure() {
       }
       if (event.originalTarget) {
         try {
-          /* eslint-disable no-unused-expressions */
+          /* jshint expr:true */
           event.originalTarget.tagName;
         } catch (e) {
           // Mozilla-specific: element is a scrollbar (XUL element)

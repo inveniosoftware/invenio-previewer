@@ -21,5 +21,5 @@ def can_preview(file):
 
 
 def preview(file):
-    """Return appropriate template and passes the file and an embed flag."""
+    """Return the appropriate template and passes the file and embed flag."""
     return render_template("invenio_previewer/default.html", file=file)

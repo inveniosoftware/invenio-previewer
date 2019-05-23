@@ -28,6 +28,8 @@ npm install
 cd ..
 
 flask collect -v
+# AMD/RequireJS has been deprecated and will be removed in future versions
+# flask assets build
 flask webpack buildall
 
 flask fixtures

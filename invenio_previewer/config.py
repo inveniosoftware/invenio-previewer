@@ -44,8 +44,11 @@ PREVIEWER_ABSTRACT_TEMPLATE = 'invenio_previewer/abstract_previewer.html'
 PREVIEWER_BASE_CSS_BUNDLES = ['previewer_theme.css']
 """Basic bundle which includes Font-Awesome/Bootstrap."""
 
-PREVIEWER_BASE_JS_BUNDLES = ['vendor.js']
+PREVIEWER_BASE_JS_BUNDLES = ['previewer_theme.js']
 """Basic bundle which includes Bootstrap/jQuery."""
 
 PREVIEWER_RECORD_FILE_FACOTRY = None
 """Factory for extracting files from records."""
+
+PREVIEWER_ASSETS_USE_WEBPACK = True
+"""If false, flask assets will be used for assets build."""
