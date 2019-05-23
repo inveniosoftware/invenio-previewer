@@ -85,7 +85,7 @@ def can_preview(file):
 
 
 def preview(file):
-    """Return appropriate template and pass the file and an embed flag."""
+    """Return the appropriate template and pass the file and an embed flag."""
     tree, limit_reached, error = make_tree(file)
     list = children_to_list(tree)['children']
     return render_template(
