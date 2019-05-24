@@ -15,3 +15,4 @@ from werkzeug.local import LocalProxy
 
 current_previewer = LocalProxy(
     lambda: current_app.extensions['invenio-previewer'])
+"""Proxy object to the current previewer extension."""

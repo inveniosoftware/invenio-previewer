@@ -50,3 +50,4 @@ previewer = WebpackBundle(
         'prismjs': '^1.15.0',
     }
 )
+"""Bundle of webpack assets."""

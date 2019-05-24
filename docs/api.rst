@@ -15,12 +15,45 @@ API Docs
    :undoc-members:
 
 
+API
+---
+
+.. automodule:: invenio_previewer.api
+   :members:
+   :undoc-members:
+
+
+Proxies
+-------
+
+.. automodule:: invenio_previewer.proxies
+   :members:
+   :undoc-members:
+
+
+Utils
+-----
+
+.. automodule:: invenio_previewer.utils
+   :members:
+   :undoc-members:
+
+
 Views
 -----
 
 .. automodule:: invenio_previewer.views
    :members:
    :undoc-members:
+
+
+Webpack
+-------
+
+.. automodule:: invenio_previewer.webpack
+   :members:
+   :undoc-members:
+
 
 Previewers
 ----------
@@ -85,6 +118,6 @@ ZIP
 Bundles
 -------
 
-.. automodule:: invenio_previewer.webpack
+.. automodule:: invenio_previewer.bundles
    :members:
    :undoc-members:
