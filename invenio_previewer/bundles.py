@@ -6,7 +6,12 @@
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-"""Previewer bundles."""
+"""Previewer bundles.
+
+.. deprecated:: 1.0.0
+    AMD/RequireJS based bundles have been deprecated in Invenio v3.0 and will
+    be removed.
+"""
 
 from __future__ import unicode_literals
 
