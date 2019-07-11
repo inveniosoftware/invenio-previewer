@@ -10,10 +10,11 @@
 
 from __future__ import absolute_import, unicode_literals
 
+import bleach
 import mistune
 from flask import render_template
 
-from ..utils import detect_encoding
+from ..utils import detect_encoding, sanitize_html
 
 previewable_extensions = ['md']
 
@@ -23,7 +24,7 @@ def render(file):
     with file.open() as fp:
         encoding = detect_encoding(fp, default='utf-8')
         result = mistune.markdown(fp.read().decode(encoding))
-        return result
+        return sanitize_html(result)
 
 
 def can_preview(file):

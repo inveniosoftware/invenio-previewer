@@ -123,27 +123,29 @@ def test_json_extension(app, webassets, bucket, record):
     """Test view with JSON files."""
     json_data = '{"name":"invenio","num":42,'\
                 '"flt":3.14159,"lst":[1,2,3],'\
-                '"obj":{"field":"some","num":4}}'
+                '"obj":{"field":"<script>alert(1)</script>","num":4}}'
     create_file(record, bucket, 'test.json', BytesIO(b(json_data)))
 
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.json'))
         assert 'class="language-javascript"' in res.get_data(as_text=True)
 
-        rendered_json = '{\n'\
-                        '    "name": "invenio",\n'\
-                        '    "num": 42,\n'\
-                        '    "flt": 3.14159,\n'\
-                        '    "lst": [\n'\
-                        '        1,\n'\
-                        '        2,\n'\
-                        '        3\n'\
-                        '    ],\n'\
-                        '    "obj": {\n'\
-                        '        "field": "some",\n'\
-                        '        "num": 4\n'\
-                        '    }\n'\
-                        '}'
+        rendered_json = \
+            '{\n' \
+            '    &#34;name&#34;: &#34;invenio&#34;,\n' \
+            '    &#34;num&#34;: 42,\n' \
+            '    &#34;flt&#34;: 3.14159,\n' \
+            '    &#34;lst&#34;: [\n' \
+            '        1,\n' \
+            '        2,\n' \
+            '        3\n' \
+            '    ],\n' \
+            '    &#34;obj&#34;: {\n' \
+            '        &#34;field&#34;: &#34;&lt;script&gt;alert(1)' \
+            '&lt;/script&gt;&#34;,\n' \
+            '        &#34;num&#34;: 4\n' \
+            '    }\n' \
+            '}'
         assert rendered_json in res.get_data(as_text=True)
 
         with patch('json.dumps', side_effect=Exception):
@@ -166,7 +168,7 @@ def test_max_file_size(app, webassets, bucket, record):
 
 def test_xml_extension(app, webassets, bucket, record):
     """Test view with XML files."""
-    xml_data = b'<el a="some"><c>1</c><c>2</c></el>'
+    xml_data = b'<el a="some"><script>alert(1)</script><c>1</c><c>2</c></el>'
     create_file(
         record, bucket, 'test.xml', BytesIO(xml_data))
 

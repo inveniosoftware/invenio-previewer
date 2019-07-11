@@ -8,12 +8,13 @@
 
 """Invenio Previewer Utilities."""
 
+import bleach
 import cchardet
 from flask import current_app
 
 
 def detect_encoding(fp, default=None):
-    """Detect the cahracter encoding of a file.
+    """Detect the character encoding of a file.
 
     :param fp: Open Python file pointer.
     :param default: Fallback encoding to use.
@@ -37,3 +38,17 @@ def detect_encoding(fp, default=None):
         return default
     finally:
         fp.seek(init_pos)
+
+
+def sanitize_html(value, tags=None, attributes=None):
+    """Sanitize HTML.
+
+    Use this function when you need to include unescaped HTML that contain
+    user provided data.
+    """
+    return bleach.clean(
+        value,
+        tags=tags or current_app.config['PREVIEWER_ALLOWED_TAGS'],
+        attributes=attributes or current_app.config['PREVIEWER_ALLOWED_ATTRS'],
+        strip=True,
+    ).strip()
