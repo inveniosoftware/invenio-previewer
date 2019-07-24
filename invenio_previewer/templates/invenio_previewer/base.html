@@ -33,6 +33,7 @@
     {%- block javascript %}
       {% if config.PREVIEWER_ASSETS_USE_WEBPACK %}
         {{ webpack['manifest.js'] }}
+        {{ webpack['vendor.js'] }}
         {% for js_bundle in js_bundles %}
           {{ webpack[js_bundle] }}
         {% endfor %}
