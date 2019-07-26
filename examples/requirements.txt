@@ -1,3 +1,5 @@
 invenio-access>=1.1.0
 invenio-accounts>=1.1.0
 invenio-db>=1.0.3
+invenio-records-rest>=1.4.2
+invenio-search[elasticsearch6]>=1.1.1
