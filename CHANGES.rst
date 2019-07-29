@@ -10,6 +10,11 @@
 Changes
 =======
 
+Version 1.0.0 (release 2019-07-29)
+----------------------------------
+
+- Initial production release.
+
 Version 1.0.0a12 (release 2019-07-11)
 -------------------------------------
 

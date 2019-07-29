@@ -19,8 +19,8 @@ history = open('CHANGES.rst').read()
 tests_require = [
     'check-manifest>=0.25',
     'coverage>=4.5.3',
+    'invenio-config>=1.0.2',
     'invenio-db[versioning]>=1.0.2',
-    'invenio-records-files>=1.0.0a11',
     'isort>=4.3.4',
     'mock>=1.3.0',
     'pydocstyle>=1.0.0',
@@ -34,8 +34,8 @@ extras_require = {
         'Sphinx>=1.5.1',
     ],
     'files': [
-        'invenio-files-rest>=1.0.0a23',
-        'invenio-records-files>=1.0.0a11',
+        'invenio-files-rest>=1.0.0',
+        'invenio-records-files>=1.0.0',
     ],
     'tests': tests_require,
 }
@@ -50,15 +50,15 @@ setup_requires = [
 ]
 
 install_requires = [
-    'Flask>=0.11.1',
-    'Flask-BabelEx>=0.9.3',
-    'mistune>=0.7.2',
     'cchardet>=1.0.0',
+    'Flask-BabelEx>=0.9.3',
+    'Flask>=0.11.1',
     'invenio-assets>=1.1.2',
     'invenio-formatter>=1.0.2',
     'invenio-pidstore>=1.0.0',
     'invenio-records-ui>=1.0.1',
     'ipython>=4.1.0',
+    'mistune>=0.7.2',
     'nbconvert[execute]>=4.1.0',
     'nbformat>=4.0.1',
     'tornado>=4.1,<=5.1.1',  # required by nbconvert -> jupyter-client
