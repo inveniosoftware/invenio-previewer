@@ -34,9 +34,11 @@ from flask_babelex import Babel
 from invenio_access import InvenioAccess
 from invenio_accounts import InvenioAccounts
 from invenio_assets import InvenioAssets
+from invenio_config import InvenioConfigDefault
 from invenio_db import InvenioDB, db
 from invenio_files_rest import InvenioFilesREST
 from invenio_files_rest.models import Bucket, Location
+from invenio_formatter import InvenioFormatter
 from invenio_i18n import InvenioI18N
 from invenio_pidstore.providers.recordid import RecordIdProvider
 from invenio_records import InvenioRecords
@@ -86,6 +88,8 @@ InvenioAssets(app)
 InvenioRecords(app)
 InvenioFilesREST(app)
 InvenioPreviewer(app)
+InvenioConfigDefault(app)
+InvenioFormatter(app)
 InvenioRecordsUI(app)
 app.register_blueprint(create_blueprint_from_app(app))
 

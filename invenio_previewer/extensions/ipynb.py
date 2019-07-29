@@ -14,8 +14,6 @@ import nbformat
 from flask import render_template
 from nbconvert import HTMLExporter
 
-from ..utils import sanitize_html
-
 
 def render(file):
     """Generate the result HTML."""
@@ -24,13 +22,10 @@ def render(file):
 
     notebook = nbformat.reads(content.decode('utf-8'), as_version=4)
 
-    # Note, we are not using the nbconvert provided HTML sanitizer
-    # (nbconvert.preprocessors.sanitize.SanitizeHTML), as it does not catch
-    # some special cases of XSS attacks (see example application for examples).
     html_exporter = HTMLExporter()
     html_exporter.template_file = 'basic'
     (body, resources) = html_exporter.from_notebook_node(notebook)
-    return sanitize_html(body), resources
+    return body, resources
 
 
 def can_preview(file):

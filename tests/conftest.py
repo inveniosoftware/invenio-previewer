@@ -22,10 +22,12 @@ from flask import Flask
 from flask_babelex import Babel
 from flask_webpackext import current_webpack
 from invenio_assets import InvenioAssets
+from invenio_config import InvenioConfigDefault
 from invenio_db import InvenioDB
 from invenio_db import db as db_
 from invenio_files_rest import InvenioFilesREST
 from invenio_files_rest.models import Bucket, Location, ObjectVersion
+from invenio_formatter import InvenioFormatter
 from invenio_pidstore.providers.recordid import RecordIdProvider
 from invenio_records import InvenioRecords
 from invenio_records_files.api import Record, RecordsBuckets
@@ -76,6 +78,8 @@ def app():
     InvenioAssets(app_)
     InvenioDB(app_)
     InvenioRecords(app_)
+    InvenioConfigDefault(app_)
+    InvenioFormatter(app_)
     InvenioPreviewer(app_)._state
     InvenioRecordsUI(app_)
     app_.register_blueprint(create_blueprint_from_app(app_))

@@ -61,7 +61,6 @@ def test_markdown_extension(app, webassets, bucket, record):
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'markdown.md'))
         assert '<h3>Testing markdown' in res.get_data(as_text=True)
-
         with patch('mistune.markdown', side_effect=Exception):
             res = client.get(preview_url(record['control_number'],
                                          'markdown.md'))

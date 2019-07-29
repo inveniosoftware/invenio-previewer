@@ -14,7 +14,7 @@ import bleach
 import mistune
 from flask import render_template
 
-from ..utils import detect_encoding, sanitize_html
+from ..utils import detect_encoding
 
 previewable_extensions = ['md']
 
@@ -24,7 +24,7 @@ def render(file):
     with file.open() as fp:
         encoding = detect_encoding(fp, default='utf-8')
         result = mistune.markdown(fp.read().decode(encoding))
-        return sanitize_html(result)
+        return result
 
 
 def can_preview(file):
