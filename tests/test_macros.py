@@ -15,19 +15,16 @@ import zipfile
 from flask import render_template_string, url_for
 from invenio_db import db
 from invenio_files_rest.models import ObjectVersion
-from invenio_records_files.api import RecordsBuckets
 from mock import patch
 from six import BytesIO, b
 
 
-def create_file(record, bucket, filename, stream):
+def create_file(record, filename, stream):
     """Create a file and add in record."""
-    obj = ObjectVersion.create(bucket, filename, stream=stream)
-    rb = RecordsBuckets(record_id=record.id, bucket_id=obj.bucket_id)
-    db.session.add(rb)
+    obj = ObjectVersion.create(record.bucket, filename, stream=stream)
     record.update(dict(
         _files=[dict(
-            bucket=str(bucket.id),
+            bucket=str(record.bucket.id),
             key=filename,
             size=obj.file.size,
             checksum=str(obj.file.checksum),
@@ -44,20 +41,19 @@ def preview_url(pid_val, filename):
                    pid_value=pid_val, filename=filename)
 
 
-def test_default_extension(app, webassets, bucket, record):
+def test_default_extension(app, webassets, record):
     """Test view by default."""
-    create_file(record, bucket, 'testfile', BytesIO(b'empty'))
+    create_file(record, 'testfile', BytesIO(b'empty'))
 
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'testfile'))
         assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
-def test_markdown_extension(app, webassets, bucket, record):
+def test_markdown_extension(app, webassets, record):
     """Test view with md files."""
     create_file(
-        record, bucket, 'markdown.md', BytesIO(b'### Testing markdown ###'))
-
+        record, 'markdown.md', BytesIO(b'### Testing markdown ###'))
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'markdown.md'))
         assert '<h3>Testing markdown' in res.get_data(as_text=True)
@@ -67,19 +63,19 @@ def test_markdown_extension(app, webassets, bucket, record):
             assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
-def test_pdf_extension(app, webassets, bucket, record):
+def test_pdf_extension(app, webassets, record):
     """Test view with pdf files."""
     create_file(
-        record, bucket, 'test.pdf', BytesIO(b'Content not used'))
+        record, 'test.pdf', BytesIO(b'Content not used'))
 
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.pdf'))
         assert 'PDFView.open(\'' in res.get_data(as_text=True)
 
 
-def test_csv_dthreejs_extension(app, webassets, bucket, record):
+def test_csv_dthreejs_extension(app, webassets, record):
     """Test view with csv files."""
-    create_file(record, bucket, 'test.csv', BytesIO(b'A,B\n1,2'))
+    create_file(record, 'test.csv', BytesIO(b'A,B\n1,2'))
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.csv'))
         assert 'data-csv-source="' in res.get_data(as_text=True)
@@ -90,19 +86,19 @@ def test_csv_dthreejs_extension(app, webassets, bucket, record):
             assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
-def test_csv_dthreejs_delimiter(app, webassets, bucket, record):
+def test_csv_dthreejs_delimiter(app, webassets, record):
     """Test view with csv files."""
-    create_file(record, bucket, 'test.csv', BytesIO(b'A#B\n1#2'))
+    create_file(record, 'test.csv', BytesIO(b'A#B\n1#2'))
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.csv'))
         assert 'data-csv-source="' in res.get_data(as_text=True)
         assert 'data-csv-delimiter="#"' in res.get_data(as_text=True)
 
 
-def test_zip_extension(app, webassets, bucket, record, zip_fp):
+def test_zip_extension(app, webassets, record, zip_fp):
     """Test view with a zip file."""
     create_file(
-        record, bucket, 'test.zip', zip_fp)
+        record, 'test.zip', zip_fp)
 
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.zip'))
@@ -118,12 +114,12 @@ def test_zip_extension(app, webassets, bucket, record, zip_fp):
             assert 'Zipfile is not previewable' in res.get_data(as_text=True)
 
 
-def test_json_extension(app, webassets, bucket, record):
+def test_json_extension(app, webassets, record):
     """Test view with JSON files."""
     json_data = '{"name":"invenio","num":42,'\
                 '"flt":3.14159,"lst":[1,2,3],'\
                 '"obj":{"field":"<script>alert(1)</script>","num":4}}'
-    create_file(record, bucket, 'test.json', BytesIO(b(json_data)))
+    create_file(record, 'test.json', BytesIO(b(json_data)))
 
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.json'))
@@ -153,23 +149,23 @@ def test_json_extension(app, webassets, bucket, record):
             assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
-def test_max_file_size(app, webassets, bucket, record):
+def test_max_file_size(app, webassets, record):
     """Test file size limitation."""
     max_file_size = app.config.get(
         'PREVIEWER_MAX_FILE_SIZE_BYTES', 1 * 1024 * 1024)
     too_large_string = '1' * (max_file_size + 1)
-    create_file(record, bucket, 'test.json', BytesIO(b(too_large_string)))
+    create_file(record, 'test.json', BytesIO(b(too_large_string)))
 
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.json'))
         assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
-def test_xml_extension(app, webassets, bucket, record):
+def test_xml_extension(app, webassets, record):
     """Test view with XML files."""
     xml_data = b'<el a="some"><script>alert(1)</script><c>1</c><c>2</c></el>'
     create_file(
-        record, bucket, 'test.xml', BytesIO(xml_data))
+        record, 'test.xml', BytesIO(xml_data))
 
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.xml'))
@@ -184,10 +180,10 @@ def test_xml_extension(app, webassets, bucket, record):
             assert 'we are unfortunately not' in res.get_data(as_text=True)
 
 
-def test_ipynb_extension(app, webassets, bucket, record):
+def test_ipynb_extension(app, webassets, record):
     """Test view with IPython notebooks files."""
     create_file(
-        record, bucket, 'test.ipynb', BytesIO(b'''
+        record, 'test.ipynb', BytesIO(b'''
 {
   "cells": [
     {
@@ -226,9 +222,9 @@ def test_ipynb_extension(app, webassets, bucket, record):
         assert 'This is an example notebook.' in res.get_data(as_text=True)
 
 
-def test_simple_image_extension(app, webassets, bucket, record):
+def test_simple_image_extension(app, webassets, record):
     """Test view with simple image files (PNG)."""
-    create_file(record, bucket, 'test.png', BytesIO(b'Content not used'))
+    create_file(record, 'test.png', BytesIO(b'Content not used'))
 
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.png'))
