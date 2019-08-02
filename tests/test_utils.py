@@ -18,10 +18,11 @@ from invenio_previewer import current_previewer
 from invenio_previewer.utils import detect_encoding
 
 
-def test_default_file_reader(app, record_with_file, testfile):
+def test_default_file_reader(app, record_with_file):
     """Test view by default."""
+    record, testfile = record_with_file
     file_ = current_previewer.record_file_factory(
-        None, record_with_file, testfile.key)
+        None, record, testfile.key)
     assert file_.version_id == testfile.version_id
 
 

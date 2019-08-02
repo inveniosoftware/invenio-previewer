@@ -35,7 +35,7 @@ extras_require = {
     ],
     'files': [
         'invenio-files-rest>=1.0.0',
-        'invenio-records-files>=1.0.0',
+        'invenio-records-files>=1.1.0',
     ],
     'tests': tests_require,
 }

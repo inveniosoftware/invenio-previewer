@@ -124,7 +124,21 @@ previewed. First, we need to create a record and attach a file to it.
 Creating a record
 ~~~~~~~~~~~~~~~~~
 
-Let's start by creating a record and its persistent identifier:
+When creating a record, by default a bucket is created and associated to the
+record. Therefore, before creating the record, we need to initialize a
+default location:
+
+>>> import tempfile
+>>> from six import BytesIO
+>>> from invenio_files_rest.models import Bucket, Location, \
+...    ObjectVersion
+>>> from invenio_records_files.api import RecordsBuckets
+>>> tmpdir = tempfile.mkdtemp()
+>>> loc = Location(name='local', uri=tmpdir, default=True)
+>>> db.session.add(loc)
+>>> db.session.commit()
+
+Now we can create the record and its persistent identifier:
 
 >>> from uuid import uuid4
 >>> from invenio_pidstore.providers.recordid import RecordIdProvider
@@ -140,23 +154,6 @@ Let's start by creating a record and its persistent identifier:
 
 Adding files
 ~~~~~~~~~~~~
-
-Next, let's initialize Invenio-Files-REST by creating a default location and a
-bucket for the record:
-
->>> import tempfile
->>> from six import BytesIO
->>> from invenio_files_rest.models import Bucket, Location, \
-...    ObjectVersion
->>> from invenio_records_files.api import RecordsBuckets
->>> tmpdir = tempfile.mkdtemp()
->>> loc = Location(name='local', uri=tmpdir, default=True)
->>> db.session.add(loc)
->>> db.session.commit()
->>> bucket = Bucket.create()
->>> rb = RecordsBuckets(record_id=record.id, bucket_id=bucket.id)
->>> db.session.add(rb)
->>> db.session.commit()
 
 We can then add a few demo files into the record:
 
