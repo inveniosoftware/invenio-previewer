@@ -103,6 +103,8 @@ setup(
             'fullscreen_js.js = invenio_previewer.bundles:fullscreen_js',
             'prism_js.js = invenio_previewer.bundles:prism_js',
             'prism_css.css = invenio_previewer.bundles:prism_css',
+            'simple_image_css.css = '
+            'invenio_previewer.bundles:simple_image_css',
         ],
         'invenio_assets.webpack': {
             'invenio_previewer_theme = invenio_previewer.webpack:previewer'

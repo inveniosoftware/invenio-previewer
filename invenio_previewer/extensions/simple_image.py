@@ -33,4 +33,5 @@ def preview(file):
     return render_template(
         'invenio_previewer/simple_image.html',
         file=file,
+        css_bundles=['simple_image_css.css'],
     )
