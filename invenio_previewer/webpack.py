@@ -39,6 +39,7 @@ previewer = WebpackBundle(
         'prism_css': './scss/prismjs.scss',
         'pdfjs_js': './js/pdfjs.js',
         'pdfjs_css': './scss/pdfjs.scss',
+        'simple_image_css': './scss/simple_image.scss'
     },
     dependencies={
         'bootstrap-sass': '~3.4.0',
