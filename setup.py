@@ -55,7 +55,7 @@ install_requires = [
     'Flask>=0.11.1',
     'invenio-assets>=1.1.2',
     'invenio-formatter>=1.0.2',
-    'invenio-pidstore>=1.0.0',
+    'invenio-pidstore>=1.1.0',
     'invenio-records-ui>=1.0.1',
     'ipython>=4.1.0',
     'mistune>=0.7.2',
@@ -103,6 +103,8 @@ setup(
             'fullscreen_js.js = invenio_previewer.bundles:fullscreen_js',
             'prism_js.js = invenio_previewer.bundles:prism_js',
             'prism_css.css = invenio_previewer.bundles:prism_css',
+            'simple_image_css.css = '
+            'invenio_previewer.bundles:simple_image_css',
         ],
         'invenio_assets.webpack': {
             'invenio_previewer_theme = invenio_previewer.webpack:previewer'

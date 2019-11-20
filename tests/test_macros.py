@@ -229,7 +229,7 @@ def test_simple_image_extension(app, webassets, record):
     with app.test_client() as client:
         res = client.get(preview_url(record['control_number'], 'test.png'))
         assert '<img src="' in res.get_data(as_text=True)
-        assert 'style="max-width: 100%;">' in res.get_data(as_text=True)
+        assert 'class="previewer-simple-image"' in res.get_data(as_text=True)
 
 
 def test_view_macro_file_list(app):

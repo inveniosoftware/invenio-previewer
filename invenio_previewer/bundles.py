@@ -82,6 +82,12 @@ pdfjs_js = Bundle(
 )
 """JavaScript bundle for PDFjs previewer."""
 
+simple_image_css = Bundle(
+    "css/simple_image/simple_image.css",
+    output='gen/simple_image.%(version)s.css',
+)
+"""CSS bundle for simple image previewer."""
+
 fullscreen_js = Bundle(
     "js/zip/fullscreen.js",
     filters='uglifyjs',
