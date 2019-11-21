@@ -10,6 +10,12 @@
 Changes
 =======
 
+Version 1.0.2 (Release 2019-11-21)
+----------------------------------
+
+- Removes inline styling from simple image previewer for
+  Content Security Policy compliance
+
 Version 1.0.1 (Release 2019-08-02)
 ----------------------------------
 
