@@ -237,27 +237,29 @@ def test_view_macro_file_list(app):
     with app.test_request_context():
         files = [
             {
-                'uri': 'http://domain/test1.txt',
                 'key': 'test1.txt',
                 'size': 10,
                 'date': '2016-07-12',
             },
             {
-                'uri': 'http://otherdomain/test2.txt',
                 'key': 'test2.txt',
-                'size': 12,
+                'size': 12000000,
                 'date': '2016-07-12',
             },
         ]
 
+        pid = {
+            'pid_value': 1
+        }
+
         result = render_template_string("""
             {%- from "invenio_previewer/macros.html" import file_list %}
-            {{ file_list(files) }}
-            """, files=files)
+            {{ file_list(files, pid) }}
+            """, files=files, pid=pid)
 
-        assert '<a class="forcewrap" href="http://domain/test1.txt"' in result
-        assert '<td class="nowrap">2016-07-12' in result
-        assert '<td class="nowrap">10</td>' in result
-        assert 'href="http://otherdomain/test2.txt"' in result
-        assert '<td class="nowrap">2016-07-12</td>' in result
-        assert '<td class="nowrap">12</td>' in result
+        print(result)
+
+        assert 'href="/record/1/files/test1.txt?download=1"' in result
+        assert '<td class="nowrap">10 Bytes' in result
+        assert 'href="/record/1/files/test2.txt?download=1"' in result
+        assert '<td class="nowrap">12.0 MB</td>' in result
