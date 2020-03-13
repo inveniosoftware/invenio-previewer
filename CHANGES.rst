@@ -10,6 +10,12 @@
 Changes
 =======
 
+Version 1.2.0 (Release 2020-03-13)
+----------------------------------
+
+- Change flask dependency to centrally managed by invenio-base
+- Drop support for Python 2.7
+
 Version 1.1.0 (Release 2019-12-20)
 ----------------------------------
 
