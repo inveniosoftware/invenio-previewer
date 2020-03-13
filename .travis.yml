@@ -14,8 +14,6 @@ addons:
 notifications:
   email: false
 
-sudo: false
-
 language: python
 
 cache:
@@ -27,8 +25,8 @@ env:
   - REQUIREMENTS=devel
 
 python:
-  - "2.7"
-  - "3.5"
+  - "3.6"
+  - "3.7"
 
 matrix:
   fast_finish: true
@@ -36,6 +34,7 @@ matrix:
     - env: REQUIREMENTS=devel
 
 before_install:
+  - "pip uninstall -y six"
   - "travis_retry pip install --upgrade pip setuptools py"
   # Bug in pkginfo wheel 1.3.0 (remove once fixed in pkginfo)
   - "travis_retry pip install --upgrade --no-binary=:all: pkginfo"
@@ -62,7 +61,8 @@ deploy:
   password:
     secure: "D0nJxy6c+YAIQCIy29cf0XkhzRA2zhI9TDFXi9GV+s5qcfgR8ds58CDgAdj/ErdvkWA5VBC13BS+668LWMtFIQENZ44Onc3J2UkiF8vHyzChu0FqtgCMT/qbFNeUIlJ6lwTsgAcWnQkh2jt3yTOvnbRuNdIKViyJpd6TWkKHl4khB7s4PWtyXsV7DshZhykAGqCFU2jizt1JDq2EuHNcvq79CjSwaGKdOBWWYzj6PalhOKae6/7bmg+4wQ+p0OwigIrI0irbes+xnVXEVmWalYTpLiLQaWmUrPKHpL0F6TVjFHPMYscFtp+d9Z+ROHAjsc5KN3uJmlrS6cGSHOVFxWBF6xnrJxWGd3hQboZXEvrzJno1R6pXTU7rh3/LINgXY+zS75GUPSIBvkHcvdlW6Ph8zTHE2FR67kUfFGv4ImwElMj2yt+B11n0DxdsKlSevduelnGLSeJWutow3VHetAIMXDBnHm1OYhOtqpHpmuulyX5tnbOcsDLnXPNX9GUUKZ3pUEjmINwWjfvEbV8fvfyPGl4gSsM7a+rtjlbX6CTA2GSPJaJl9LzBq5Ocnwt85iT/3IXtwiY4MEU3rwmNSI5SpTgP+eZfmrOw22ji0NpSxsJoTpcZ7gPij6C0DXmpnvBXQVjYPBLtFnTHBk11K2ZFAzYefcQprmdk8WIVEPU="
   distributions: "compile_catalog sdist bdist_wheel"
+  skip_existing: true
   on:
     tags: true
-    python: "2.7"
+    python: "3.6"
     condition: $REQUIREMENTS = release

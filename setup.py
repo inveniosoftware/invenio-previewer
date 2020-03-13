@@ -51,12 +51,12 @@ setup_requires = [
 
 install_requires = [
     'cchardet>=1.0.0',
-    'Flask-BabelEx>=0.9.3',
-    'Flask>=0.11.1',
     'invenio-assets>=1.1.2',
+    'invenio-base>=1.2.2',
     'invenio-formatter>=1.0.2',
-    'invenio-pidstore>=1.1.0',
-    'invenio-records-ui>=1.0.1',
+    'invenio-i18n>=1.2.0',
+    'invenio-pidstore>=1.2.0',
+    'invenio-records-ui>=1.1.0',
     'ipython>=4.1.0',
     'mistune>=0.7.2',
     'nbconvert[execute]>=4.1.0',
