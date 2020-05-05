@@ -31,7 +31,7 @@ tests_require = [
 
 extras_require = {
     'docs': [
-        'Sphinx>=1.5.1',
+        'Sphinx>=1.5.1,<3',
     ],
     'files': [
         'invenio-files-rest>=1.0.0',
@@ -52,7 +52,7 @@ setup_requires = [
 install_requires = [
     'cchardet>=1.0.0',
     'Flask-BabelEx>=0.9.3',
-    'Flask>=0.11.1',
+    'Flask>=1.0.4',
     'invenio-assets>=1.1.2',
     'invenio-formatter>=1.0.2',
     'invenio-pidstore>=1.1.0',
@@ -133,10 +133,9 @@ setup(
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: Implementation :: CPython',
         'Development Status :: 5 - Production/Stable',
     ],
