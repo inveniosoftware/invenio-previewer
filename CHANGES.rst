@@ -10,6 +10,12 @@
 Changes
 =======
 
+Version 1.2.1 (Release TBD)
+----------------------------------
+
+- set Sphinx ``<3`` because of errors related to application context
+- stop using example app
+
 Version 1.2.0 (Release 2020-03-13)
 ----------------------------------
 

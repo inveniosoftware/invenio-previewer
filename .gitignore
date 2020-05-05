@@ -26,10 +26,6 @@ var/
 .installed.cfg
 *.egg
 
-# Example application
-examples/instance/
-examples/static/
-
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
@@ -61,5 +57,3 @@ docs/_build/
 
 # PyBuilder
 target/
-examples/instance/
-examples/static/
