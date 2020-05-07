@@ -10,7 +10,7 @@
 Changes
 =======
 
-Version 1.2.1 (Release TBD)
+Version 1.2.1 (Release 2020-05-07)
 ----------------------------------
 
 - set Sphinx ``<3`` because of errors related to application context
