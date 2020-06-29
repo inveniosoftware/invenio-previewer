@@ -26,29 +26,55 @@
 
 from __future__ import absolute_import, print_function
 
-from flask_webpackext import WebpackBundle
+from invenio_assets.webpack import WebpackThemeBundle
 
-previewer = WebpackBundle(
+previewer = WebpackThemeBundle(
     __name__,
     'assets',
-    entry={
-        'd3_csv': './js/csv_previewer/init.js',
-        'previewer_theme': './scss/style.scss',
-        'fullscreen_js': './js/fullscreen.js',
-        'prism_js': './js/prismjs.js',
-        'prism_css': './scss/prismjs.scss',
-        'pdfjs_js': './js/pdfjs.js',
-        'pdfjs_css': './scss/pdfjs.scss',
-        'simple_image_css': './scss/simple_image.scss'
-    },
-    dependencies={
-        'bootstrap-sass': '~3.4.0',
-        'd3': '^3.5.17',
-        'flightjs': '~1.5.1',
-        'font-awesome': '~4.5.0',
-        'jquery': '^3.3.1',
-        'pdfjs-dist': '^1.4.192',
-        'prismjs': '^1.15.0',
+    default='semantic-ui',
+    themes={
+        'bootstrap3': dict(
+            entry={
+                'd3_csv': './js/csv_previewer/init.js',
+                'previewer_theme': './js/previewer_theme.js',
+                'fullscreen_js': './js/fullscreen.js',
+                'prism_js': './js/prismjs.js',
+                'prism_css': './scss/prismjs.scss',
+                'pdfjs_js': './js/pdfjs.js',
+                'pdfjs_css': './scss/pdfjs.scss',
+                'simple_image_css': './scss/simple_image.scss'
+            },
+            dependencies={
+                'bootstrap-sass': '~3.4.0',
+                'd3': '^3.5.17',
+                'flightjs': '~1.5.1',
+                'font-awesome': '~4.5.0',
+                'jquery': '^3.3.1',
+                'pdfjs-dist': '^1.4.192',
+                'prismjs': '^1.15.0',
+            }
+        ),
+        'semantic-ui': dict(
+            entry={
+                'd3_csv': './js/invenio_previewer/csv_previewer/init.js',
+                'previewer_theme': './js/invenio_previewer/previewer_theme.js',
+                'fullscreen_js': './js/invenio_previewer/fullscreen.js',
+                'prism_js': './js/invenio_previewer/prismjs.js',
+                'prism_css': './scss/invenio_previewer/prismjs.scss',
+                'pdfjs_js': './js/invenio_previewer/pdfjs.js',
+                'pdfjs_css': './scss/invenio_previewer/pdfjs.scss',
+                'simple_image_css':
+                    './scss/invenio_previewer/simple_image.scss'
+            },
+            dependencies={
+                'd3': '^3.5.17',
+                'flightjs': '~1.5.1',
+                'font-awesome': '~4.5.0',
+                'jquery': '^3.3.1',
+                'pdfjs-dist': '^1.4.192',
+                'prismjs': '^1.15.0',
+            }
+        ),
     }
 )
 """Bundle of webpack assets."""

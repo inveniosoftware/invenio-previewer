@@ -113,11 +113,3 @@ ZIP
 .. automodule:: invenio_previewer.extensions.zip
    :members:
    :undoc-members:
-
-
-Bundles
--------
-
-.. automodule:: invenio_previewer.bundles
-   :members:
-   :undoc-members:
