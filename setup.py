@@ -20,6 +20,7 @@ tests_require = [
     'check-manifest>=0.25',
     'coverage>=4.5.3',
     'invenio-config>=1.0.2',
+    'invenio-theme>=1.3.0a10',
     'invenio-db[versioning]>=1.0.2',
     'isort>=4.3.4',
     'mock>=1.3.0',
@@ -51,10 +52,10 @@ setup_requires = [
 
 install_requires = [
     'cchardet>=1.0.0',
-    'invenio-assets>=1.1.2',
+    'invenio-assets>=1.2.2',
     'invenio-base>=1.2.2',
     'invenio-formatter>=1.0.2',
-    'invenio-i18n>=1.2.0',
+    'invenio-i18n>=1.3.0a1',
     'invenio-pidstore>=1.2.0',
     'invenio-records-ui>=1.1.0',
     'ipython>=4.1.0',
@@ -92,19 +93,6 @@ setup(
         ],
         'invenio_i18n.translations': [
             'messages = invenio_previewer',
-        ],
-        'invenio_assets.bundles': [
-            'previewer_theme.css = '
-            'invenio_previewer.bundles:previewer_base_css',
-            'previewer_theme.js = invenio_previewer.bundles:previewer_base_js',
-            'd3_csv.js = invenio_previewer.bundles:csv_previewer_js',
-            'pdfjs_css.css = invenio_previewer.bundles:pdfjs_css',
-            'pdfjs_js.js = invenio_previewer.bundles:pdfjs_js',
-            'fullscreen_js.js = invenio_previewer.bundles:fullscreen_js',
-            'prism_js.js = invenio_previewer.bundles:prism_js',
-            'prism_css.css = invenio_previewer.bundles:prism_css',
-            'simple_image_css.css = '
-            'invenio_previewer.bundles:simple_image_css',
         ],
         'invenio_assets.webpack': {
             'invenio_previewer_theme = invenio_previewer.webpack:previewer'

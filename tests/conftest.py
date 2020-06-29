@@ -72,7 +72,8 @@ def app():
                 record_class='invenio_records_files.api:Record',
             ),
         ),
-        SERVER_NAME='localhost'
+        SERVER_NAME='localhost',
+        APP_THEME=['semantic-ui']
     )
     Babel(app_)
     InvenioAssets(app_)
@@ -107,6 +108,10 @@ def webassets(app):
     """Flask application fixture with assets."""
     initial_dir = os.getcwd()
     os.chdir(app.instance_path)
+    # force theme.config alias pinting to less/invenio_theme/theme.config
+    theme_bundle = current_webpack.project.bundles[0]
+    theme_bundle.aliases['../../theme.config'] = \
+        'less/invenio_theme/theme.config'
     current_webpack.project.buildall()
     yield app
     os.chdir(initial_dir)
