@@ -10,16 +10,12 @@
 Changes
 =======
 
-<<<<<<< Updated upstream
-=======
-Version 1.3.0a1 (Release 2020-06-29)
+Version 1.3.0a1 (Release 2020-06-30)
 ------------------------------------
 
 - Initial migration to Semantic-UI
 - Drops support of flask-assets
 
-
->>>>>>> Stashed changes
 Version 1.2.1 (Release 2020-05-07)
 ----------------------------------
 
