@@ -26,7 +26,7 @@ html {
 
 body {
   height: 100%;
-  background-image: url(/static/js/pdfjs/web/images/texture.png);
+  background-image: url(/js/invenio_previewer/pdfjs/web/images/texture.png);
 }
 
 body,
@@ -395,7 +395,7 @@ html[dir='rtl'] .findbar {
 }
 
 #findInput[data-status="pending"] {
-  background-image: url(/static/js/pdfjs/web/images/loading-small.png);
+  background-image: url(/js/invenio_previewer/pdfjs/web/images/loading-small.png);
   background-repeat: no-repeat;
   background-position: right;
 }
@@ -737,7 +737,7 @@ html[dir='rtl'] .dropdownToolbarButton {
   max-width: 120px;
   padding: 3px 2px 2px;
   overflow: hidden;
-  background: url(/static/js/pdfjs/web/images/toolbarButton-menuArrows.png) no-repeat;
+  background: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-menuArrows.png) no-repeat;
 }
 html[dir='ltr'] .dropdownToolbarButton {
   background-position: 95%;
@@ -834,63 +834,63 @@ html[dir="rtl"] .secondaryToolbarButton::before {
 }
 
 html[dir='ltr'] .toolbarButton#sidebarToggle::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-sidebarToggle.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-sidebarToggle.png);
 }
 html[dir='rtl'] .toolbarButton#sidebarToggle::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-sidebarToggle-rtl.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-sidebarToggle-rtl.png);
 }
 
 html[dir='ltr'] .toolbarButton#secondaryToolbarToggle::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-secondaryToolbarToggle.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-secondaryToolbarToggle.png);
 }
 html[dir='rtl'] .toolbarButton#secondaryToolbarToggle::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-secondaryToolbarToggle-rtl.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-secondaryToolbarToggle-rtl.png);
 }
 
 html[dir='ltr'] .toolbarButton.findPrevious::before {
-  content: url(/static/js/pdfjs/web/images/findbarButton-previous.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/findbarButton-previous.png);
 }
 html[dir='rtl'] .toolbarButton.findPrevious::before {
-  content: url(/static/js/pdfjs/web/images/findbarButton-previous-rtl.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/findbarButton-previous-rtl.png);
 }
 
 html[dir='ltr'] .toolbarButton.findNext::before {
-  content: url(/static/js/pdfjs/web/images/findbarButton-next.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/findbarButton-next.png);
 }
 html[dir='rtl'] .toolbarButton.findNext::before {
-  content: url(/static/js/pdfjs/web/images/findbarButton-next-rtl.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/findbarButton-next-rtl.png);
 }
 
 html[dir='ltr'] .toolbarButton.pageUp::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-pageUp.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-pageUp.png);
 }
 html[dir='rtl'] .toolbarButton.pageUp::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-pageUp-rtl.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-pageUp-rtl.png);
 }
 
 html[dir='ltr'] .toolbarButton.pageDown::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-pageDown.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-pageDown.png);
 }
 html[dir='rtl'] .toolbarButton.pageDown::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-pageDown-rtl.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-pageDown-rtl.png);
 }
 
 .toolbarButton.zoomOut::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-zoomOut.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-zoomOut.png);
 }
 
 .toolbarButton.zoomIn::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-zoomIn.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-zoomIn.png);
 }
 
 .toolbarButton.presentationMode::before,
 .secondaryToolbarButton.presentationMode::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-presentationMode.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-presentationMode.png);
 }
 
 .toolbarButton.print::before,
 .secondaryToolbarButton.print::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-print.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-print.png);
   left: 6px;
 }
 
@@ -903,12 +903,12 @@ html[dir="rtl"] .secondaryToolbarButton.print::before {
 
 .toolbarButton.openFile::before,
 .secondaryToolbarButton.openFile::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-openFile.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-openFile.png);
 }
 
 .toolbarButton.download::before,
 .secondaryToolbarButton.download::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-download.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-download.png);
 }
 
 .toolbarButton.bookmark,
@@ -931,22 +931,22 @@ html[dir="rtl"] .secondaryToolbarButton.print::before {
 
 .toolbarButton.bookmark::before,
 .secondaryToolbarButton.bookmark::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-bookmark.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-bookmark.png);
 }
 
 #viewThumbnail.toolbarButton::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-viewThumbnail.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-viewThumbnail.png);
 }
 
 html[dir="ltr"] #viewOutline.toolbarButton::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-viewOutline.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-viewOutline.png);
 }
 html[dir="rtl"] #viewOutline.toolbarButton::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-viewOutline-rtl.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-viewOutline-rtl.png);
 }
 
 #viewFind.toolbarButton::before {
-  content: url(/static/js/pdfjs/web/images/toolbarButton-search.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/toolbarButton-search.png);
 }
 
 .secondaryToolbarButton {
@@ -982,27 +982,27 @@ html[dir="rtl"] .secondaryToolbarButton > span {
 }
 
 .secondaryToolbarButton.firstPage::before {
-  content: url(/static/js/pdfjs/web/images/secondaryToolbarButton-firstPage.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/secondaryToolbarButton-firstPage.png);
 }
 
 .secondaryToolbarButton.lastPage::before {
-  content: url(/static/js/pdfjs/web/images/secondaryToolbarButton-lastPage.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/secondaryToolbarButton-lastPage.png);
 }
 
 .secondaryToolbarButton.rotateCcw::before {
-  content: url(/static/js/pdfjs/web/images/secondaryToolbarButton-rotateCcw.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/secondaryToolbarButton-rotateCcw.png);
 }
 
 .secondaryToolbarButton.rotateCw::before {
-  content: url(/static/js/pdfjs/web/images/secondaryToolbarButton-rotateCw.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/secondaryToolbarButton-rotateCw.png);
 }
 
 .secondaryToolbarButton.handTool::before {
-  content: url(/static/js/pdfjs/web/images/secondaryToolbarButton-handTool.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/secondaryToolbarButton-handTool.png);
 }
 
 .secondaryToolbarButton.documentProperties::before {
-  content: url(/static/js/pdfjs/web/images/secondaryToolbarButton-documentProperties.png);
+  content: url(/js/invenio_previewer/pdfjs/web/images/secondaryToolbarButton-documentProperties.png);
 }
 
 .verticalToolbarSeparator {
@@ -1247,7 +1247,7 @@ canvas {
   overflow: visible;
   border: 9px solid transparent;
   background-clip: content-box;
-  border-image: url(/static/js/pdfjs/web/images/shadow.png) 9 9 repeat;
+  border-image: url(/js/invenio_previewer/pdfjs/web/images/shadow.png) 9 9 repeat;
   background-color: white;
 }
 
@@ -1271,7 +1271,7 @@ canvas {
   top: 0;
   right: 0;
   bottom: 0;
-  background: url('/static/js/pdfjs/web/images/loading-icon.gif') center no-repeat;
+  background: url('/js/invenio_previewer/pdfjs/web/images/loading-icon.gif') center no-repeat;
 }
 
 .textLayer {
@@ -1402,7 +1402,7 @@ canvas {
   line-height: 14px;
   text-align: center;
   background-color: #474747; /* fallback */
-  background-image: url(/static/js/pdfjs/web/images/texture.png),
+  background-image: url(/js/invenio_previewer/pdfjs/web/images/texture.png),
                     linear-gradient(hsla(0,0%,32%,.99), hsla(0,0%,27%,.95));
   box-shadow: inset 1px 0 0 hsla(0,0%,100%,.08),
               inset 0 1px 1px hsla(0,0%,0%,.15),
@@ -1447,7 +1447,7 @@ canvas {
   text-align: left;
   cursor: default;
   background-color: #474747; /* fallback */
-  background-image: url(/static/js/pdfjs/web/images/texture.png),
+  background-image: url(/js/invenio_previewer/pdfjs/web/images/texture.png),
                     linear-gradient(hsla(0,0%,32%,.99), hsla(0,0%,27%,.95));
   box-shadow: inset 1px 0 0 hsla(0,0%,100%,.08),
               inset 0 1px 1px hsla(0,0%,0%,.15),
@@ -1570,7 +1570,7 @@ html[dir='rtl'] #documentPropertiesContainer .row > * {
 }
 
 .grab-to-pan-grab {
-  cursor: url("/static/js/pdfjs/web/images/grab.cur"), move !important;
+  cursor: url("/js/invenio_previewer/pdfjs/web/images/grab.cur"), move !important;
   cursor: -webkit-grab !important;
   cursor: -moz-grab !important;
   cursor: grab !important;
@@ -1580,7 +1580,7 @@ html[dir='rtl'] #documentPropertiesContainer .row > * {
 }
 .grab-to-pan-grab:active,
 .grab-to-pan-grabbing {
-  cursor: url("/static/js/pdfjs/web/images/grabbing.cur"), move !important;
+  cursor: url("/js/invenio_previewer/pdfjs/web/images/grabbing.cur"), move !important;
   cursor: -webkit-grabbing !important;
   cursor: -moz-grabbing !important;
   cursor: grabbing !important;
