@@ -10,11 +10,12 @@
 Changes
 =======
 
-Version 1.3.0a1 (Release 2020-06-30)
+Version 1.3.0a2 (Release 2020-08-27)
 ------------------------------------
 
 - Initial migration to Semantic-UI
 - Drops support of flask-assets
+- Fixes PDF.js static asset paths
 
 Version 1.2.1 (Release 2020-05-07)
 ----------------------------------
