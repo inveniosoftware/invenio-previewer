@@ -10,7 +10,7 @@
 Changes
 =======
 
-Version 1.3.0a2 (Release 2020-08-27)
+Version 1.3.0a3 (Release 2020-08-28)
 ------------------------------------
 
 - Initial migration to Semantic-UI
