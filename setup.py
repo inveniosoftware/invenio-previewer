@@ -17,17 +17,11 @@ readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
 
 tests_require = [
-    'check-manifest>=0.25',
-    'coverage>=4.5.3',
     'invenio-config>=1.0.2',
     'invenio-theme>=1.3.0a10',
     'invenio-db[versioning]>=1.0.2',
-    'isort>=4.3.4',
     'mock>=1.3.0',
-    'pydocstyle>=1.0.0',
-    'pytest-cov>=2.7.1',
-    'pytest-pep8>=1.0.6',
-    'pytest>=4.6.4,<5.0.0',
+    'pytest-invenio>=1.3.2',
 ]
 
 extras_require = {
@@ -60,7 +54,8 @@ install_requires = [
     'invenio-records-ui>=1.1.0',
     'ipython>=4.1.0',
     'mistune>=0.7.2',
-    'nbconvert[execute]>=4.1.0',
+    # NOTE: nbclient package provides execute in nbconvert >= 6.X
+    'nbconvert[execute]>=4.1.0,<6.0.0',
     'nbformat>=4.0.1',
     'tornado>=4.1,<=5.1.1',  # required by nbconvert -> jupyter-client
 ]
