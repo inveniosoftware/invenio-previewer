@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2016-2019 CERN.
+# Copyright (C) 2016-2020 CERN.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -21,7 +21,7 @@ tests_require = [
     'invenio-theme>=1.3.0a10',
     'invenio-db[versioning]>=1.0.2',
     'mock>=1.3.0',
-    'pytest-invenio>=1.3.2',
+    'pytest-invenio>=1.4.0',
 ]
 
 extras_require = {
@@ -40,8 +40,7 @@ for reqs in extras_require.values():
     extras_require['all'].extend(reqs)
 
 setup_requires = [
-    'Babel>=1.3',
-    'pytest-runner>=2.6.2',
+    'Babel>=2.8',
 ]
 
 install_requires = [
