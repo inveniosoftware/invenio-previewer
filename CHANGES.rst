@@ -1,6 +1,6 @@
 ..
     This file is part of Invenio.
-    Copyright (C) 2016-2019 CERN.
+    Copyright (C) 2016-2020 CERN.
 
     Invenio is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
@@ -9,6 +9,13 @@
 
 Changes
 =======
+
+Version 1.2.2 (Release 2020-10-09)
+----------------------------------
+
+- Pin nbconvert < 6.0.0 for compatibility
+- Pin invenio-assets < 1.2.0 for compatibility
+- Upgrade pytest-invenio to 1.4.0
 
 Version 1.2.1 (Release 2020-05-07)
 ----------------------------------
