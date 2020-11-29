@@ -23,14 +23,6 @@ API
    :undoc-members:
 
 
-Proxies
--------
-
-.. automodule:: invenio_previewer.proxies
-   :members:
-   :undoc-members:
-
-
 Utils
 -----
 

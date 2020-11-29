@@ -19,7 +19,7 @@ class PreviewFile(object):
     """Preview file default implementation."""
 
     def __init__(self, pid, record, fileobj):
-        """Default constructor.
+        """Initialize object.
 
         :param file: ObjectVersion instance from Invenio-Files-REST.
         """

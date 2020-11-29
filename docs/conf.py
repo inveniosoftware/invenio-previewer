@@ -58,7 +58,10 @@ author = u'CERN'
 
 # Get the version string. Cannot be done with import!
 g = {}
-with open(os.path.join('..', 'invenio_previewer', 'version.py'), 'rt') as fp:
+g = {}
+with open(os.path.join(os.path.dirname(__file__), '..',
+                       'invenio_previewer', 'version.py'),
+          'rt') as fp:
     exec(fp.read(), g)
     version = g['__version__']
 
