@@ -35,14 +35,14 @@ previewer = WebpackThemeBundle(
     themes={
         'bootstrap3': dict(
             entry={
-                'd3_csv': './js/csv_previewer/init.js',
-                'previewer_theme': './js/previewer_theme.js',
-                'fullscreen_js': './js/fullscreen.js',
-                'prism_js': './js/prismjs.js',
-                'prism_css': './scss/prismjs.scss',
-                'pdfjs_js': './js/pdfjs.js',
-                'pdfjs_css': './scss/pdfjs.scss',
-                'simple_image_css': './scss/simple_image.scss'
+                'd3_csv': './js/invenio_previewer/csv_previewer/init.js',
+                'previewer_theme': './js/invenio_previewer/previewer_theme.js',
+                'fullscreen_js': './js/invenio_previewer/fullscreen.js',
+                'prism_js': './js/invenio_previewer/prismjs.js',
+                'prism_css': './scss/invenio_previewer/prismjs.scss',
+                'pdfjs_js': './js/invenio_previewer/pdfjs.js',
+                'pdfjs_css': './scss/invenio_previewer/pdfjs.scss',
+                'simple_image_css': './scss/invenio_previewer/simple_image.scss'
             },
             dependencies={
                 'bootstrap-sass': '~3.4.0',
