@@ -33,7 +33,7 @@
 
 import pdfLib from 'pdfjs-dist';
 
-pdfLib.PDFJS.workerSrc = '/static/js/pdfjs/pdf.worker.min.js';
+pdfLib.PDFJS.workerSrc = 'pdf_worker_min_js';
 pdfLib.PDFJS.cMapUrl = '/static/js/pdfjs/cmaps/';
 pdfLib.PDFJS.cMapPacked = true;
 
