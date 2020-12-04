@@ -41,6 +41,9 @@ previewer = WebpackThemeBundle(
                 'prism_js': './js/prismjs.js',
                 'prism_css': './scss/prismjs.scss',
                 'pdfjs_js': './js/pdfjs.js',
+                'pdfjs_l10n_js': './js/pdfjs/l10n.js',
+                'pdfjs_viewer_js': './js/pdfjs/viewer.js',
+                'pdf_worker_min_js': '.js/pdfjs/pdf.worker.min',
                 'pdfjs_css': './scss/pdfjs.scss',
                 'simple_image_css': './scss/simple_image.scss'
             },
@@ -62,6 +65,9 @@ previewer = WebpackThemeBundle(
                 'prism_js': './js/invenio_previewer/prismjs.js',
                 'prism_css': './scss/invenio_previewer/prismjs.scss',
                 'pdfjs_js': './js/invenio_previewer/pdfjs.js',
+                'pdfjs_l10n_js': './js/pdfjs/l10n.js',
+                'pdfjs_viewer_js': './js/pdfjs/viewer.js',
+                'pdf_worker_min_js': '.js/pdfjs/pdf.worker.min',
                 'pdfjs_css': './scss/invenio_previewer/pdfjs.scss',
                 'simple_image_css':
                     './scss/invenio_previewer/simple_image.scss'
