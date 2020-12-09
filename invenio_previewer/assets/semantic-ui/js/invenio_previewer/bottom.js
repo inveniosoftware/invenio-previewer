@@ -6,8 +6,10 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-img.previewer-simple-image{
-  max-width: 100%;
-  margin-top: 20px;
-  margin-bottom: 5px;
-}
+$(".ui.button.embed-btn").click(function () {
+  $("#embedModal").modal("show");
+});
+
+$("#close-btn").click(function () {
+  $("#embedModal").modal("hide");
+});

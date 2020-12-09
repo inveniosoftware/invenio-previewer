@@ -11,11 +11,14 @@
 
 {%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
 
+
 {% block panel %}
-<div class="container">
-    <div class="col-md-2 col-md-offset-3">
-        <h3><i class="fa fa-remove"></i> {{_('Cannot preview file')}}</h3>
+<div class="ui container">
+  <div class="ui padded grid column">
+    <div class="column">
+        <h3><i class="times icon"></i> {{_('Cannot preview file')}}</h3>
         <p>{{_('Sorry, we are unfortunately not able to preview this file.')}}</p>
     </div>
+  </div>
 </div>
 {% endblock %}
