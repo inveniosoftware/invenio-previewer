@@ -6,6 +6,8 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
+import $ from "jquery";
+
 $(".ui.button.embed-btn").click(function () {
   $("#embedModal").modal("show");
 });
