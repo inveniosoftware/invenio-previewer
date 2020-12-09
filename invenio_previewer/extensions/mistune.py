@@ -14,22 +14,23 @@ import bleach
 import mistune
 from flask import render_template
 
+from ..proxies import current_previewer
 from ..utils import detect_encoding
 
-previewable_extensions = ['md']
+previewable_extensions = ["md"]
 
 
 def render(file):
     """Render HTML from Markdown file content."""
     with file.open() as fp:
-        encoding = detect_encoding(fp, default='utf-8')
+        encoding = detect_encoding(fp, default="utf-8")
         result = mistune.markdown(fp.read().decode(encoding))
         return result
 
 
 def can_preview(file):
     """Determine if file can be previewed."""
-    return file.is_local() and file.has_extensions('.md')
+    return file.is_local() and file.has_extensions(".md")
 
 
 def preview(file):
@@ -37,5 +38,7 @@ def preview(file):
     return render_template(
         "invenio_previewer/mistune.html",
         file=file,
-        content=render(file)
+        content=render(file),
+        js_bundles=current_previewer.js_bundles,
+        css_bundles=current_previewer.css_bundles,
     )

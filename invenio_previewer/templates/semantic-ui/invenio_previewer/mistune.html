@@ -10,9 +10,9 @@
 {%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
 
 {% block panel %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
+<div class="ui container">
+    <div class="ui grid column">
+        <div class="column">
             {{ content | sanitize_html() | safe }}
         </div>
     </div>

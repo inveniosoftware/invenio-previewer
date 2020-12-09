@@ -10,7 +10,9 @@
 {%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
 
 {% block panel %}
-  <img src="{{ file.uri }}"
-       class="previewer-simple-image"
-  >
+  <div class="ui container">
+    <img src="{{ file.uri }}"
+        class="previewer-simple-image"
+    >
+  </div>
 {% endblock %}

@@ -12,26 +12,30 @@ from __future__ import absolute_import, print_function
 
 from flask import current_app, render_template
 
-previewable_extensions = ['jpg', 'jpeg', 'png', 'gif']
+from ..proxies import current_previewer
+
+previewable_extensions = ["jpg", "jpeg", "png", "gif"]
 
 
 def validate(file):
     """Validate a simple image file."""
     max_file_size = current_app.config.get(
-        'PREVIEWER_MAX_IMAGE_SIZE_BYTES', 0.5 * 1024 * 1024)
+        "PREVIEWER_MAX_IMAGE_SIZE_BYTES", 0.5 * 1024 * 1024
+    )
     return file.size <= max_file_size
 
 
 def can_preview(file):
     """Determine if the given file can be previewed."""
-    supported_extensions = ('.jpg', '.jpeg', '.png', '.gif')
+    supported_extensions = (".jpg", ".jpeg", ".png", ".gif")
     return file.has_extensions(*supported_extensions) and validate(file)
 
 
 def preview(file):
     """Render the appropriate template with embed flag."""
     return render_template(
-        'invenio_previewer/simple_image.html',
+        "invenio_previewer/simple_image.html",
         file=file,
-        css_bundles=['simple_image_css.css'],
+        js_bundles=current_previewer.js_bundles,
+        css_bundles=current_previewer.css_bundles + ["simple_image_css.css"],
     )
