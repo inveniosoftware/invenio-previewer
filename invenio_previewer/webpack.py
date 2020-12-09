@@ -52,6 +52,9 @@ previewer = WebpackThemeBundle(
                 'jquery': '^3.3.1',
                 'pdfjs-dist': '^1.4.192',
                 'prismjs': '^1.15.0',
+            },
+            aliases={
+                '@scss/invenio_previewer': 'scss/invenio_previewer',
             }
         ),
         'semantic-ui': dict(

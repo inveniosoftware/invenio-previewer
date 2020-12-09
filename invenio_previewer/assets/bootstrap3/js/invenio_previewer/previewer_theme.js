@@ -9,4 +9,4 @@
 import "jquery/dist/jquery.js";
 import "bootstrap/dist/js/bootstrap.js";
 
-import "../scss/style.scss";
+import "@scss/invenio_previewer/style.scss";
