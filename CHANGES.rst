@@ -10,6 +10,11 @@
 Changes
 =======
 
+Version 1.3.2 (Release 2020-12-11)
+------------------------------------
+
+- Fixes the preview button and the question icon mark in the Jinja macro.
+
 Version 1.3.1 (Release 2020-12-11)
 ------------------------------------
 
