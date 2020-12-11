@@ -32,11 +32,7 @@
       {%- set file_type = file.key.split('.')[-1] %}
       <tr>
         <td>
-          {%- if with_preview %}
-            <a class="filename preview-link" href="#preview" data-url="{{file_url_preview}}">{{ file.key }}</a>
-          {%- else %}
-            <a href="{{ file_url_download }}">{{ file.key }}</a>
-          {%- endif %}
+          <a href="{{ file_url_download }}">{{ file.key }}</a>
           <br/><small>{{file.checksum}} <i class="question circle checksum icon" data-content="{{_('This is the file fingerprint (checksum), which can be used to verify the file integrity.')}}"></i></small>
         </td>
         <td>{{ file.size|filesizeformat }}</td>
