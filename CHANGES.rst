@@ -10,6 +10,11 @@
 Changes
 =======
 
+Version 1.3.1 (Release 2020-12-11)
+------------------------------------
+
+- Fixes the file download link the Jinja macro for listing files.
+
 Version 1.3.0 (Release 2020-12-10)
 ------------------------------------
 
