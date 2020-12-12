@@ -38,6 +38,7 @@ PREVIEWER_PREFERENCE = [
     'pdfjs',
     'ipynb',
     'zip',
+    'tar',
 ]
 """Decides which previewers are available and their priority."""
 
