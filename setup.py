@@ -19,14 +19,14 @@ history = open('CHANGES.rst').read()
 tests_require = [
     'invenio-config>=1.0.2',
     'invenio-theme>=1.3.0a10',
-    'invenio-db[versioning]>=1.0.2',
+    'invenio-db[versioning]>=1.0.9',
     'mock>=1.3.0',
     'pytest-invenio>=1.4.0',
 ]
 
 extras_require = {
     'docs': [
-        'Sphinx>=3,<4',
+        'Sphinx>=3.3.1,<3.4.2',
     ],
     'files': [
         'invenio-files-rest>=1.0.0',
@@ -46,10 +46,10 @@ setup_requires = [
 install_requires = [
     'cchardet>=1.0.0',
     'invenio-assets>=1.2.2',
-    'invenio-base>=1.2.3',
+    'invenio-base>=1.2.4',
     'invenio-formatter>=1.0.3',
     'invenio-i18n>=1.3.0a1',
-    'invenio-pidstore>=1.2.0',
+    'invenio-pidstore>=1.2.2',
     'invenio-records-ui>=1.1.0',
     'ipython>=4.1.0',
     'mistune>=0.7.2',
