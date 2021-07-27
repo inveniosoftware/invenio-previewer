@@ -97,6 +97,7 @@ setup(
             'simple_image = invenio_previewer.extensions.simple_image',
             'xml_prismjs = invenio_previewer.extensions.xml_prismjs',
             'mistune = invenio_previewer.extensions.mistune',
+            'txt = invenio_previewer.extensions.txt',
             'pdfjs = invenio_previewer.extensions.pdfjs',
             'zip = invenio_previewer.extensions.zip',
             'ipynb = invenio_previewer.extensions.ipynb',
