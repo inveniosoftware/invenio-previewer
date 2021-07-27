@@ -42,7 +42,8 @@ previewer = WebpackThemeBundle(
                 'prism_css': './scss/invenio_previewer/prismjs.scss',
                 'pdfjs_js': './js/invenio_previewer/pdfjs.js',
                 'pdfjs_css': './scss/invenio_previewer/pdfjs.scss',
-                'simple_image_css': './scss/invenio_previewer/simple_image.scss',
+                'simple_image_css':
+                    './scss/invenio_previewer/simple_image.scss',
             },
             dependencies={
                 'bootstrap-sass': '~3.4.0',

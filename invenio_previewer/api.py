@@ -62,13 +62,8 @@ class PreviewFile(object):
 
     def has_extensions(self, *exts):
         """Check if file has one of the extensions."""
-        file_ext = splitext(self.filename)[1]
-        file_ext = file_ext.lower()
-
-        for e in exts:
-            if file_ext == e:
-                return True
-        return False
+        file_ext = splitext(self.filename)[1].lower()
+        return file_ext in exts
 
     def open(self):
         """Open the file."""
