@@ -10,6 +10,11 @@
 Changes
 =======
 
+Version 1.3.5 (Release 2022-02-28)
+----------------------------------
+
+- Align bootstrap-sass version with Invenio-Theme version.
+
 Version 1.3.3 (Release 2021-07-12)
 ------------------------------------
 
