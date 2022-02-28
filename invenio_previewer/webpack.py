@@ -46,7 +46,7 @@ previewer = WebpackThemeBundle(
                     './scss/invenio_previewer/simple_image.scss',
             },
             dependencies={
-                'bootstrap-sass': '~3.4.0',
+                'bootstrap-sass': '~3.3.5',
                 'd3': '^3.5.17',
                 'flightjs': '~1.5.1',
                 'font-awesome': '~4.5.0',
