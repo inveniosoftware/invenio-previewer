@@ -10,6 +10,11 @@
 Changes
 =======
 
+Version 1.1.2 (Release 2022-03-04)
+----------------------------------
+
+- Pin bootstrap-sass version to 3.3.5
+
 Version 1.1.1 (Release 2020-05-08)
 ----------------------------------
 
