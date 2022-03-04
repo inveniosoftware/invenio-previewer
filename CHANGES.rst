@@ -10,6 +10,11 @@
 Changes
 =======
 
+Version 1.1.3 (Release 2022-03-04)
+----------------------------------
+
+- Backport add github actions
+
 Version 1.1.2 (Release 2022-03-04)
 ----------------------------------
 
