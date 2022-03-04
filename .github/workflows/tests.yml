@@ -2,9 +2,13 @@ name: CI
 
 on:
   push:
-    branches: master
+    branches:
+      - master
+      - maint-1.1
   pull_request:
-    branches: master
+    branches:
+      - master
+      - maint-1.1
   schedule:
     # * is a special character in YAML so you have to quote this string
     - cron:  '0 3 * * 6'
