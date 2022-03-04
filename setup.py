@@ -51,7 +51,7 @@ setup_requires = [
 
 install_requires = [
     'cchardet>=1.0.0',
-    'Flask-BabelEx>=0.9.3',
+    'Flask-BabelEx>=0.9.4',
     'Flask>=1.0.4',
     'invenio-assets>=1.1.2',
     'invenio-formatter>=1.0.2',
@@ -62,6 +62,7 @@ install_requires = [
     'nbconvert[execute]>=4.1.0',
     'nbformat>=4.0.1',
     'tornado>=4.1,<=5.1.1',  # required by nbconvert -> jupyter-client
+    'invenio-db>=1.0.13'
 ]
 
 packages = find_packages()

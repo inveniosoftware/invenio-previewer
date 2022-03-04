@@ -22,7 +22,7 @@ previewer_base_css = Bundle(
     "node_modules/bootstrap/dist/css/bootstrap.css",
     NpmBundle(
         npm={
-            "bootstrap-sass": "~3.4.0",
+            "bootstrap-sass": "~3.3.5",
             "font-awesome": "~4.5.0",
         }
     ),
