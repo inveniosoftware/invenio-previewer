@@ -17,16 +17,16 @@ readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
 
 tests_require = [
-    'check-manifest>=0.25',
-    'coverage>=4.5.3',
+    'check-manifest>=0.47',
+    'coverage>=6',
     'invenio-config>=1.0.2',
-    'invenio-db[versioning]>=1.0.2',
     'isort>=4.3.4',
-    'mock>=1.3.0',
-    'pydocstyle>=1.0.0',
-    'pytest-cov>=2.7.1',
+    'mock>=3.0.5',
+    'pydocstyle>=6.0.0',
+    'pytest-cov>=3',
     'pytest-pep8>=1.0.6',
-    'pytest>=4.6.4,<5.0.0',
+    'pytest>=4.6.11,<5.0.0',
+    'invenio-db[versioning]>=1.0.13',
 ]
 
 extras_require = {
@@ -34,7 +34,7 @@ extras_require = {
         'Sphinx>=1.5.1,<3',
     ],
     'files': [
-        'invenio-files-rest>=1.0.0',
+        'invenio-files-rest>=1.0.0,<1.1.0',
         'invenio-records-files>=1.1.0',
     ],
     'tests': tests_require,
@@ -51,18 +51,19 @@ setup_requires = [
 
 install_requires = [
     'cchardet>=1.0.0',
-    'Flask-BabelEx>=0.9.4',
-    'Flask>=1.0.4',
-    'invenio-assets>=1.1.2',
+    'invenio-i18n>=1.1.1,<1.2',
+    'Flask>=1.1.4,<2.0.0',
+    'flask-assets>=0.12.0,<3.0',
+    'invenio-assets>=1.1.2,<1.2',  # pinned due to moving to webpack
     'invenio-formatter>=1.0.2',
     'invenio-pidstore>=1.1.0',
-    'invenio-records-ui>=1.0.1',
+    'invenio-records-ui>=1.0.1,<1.1.0',
     'ipython>=4.1.0',
     'mistune>=0.7.2',
-    'nbconvert[execute]>=4.1.0',
+    'nbconvert[execute]>=4.1.0,<6.0.0',
     'nbformat>=4.0.1',
     'tornado>=4.1,<=5.1.1',  # required by nbconvert -> jupyter-client
-    'invenio-db>=1.0.13'
+    'markupsafe>=1.0.0,<2.1.0',  # due to removed `execute` support
 ]
 
 packages = find_packages()

@@ -11,9 +11,9 @@
 from __future__ import absolute_import, print_function
 
 import importlib
+from unittest.mock import patch
 
 from flask import Flask
-from mock import patch
 from pkg_resources import EntryPoint
 
 from invenio_previewer import InvenioPreviewer

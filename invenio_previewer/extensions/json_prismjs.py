@@ -41,7 +41,7 @@ def validate_json(file):
         try:
             json.loads(fp.read().decode('utf-8'))
             return True
-        except:
+        except Exception:
             return False
 
 
