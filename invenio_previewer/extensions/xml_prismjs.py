@@ -41,7 +41,7 @@ def validate_xml(file):
             content = fp.read().decode('utf-8')
             xml.dom.minidom.parseString(content)
             return True
-        except:
+        except Exception:
             return False
 
 

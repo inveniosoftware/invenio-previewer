@@ -10,8 +10,9 @@
 
 from __future__ import absolute_import, print_function
 
+from unittest.mock import patch
+
 import pytest
-from mock import patch
 from six import BytesIO
 
 from invenio_previewer import current_previewer

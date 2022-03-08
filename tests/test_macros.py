@@ -11,11 +11,11 @@
 from __future__ import absolute_import, print_function
 
 import zipfile
+from unittest.mock import patch
 
 from flask import render_template_string, url_for
 from invenio_db import db
 from invenio_files_rest.models import ObjectVersion
-from mock import patch
 from six import BytesIO, b
 
 
