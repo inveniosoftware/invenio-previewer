@@ -10,6 +10,11 @@
 Changes
 =======
 
+Version 1.1.2 (Release 2022-03-09)
+
+- update python dependencies
+
+
 Version 1.1.1 (Release 2020-05-08)
 ----------------------------------
 
