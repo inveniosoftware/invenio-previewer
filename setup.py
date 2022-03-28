@@ -17,20 +17,20 @@ readme = open('README.rst').read()
 history = open('CHANGES.rst').read()
 
 tests_require = [
-    'invenio-config>=1.0.2',
-    'invenio-theme>=1.3.0a10',
-    'invenio-db[versioning]>=1.0.9',
+    'invenio-config>=1.0.3',
+    'invenio-theme>=1.3.20',
+    'invenio-db[versioning]>=1.0.13',
     'mock>=1.3.0',
-    'pytest-invenio>=1.4.0',
+    'pytest-invenio>=1.4.5',
 ]
 
 extras_require = {
     'docs': [
-        'Sphinx>=3.3.1,<3.4.2',
+        'Sphinx>=4.2.0,<5.0.0',
     ],
     'files': [
-        'invenio-files-rest>=1.0.0',
-        'invenio-records-files>=1.1.0',
+        'invenio-files-rest>=1.3.2',
+        'invenio-records-files>=1.2.1',
     ],
     'tests': tests_require,
 }
@@ -45,18 +45,19 @@ setup_requires = [
 
 install_requires = [
     'cchardet>=1.0.0',
-    'invenio-assets>=1.2.2',
-    'invenio-base>=1.2.4',
-    'invenio-formatter>=1.0.3',
-    'invenio-i18n>=1.3.0a1',
-    'invenio-pidstore>=1.2.2',
-    'invenio-records-ui>=1.1.0',
+    'invenio-assets>=1.2.7',
+    'invenio-base>=1.2.9',
+    'invenio-formatter>=1.1.3',
+    'invenio-i18n>=1.3.1',
+    'invenio-pidstore>=1.2.3',
+    'invenio-records-ui>=1.2.0',
     'ipython>=4.1.0',
-    'mistune>=0.7.2',
+    'mistune>=0.8.1',
     # NOTE: nbclient package provides execute in nbconvert >= 6.X
-    'nbconvert[execute]>=4.1.0,<6.0.0',
-    'nbformat>=4.0.1',
-    'tornado>=4.1,<=5.1.1',  # required by nbconvert -> jupyter-client
+    'nbconvert>=6.0,<7.0',
+    'nbclient>=0.5,<1.0',
+    'nbformat>=5.1,<6.0',
+    'tornado>=6.1,<7.0',  # required by nbconvert -> jupyter-client
 ]
 
 packages = find_packages()
