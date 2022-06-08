@@ -9,7 +9,7 @@
 # Alizee Pace <alizee.pace@gmail.com>, 2016
 # Tibor Simko <tibor.simko@cern.ch>, 2021
 # Mojib Wali <mojib.wali@tugraz.at>, 2021
-# Chriz Uniba <christina.zeller@uni-bamberg.de>, 2021
+# chriz_uniba <christina.zeller@uni-bamberg.de>, 2022
 # 
 msgid ""
 msgstr ""
@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
 "POT-Creation-Date: 2021-06-11 11:05+0200\n"
 "PO-Revision-Date: 2016-08-25 14:09+0000\n"
-"Last-Translator: Chriz Uniba <christina.zeller@uni-bamberg.de>, 2021\n"
+"Last-Translator: chriz_uniba <christina.zeller@uni-bamberg.de>, 2022\n"
 "Language-Team: German (https://www.transifex.com/inveniosoftware/teams/23537/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -335,7 +335,7 @@ msgstr "Titel:"
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:258
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:258
 msgid "Author:"
-msgstr "Autor:"
+msgstr "AutorIn:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:261
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:261
@@ -360,12 +360,12 @@ msgstr "Änderungsdatum:"
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:273
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:273
 msgid "Creator:"
-msgstr "Ersteller:"
+msgstr "ErstellerIn:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:277
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:277
 msgid "PDF Producer:"
-msgstr "PDF-Erzeuger:"
+msgstr "PDF-ErzeugerIn:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:280
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:280
@@ -390,4 +390,4 @@ msgstr "Vollbild"
 #: invenio_previewer/templates/invenio_previewer/zip.html:61
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/zip.html:29
 msgid "The previewer is not showing all the files"
-msgstr "Der Previewer zeigt nicht alle Dateien an"
+msgstr "Der Vorschau zeigt nicht alle Dateien an."
