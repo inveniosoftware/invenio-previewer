@@ -32,6 +32,7 @@ PREVIEWER_ZIP_MAX_FILES = 1000
 PREVIEWER_PREFERENCE = [
     'csv_dthreejs',
     'simple_image',
+    'simple_video',
     'json_prismjs',
     'xml_prismjs',
     'mistune',

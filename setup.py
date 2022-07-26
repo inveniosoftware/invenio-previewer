@@ -96,6 +96,7 @@ setup(
             'csv_dthreejs = invenio_previewer.extensions.csv_dthreejs',
             'json_prismjs = invenio_previewer.extensions.json_prismjs',
             'simple_image = invenio_previewer.extensions.simple_image',
+            'simple_video = invenio_previewer.extensions.simple_video',
             'xml_prismjs = invenio_previewer.extensions.xml_prismjs',
             'mistune = invenio_previewer.extensions.mistune',
             'txt = invenio_previewer.extensions.txt',
