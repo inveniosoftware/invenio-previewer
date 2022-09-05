@@ -10,6 +10,13 @@
 Changes
 =======
 
+
+Version 1.3.7 (Release 2022-09-05)
+----------------------------------
+
+- jupyter: fix previewer of jpynb
+- tests: upgrade invenio-db
+
 Version 1.3.6 (Release 2022-03-31)
 ----------------------------------
 
