@@ -6,21 +6,18 @@
  * under the terms of the MIT License; see LICENSE file for more details.
  */
 
-import d3 from "d3";
+import * as d3 from "d3";
 import flight from "flightjs";
 
 function CSV_D3JS() {
   var CSV_D3JS;
 
-  this.tabulate = function(data, target, columns) {
-    var table = d3
-      .select(target)
-      .append("table")
-      .classed({
-        table: true,
-        "table-hover": true,
-        "table-bordered": true,
-      });
+  this.tabulate = function (data, target, columns) {
+    var table = d3.select(target).append("table").classed({
+      table: true,
+      "table-hover": true,
+      "table-bordered": true,
+    });
     CSV_D3JS.thead = table.append("thead");
     CSV_D3JS.tbody = table.append("tbody");
     CSV_D3JS.columns = columns;
@@ -33,7 +30,7 @@ function CSV_D3JS() {
       .data(CSV_D3JS.columns)
       .enter()
       .append("th")
-      .text(function(column) {
+      .text(function (column) {
         return column;
       });
 
@@ -53,7 +50,7 @@ function CSV_D3JS() {
     return true;
   };
 
-  this.loadNext = function(ev, data) {
+  this.loadNext = function (ev, data) {
     if (data.id === CSV_D3JS.id && CSV_D3JS.next <= CSV_D3JS.chunks) {
       // create a row for each object in the data chunk
       CSV_D3JS.tbody
@@ -62,14 +59,14 @@ function CSV_D3JS() {
         .enter()
         .append("tr")
         .selectAll("td")
-        .data(function(row) {
-          return CSV_D3JS.columns.map(function(column) {
+        .data(function (row) {
+          return CSV_D3JS.columns.map(function (column) {
             return { column: column, value: row[column] };
           });
         })
         .enter()
         .append("td")
-        .text(function(d) {
+        .text(function (d) {
           return d.value;
         });
 
@@ -82,7 +79,7 @@ function CSV_D3JS() {
     }
   };
 
-  this.after("initialize", function() {
+  this.after("initialize", function () {
     CSV_D3JS = this;
     CSV_D3JS.id = CSV_D3JS.node.id;
 
@@ -91,7 +88,7 @@ function CSV_D3JS() {
       resource = CSV_D3JS.$node.data("csv-source"),
       dsv = d3.dsv(delimiter, "text/csv; charset=" + encoding);
 
-    dsv(resource, function(data) {
+    dsv(resource, function (data) {
       var col = Object.keys(data[0]);
       CSV_D3JS.tabulate(data, CSV_D3JS.node, col);
     });

@@ -47,12 +47,12 @@ previewer = WebpackThemeBundle(
             },
             dependencies={
                 'bootstrap-sass': '~3.3.5',
-                'd3': '^3.5.17',
+                'd3': '^7.6.0',
                 'flightjs': '~1.5.1',
                 'font-awesome': '~4.5.0',
                 'jquery': '^3.3.1',
-                'pdfjs-dist': '^1.4.192',
-                'prismjs': '^1.15.0',
+                'pdfjs-dist': '^3.0.0',
+                'prismjs': '^1.29.0',
             },
             aliases={
                 '@scss/invenio_previewer': 'scss/invenio_previewer',
@@ -74,12 +74,12 @@ previewer = WebpackThemeBundle(
                     './scss/invenio_previewer/simple_image.scss',
             },
             dependencies={
-                'd3': '^3.5.17',
+                'd3': '^7.6.0',
                 'flightjs': '~1.5.1',
                 'font-awesome': '~4.5.0',
                 'jquery': '^3.3.1',
-                'pdfjs-dist': '^1.4.192',
-                'prismjs': '^1.15.0',
+                'pdfjs-dist': '^3.0.0',
+                'prismjs': '^1.29.0',
             }
         ),
     }
