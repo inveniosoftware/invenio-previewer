@@ -45,6 +45,7 @@
 
     <div id="mainContainer">
       <div class="findbar hidden doorHanger hiddenSmallView" id="findbar">
+        <input id="pdf-file-uri" type="hidden" value="{{ file.uri }}" />
         <label for="findInput" class="toolbarLabel" data-l10n-id="find_label">{{_('Find:')}}</label>
         <input id="findInput" class="toolbarField" tabindex="41">
         <div class="splitToolbarButton">
@@ -309,7 +310,5 @@
 
 {%- block javascript %}
   {{ super() }}
-  <script>
-    PDFView.open('{{ file.uri }}');
-  </script>
+  {{ webpack['open_pdf.js'] }}
 {%- endblock %}

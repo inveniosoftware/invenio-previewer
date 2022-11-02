@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2016 CERN.
+# Copyright (C) 2016-2022 CERN.
+# Copyright (C)      2022 TU Wien.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -42,6 +43,7 @@ previewer = WebpackThemeBundle(
                 'prism_css': './scss/invenio_previewer/prismjs.scss',
                 'pdfjs_js': './js/invenio_previewer/pdfjs.js',
                 'pdfjs_css': './scss/invenio_previewer/pdfjs.scss',
+                'open_pdf': './js/invenio_previewer/open_pdf.js',
                 'simple_image_css':
                     './scss/invenio_previewer/simple_image.scss',
             },
@@ -66,6 +68,7 @@ previewer = WebpackThemeBundle(
                 'prism_js': './js/invenio_previewer/prismjs.js',
                 'prism_css': './scss/invenio_previewer/prismjs.scss',
                 'pdfjs_js': './js/invenio_previewer/pdfjs.js',
+                'open_pdf': './js/invenio_previewer/open_pdf.js',
                 'bottom_js': './js/invenio_previewer/bottom.js',
                 'pdfjs_css': './scss/invenio_previewer/pdfjs.scss',
                 'zip_css': './scss/invenio_previewer/zip.scss',
