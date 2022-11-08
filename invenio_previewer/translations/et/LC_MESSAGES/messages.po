@@ -5,8 +5,8 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 # 
 # Translators:
-# Alizee Pace <alizee.pace@gmail.com>, 2021
-# Tibor Simko <tibor.simko@cern.ch>, 2021
+# Martin Jantson <martinjantson97@gmail.com>, 2022
+# Mart Jantson, 2022
 # 
 #, fuzzy
 msgid ""
@@ -15,26 +15,26 @@ msgstr ""
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
 "POT-Creation-Date: 2022-10-12 12:00+0000\n"
 "PO-Revision-Date: 2016-08-25 14:09+0000\n"
-"Last-Translator: Tibor Simko <tibor.simko@cern.ch>, 2021\n"
-"Language-Team: French (https://www.transifex.com/inveniosoftware/teams/23537/fr/)\n"
+"Last-Translator: Mart Jantson, 2022\n"
+"Language-Team: Estonian (https://www.transifex.com/inveniosoftware/teams/23537/et/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
-"Language: fr\n"
-"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+"Language: et\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: invenio_previewer/templates/invenio_previewer/base.html:12
 #: invenio_previewer/templates/invenio_previewer/macros.html:46
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/base.html:12
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:46
 msgid "Preview"
-msgstr ""
+msgstr "Eelvaade"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:19
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/bottom.html:24
 msgid "Embed code"
-msgstr "Intégrer le code"
+msgstr "Manuskood"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:29
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:221
@@ -42,17 +42,17 @@ msgstr "Intégrer le code"
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:221
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:286
 msgid "Close"
-msgstr "Fermer"
+msgstr "Sulge"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:72
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/bottom.html:41
 msgid "Previewing"
-msgstr "Aperçu en cours"
+msgstr "Eelvaade"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:74
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/bottom.html:43
 msgid "Embed"
-msgstr "Intégrer"
+msgstr "Manusta"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:75
 #: invenio_previewer/templates/invenio_previewer/macros.html:51
@@ -67,34 +67,32 @@ msgstr "Intégrer"
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:146
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:147
 msgid "Download"
-msgstr "Télécharger"
+msgstr "Lae alla"
 
 #: invenio_previewer/templates/invenio_previewer/csv_bar.html:17
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/csv_bar.html:17
 msgid "Show more"
-msgstr ""
+msgstr "Näita rohkem"
 
 #: invenio_previewer/templates/invenio_previewer/default.html:17
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/default.html:19
 msgid "Cannot preview file"
-msgstr "Impossible d'avoir un aperçu du fichier"
+msgstr "Eelvaadet ei ole võimalik kuvada"
 
 #: invenio_previewer/templates/invenio_previewer/default.html:18
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/default.html:20
 msgid "Sorry, we are unfortunately not able to preview this file."
-msgstr ""
-"Toutes nos excuses, nous ne parvenons malheureusement pas à vous donner un "
-"aperçu du fichier."
+msgstr "Vabandust, selle faili eelvaadet ei ole võimalik kuvada"
 
 #: invenio_previewer/templates/invenio_previewer/macros.html:23
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:23
 msgid "Name"
-msgstr "Nom"
+msgstr "Nimetus"
 
 #: invenio_previewer/templates/invenio_previewer/macros.html:24
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:24
 msgid "Size"
-msgstr "Taille"
+msgstr "Suurus"
 
 #: invenio_previewer/templates/invenio_previewer/macros.html:39
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:37
@@ -102,59 +100,61 @@ msgid ""
 "This is the file fingerprint (checksum), which can be used to verify the "
 "file integrity."
 msgstr ""
+"See on faili räsi (kontrollsumma), mille abil saab kontrollida faili "
+"terviklust."
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:30
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:30
 msgid "Thumbnails"
-msgstr ""
+msgstr "Pisipildid"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:33
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:33
 msgid "Document Outline"
-msgstr ""
+msgstr "Dokumendi struktuur"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:47
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:47
 msgid "Find:"
-msgstr ""
+msgstr "Leia:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:51
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:125
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:51
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:125
 msgid "Previous"
-msgstr "Précédent"
+msgstr "Eelmine"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:55
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:129
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:55
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:129
 msgid "Next"
-msgstr "Suivant"
+msgstr "Järgmine"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:59
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:59
 msgid "Highlight all"
-msgstr ""
+msgstr "Tõsta kõik esile"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:61
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:61
 msgid "Match case"
-msgstr ""
+msgstr "Tõstutundlik vaste"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:68
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:138
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:68
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:138
 msgid "Switch to Full Screen Mode"
-msgstr ""
+msgstr "Lülita täisekraani režiim sisse"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:69
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:139
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:69
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:139
 msgid "Full Screen Mode"
-msgstr ""
+msgstr "Täisekraani režiim"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:72
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:73
@@ -165,150 +165,150 @@ msgstr ""
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:142
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:143
 msgid "Print"
-msgstr ""
+msgstr "Prindi"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:82
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:83
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:82
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:83
 msgid "Go to First Page"
-msgstr ""
+msgstr "Mine esimesele lehele"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:85
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:86
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:85
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:86
 msgid "Go to Last Page"
-msgstr ""
+msgstr "Mine viimasele lehele"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:91
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:92
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:91
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:92
 msgid "Rotate Clockwise"
-msgstr ""
+msgstr "Pööra päripäeva"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:94
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:95
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:94
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:95
 msgid "Rotate Counterclockwise"
-msgstr ""
+msgstr "Pööra vastupäeva"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:101
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:101
 msgid "Enable hand tool"
-msgstr ""
+msgstr "Luba Hand tool"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:106
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:107
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:106
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:107
 msgid "Document Properties"
-msgstr ""
+msgstr "Dokumendi sätted"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:116
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:117
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:116
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:117
 msgid "Toggle Sidebar"
-msgstr ""
+msgstr "Luba külgriba"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:120
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:120
 msgid "Find in Document"
-msgstr ""
+msgstr "Otsi dokumendist"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:121
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:121
 msgid "Find"
-msgstr ""
+msgstr "Otsi"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:124
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:124
 msgid "Previous Page"
-msgstr ""
+msgstr "Eelmine lehekülg"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:128
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:128
 msgid "Next Page"
-msgstr ""
+msgstr "Järgmine lehekülg"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:132
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:132
 msgid "Page:"
-msgstr "Page:"
+msgstr "Lehekülg:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:152
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:153
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:152
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:153
 msgid "Tools"
-msgstr ""
+msgstr "Tööriistad"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:159
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:160
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:159
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:160
 msgid "Zoom Out"
-msgstr ""
+msgstr "Zoomi välja"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:163
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:164
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:163
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:164
 msgid "Zoom In"
-msgstr ""
+msgstr "Zoomi sisse"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:168
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:168
 msgid "Zoom"
-msgstr ""
+msgstr "Zoom"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:169
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:169
 msgid "Automatic Zoom"
-msgstr ""
+msgstr "Automaatne zoom"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:170
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:170
 msgid "Actual Size"
-msgstr ""
+msgstr "Tegelik suurus"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:171
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:171
 msgid "Fit Page"
-msgstr ""
+msgstr "Mahuta lehele"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:172
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:172
 msgid "Full Width"
-msgstr ""
+msgstr "Täislaius"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:195
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:195
 msgid "First Page"
-msgstr ""
+msgstr "Esimene leht"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:213
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:213
 msgid "More Information"
-msgstr ""
+msgstr "Rohkem informatsiooni"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:216
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:216
 msgid "Less Information"
-msgstr ""
+msgstr "Vähem informatsiooni"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:233
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:233
 msgid "Enter the password to open this PDF file:"
-msgstr ""
+msgstr "Sisesta parool selle PDF-i avamiseks:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:240
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:240
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Tühista"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:241
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:241
@@ -318,74 +318,74 @@ msgstr "OK"
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:248
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:248
 msgid "File name:"
-msgstr ""
+msgstr "Faili nimi:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:251
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:251
 msgid "File size:"
-msgstr ""
+msgstr "Faili suurus:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:255
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:255
 msgid "Title:"
-msgstr "Titre:"
+msgstr "Pealkiri:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:258
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:258
 msgid "Author:"
-msgstr "Auteur:"
+msgstr "Autor:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:261
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:261
 msgid "Subject:"
-msgstr "Sujet:"
+msgstr "Teema:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:264
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:264
 msgid "Keywords:"
-msgstr ""
+msgstr "Märksõnad:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:267
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:267
 msgid "Creation Date:"
-msgstr ""
+msgstr "Loomise aeg:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:270
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:270
 msgid "Modification Date:"
-msgstr ""
+msgstr "Muutmise aeg:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:273
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:273
 msgid "Creator:"
-msgstr ""
+msgstr "Looja:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:277
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:277
 msgid "PDF Producer:"
-msgstr ""
+msgstr "PDF-i valmistaja:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:280
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:280
 msgid "PDF Version:"
-msgstr ""
+msgstr "PDF-i versioon:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:283
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:283
 msgid "Page Count:"
-msgstr ""
+msgstr "Lehekülgede arv:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:296
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:296
 msgid "Preparing document for printing..."
-msgstr ""
+msgstr "Dokumendi ettevalmistamine printimiseks..."
 
 #: invenio_previewer/templates/invenio_previewer/zip.html:54
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/zip.html:23
 msgid "Full screen"
-msgstr "Plein écran"
+msgstr "Täisekraan"
 
 #: invenio_previewer/templates/invenio_previewer/zip.html:61
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/zip.html:29
 msgid "The previewer is not showing all the files."
-msgstr ""
+msgstr "Eelvaataja ei näita kõiki faile."
