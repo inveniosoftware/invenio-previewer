@@ -11,6 +11,11 @@ Changes
 =======
 
 
+Version 1.3.9 (Release 2023-01-13)
+----------------------------------
+
+- remove inline script - pdf js
+
 Version 1.3.8 (Release 2022-11-18)
 ----------------------------------
 - add translations
