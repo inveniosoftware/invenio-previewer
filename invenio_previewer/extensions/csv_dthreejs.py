@@ -22,6 +22,11 @@ previewable_extensions = ['csv', 'dsv']
 
 def validate_csv(file):
     """Return dialect information about given csv file."""
+    max_file_size = current_app.config.get(
+        'PREVIEWER_MAX_FILE_SIZE_BYTES', 10 * 1024 * 1024)
+    if file.size > max_file_size:
+        return False
+
     try:
         # Detect encoding and dialect
         with file.open() as fp:
