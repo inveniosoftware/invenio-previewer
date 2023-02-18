@@ -40,3 +40,4 @@ recursive-include invenio_previewer *.properties
 recursive-include invenio_previewer *.scss
 recursive-include invenio_previewer *.svg
 recursive-include tests *.py
+include .git-blame-ignore-revs
