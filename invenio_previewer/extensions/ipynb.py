@@ -17,7 +17,7 @@ from nbconvert import HTMLExporter
 
 from ..proxies import current_previewer
 
-previewable_extensions = ['ipynb']
+previewable_extensions = ["ipynb"]
 
 
 def render(file):

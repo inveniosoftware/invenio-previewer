@@ -18,25 +18,27 @@ def test_view_macro_file_list(app):
     with app.test_request_context():
         files = [
             {
-                'key': 'test1.txt',
-                'size': 10,
-                'date': '2016-07-12',
+                "key": "test1.txt",
+                "size": 10,
+                "date": "2016-07-12",
             },
             {
-                'key': 'test2.txt',
-                'size': 12000000,
-                'date': '2016-07-12',
+                "key": "test2.txt",
+                "size": 12000000,
+                "date": "2016-07-12",
             },
         ]
 
-        pid = {
-            'pid_value': 1
-        }
+        pid = {"pid_value": 1}
 
-        result = render_template_string("""
+        result = render_template_string(
+            """
             {%- from "invenio_previewer/macros.html" import file_list %}
             {{ file_list(files, pid) }}
-            """, files=files, pid=pid)
+            """,
+            files=files,
+            pid=pid,
+        )
 
         assert 'href="/record/1/files/test1.txt?download=1"' in result
         assert '<td class="nowrap">10 Bytes</td>' in result
@@ -46,18 +48,18 @@ def test_view_macro_file_list(app):
 
 def test_previwable_test(app):
     """Test template test."""
-    file = {
-        'type': 'md'
-    }
-    template = "{% if file.type is previewable %}Previwable" \
-               "{% else %}Not previwable{% endif %}"
+    file = {"type": "md"}
+    template = (
+        "{% if file.type is previewable %}Previwable"
+        "{% else %}Not previwable{% endif %}"
+    )
     assert render_template_string(template, file=file) == "Previwable"
 
-    file['type'] = 'no'
+    file["type"] = "no"
     assert render_template_string(template, file=file) == "Not previwable"
 
-    file['type'] = 'pdf'
+    file["type"] = "pdf"
     assert render_template_string(template, file=file) == "Previwable"
 
-    file['type'] = ''
+    file["type"] = ""
     assert render_template_string(template, file=file) == "Not previwable"

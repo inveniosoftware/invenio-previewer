@@ -33,24 +33,24 @@ PREVIEWER_ZIP_MAX_FILES = 1000
 """Max number of files showed in the ZIP previewer."""
 
 PREVIEWER_PREFERENCE = [
-    'csv_dthreejs',
-    'simple_image',
-    'json_prismjs',
-    'xml_prismjs',
-    'mistune',
-    'pdfjs',
-    'ipynb',
-    'zip',
+    "csv_dthreejs",
+    "simple_image",
+    "json_prismjs",
+    "xml_prismjs",
+    "mistune",
+    "pdfjs",
+    "ipynb",
+    "zip",
 ]
 """Decides which previewers are available and their priority."""
 
-PREVIEWER_ABSTRACT_TEMPLATE = 'invenio_previewer/abstract_previewer.html'
+PREVIEWER_ABSTRACT_TEMPLATE = "invenio_previewer/abstract_previewer.html"
 """Parent template used by the available previewers."""
 
-PREVIEWER_BASE_CSS_BUNDLES = ['previewer_theme.css']
+PREVIEWER_BASE_CSS_BUNDLES = ["previewer_theme.css"]
 """Basic bundle which includes Font-Awesome/Bootstrap."""
 
-PREVIEWER_BASE_JS_BUNDLES = ['previewer_theme.js']
+PREVIEWER_BASE_JS_BUNDLES = ["previewer_theme.js"]
 """Basic bundle which includes Bootstrap/jQuery."""
 
 PREVIEWER_RECORD_FILE_FACOTRY = None

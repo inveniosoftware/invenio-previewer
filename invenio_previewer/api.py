@@ -30,7 +30,7 @@ class PreviewFile(object):
     @property
     def size(self):
         """Get file size."""
-        return self.file['size']
+        return self.file["size"]
 
     @property
     def filename(self):
@@ -52,9 +52,10 @@ class PreviewFile(object):
             view ``invenio_records_ui.<pid_type>_files``.
         """
         return url_for(
-            '.{0}_files'.format(self.pid.pid_type),
+            ".{0}_files".format(self.pid.pid_type),
             pid_value=self.pid.pid_value,
-            filename=self.file.key)
+            filename=self.file.key,
+        )
 
     def is_local(self):
         """Check if file is local."""

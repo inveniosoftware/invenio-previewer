@@ -322,4 +322,4 @@ from .proxies import current_previewer
 
 __version__ = "1.3.9"
 
-__all__ = ('__version__', 'current_previewer', 'InvenioPreviewer')
+__all__ = ("__version__", "current_previewer", "InvenioPreviewer")

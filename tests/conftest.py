@@ -39,41 +39,40 @@ from sqlalchemy_utils.functions import create_database, database_exists
 from invenio_previewer import InvenioPreviewer
 
 
-@pytest.yield_fixture(scope='session', autouse=True)
+@pytest.yield_fixture(scope="session", autouse=True)
 def app():
     """Flask application fixture with database initialization."""
     instance_path = tempfile.mkdtemp()
 
-    app_ = Flask(
-        'testapp', static_folder=instance_path, instance_path=instance_path)
+    app_ = Flask("testapp", static_folder=instance_path, instance_path=instance_path)
     app_.config.update(
         TESTING=True,
         SQLALCHEMY_DATABASE_URI=os.environ.get(
-            'SQLALCHEMY_DATABASE_URI',
-            'sqlite:///:memory:'),
+            "SQLALCHEMY_DATABASE_URI", "sqlite:///:memory:"
+        ),
         SQLALCHEMY_TRACK_MODIFICATIONS=True,
         RECORDS_UI_DEFAULT_PERMISSION_FACTORY=None,
         RECORDS_UI_ENDPOINTS=dict(
             recid=dict(
-                pid_type='recid',
-                route='/records/<pid_value>',
-                template='invenio_records_ui/detail.html',
+                pid_type="recid",
+                route="/records/<pid_value>",
+                template="invenio_records_ui/detail.html",
             ),
             recid_previewer=dict(
-                pid_type='recid',
-                route='/records/<pid_value>/preview',
-                view_imp='invenio_previewer.views:preview',
-                record_class='invenio_records_files.api:Record',
+                pid_type="recid",
+                route="/records/<pid_value>/preview",
+                view_imp="invenio_previewer.views:preview",
+                record_class="invenio_records_files.api:Record",
             ),
             recid_files=dict(
-                pid_type='recid',
-                route='/record/<pid_value>/files/<filename>',
-                view_imp='invenio_records_files.utils.file_download_ui',
-                record_class='invenio_records_files.api:Record',
+                pid_type="recid",
+                route="/record/<pid_value>/files/<filename>",
+                view_imp="invenio_records_files.utils.file_download_ui",
+                record_class="invenio_records_files.api:Record",
             ),
         ),
-        SERVER_NAME='localhost',
-        APP_THEME=['semantic-ui']
+        SERVER_NAME="localhost",
+        APP_THEME=["semantic-ui"],
     )
     Babel(app_)
     InvenioAssets(app_)
@@ -103,15 +102,14 @@ def db(app):
     db_.drop_all()
 
 
-@pytest.yield_fixture(scope='session')
+@pytest.yield_fixture(scope="session")
 def webassets(app):
     """Flask application fixture with assets."""
     initial_dir = os.getcwd()
     os.chdir(app.instance_path)
     # force theme.config alias pinting to less/invenio_theme/theme.config
     theme_bundle = current_webpack.project.bundles[0]
-    theme_bundle.aliases['../../theme.config'] = \
-        'less/invenio_theme/theme.config'
+    theme_bundle.aliases["../../theme.config"] = "less/invenio_theme/theme.config"
     current_webpack.project.buildall()
     yield app
     os.chdir(initial_dir)
@@ -122,11 +120,7 @@ def location(db):
     """File system location."""
     tmppath = tempfile.mkdtemp()
 
-    loc = Location(
-        name='testloc',
-        uri=tmppath,
-        default=True
-    )
+    loc = Location(name="testloc", uri=tmppath, default=True)
     db.session.add(loc)
     db.session.commit()
 
@@ -139,12 +133,14 @@ def location(db):
 def record(db, location):
     """Record fixture."""
     rec_uuid = uuid.uuid4()
-    provider = RecordIdProvider.create(
-        object_type='rec', object_uuid=rec_uuid)
-    record = Record.create({
-        'control_number': provider.pid.pid_value,
-        'title': 'TestDefault',
-    }, id_=rec_uuid)
+    provider = RecordIdProvider.create(object_type="rec", object_uuid=rec_uuid)
+    record = Record.create(
+        {
+            "control_number": provider.pid.pid_value,
+            "title": "TestDefault",
+        },
+        id_=rec_uuid,
+    )
     db.session.commit()
     return record
 
@@ -152,17 +148,20 @@ def record(db, location):
 @pytest.fixture()
 def record_with_file(db, record, location):
     """Record with a test file."""
-    testfile = ObjectVersion.create(record.bucket, 'testfile',
-                                    stream=BytesIO(b'atest'))
-    record.update(dict(
-        _files=[dict(
-            bucket=str(testfile.bucket_id),
-            key=testfile.key,
-            size=testfile.file.size,
-            checksum=str(testfile.file.checksum),
-            version_id=str(testfile.version_id),
-        ), ]
-    ))
+    testfile = ObjectVersion.create(record.bucket, "testfile", stream=BytesIO(b"atest"))
+    record.update(
+        dict(
+            _files=[
+                dict(
+                    bucket=str(testfile.bucket_id),
+                    key=testfile.key,
+                    size=testfile.file.size,
+                    checksum=str(testfile.file.checksum),
+                    version_id=str(testfile.version_id),
+                ),
+            ]
+        )
+    )
     record.commit()
     db.session.commit()
     return record, testfile
@@ -173,9 +172,9 @@ def zip_fp(db):
     """ZIP file stream."""
     fp = BytesIO()
 
-    zipf = ZipFile(fp, 'w')
-    zipf.writestr('Example.txt', 'This is an example'.encode('utf-8'))
-    zipf.writestr(u'Lé UTF8 test.txt', 'This is an example'.encode('utf-8'))
+    zipf = ZipFile(fp, "w")
+    zipf.writestr("Example.txt", "This is an example".encode("utf-8"))
+    zipf.writestr("Lé UTF8 test.txt", "This is an example".encode("utf-8"))
     zipf.close()
 
     fp.seek(0)
