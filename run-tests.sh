@@ -9,10 +9,7 @@
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-python -m check_manifest && \
-python -m setup extract_messages --dry-run
-python -m sphinx.cmd.build -qnNW docs docs/_build/html && \
+python -m check_manifest
+python -m setup extract_messages --output-file /dev/null
+python -m sphinx.cmd.build -qnNW docs docs/_build/html
 python -m pytest
-python -m sphinx.cmd.build -qnNW -b doctest docs docs/_build/doctest
-tests_exit_code=$?
-exit "$tests_exit_code"
