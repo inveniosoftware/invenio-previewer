@@ -30,14 +30,14 @@ class MockEntryPoint(EntryPoint):
 def _mock_entry_points(group=None):
     """Mocking funtion of entrypoints."""
     data = {
-        'invenio_previewer.previewers': [
+        "invenio_previewer.previewers": [
             MockEntryPoint(
-                'default',
-                'invenio_previewer.extensions.default',
+                "default",
+                "invenio_previewer.extensions.default",
             ),
             MockEntryPoint(
-                'zip',
-                'invenio_previewer.extensions.zip',
+                "zip",
+                "invenio_previewer.extensions.zip",
             ),
         ],
     }
@@ -50,20 +50,21 @@ def _mock_entry_points(group=None):
 def test_version():
     """Test version import."""
     from invenio_previewer import __version__
+
     assert __version__
 
 
 def test_init():
     """Test extension initialization."""
-    app = Flask('testapp')
+    app = Flask("testapp")
     InvenioPreviewer(app)
-    assert 'invenio-previewer' in app.extensions
+    assert "invenio-previewer" in app.extensions
 
 
-@patch('pkg_resources.iter_entry_points', _mock_entry_points)
+@patch("pkg_resources.iter_entry_points", _mock_entry_points)
 def test_entrypoint_previewer():
     """Test the entry points."""
-    app = Flask('testapp')
+    app = Flask("testapp")
     ext = InvenioPreviewer(app)
-    ext.load_entry_point_group('invenio_previewer.previewers')
+    ext.load_entry_point_group("invenio_previewer.previewers")
     assert len(ext.previewers) == 2

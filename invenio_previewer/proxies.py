@@ -13,6 +13,5 @@ from __future__ import absolute_import, print_function
 from flask import current_app
 from werkzeug.local import LocalProxy
 
-current_previewer = LocalProxy(
-    lambda: current_app.extensions['invenio-previewer'])
+current_previewer = LocalProxy(lambda: current_app.extensions["invenio-previewer"])
 """Proxy object to the current previewer extension."""

@@ -19,4 +19,4 @@ if PY2:
     string_types = (str, unicode)
 else:
     text_type = str
-    string_types = (str, )
+    string_types = (str,)
