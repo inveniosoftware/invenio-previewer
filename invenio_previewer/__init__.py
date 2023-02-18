@@ -319,6 +319,7 @@ from __future__ import absolute_import, print_function
 
 from .ext import InvenioPreviewer
 from .proxies import current_previewer
-from .version import __version__
+
+__version__ = "1.3.9"
 
 __all__ = ('__version__', 'current_previewer', 'InvenioPreviewer')
