@@ -19,7 +19,6 @@ from zipfile import ZipFile
 
 import pytest
 from flask import Flask
-from flask_babelex import Babel
 from flask_webpackext import current_webpack
 from invenio_assets import InvenioAssets
 from invenio_config import InvenioConfigDefault
@@ -28,6 +27,7 @@ from invenio_db import db as db_
 from invenio_files_rest import InvenioFilesREST
 from invenio_files_rest.models import Location, ObjectVersion
 from invenio_formatter import InvenioFormatter
+from invenio_i18n import Babel
 from invenio_pidstore.providers.recordid import RecordIdProvider
 from invenio_records import InvenioRecords
 from invenio_records_files.api import Record
