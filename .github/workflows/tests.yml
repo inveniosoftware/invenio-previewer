@@ -52,4 +52,5 @@ jobs:
 
       - name: Run tests
         run: |
+          export NODE_OPTIONS=--openssl-legacy-provider
           ./run-tests.sh
