@@ -11,6 +11,12 @@ Changes
 =======
 
 
+Version 1.4.0 (Release 2023-03-02)
+----------------------------------
+
+- remove deprecated flask_babelex dependency
+- upgrade invenio_i18n
+
 Version 1.3.9 (Release 2023-01-13)
 ----------------------------------
 
