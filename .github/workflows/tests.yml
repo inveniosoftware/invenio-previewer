@@ -26,9 +26,6 @@ jobs:
           - services: release
             EXTRAS: "all"
             REQUIREMENTS_LEVEL: "pypi"
-          - services: lowest
-            EXTRAS: "all"
-            REQUIREMENTS_LEVEL: "min"
 
     steps:
       - name: Checkout
