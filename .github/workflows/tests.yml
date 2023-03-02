@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-          python-version: [3.7, 3.8]
-          services: [release, lowest]
+          python-version: [3.7, 3.8, 3.9]
+          services: [release]
           include:
           - services: release
             EXTRAS: "all"
