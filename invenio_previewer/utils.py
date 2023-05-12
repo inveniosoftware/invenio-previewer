@@ -27,6 +27,9 @@ def detect_encoding(fp, default=None):
             current_app.config.get('PREVIEWER_CHARDET_BYTES', 1024))
         # Result contains 'confidence' and 'encoding'
         result = cchardet.detect(sample)
+        # if ascii, override to utf-8 in case of unicode beyond checked range
+        if result == 'ascii':
+            result = 'utf-8'
         threshold = current_app.config.get('PREVIEWER_CHARDET_CONFIDENCE', 0.9)
         if result.get('confidence', 0) > threshold:
             return result.get('encoding', default)
