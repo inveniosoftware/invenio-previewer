@@ -12,5 +12,8 @@
 {% block panel %}
 <div id="text-previewer">
     <pre>{{ content }}</pre>
+  {% if truncated %}
+    <hr /><div class="banner">{{ _('Preview of large file truncated') }}</div>
+  {% endif %}
 </div>
 {% endblock %}
