@@ -75,6 +75,7 @@ previewer = WebpackThemeBundle(
                 'bottom_css': './scss/invenio_previewer/bottom.scss',
                 'simple_image_css':
                     './scss/invenio_previewer/simple_image.scss',
+                'txt_css': './scss/invenio_previewer/txt.scss',
             },
             dependencies={
                 'd3': '^3.5.17',

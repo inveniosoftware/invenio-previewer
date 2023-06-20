@@ -10,11 +10,7 @@
 {%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
 
 {% block panel %}
-<div class="ui container">
-    <div class="ui grid column">
-        <div class="column">
-            <pre>{{ content }}</pre>
-        </div>
-    </div>
+<div id="text-previewer">
+    <pre>{{ content }}</pre>
 </div>
 {% endblock %}

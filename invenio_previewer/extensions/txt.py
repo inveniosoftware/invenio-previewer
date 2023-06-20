@@ -37,5 +37,5 @@ def preview(file):
         file=file,
         content=render(file),
         js_bundles=current_previewer.js_bundles,
-        css_bundles=current_previewer.css_bundles,
+        css_bundles=['txt_css.css'],
     )
