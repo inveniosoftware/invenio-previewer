@@ -26,7 +26,7 @@ PREVIEWER_MAX_FILE_SIZE_BYTES = 1 * 1024 * 1024
 PREVIEWER_MAX_IMAGE_SIZE_BYTES = 0.5 * 1024 * 1024
 """Maximum file size in bytes for image files."""
 
-PREVIEWER_TXT_MAX_BYTES = 10 * 1024
+PREVIEWER_TXT_MAX_BYTES = 1 * 1024 * 1024
 """Maximum number of .txt file bytes to preview before truncated."""
 
 PREVIEWER_ZIP_MAX_FILES = 1000
