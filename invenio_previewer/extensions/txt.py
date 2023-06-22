@@ -21,7 +21,7 @@ def render(file):
     """Render HTML from txt file content."""
     with file.open() as fp:
         encoding = detect_encoding(fp, default="utf-8")
-        return fp.read(max_bytes).decode(encoding)
+        return fp.read(max_bytes).decode(encoding, errors="ignore")
 
 
 def can_preview(file):
