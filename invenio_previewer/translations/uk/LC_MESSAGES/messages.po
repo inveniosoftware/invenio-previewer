@@ -4,6 +4,9 @@
 # project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 # 
+# Translators:
+# Vasyl Ostrovskyi <vasyusya@yahoo.com>, 2023
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -11,7 +14,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
 "POT-Creation-Date: 2022-10-12 12:00+0000\n"
 "PO-Revision-Date: 2016-08-25 14:09+0000\n"
-"Language-Team: Ukrainian (https://www.transifex.com/inveniosoftware/teams/23537/uk/)\n"
+"Last-Translator: Vasyl Ostrovskyi <vasyusya@yahoo.com>, 2023\n"
+"Language-Team: Ukrainian (https://app.transifex.com/inveniosoftware/teams/23537/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,7 +28,7 @@ msgstr ""
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/base.html:12
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:46
 msgid "Preview"
-msgstr ""
+msgstr "Попередній перегляд"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:19
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/bottom.html:24
@@ -37,7 +41,7 @@ msgstr ""
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:221
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:286
 msgid "Close"
-msgstr ""
+msgstr "Закрити"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:72
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/bottom.html:41
@@ -62,7 +66,7 @@ msgstr ""
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:146
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:147
 msgid "Download"
-msgstr ""
+msgstr "Завантажити"
 
 #: invenio_previewer/templates/invenio_previewer/csv_bar.html:17
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/csv_bar.html:17
@@ -82,12 +86,12 @@ msgstr ""
 #: invenio_previewer/templates/invenio_previewer/macros.html:23
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:23
 msgid "Name"
-msgstr ""
+msgstr "Назва"
 
 #: invenio_previewer/templates/invenio_previewer/macros.html:24
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:24
 msgid "Size"
-msgstr ""
+msgstr "Розмір"
 
 #: invenio_previewer/templates/invenio_previewer/macros.html:39
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:37
@@ -301,7 +305,7 @@ msgstr ""
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:240
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:240
 msgid "Cancel"
-msgstr ""
+msgstr "Скасувати"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:241
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:241
