@@ -7,6 +7,7 @@
 # Translators:
 # Tibor Simko <tibor.simko@cern.ch>, 2021
 # Sam Arbid, 2022
+# Rim Sharif, 2023
 # 
 #, fuzzy
 msgid ""
@@ -15,8 +16,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
 "POT-Creation-Date: 2022-10-12 12:00+0000\n"
 "PO-Revision-Date: 2016-08-25 14:09+0000\n"
-"Last-Translator: Sam Arbid, 2022\n"
-"Language-Team: Swedish (https://www.transifex.com/inveniosoftware/teams/23537/sv/)\n"
+"Last-Translator: Rim Sharif, 2023\n"
+"Language-Team: Swedish (https://app.transifex.com/inveniosoftware/teams/23537/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -29,7 +30,7 @@ msgstr ""
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/base.html:12
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:46
 msgid "Preview"
-msgstr "Förhandsvisa"
+msgstr "Förhandsgranska"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:19
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/bottom.html:24
@@ -42,12 +43,12 @@ msgstr "Inbäddade koden"
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:221
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:286
 msgid "Close"
-msgstr "Stänga"
+msgstr "Stäng"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:72
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/bottom.html:41
 msgid "Previewing"
-msgstr "Förhandsvisning"
+msgstr "Förhandsgranskning"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:74
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/bottom.html:43
@@ -154,7 +155,7 @@ msgstr "Växla till helskärmsläge"
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:69
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:139
 msgid "Full Screen Mode"
-msgstr "Fullskärmsläge"
+msgstr "Helskärmsläge"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:72
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:73
@@ -165,7 +166,7 @@ msgstr "Fullskärmsläge"
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:142
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:143
 msgid "Print"
-msgstr "Skriva ut"
+msgstr "Skriv ut"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:82
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:83
@@ -186,7 +187,7 @@ msgstr "Gå till sista sidan"
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:91
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:92
 msgid "Rotate Clockwise"
-msgstr "Rotera klockvis"
+msgstr "Rotera medurs"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:94
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:95
@@ -205,7 +206,7 @@ msgstr "Aktivera handverktyg"
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:106
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:107
 msgid "Document Properties"
-msgstr "Dokument egenskaper"
+msgstr "Dokumentegenskaper"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:116
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:117
@@ -348,7 +349,7 @@ msgstr "Nyckelord:"
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:267
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:267
 msgid "Creation Date:"
-msgstr "Skapelsedagen:"
+msgstr "Skapelsedatum:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:270
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:270
@@ -373,7 +374,7 @@ msgstr "PDF-version:"
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:283
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:283
 msgid "Page Count:"
-msgstr "Sidonummer:"
+msgstr "Antal sidor:"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:296
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/pdfjs.html:296
@@ -383,7 +384,7 @@ msgstr "Förbereder dokument för utskrift..."
 #: invenio_previewer/templates/invenio_previewer/zip.html:54
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/zip.html:23
 msgid "Full screen"
-msgstr "Fullskärm"
+msgstr "Helskärm"
 
 #: invenio_previewer/templates/invenio_previewer/zip.html:61
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/zip.html:29
