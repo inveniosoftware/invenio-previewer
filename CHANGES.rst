@@ -1,6 +1,6 @@
 ..
     This file is part of Invenio.
-    Copyright (C) 2016-2019 CERN.
+    Copyright (C) 2016-2023 CERN.
 
     Invenio is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
@@ -10,10 +10,15 @@
 Changes
 =======
 
+Version 1.3.10 (Release 2023-08-11)
+-----------------------------------
+- txt-preview: enable horizontal scrolling, add option to truncate .txt file
+  preview after PREVIEWER_TXT_MAX_BYTES, avoid possible invalid encoding errors
+- encoding: improve file encoding detection and override ASCII
+  to default encoding
 
 Version 1.3.9 (Release 2023-01-13)
 ----------------------------------
-
 - remove inline script - pdf js
 
 Version 1.3.8 (Release 2022-11-18)
