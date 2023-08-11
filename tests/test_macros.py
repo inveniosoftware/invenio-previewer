@@ -232,6 +232,24 @@ def test_simple_image_extension(app, webassets, record):
         assert 'class="previewer-simple-image"' in res.get_data(as_text=True)
 
 
+def test_txt_extension(app, webassets, record):
+    """Text .txt file viewer."""
+    create_file(record, 'test1.txt', BytesIO(b'test content foobar'))
+
+    with app.test_client() as client:
+        res = client.get(preview_url(record['control_number'], 'test1.txt'))
+        assert "<pre>test content foobar</pre>" in res.get_data(as_text=True)
+
+    max_file_size = app.config.get(
+        'PREVIEWER_TXT_MAX_BYTES', 1 * 1024 * 1024)
+    too_large_string = '1' * (max_file_size + 1)
+    create_file(record, 'test2.txt', BytesIO(b(too_large_string)))
+
+    with app.test_client() as client:
+        res = client.get(preview_url(record['control_number'], 'test1.txt'))
+        assert "file truncated" in res.get_data(as_text=True)
+
+
 def test_view_macro_file_list(app):
     """Test file list macro."""
     with app.test_request_context():
