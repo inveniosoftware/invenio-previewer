@@ -10,11 +10,10 @@
 {%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
 
 {% block panel %}
-<div class="ui container">
-    <div class="ui grid column">
-        <div class="column">
-            <pre>{{ content }}</pre>
-        </div>
-    </div>
+<div id="text-previewer">
+    <pre>{{ content }}</pre>
+  {% if truncated %}
+    <hr /><div class="banner">{{ _('Preview of large file truncated') }}</div>
+  {% endif %}
 </div>
 {% endblock %}

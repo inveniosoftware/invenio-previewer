@@ -8,19 +8,20 @@
 
 """Text rendering."""
 
-from flask import render_template
+from flask import current_app, render_template
 
 from ..proxies import current_previewer
 from ..utils import detect_encoding
 
 previewable_extensions = ["txt"]
+max_bytes = current_app.config.get('PREVIEWER_TXT_MAX_BYTES', -1)
 
 
 def render(file):
     """Render HTML from txt file content."""
     with file.open() as fp:
         encoding = detect_encoding(fp, default="utf-8")
-        return fp.read().decode(encoding)
+        return fp.read(max_bytes).decode(encoding, errors="ignore")
 
 
 def can_preview(file):
@@ -37,5 +38,6 @@ def preview(file):
         file=file,
         content=render(file),
         js_bundles=current_previewer.js_bundles,
-        css_bundles=current_previewer.css_bundles,
+        css_bundles=['txt_css.css'],
+        truncated=max_bytes < file.size,
     )
