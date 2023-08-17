@@ -11,6 +11,14 @@ Changes
 =======
 
 
+Version 1.5.0 (Release 2023-08-17)
+----------------------------------
+
+- encoding: cleanup detection and override ASCII to default encoding
+- txt-preview: enables horizontal scrolling, avoid invalid coding errors and add
+  option to truncate .txt file preview after `PREVIEWER_TXT_MAX_BYTES`
+- pull latest translations
+
 Version 1.4.0 (Release 2023-03-02)
 ----------------------------------
 
