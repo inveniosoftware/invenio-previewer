@@ -12,7 +12,14 @@
 {%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
 
 {% block panel %}
-  <div id="d3_csv_previewer" data-csv-source="{{ file.uri }}"
-       data-csv-delimiter="{{ delimiter }}" data-csv-encoding="{{ encoding }}"></div>
-  <a data-csv-target="d3_csv_previewer" href="">{{ _('Show more') }}</a>
+<div id="app" data-csv-source="{{ file.uri }}">
+
+  <table class="ui selectable celled table unstackable">
+    <thead id="tableHeader">
+    </thead>
+    <tbody id="tableBody">
+    </tbody>
+  </table>
+  <button id="more_data" class="ui button" >{{_('Show more')}}</button>
+</div>
 {% endblock %}

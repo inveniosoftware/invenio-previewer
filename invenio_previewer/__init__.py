@@ -304,7 +304,7 @@ Now define the priority for all previewers by adding the newly created
 
 >>> PREVIEWER_PREVIEWERS_ORDER = [
 ...     'invenio_previewer.extensions.txt_previewer',
-...     'invenio_previewer.extensions.csv_dthreejs',
+...     'invenio_previewer.extensions.csv_papaparsejs',
 ...     'invenio_previewer.extensions.json_prismjs',
 ...     'invenio_previewer.extensions.xml_prismjs',
 ...     'invenio_previewer.extensions.simple_image',

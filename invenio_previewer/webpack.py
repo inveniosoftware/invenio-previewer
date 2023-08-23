@@ -59,7 +59,7 @@ previewer = WebpackThemeBundle(
         ),
         "semantic-ui": dict(
             entry={
-                "d3_csv": "./js/invenio_previewer/csv_previewer/init.js",
+                "papaparse_csv": "./js/invenio_previewer/csv_previewer/init.js",
                 "previewer_theme": "./js/invenio_previewer/previewer_theme.js",
                 "fullscreen_js": "./js/invenio_previewer/fullscreen.js",
                 "prism_js": "./js/invenio_previewer/prismjs.js",
@@ -72,14 +72,16 @@ previewer = WebpackThemeBundle(
                 "bottom_css": "./scss/invenio_previewer/bottom.scss",
                 "simple_image_css": "./scss/invenio_previewer/simple_image.scss",
                 "txt_css": "./scss/invenio_previewer/txt.scss",
+                "nbconvert_index_css": "./../../../share/jupyter/nbconvert/templates/lab/static/index.css",
+                "nbconvert_theme_light_css": "../../..//share/jupyter/nbconvert/templates/lab/static/theme-light.css",
             },
             dependencies={
-                "d3": "^3.5.17",
                 "flightjs": "~1.5.1",
                 "font-awesome": "~4.5.0",
                 "jquery": "^3.3.1",
                 "pdfjs-dist": "^1.4.192",
                 "prismjs": "^1.15.0",
+                "papaparse": "^5.4.1",
             },
         ),
     },
