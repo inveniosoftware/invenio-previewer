@@ -13,9 +13,9 @@ from __future__ import absolute_import, print_function
 from flask import render_template_string
 
 
-def test_view_macro_file_list(app):
+def test_view_macro_file_list(testapp):
     """Test file list macro."""
-    with app.test_request_context():
+    with testapp.test_request_context():
         files = [
             {
                 "key": "test1.txt",
@@ -46,20 +46,20 @@ def test_view_macro_file_list(app):
         assert '<td class="nowrap">12.0 MB</td>' in result
 
 
-def test_previwable_test(app):
+def test_previewable_test(testapp):
     """Test template test."""
     file = {"type": "md"}
     template = (
-        "{% if file.type is previewable %}Previwable"
-        "{% else %}Not previwable{% endif %}"
+        "{% if file.type is previewable %}Previewable"
+        "{% else %}Not previewable{% endif %}"
     )
-    assert render_template_string(template, file=file) == "Previwable"
+    assert render_template_string(template, file=file) == "Previewable"
 
     file["type"] = "no"
-    assert render_template_string(template, file=file) == "Not previwable"
+    assert render_template_string(template, file=file) == "Not previewable"
 
     file["type"] = "pdf"
-    assert render_template_string(template, file=file) == "Previwable"
+    assert render_template_string(template, file=file) == "Previewable"
 
     file["type"] = ""
-    assert render_template_string(template, file=file) == "Not previwable"
+    assert render_template_string(template, file=file) == "Not previewable"

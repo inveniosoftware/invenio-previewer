@@ -14,7 +14,7 @@ from ..proxies import current_previewer
 from ..utils import detect_encoding
 
 previewable_extensions = ["txt"]
-max_bytes = current_app.config.get('PREVIEWER_TXT_MAX_BYTES', -1)
+max_bytes = current_app.config.get("PREVIEWER_TXT_MAX_BYTES", -1)
 
 
 def render(file):
@@ -38,6 +38,6 @@ def preview(file):
         file=file,
         content=render(file),
         js_bundles=current_previewer.js_bundles,
-        css_bundles=['txt_css.css'],
+        css_bundles=["txt_css.css"],
         truncated=max_bytes < file.size,
     )

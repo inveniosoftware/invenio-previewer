@@ -18,7 +18,7 @@ from invenio_previewer import current_previewer
 from invenio_previewer.utils import detect_encoding
 
 
-def test_default_file_reader(app, record_with_file):
+def test_default_file_reader(testapp, record_with_file):
     """Test view by default."""
     record, testfile = record_with_file
     file_ = current_previewer.record_file_factory(None, record, testfile.key)
@@ -39,7 +39,7 @@ def test_default_file_reader(app, record_with_file):
         ("Monkey donkey cow crow".encode("euc-jp"), 0.50000, "UTF-8", None),
     ],
 )
-def test_detect_encoding(app, string, confidence, encoding, detect):
+def test_detect_encoding(testapp, string, confidence, encoding, detect):
     """Test encoding detection."""
 
     f = BytesIO(string)
@@ -51,7 +51,7 @@ def test_detect_encoding(app, string, confidence, encoding, detect):
         assert f.tell() == initial_position
 
 
-def test_detect_encoding_exception(app):
+def test_detect_encoding_exception(testapp):
     f = BytesIO("Γκρήκ Στρίνγκ".encode("utf-8"))
 
     with patch("cchardet.detect", Exception):
