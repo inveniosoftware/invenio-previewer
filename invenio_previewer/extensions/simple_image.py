@@ -8,8 +8,6 @@
 
 """Previews simple image files."""
 
-from __future__ import absolute_import, print_function
-
 from flask import current_app, render_template
 
 from ..proxies import current_previewer

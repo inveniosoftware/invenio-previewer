@@ -8,8 +8,6 @@
 
 """Previews an XML file."""
 
-from __future__ import absolute_import, print_function
-
 import xml.dom.minidom
 
 from flask import current_app, render_template

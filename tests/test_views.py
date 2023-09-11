@@ -8,8 +8,6 @@
 
 """Views module tests."""
 
-from __future__ import absolute_import, print_function
-
 from flask import render_template_string
 
 
@@ -41,9 +39,9 @@ def test_view_macro_file_list(testapp):
         )
 
         assert 'href="/record/1/files/test1.txt?download=1"' in result
-        assert '<td class="nowrap">10 Bytes</td>' in result
+        assert "<td>10 Bytes</td>" in result
         assert 'href="/record/1/files/test2.txt?download=1"' in result
-        assert '<td class="nowrap">12.0 MB</td>' in result
+        assert "<td>12.0 MB</td>" in result
 
 
 def test_previewable_test(testapp):

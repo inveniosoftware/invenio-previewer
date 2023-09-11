@@ -8,10 +8,7 @@
 
 """Invenio module for previewing files."""
 
-from __future__ import absolute_import, print_function
-
 import pkg_resources
-import six
 from flask import current_app
 from pkg_resources import DistributionNotFound, get_distribution
 from werkzeug.utils import cached_property, import_string
@@ -22,7 +19,7 @@ from .views import blueprint
 
 def obj_or_import_string(value, default=None):
     """Import string or return object."""
-    if isinstance(value, six.string_types):
+    if isinstance(value, str):
         return import_string(value)
     elif value:
         return value

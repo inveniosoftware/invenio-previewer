@@ -8,8 +8,6 @@
 
 """PDF previewer based on pdf.js."""
 
-from __future__ import absolute_import, print_function
-
 from flask import render_template
 
 from ..proxies import current_previewer

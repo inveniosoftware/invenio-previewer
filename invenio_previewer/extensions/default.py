@@ -8,8 +8,6 @@
 
 """Default rendering returning a default web page."""
 
-from __future__ import absolute_import, print_function
-
 from flask import render_template
 
 from ..proxies import current_previewer
