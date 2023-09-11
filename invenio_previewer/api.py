@@ -8,8 +8,6 @@
 
 """File reader utility."""
 
-from __future__ import absolute_import, print_function
-
 from os.path import basename, splitext
 
 from flask import url_for

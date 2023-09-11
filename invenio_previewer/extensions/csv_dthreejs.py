@@ -8,8 +8,6 @@
 
 """Render a CSV file using d3.js."""
 
-from __future__ import absolute_import, print_function
-
 import csv
 
 from flask import current_app, render_template

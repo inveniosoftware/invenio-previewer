@@ -25,8 +25,6 @@
 
 """JS/CSS bundles for Previewer."""
 
-from __future__ import absolute_import, print_function
-
 from invenio_assets.webpack import WebpackThemeBundle
 
 previewer = WebpackThemeBundle(

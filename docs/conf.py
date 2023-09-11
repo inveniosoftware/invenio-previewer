@@ -7,10 +7,6 @@
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-from __future__ import print_function
-
-import sphinx.environment
-
 from invenio_previewer import __version__
 
 # -- General configuration ------------------------------------------------

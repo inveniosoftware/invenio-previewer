@@ -8,16 +8,12 @@
 
 """Simple ZIP archive previewer."""
 
-from __future__ import absolute_import, print_function
-
 import os
 import zipfile
 
 import cchardet as chardet
 from flask import current_app, render_template
-from six import binary_type
 
-from .._compat import text_type
 from ..proxies import current_previewer
 
 previewable_extensions = ["zip"]
@@ -33,7 +29,7 @@ def make_tree(file):
             zf = zipfile.ZipFile(fp)
             # Detect filenames encoding.
             sample = " ".join(zf.namelist()[:max_files_count])
-            if not isinstance(sample, binary_type):
+            if not isinstance(sample, bytes):
                 sample = sample.encode("utf-16be")
             encoding = chardet.detect(sample).get("encoding", "utf-8")
             for i, info in enumerate(zf.infolist()):
@@ -42,7 +38,7 @@ def make_tree(file):
                 comps = info.filename.split(os.sep)
                 node = tree
                 for c in comps:
-                    if not isinstance(c, text_type):
+                    if not isinstance(c, str):
                         c = c.decode(encoding)
                     if c not in node["children"]:
                         if c == "":

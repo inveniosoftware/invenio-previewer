@@ -8,8 +8,6 @@
 
 """View method for Invenio-Records-UI for previewing files."""
 
-from __future__ import absolute_import, print_function
-
 from flask import Blueprint, abort, current_app, request
 
 from .api import PreviewFile

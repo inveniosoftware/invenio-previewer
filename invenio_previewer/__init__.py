@@ -315,8 +315,6 @@ Now define the priority for all previewers by adding the newly created
 ... ]
 """
 
-from __future__ import absolute_import, print_function
-
 from .ext import InvenioPreviewer
 from .proxies import current_previewer
 
