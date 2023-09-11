@@ -20,10 +20,10 @@ from zipfile import ZipFile
 import pytest
 from flask import Flask
 from flask_webpackext import current_webpack
+from invenio_app import InvenioApp
 from invenio_assets import InvenioAssets
 from invenio_config import InvenioConfigDefault
 from invenio_db import InvenioDB
-from invenio_db import db as db_
 from invenio_files_rest import InvenioFilesREST
 from invenio_files_rest.models import Location, ObjectVersion
 from invenio_formatter import InvenioFormatter
@@ -34,23 +34,14 @@ from invenio_records_files.api import Record
 from invenio_records_ui import InvenioRecordsUI
 from invenio_records_ui.views import create_blueprint_from_app
 from six import BytesIO
-from sqlalchemy_utils.functions import create_database, database_exists
 
 from invenio_previewer import InvenioPreviewer
 
 
-@pytest.yield_fixture(scope="session", autouse=True)
-def app():
+@pytest.fixture(scope="module")
+def app_config(app_config):
     """Flask application fixture with database initialization."""
-    instance_path = tempfile.mkdtemp()
-
-    app_ = Flask("testapp", static_folder=instance_path, instance_path=instance_path)
-    app_.config.update(
-        TESTING=True,
-        SQLALCHEMY_DATABASE_URI=os.environ.get(
-            "SQLALCHEMY_DATABASE_URI", "sqlite:///:memory:"
-        ),
-        SQLALCHEMY_TRACK_MODIFICATIONS=True,
+    app_config.update(
         RECORDS_UI_DEFAULT_PERMISSION_FACTORY=None,
         RECORDS_UI_ENDPOINTS=dict(
             recid=dict(
@@ -72,60 +63,88 @@ def app():
             ),
         ),
         SERVER_NAME="localhost",
-        APP_THEME=["semantic-ui"],
     )
-    Babel(app_)
-    InvenioAssets(app_)
-    InvenioDB(app_)
-    InvenioRecords(app_)
-    InvenioConfigDefault(app_)
-    InvenioFormatter(app_)
-    InvenioPreviewer(app_)._state
-    InvenioRecordsUI(app_)
-    app_.register_blueprint(create_blueprint_from_app(app_))
-    InvenioFilesREST(app_)
-
-    with app_.app_context():
-        yield app_
-
-    shutil.rmtree(instance_path)
+    return app_config
 
 
-@pytest.yield_fixture()
-def db(app):
-    """Setup database."""
-    if not database_exists(str(db_.engine.url)):
-        create_database(str(db_.engine.url))
-    db_.create_all()
-    yield db_
-    db_.session.remove()
-    db_.drop_all()
+@pytest.fixture(scope="module")
+def create_app(instance_path):
+    """Application factory fixture for use with pytest-invenio."""
+
+    def _create_app(**config):
+        app_ = Flask(
+            __name__,
+            instance_path=instance_path,
+        )
+        app_.config.update(config)
+        Babel(app_)
+        InvenioApp(app_)
+        InvenioAssets(app_)
+        InvenioDB(app_)
+        InvenioRecords(app_)
+        InvenioConfigDefault(app_)
+        InvenioFormatter(app_)
+        InvenioPreviewer(app_)._state
+        InvenioRecordsUI(app_)
+        app_.register_blueprint(create_blueprint_from_app(app_))
+        InvenioFilesREST(app_)
+        return app_
+
+    return _create_app
 
 
-@pytest.yield_fixture(scope="session")
-def webassets(app):
+@pytest.fixture(scope="module")
+def testapp(base_app, database):
+    """Application with just a database.
+
+    Pytest-Invenio also initialise search with the app fixture.
+    """
+    yield base_app
+
+
+@pytest.fixture(scope="module")
+def webassets(testapp):
     """Flask application fixture with assets."""
     initial_dir = os.getcwd()
-    os.chdir(app.instance_path)
-    # force theme.config alias pinting to less/invenio_theme/theme.config
+    os.chdir(testapp.instance_path)
+
+    # The theme.config file has been moved from `invenio-theme` to cookiecutter
+    # To solve this, a fake config file is created on the fly
+    THEME_CONFIG_PATH = "less/theme.config"
+    # force theme.config alias pointing to less/invenio_theme/theme.config.example
     theme_bundle = current_webpack.project.bundles[0]
-    theme_bundle.aliases["../../theme.config"] = "less/invenio_theme/theme.config"
-    current_webpack.project.buildall()
-    yield app
+    theme_bundle.aliases["../../theme.config"] = THEME_CONFIG_PATH
+
+    current_webpack.project.create()
+    current_webpack.project.install()
+
+    # create a fake theme config file from the example one
+    _assets = os.path.join(testapp.instance_path, "assets")
+    example = os.path.join(_assets, "less", "invenio_theme", "theme.config.example")
+    with open(example, "r") as fi:
+        with open(os.path.join(_assets, THEME_CONFIG_PATH), "w") as fo:
+            for line in fi:
+                if line.startswith("@siteFolder"):
+                    # use default theme as site theme instead of `my-site/site` as
+                    # in `invenio-theme`
+                    fo.write("@siteFolder: 'default';")
+                else:
+                    fo.write(line)
+
+    current_webpack.project.build()
+
+    yield testapp
     os.chdir(initial_dir)
 
 
-@pytest.yield_fixture()
+@pytest.fixture()
 def location(db):
     """File system location."""
     tmppath = tempfile.mkdtemp()
-
     loc = Location(name="testloc", uri=tmppath, default=True)
     db.session.add(loc)
     db.session.commit()
-
     yield loc
-
     shutil.rmtree(tmppath)
 
 

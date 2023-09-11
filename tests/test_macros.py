@@ -46,19 +46,19 @@ def preview_url(pid_val, filename):
     )
 
 
-def test_default_extension(app, webassets, record):
+def test_default_extension(testapp, webassets, record):
     """Test view by default."""
     create_file(record, "testfile", BytesIO(b"empty"))
 
-    with app.test_client() as client:
+    with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "testfile"))
         assert "we are unfortunately not" in res.get_data(as_text=True)
 
 
-def test_markdown_extension(app, webassets, record):
+def test_markdown_extension(testapp, webassets, record):
     """Test view with md files."""
     create_file(record, "markdown.md", BytesIO(b"### Testing markdown ###"))
-    with app.test_client() as client:
+    with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "markdown.md"))
         assert "<h3>Testing markdown" in res.get_data(as_text=True)
         with patch("mistune.markdown", side_effect=Exception):
@@ -66,19 +66,19 @@ def test_markdown_extension(app, webassets, record):
             assert "we are unfortunately not" in res.get_data(as_text=True)
 
 
-def test_pdf_extension(app, webassets, record):
+def test_pdf_extension(testapp, webassets, record):
     """Test view with pdf files."""
     create_file(record, "test.pdf", BytesIO(b"Content not used"))
 
-    with app.test_client() as client:
+    with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.pdf"))
-        assert "PDFView.open('" in res.get_data(as_text=True)
+        assert "pdf-file-uri" in res.get_data(as_text=True)
 
 
-def test_csv_dthreejs_extension(app, webassets, record):
+def test_csv_dthreejs_extension(testapp, webassets, record):
     """Test view with csv files."""
     create_file(record, "test.csv", BytesIO(b"A,B\n1,2"))
-    with app.test_client() as client:
+    with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.csv"))
         assert 'data-csv-source="' in res.get_data(as_text=True)
         assert 'data-csv-delimiter=","' in res.get_data(as_text=True)
@@ -88,20 +88,20 @@ def test_csv_dthreejs_extension(app, webassets, record):
             assert "we are unfortunately not" in res.get_data(as_text=True)
 
 
-def test_csv_dthreejs_delimiter(app, webassets, record):
+def test_csv_dthreejs_delimiter(testapp, webassets, record):
     """Test view with csv files."""
     create_file(record, "test.csv", BytesIO(b"A#B\n1#2"))
-    with app.test_client() as client:
+    with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.csv"))
         assert 'data-csv-source="' in res.get_data(as_text=True)
         assert 'data-csv-delimiter="#"' in res.get_data(as_text=True)
 
 
-def test_zip_extension(app, webassets, record, zip_fp):
+def test_zip_extension(testapp, webassets, record, zip_fp):
     """Test view with a zip file."""
     create_file(record, "test.zip", zip_fp)
 
-    with app.test_client() as client:
+    with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.zip"))
         assert "Example.txt" in res.get_data(as_text=True)
         assert "Lé UTF8 test.txt" in res.get_data(as_text=True)
@@ -115,7 +115,7 @@ def test_zip_extension(app, webassets, record, zip_fp):
             assert "Zipfile is not previewable" in res.get_data(as_text=True)
 
 
-def test_json_extension(app, webassets, record):
+def test_json_extension_valid_file(testapp, webassets, record):
     """Test view with JSON files."""
     json_data = (
         '{"name":"invenio","num":42,'
@@ -124,7 +124,7 @@ def test_json_extension(app, webassets, record):
     )
     create_file(record, "test.json", BytesIO(b(json_data)))
 
-    with app.test_client() as client:
+    with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.json"))
         assert 'class="language-javascript"' in res.get_data(as_text=True)
 
@@ -147,28 +147,34 @@ def test_json_extension(app, webassets, record):
         )
         assert rendered_json in res.get_data(as_text=True)
 
-        with patch("json.dumps", side_effect=Exception):
-            res = client.get(preview_url(record["control_number"], "test.json"))
-            assert "we are unfortunately not" in res.get_data(as_text=True)
+
+def test_json_extension_invalid_file(testapp, webassets, record):
+    """Test view with JSON files."""
+    wrong_json_data = '{"name":"invenio","num'
+    create_file(record, "test_wrong.json", BytesIO(b(wrong_json_data)))
+
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], "test_wrong.json"))
+        assert "we are unfortunately not" in res.get_data(as_text=True)
 
 
-def test_max_file_size(app, webassets, record):
+def test_max_file_size(testapp, webassets, record):
     """Test file size limitation."""
-    max_file_size = app.config.get("PREVIEWER_MAX_FILE_SIZE_BYTES", 1 * 1024 * 1024)
+    max_file_size = testapp.config.get("PREVIEWER_MAX_FILE_SIZE_BYTES", 1 * 1024 * 1024)
     too_large_string = "1" * (max_file_size + 1)
     create_file(record, "test.json", BytesIO(b(too_large_string)))
 
-    with app.test_client() as client:
+    with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.json"))
         assert "we are unfortunately not" in res.get_data(as_text=True)
 
 
-def test_xml_extension(app, webassets, record):
+def test_xml_extension(testapp, webassets, record):
     """Test view with XML files."""
     xml_data = b'<el a="some"><script>alert(1)</script><c>1</c><c>2</c></el>'
     create_file(record, "test.xml", BytesIO(xml_data))
 
-    with app.test_client() as client:
+    with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.xml"))
         assert 'class="language-markup"' in res.get_data(as_text=True)
         assert "&lt;el a=&#34;some&#34;&gt;" in res.get_data(as_text=True)
@@ -181,7 +187,7 @@ def test_xml_extension(app, webassets, record):
             assert "we are unfortunately not" in res.get_data(as_text=True)
 
 
-def test_ipynb_extension(app, webassets, record):
+def test_ipynb_extension(testapp, webassets, record):
     """Test view with IPython notebooks files."""
     create_file(
         record,
@@ -223,42 +229,44 @@ def test_ipynb_extension(app, webassets, record):
         ),
     )
 
-    with app.test_client() as client:
+    with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.ipynb"))
         assert "This is an example notebook." in res.get_data(as_text=True)
 
 
-def test_simple_image_extension(app, webassets, record):
+def test_simple_image_extension(testapp, webassets, record):
     """Test view with simple image files (PNG)."""
     create_file(record, "test.png", BytesIO(b"Content not used"))
 
-    with app.test_client() as client:
+    with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.png"))
         assert '<img src="' in res.get_data(as_text=True)
         assert 'class="previewer-simple-image"' in res.get_data(as_text=True)
 
 
-def test_txt_extension(app, webassets, record):
+def test_txt_extension_valid_file(testapp, webassets, record):
     """Text .txt file viewer."""
-    create_file(record, 'test1.txt', BytesIO(b'test content foobar'))
+    create_file(record, "test1.txt", BytesIO(b"test content foobar"))
 
-    with app.test_client() as client:
-        res = client.get(preview_url(record['control_number'], 'test1.txt'))
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], "test1.txt"))
         assert "<pre>test content foobar</pre>" in res.get_data(as_text=True)
 
-    max_file_size = app.config.get(
-        'PREVIEWER_TXT_MAX_BYTES', 1 * 1024 * 1024)
-    too_large_string = '1' * (max_file_size + 1)
-    create_file(record, 'test2.txt', BytesIO(b(too_large_string)))
 
-    with app.test_client() as client:
-        res = client.get(preview_url(record['control_number'], 'test1.txt'))
+def test_txt_extension_large_file(testapp, webassets, record):
+    """Text .txt file viewer for large files."""
+    max_file_size = testapp.config.get("PREVIEWER_TXT_MAX_BYTES", 1 * 1024 * 1024)
+    too_large_string = "1" * (max_file_size + 1)
+    create_file(record, "test1.txt", BytesIO(b(too_large_string)))
+
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], "test1.txt"))
         assert "file truncated" in res.get_data(as_text=True)
 
 
-def test_view_macro_file_list(app):
+def test_view_macro_file_list(testapp):
     """Test file list macro."""
-    with app.test_request_context():
+    with testapp.test_request_context():
         files = [
             {
                 "key": "test1.txt",
@@ -283,9 +291,7 @@ def test_view_macro_file_list(app):
             pid=pid,
         )
 
-        print(result)
-
         assert 'href="/record/1/files/test1.txt?download=1"' in result
-        assert '<td class="nowrap">10 Bytes' in result
+        assert '<td>10 Bytes</td>' in result
         assert 'href="/record/1/files/test2.txt?download=1"' in result
-        assert '<td class="nowrap">12.0 MB</td>' in result
+        assert '<td>12.0 MB</td>' in result
