@@ -14,14 +14,10 @@
     <style>
         {{ inline_style | safe }}
     </style>
+{{ webpack["nbconvert_index_css.css"] }}
+{{ webpack["nbconvert_theme_light_css.css"] }}
 {% endblock %}
 
 {% block panel %}
-<div class="ui container">
-    <div class="ui padded grid column">
-        <div class="column">
             {{ content | sanitize_html() | safe }}
-        </div>
-    </div>
-</div>
 {% endblock %}

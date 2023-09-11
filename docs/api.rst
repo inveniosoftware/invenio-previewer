@@ -50,10 +50,10 @@ Webpack
 Previewers
 ----------
 
-CSV (d3.js)
-~~~~~~~~~~~
+CSV (Papaparser)
+~~~~~~~~~~~~~~~~
 
-.. automodule:: invenio_previewer.extensions.csv_dthreejs
+.. automodule:: invenio_previewer.extensions.csv_papaparsejs
    :members:
    :undoc-members:
 

@@ -13,6 +13,7 @@ from __future__ import absolute_import, unicode_literals
 
 import nbformat
 from flask import render_template
+from invenio_i18n import gettext as _
 from nbconvert import HTMLExporter
 
 from ..proxies import current_previewer
@@ -24,10 +25,12 @@ def render(file):
     """Generate the result HTML."""
     with file.open() as fp:
         content = fp.read()
+    try:
+        notebook = nbformat.reads(content.decode("utf-8"), as_version=4)
+    except nbformat.reader.NotJSONError:
+        return _("Error: Not a json file"), {}
 
-    notebook = nbformat.reads(content.decode("utf-8"), as_version=4)
-
-    html_exporter = HTMLExporter()
+    html_exporter = HTMLExporter(template="lab", embed_images=True)
     html_exporter.template_file = "base"
     (body, resources) = html_exporter.from_notebook_node(notebook)
     return body, resources
@@ -41,7 +44,10 @@ def can_preview(file):
 def preview(file):
     """Render the IPython Notebook."""
     body, resources = render(file)
-    default_jupyter_nb_style = resources["inlining"]["css"][0]
+    if "inlining" in resources:
+        default_jupyter_nb_style = resources["inlining"]["css"][0]
+    else:
+        default_jupyter_nb_style = ""
     return render_template(
         "invenio_previewer/ipynb.html",
         file=file,

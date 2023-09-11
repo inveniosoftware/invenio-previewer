@@ -11,6 +11,7 @@
 import xml.dom.minidom
 
 from flask import current_app, render_template
+from invenio_i18n import gettext as _
 
 from ..proxies import current_previewer
 from ..utils import detect_encoding
@@ -22,9 +23,14 @@ def render(file):
     """Pretty print the XML file for rendering."""
     with file.open() as fp:
         encoding = detect_encoding(fp, default="utf-8")
-        file_content = fp.read().decode(encoding)
-        parsed_xml = xml.dom.minidom.parseString(file_content)
-        return parsed_xml.toprettyxml(indent="  ", newl="")
+        try:
+            file_content = fp.read().decode(encoding)
+            parsed_xml = xml.dom.minidom.parseString(file_content)
+            return parsed_xml.toprettyxml(indent="  ", newl="")
+        except UnicodeDecodeError:
+            return _(
+                "Error decoding the file. Are you sure it is '{encoding}'?"
+            ).format(encoding)
 
 
 def validate_xml(file):

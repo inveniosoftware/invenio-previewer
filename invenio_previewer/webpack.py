@@ -25,7 +25,16 @@
 
 """JS/CSS bundles for Previewer."""
 
+from os import path
+
+# This seems like a hack... there must be a better way of doing it
+import nbconvert
 from invenio_assets.webpack import WebpackThemeBundle
+
+nbconvert_path = (
+    path.dirname(nbconvert.__file__)
+    + "/../../../../share/jupyter/nbconvert/templates/lab/static/"
+)
 
 previewer = WebpackThemeBundle(
     __name__,
@@ -34,7 +43,7 @@ previewer = WebpackThemeBundle(
     themes={
         "bootstrap3": dict(
             entry={
-                "d3_csv": "./js/invenio_previewer/csv_previewer/init.js",
+                "papaparse_csv": "./js/invenio_previewer/csv_previewer/init.js",
                 "previewer_theme": "./js/invenio_previewer/previewer_theme.js",
                 "fullscreen_js": "./js/invenio_previewer/fullscreen.js",
                 "prism_js": "./js/invenio_previewer/prismjs.js",
@@ -46,7 +55,7 @@ previewer = WebpackThemeBundle(
             },
             dependencies={
                 "bootstrap-sass": "~3.3.5",
-                "d3": "^3.5.17",
+                "papaparse": "^5.4.1",
                 "flightjs": "~1.5.1",
                 "font-awesome": "~4.5.0",
                 "jquery": "^3.3.1",
@@ -59,7 +68,7 @@ previewer = WebpackThemeBundle(
         ),
         "semantic-ui": dict(
             entry={
-                "d3_csv": "./js/invenio_previewer/csv_previewer/init.js",
+                "papaparse_csv": "./js/invenio_previewer/csv_previewer/init.js",
                 "previewer_theme": "./js/invenio_previewer/previewer_theme.js",
                 "fullscreen_js": "./js/invenio_previewer/fullscreen.js",
                 "prism_js": "./js/invenio_previewer/prismjs.js",
@@ -72,12 +81,14 @@ previewer = WebpackThemeBundle(
                 "bottom_css": "./scss/invenio_previewer/bottom.scss",
                 "simple_image_css": "./scss/invenio_previewer/simple_image.scss",
                 "txt_css": "./scss/invenio_previewer/txt.scss",
+                "nbconvert_index_css": nbconvert_path + "index.css",
+                "nbconvert_theme_light_css": nbconvert_path + "theme-light.css",
             },
             dependencies={
-                "d3": "^3.5.17",
                 "flightjs": "~1.5.1",
                 "font-awesome": "~4.5.0",
                 "jquery": "^3.3.1",
+                "papaparse": "^5.4.1",
                 "pdfjs-dist": "^1.4.192",
                 "prismjs": "^1.15.0",
             },
