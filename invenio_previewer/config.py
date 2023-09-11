@@ -33,7 +33,7 @@ PREVIEWER_ZIP_MAX_FILES = 1000
 """Max number of files showed in the ZIP previewer."""
 
 PREVIEWER_PREFERENCE = [
-    "csv_dthreejs",
+    "csv_papaparsejs",
     "simple_image",
     "json_prismjs",
     "xml_prismjs",

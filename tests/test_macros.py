@@ -73,26 +73,20 @@ def test_pdf_extension(testapp, webassets, record):
         assert "pdf-file-uri" in res.get_data(as_text=True)
 
 
-def test_csv_dthreejs_extension(testapp, webassets, record):
+def test_csv_papaparsejs_extension(testapp, webassets, record):
     """Test view with csv files."""
     create_file(record, "test.csv", BytesIO(b"A,B\n1,2"))
     with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.csv"))
         assert 'data-csv-source="' in res.get_data(as_text=True)
-        assert 'data-csv-delimiter=","' in res.get_data(as_text=True)
-
-        with patch("csv.Sniffer", side_effect=Exception):
-            res = client.get(preview_url(record["control_number"], "test.csv"))
-            assert "we are unfortunately not" in res.get_data(as_text=True)
 
 
-def test_csv_dthreejs_delimiter(testapp, webassets, record):
+def test_csv_papaparsejs_delimiter(testapp, webassets, record):
     """Test view with csv files."""
     create_file(record, "test.csv", BytesIO(b"A#B\n1#2"))
     with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.csv"))
         assert 'data-csv-source="' in res.get_data(as_text=True)
-        assert 'data-csv-delimiter="#"' in res.get_data(as_text=True)
 
 
 def test_zip_extension(testapp, webassets, record, zip_fp):
