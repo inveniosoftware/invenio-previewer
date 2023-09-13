@@ -192,7 +192,7 @@ def test_ipynb_extension(testapp, webassets, record):
       "cell_type": "markdown",
       "metadata": {},
       "source": [
-        "This is an example notebook."
+        "This is an example notebook.<script>alert();</script>"
       ]
     }
   ],
@@ -223,7 +223,10 @@ def test_ipynb_extension(testapp, webassets, record):
 
     with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.ipynb"))
-        assert "This is an example notebook." in res.get_data(as_text=True)
+        as_text = res.get_data(as_text=True)
+        assert "This is an example notebook." in as_text
+        # test HTML tag sanitize
+        assert "<script>alert();</script>" not in as_text
 
 
 def test_simple_image_extension(testapp, webassets, record):
@@ -232,8 +235,9 @@ def test_simple_image_extension(testapp, webassets, record):
 
     with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.png"))
-        assert '<img src="' in res.get_data(as_text=True)
-        assert 'class="previewer-simple-image"' in res.get_data(as_text=True)
+        as_text = res.get_data(as_text=True)
+        assert '<img src="' in as_text
+        assert 'class="previewer-simple-image"' in as_text
 
 
 def test_txt_extension_valid_file(testapp, webassets, record):

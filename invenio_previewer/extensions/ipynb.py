@@ -9,7 +9,7 @@
 
 """Jupyter Notebook previewer."""
 
-from __future__ import absolute_import, unicode_literals
+import os
 
 import nbformat
 from flask import render_template
@@ -20,6 +20,12 @@ from ..proxies import current_previewer
 
 previewable_extensions = ["ipynb"]
 
+# relative paths to the extra CSS of the default `lab` theme
+NBCONVERT_THEME_LAB_EXTRA_CSS = [
+    os.path.join("nbconvert", "templates", "lab", "static", "index.css"),
+    os.path.join("nbconvert", "templates", "lab", "static", "theme-light.css"),
+]
+
 
 def render(file):
     """Generate the result HTML."""
@@ -28,11 +34,11 @@ def render(file):
     try:
         notebook = nbformat.reads(content.decode("utf-8"), as_version=4)
     except nbformat.reader.NotJSONError:
-        return _("Error: Not a json file"), {}
+        return _("Error: Not a ipynb/json file"), {}
 
-    html_exporter = HTMLExporter(template="lab", embed_images=True)
+    html_exporter = HTMLExporter(embed_images=True, sanitize_html=True)
     html_exporter.template_file = "base"
-    (body, resources) = html_exporter.from_notebook_node(notebook)
+    body, resources = html_exporter.from_notebook_node(notebook)
     return body, resources
 
 
@@ -44,10 +50,14 @@ def can_preview(file):
 def preview(file):
     """Render the IPython Notebook."""
     body, resources = render(file)
+    default_jupyter_nb_style = ""
     if "inlining" in resources:
-        default_jupyter_nb_style = resources["inlining"]["css"][0]
-    else:
-        default_jupyter_nb_style = ""
+        default_jupyter_nb_style += resources["inlining"]["css"][0]
+    # the include_css func will load extra CSS from disk
+    if "include_css" in resources:
+        fn = resources["include_css"]
+        for extra_css_path in NBCONVERT_THEME_LAB_EXTRA_CSS:
+            default_jupyter_nb_style += fn(extra_css_path)
     return render_template(
         "invenio_previewer/ipynb.html",
         file=file,

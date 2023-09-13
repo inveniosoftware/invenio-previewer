@@ -25,16 +25,7 @@
 
 """JS/CSS bundles for Previewer."""
 
-from os import path
-
-# This seems like a hack... there must be a better way of doing it
-import nbconvert
 from invenio_assets.webpack import WebpackThemeBundle
-
-nbconvert_path = (
-    path.dirname(nbconvert.__file__)
-    + "/../../../../share/jupyter/nbconvert/templates/lab/static/"
-)
 
 previewer = WebpackThemeBundle(
     __name__,
@@ -81,8 +72,6 @@ previewer = WebpackThemeBundle(
                 "bottom_css": "./scss/invenio_previewer/bottom.scss",
                 "simple_image_css": "./scss/invenio_previewer/simple_image.scss",
                 "txt_css": "./scss/invenio_previewer/txt.scss",
-                "nbconvert_index_css": nbconvert_path + "index.css",
-                "nbconvert_theme_light_css": nbconvert_path + "theme-light.css",
             },
             dependencies={
                 "flightjs": "~1.5.1",
