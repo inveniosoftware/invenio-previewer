@@ -1,18 +1,22 @@
 {# -*- coding: utf-8 -*-
 
   This file is part of Invenio.
-  Copyright (C) 2015-2019 CERN.
+  Copyright (C) 2015-2023 CERN.
 
   Invenio is free software; you can redistribute it and/or modify it
   under the terms of the MIT License; see LICENSE file for more details.
 #}
 
-{#- D3 view for viewing csv files -#}
-
 {%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
 
 {% block panel %}
-  <div id="d3_csv_previewer" data-csv-source="{{ file.uri }}"
-       data-csv-delimiter="{{ delimiter }}" data-csv-encoding="{{ encoding }}"></div>
-  <a data-csv-target="d3_csv_previewer" href="">{{ _('Show more') }}</a>
+<div id="app" data-csv-source="{{ file.uri }}">
+  <table class="ui selectable celled table unstackable">
+    <thead id="table-header">
+    </thead>
+    <tbody id="table-body">
+    </tbody>
+  </table>
+  <button id="show-more" class="btn" >{{_('Show more')}}</button>
+</div>
 {% endblock %}

@@ -14,10 +14,8 @@
     <style>
         {{ inline_style | safe }}
     </style>
-{{ webpack["nbconvert_index_css.css"] }}
-{{ webpack["nbconvert_theme_light_css.css"] }}
 {% endblock %}
 
 {% block panel %}
-            {{ content | sanitize_html() | safe }}
+  {{ content | safe }}
 {% endblock %}

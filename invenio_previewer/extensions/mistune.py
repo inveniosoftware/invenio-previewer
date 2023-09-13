@@ -8,8 +8,6 @@
 
 """Markdown rendering using mistune library."""
 
-from __future__ import absolute_import, unicode_literals
-
 import bleach
 import mistune
 from flask import render_template
