@@ -21,7 +21,7 @@ PREVIEWER_CHARDET_CONFIDENCE = 0.9
 """Confidence threshold for character encoding detection by `cchardet`."""
 
 PREVIEWER_MAX_FILE_SIZE_BYTES = 1 * 1024 * 1024
-"""Maximum file size in bytes for JSON/XML files."""
+"""Maximum file size in bytes for JSON/XML/CSV files."""
 
 PREVIEWER_MAX_IMAGE_SIZE_BYTES = 0.5 * 1024 * 1024
 """Maximum file size in bytes for image files."""
