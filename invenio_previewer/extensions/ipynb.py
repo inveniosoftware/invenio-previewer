@@ -12,9 +12,10 @@
 import os
 
 import nbformat
-from flask import render_template
+from flask import current_app, render_template
 from invenio_i18n import gettext as _
 from nbconvert import HTMLExporter
+from traitlets.config import Config
 
 from ..proxies import current_previewer
 
@@ -36,7 +37,12 @@ def render(file):
     except nbformat.reader.NotJSONError:
         return _("Error: Not a ipynb/json file"), {}
 
-    html_exporter = HTMLExporter(embed_images=True, sanitize_html=True)
+    c = Config()
+    c.HTMLExporter.preprocessors = ["nbconvert.preprocessors.sanitize.SanitizeHTML"]
+    c.SanitizeHTML.tags = current_app.config.get("ALLOWED_HTML_TAGS", [])
+    c.SanitizeHTML.attributes = current_app.config.get("ALLOWED_HTML_ATTRS", {})
+    c.SanitizeHTML.strip = True
+    html_exporter = HTMLExporter(config=c, embed_images=True)
     html_exporter.template_file = "base"
     body, resources = html_exporter.from_notebook_node(notebook)
     return body, resources
