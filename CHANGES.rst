@@ -1,15 +1,21 @@
 ..
     This file is part of Invenio.
-    Copyright (C) 2016-2019 CERN.
+    Copyright (C) 2016-2023 CERN.
 
     Invenio is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
 
 
-
 Changes
 =======
 
+Version 2.0.0 (Release 2023-09-14)
+----------------------------------
+
+- CSV: change JS rendering from `d3` to `papaparse`, supporting rendering
+  of very large files
+- add file size check to CSV extensions
+- refactor XML and ipynb extensions
 
 Version 1.5.0 (Release 2023-08-17)
 ----------------------------------
