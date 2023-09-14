@@ -9,6 +9,11 @@
 Changes
 =======
 
+Version 2.0.1 (Release 2023-09-14)
+----------------------------------
+
+- CSV: removed file size limit. The new extension can preview very large files.
+
 Version 2.0.0 (Release 2023-09-14)
 ----------------------------------
 
