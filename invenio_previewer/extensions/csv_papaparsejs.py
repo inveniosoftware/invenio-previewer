@@ -17,7 +17,14 @@ previewable_extensions = ["csv", "dsv"]
 
 def can_preview(file):
     """Determine if the given file can be previewed."""
-    return file.is_local() and file.has_extensions(".csv", ".dsv")
+    max_file_size = current_app.config.get(
+        "PREVIEWER_MAX_FILE_SIZE_BYTES", 1 * 1024 * 1024
+    )
+    return (
+        file.is_local()
+        and file.has_extensions(".csv", ".dsv")
+        and file.size <= max_file_size
+    )
 
 
 def preview(file):
