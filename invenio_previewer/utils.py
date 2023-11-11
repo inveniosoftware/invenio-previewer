@@ -4,13 +4,15 @@
 # Copyright (C) 2016-2019 CERN.
 # Copyright (C) 2023 Northwestern University.
 # Copyright (C) 2023 California Institute of Technology.
+# Copyright (C) 2023 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Invenio Previewer Utilities."""
 
-import cchardet
+
+import charset_normalizer
 from flask import current_app
 
 
@@ -31,7 +33,7 @@ def detect_encoding(fp, default=None):
         sample = fp.read(chardet_size)
 
         # Result contains 'confidence' and 'encoding'
-        result = cchardet.detect(sample)
+        result = charset_normalizer.detect(sample)
         confidence = result.get("confidence", 0) or 0
         encoding = result.get("encoding", default) or default
 

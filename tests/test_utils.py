@@ -2,14 +2,16 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2016-2019 CERN.
+# Copyright (C) 2023 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Test of utilities module."""
 
+from unittest.mock import patch
+
 import pytest
-from mock import patch
 from six import BytesIO
 
 from invenio_previewer import current_previewer
@@ -43,7 +45,7 @@ def test_detect_encoding(testapp, string, confidence, encoding, detect):
     f = BytesIO(string)
     initial_position = f.tell()
 
-    with patch("cchardet.detect") as mock_detect:
+    with patch("charset_normalizer.detect") as mock_detect:
         mock_detect.return_value = {"encoding": encoding, "confidence": confidence}
         assert detect_encoding(f) is detect
         assert f.tell() == initial_position
@@ -52,5 +54,5 @@ def test_detect_encoding(testapp, string, confidence, encoding, detect):
 def test_detect_encoding_exception(testapp):
     f = BytesIO("Γκρήκ Στρίνγκ".encode("utf-8"))
 
-    with patch("cchardet.detect", Exception):
+    with patch("charset_normalizer.detect", Exception):
         assert detect_encoding(f) is None

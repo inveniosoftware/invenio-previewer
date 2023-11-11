@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2015-2019 CERN.
+# Copyright (C) 2023 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -11,7 +12,7 @@
 import os
 import zipfile
 
-import cchardet as chardet
+from charset_normalizer import detect
 from flask import current_app, render_template
 
 from ..proxies import current_previewer
@@ -31,7 +32,7 @@ def make_tree(file):
             sample = " ".join(zf.namelist()[:max_files_count])
             if not isinstance(sample, bytes):
                 sample = sample.encode("utf-16be")
-            encoding = chardet.detect(sample).get("encoding", "utf-8")
+            encoding = detect(sample).get("encoding", "utf-8")
             for i, info in enumerate(zf.infolist()):
                 if i > max_files_count:
                     raise BufferError("Too many files inside the ZIP file.")
