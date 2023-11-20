@@ -9,6 +9,11 @@
 Changes
 =======
 
+Version 2.0.1 (Release 2023-11-20)
+----------------------------------
+
+- CSV: Fix handling of small files.
+
 Version 2.0.1 (Release 2023-09-14)
 ----------------------------------
 
