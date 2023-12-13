@@ -48,3 +48,14 @@ def detect_encoding(fp, default=None):
         return default
     finally:
         fp.seek(init_pos)
+
+
+def dotted_exts(file_extensions):
+    """Guarantee passed file extensions are prefixed with '.' .
+
+    :param file_extensions: file extensions
+    :type file_extensions: List[str]
+    :return: dot-prefixed file extensions
+    :rtype: List[str]
+    """
+    return ["." + ext.lstrip(".") for ext in file_extensions]
