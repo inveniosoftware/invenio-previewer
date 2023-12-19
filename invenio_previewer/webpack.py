@@ -73,7 +73,7 @@ previewer = WebpackThemeBundle(
                 "bottom_css": "./scss/invenio_previewer/bottom.scss",
                 "simple_image_css": "./scss/invenio_previewer/simple_image.scss",
                 "txt_css": "./scss/invenio_previewer/txt.scss",
-                "videojs_js": "./js/invenio_previewer/videojs.js",  # shared for audio and video  # noqa
+                "videojs_js": "./node_modules/video.js/dist/video.min.js",
                 "audio_videojs_css": "./scss/invenio_previewer/audio_videojs.scss",
                 "video_videojs_css": "./scss/invenio_previewer/video_videojs.scss",
             },
