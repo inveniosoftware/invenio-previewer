@@ -30,7 +30,7 @@ def can_preview(file):
 
 
 def preview(file):
-    """Render the appropriate template with embed flag."""
+    """Render the appropriate template with  flag."""
     return render_template(
         "invenio_previewer/simple_image.html",
         file=file,
