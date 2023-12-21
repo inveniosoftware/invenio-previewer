@@ -21,13 +21,16 @@ PREVIEWER_CHARDET_CONFIDENCE = 0.9
 """Confidence threshold for character encoding detection by `cchardet`."""
 
 PREVIEWER_MAX_FILE_SIZE_BYTES = 1 * 1024 * 1024
-"""Maximum file size in bytes for JSON/XML/CSV files."""
+"""Maximum file size in bytes for JSON/XML files."""
 
 PREVIEWER_MAX_IMAGE_SIZE_BYTES = 0.5 * 1024 * 1024
 """Maximum file size in bytes for image files."""
 
 PREVIEWER_TXT_MAX_BYTES = 1 * 1024 * 1024
 """Maximum number of .txt file bytes to preview before truncated."""
+
+PREVIEWER_CSV_MAX_BYTES = 100 * 1024 * 1024
+"""Maximum file size in bytes for CSV files."""
 
 PREVIEWER_ZIP_MAX_FILES = 1000
 """Max number of files showed in the ZIP previewer."""
