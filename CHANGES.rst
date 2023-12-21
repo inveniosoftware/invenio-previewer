@@ -9,6 +9,18 @@
 Changes
 =======
 
+Version 2.1.0 (Release 2023-12-05)
+----------------------------------
+
+- setup: migrate dependency from cchardet to charset_normalizer
+  fixes problems with python3.11
+- setup: add python3.11 to test matrix
+
+Version 2.0.2 (Release 2023-11-20)
+----------------------------------
+
+- CSV: Fix handling of small files.
+
 Version 2.0.1 (Release 2023-09-14)
 ----------------------------------
 

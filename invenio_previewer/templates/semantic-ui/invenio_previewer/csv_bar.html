@@ -10,7 +10,7 @@
 {%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
 
 {% block panel %}
-<div id="app" data-csv-source="{{ file.uri }}">
+<div id="app" data-csv-source="{{ file.uri }}" data-csv-size="{{file.size}}">
   <table class="ui selectable celled table unstackable">
     <thead id="table-header">
     </thead>
