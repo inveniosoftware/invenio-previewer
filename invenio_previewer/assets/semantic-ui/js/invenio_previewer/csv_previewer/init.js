@@ -18,6 +18,7 @@ import Papa from "papaparse";
   }
 
   const URL = $("#app").attr("data-csv-source");
+  const fileSize = $("#app").attr("data-csv-size");
   const maxRowsPerChunk = 50;
   const $tableHeader = $("#table-header");
   const $tableBody = $("#table-body");
@@ -32,6 +33,11 @@ import Papa from "papaparse";
     currentStep = 0;
     papaParser.resume();
   });
+
+  // If the RemoteChunkSize is bigger than the size of the file it fails with a 416
+  if (fileSize < Papa.RemoteChunkSize) {
+    Papa.RemoteChunkSize = fileSize
+  }
 
   Papa.parse(URL, {
     download: true,
