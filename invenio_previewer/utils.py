@@ -39,7 +39,7 @@ def detect_encoding(fp, default=None):
 
         # if low confidence or ascii, override to default (usually utf8 which is
         # better in case of unicode beyond checked range)
-        if confidence <= threshold or encoding == "ASCII":
+        if confidence <= threshold or encoding == "ascii":
             encoding = default
 
         return encoding
