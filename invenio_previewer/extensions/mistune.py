@@ -22,12 +22,7 @@ def render(file):
     """Render HTML from Markdown file content."""
     with file.open() as fp:
         encoding = detect_encoding(fp, default="utf-8")
-        try:
-            result = mistune.markdown(fp.read().decode(encoding))
-            return result
-        except Exception as e:
-            current_app.logger.exception(str(e))
-            return None
+        return mistune.markdown(fp.read().decode(encoding))
 
 
 def can_preview(file):
