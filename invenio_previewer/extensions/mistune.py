@@ -37,8 +37,8 @@ def can_preview(file):
 
 def preview(file):
     """Render Markdown."""
-    content = render(file)
-    if content is not None:
+    try:
+        content = render(file)
         return render_template(
             "invenio_previewer/mistune.html",
             file=file,
@@ -46,5 +46,6 @@ def preview(file):
             js_bundles=current_previewer.js_bundles,
             css_bundles=current_previewer.css_bundles,
         )
-    else:
+    except Exception as e:
+        current_app.logger.exception(str(e))
         return render_template("invenio_previewer/default.html")
