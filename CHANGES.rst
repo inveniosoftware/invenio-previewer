@@ -1,6 +1,6 @@
 ..
     This file is part of Invenio.
-    Copyright (C) 2016-2023 CERN.
+    Copyright (C) 2016-2024 CERN.
 
     Invenio is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
@@ -8,6 +8,11 @@
 
 Changes
 =======
+
+Version 2.1.1 (released 2024-01-31)
+
+- markdown: default message if not previewable
+- markdown: fixed ascii encoding typo
 
 Version 2.1.0 (Release 2023-12-05)
 ----------------------------------
