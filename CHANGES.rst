@@ -9,6 +9,10 @@
 Changes
 =======
 
+Version 2.1.2 (released 2024-03-12)
+
+- frontend: Improve display of ZIPs with long file names
+
 Version 2.1.1 (released 2024-01-31)
 
 - markdown: default message if not previewable
