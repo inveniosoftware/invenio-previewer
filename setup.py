@@ -58,6 +58,7 @@ install_requires = [
     'nbclient>=0.5,<1.0',
     'nbformat>=5.1,<6.0',
     'tornado>=6.1,<7.0',  # required by nbconvert -> jupyter-client
+    'lxml-html-clean>=0.1.1',  # needed for nbconvert
 ]
 
 packages = find_packages()
