@@ -27,5 +27,5 @@ def preview(file):
         file=file,
         html_tags='dir="ltr" mozdisallowselectionprint moznomarginboxes',
         css_bundles=["pdfjs_css.css"],
-        js_bundles=["fullscreen_js.js", "open_pdf.js"],
+        js_bundles=current_previewer.js_bundles + ["open_pdf.js", "fullscreen_js.js"],
     )
