@@ -829,11 +829,11 @@
       var(--outline-around-width)
   );
   --editorFreeText-editing-cursor: text;
-  --editorInk-editing-cursor: url(/static/js/pdfjs/images/cursor-editorInk.svg) 0 16, pointer;
+  --editorInk-editing-cursor: url(images/cursor-editorInk.svg) 0 16, pointer;
 
   --alt-text-opacity: 0.8;
-  --alt-text-add-image: url(/static/js/pdfjs/images/altText_add.svg);
-  --alt-text-done-image: url(/static/js/pdfjs/images/altText_done.svg);
+  --alt-text-add-image: url(images/altText_add.svg);
+  --alt-text-done-image: url(images/altText_done.svg);
   --alt-text-bg-color: rgba(43, 42, 51, var(--alt-text-opacity));
   --alt-text-fg-color: #fbfbfe;
   --alt-text-border-color: var(--alt-text-bg-color);
@@ -850,7 +850,7 @@
 
 @media (-webkit-min-device-pixel-ratio: 1.1), (min-resolution: 1.1dppx) {
   :root {
-    --editorFreeText-editing-cursor: url(/static/js/pdfjs/images/cursor-editorFreeText.svg) 0 16,
+    --editorFreeText-editing-cursor: url(images/cursor-editorFreeText.svg) 0 16,
       text;
   }
 }
@@ -1955,7 +1955,7 @@
   content: "";
   width: 100%;
   height: 100%;
-  background: url("/static/js/pdfjs/images/images/loading-icon.gif") center no-repeat;
+  background: url("images/loading-icon.gif") center no-repeat;
   display: none;
   /* Using a delay with background-image doesn't work,
      consequently we use the display. */
@@ -1996,22 +1996,22 @@
   --sidebar-transition-duration: 200ms;
   --sidebar-transition-timing-function: ease;
 
-  --toolbar-icon-opacity: 0.7;
+  --toolbar-icon-opacity: 1;
   --doorhanger-icon-opacity: 0.9;
 
-  --main-color: rgba(12, 12, 13, 1);
+  --main-color: rgba(255, 255, 255, 1);
   --body-bg-color: rgba(212, 212, 215, 1);
   --progressBar-color: rgba(10, 132, 255, 1);
   --progressBar-bg-color: rgba(221, 221, 222, 1);
   --progressBar-blend-color: rgba(116, 177, 239, 1);
   --scrollbar-color: auto;
   --scrollbar-bg-color: auto;
-  --toolbar-icon-bg-color: rgba(0, 0, 0, 1);
-  --toolbar-icon-hover-bg-color: rgba(0, 0, 0, 1);
+  --toolbar-icon-bg-color: rgba(255, 255, 255, 1);
+  --toolbar-icon-hover-bg-color: rgba(255,255,255,0.7);
 
   --sidebar-narrow-bg-color: rgba(212, 212, 215, 0.9);
-  --sidebar-toolbar-bg-color: rgba(245, 246, 247, 1);
-  --toolbar-bg-color: rgba(249, 249, 250, 1);
+  --sidebar-toolbar-bg-color: rgb(11, 95, 177);
+  --toolbar-bg-color: rgb(11, 95, 177);
   --toolbar-border-color: rgba(184, 184, 184, 1);
   --toolbar-box-shadow: 0 1px 0 var(--toolbar-border-color);
   --toolbar-border-bottom: none;
@@ -2019,74 +2019,75 @@
       rgba(0, 0, 0, 0.25),
     0 1px 0 rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1);
   --toolbarSidebar-border-bottom: none;
-  --button-hover-color: rgba(221, 222, 223, 1);
-  --toggled-btn-color: rgba(0, 0, 0, 1);
-  --toggled-btn-bg-color: rgba(0, 0, 0, 0.3);
-  --toggled-hover-active-btn-color: rgba(0, 0, 0, 0.4);
+  --button-hover-color: rgba(0,0,0,.12);
+  --toggled-btn-color: rgba(255,255, 255, 1);
+  --toggled-btn-bg-color: rgba(0,0,0,.25);
+  --toggled-hover-active-btn-color: rgba(0, 0, 0, 0.12);
   --toggled-hover-btn-outline: none;
-  --dropdown-btn-bg-color: rgba(215, 215, 219, 1);
+  --dropdown-btn-bg-color: rgba(0,0,0,.12);
   --dropdown-btn-border: none;
   --separator-color: rgba(0, 0, 0, 0.3);
-  --field-color: rgba(6, 6, 6, 1);
-  --field-bg-color: rgba(255, 255, 255, 1);
+  --field-color: rgba(255,255,255, 1);
+  --field-bg-color: rgba(0,0,0,.12);
   --field-border-color: rgba(187, 187, 188, 1);
   --treeitem-color: rgba(0, 0, 0, 0.8);
   --treeitem-bg-color: rgba(0, 0, 0, 0.15);
-  --treeitem-hover-color: rgba(0, 0, 0, 0.9);
-  --treeitem-selected-color: rgba(0, 0, 0, 0.9);
+  --treeitem-hover-color: rgba(0,0,0,.12);
+  --treeitem-selected-color: rgba(0,0,0,.4);
   --treeitem-selected-bg-color: rgba(0, 0, 0, 0.25);
   --thumbnail-hover-color: rgba(0, 0, 0, 0.1);
   --thumbnail-selected-color: rgba(0, 0, 0, 0.2);
-  --doorhanger-bg-color: rgba(255, 255, 255, 1);
+  --doorhanger-bg-color: rgb(11, 95, 177);
   --doorhanger-border-color: rgba(12, 12, 13, 0.2);
-  --doorhanger-hover-color: rgba(12, 12, 13, 1);
-  --doorhanger-hover-bg-color: rgba(237, 237, 237, 1);
+  --doorhanger-hover-color: rgba(255,255,255, 1);
+  --doorhanger-hover-bg-color: rgba(0,0,0,.4);
   --doorhanger-separator-color: rgba(222, 222, 222, 1);
   --dialog-button-border: none;
   --dialog-button-bg-color: rgba(12, 12, 13, 0.1);
-  --dialog-button-hover-bg-color: rgba(12, 12, 13, 0.3);
+  --dialog-button-hover-bg-color: rgba(0,0,0,.12);
 
-  --loading-icon: url(/static/js/pdfjs/images/loading.svg);
-  --treeitem-expanded-icon: url(/static/js/pdfjs/images/treeitem-expanded.svg);
-  --treeitem-collapsed-icon: url(/static/js/pdfjs/images/treeitem-collapsed.svg);
-  --toolbarButton-editorFreeText-icon: url(/static/js/pdfjs/images/toolbarButton-editorFreeText.svg);
-  --toolbarButton-editorInk-icon: url(/static/js/pdfjs/images/toolbarButton-editorInk.svg);
-  --toolbarButton-editorStamp-icon: url(/static/js/pdfjs/images/toolbarButton-editorStamp.svg);
-  --toolbarButton-menuArrow-icon: url(/static/js/pdfjs/images/toolbarButton-menuArrow.svg);
-  --toolbarButton-sidebarToggle-icon: url(/static/js/pdfjs/images/toolbarButton-sidebarToggle.svg);
-  --toolbarButton-secondaryToolbarToggle-icon: url(/static/js/pdfjs/images/toolbarButton-secondaryToolbarToggle.svg);
-  --toolbarButton-pageUp-icon: url(/static/js/pdfjs/images/toolbarButton-pageUp.svg);
-  --toolbarButton-pageDown-icon: url(/static/js/pdfjs/images/toolbarButton-pageDown.svg);
-  --toolbarButton-zoomOut-icon: url(/static/js/pdfjs/images/toolbarButton-zoomOut.svg);
-  --toolbarButton-zoomIn-icon: url(/static/js/pdfjs/images/toolbarButton-zoomIn.svg);
-  --toolbarButton-presentationMode-icon: url(/static/js/pdfjs/images/toolbarButton-presentationMode.svg);
-  --toolbarButton-print-icon: url(/static/js/pdfjs/images/toolbarButton-print.svg);
-  --toolbarButton-openFile-icon: url(/static/js/pdfjs/images/toolbarButton-openFile.svg);
-  --toolbarButton-download-icon: url(/static/js/pdfjs/images/toolbarButton-download.svg);
-  --toolbarButton-bookmark-icon: url(/static/js/pdfjs/images/toolbarButton-bookmark.svg);
-  --toolbarButton-viewThumbnail-icon: url(/static/js/pdfjs/images/toolbarButton-viewThumbnail.svg);
-  --toolbarButton-viewOutline-icon: url(/static/js/pdfjs/images/toolbarButton-viewOutline.svg);
-  --toolbarButton-viewAttachments-icon: url(/static/js/pdfjs/images/toolbarButton-viewAttachments.svg);
-  --toolbarButton-viewLayers-icon: url(/static/js/pdfjs/images/toolbarButton-viewLayers.svg);
-  --toolbarButton-currentOutlineItem-icon: url(/static/js/pdfjs/images/toolbarButton-currentOutlineItem.svg);
-  --toolbarButton-search-icon: url(/static/js/pdfjs/images/toolbarButton-search.svg);
-  --findbarButton-previous-icon: url(/static/js/pdfjs/images/findbarButton-previous.svg);
-  --findbarButton-next-icon: url(/static/js/pdfjs/images/findbarButton-next.svg);
-  --secondaryToolbarButton-firstPage-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-firstPage.svg);
-  --secondaryToolbarButton-lastPage-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-lastPage.svg);
-  --secondaryToolbarButton-rotateCcw-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-rotateCcw.svg);
-  --secondaryToolbarButton-rotateCw-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-rotateCw.svg);
-  --secondaryToolbarButton-selectTool-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-selectTool.svg);
-  --secondaryToolbarButton-handTool-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-handTool.svg);
-  --secondaryToolbarButton-scrollPage-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-scrollPage.svg);
-  --secondaryToolbarButton-scrollVertical-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-scrollVertical.svg);
-  --secondaryToolbarButton-scrollHorizontal-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-scrollHorizontal.svg);
-  --secondaryToolbarButton-scrollWrapped-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-scrollWrapped.svg);
-  --secondaryToolbarButton-spreadNone-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-spreadNone.svg);
-  --secondaryToolbarButton-spreadOdd-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-spreadOdd.svg);
-  --secondaryToolbarButton-spreadEven-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-spreadEven.svg);
-  --secondaryToolbarButton-documentProperties-icon: url(/static/js/pdfjs/images/secondaryToolbarButton-documentProperties.svg);
-  --editorParams-stampAddImage-icon: url(/static/js/pdfjs/images/toolbarButton-zoomIn.svg);
+  --loading-icon: url(images/loading.svg);
+  --treeitem-expanded-icon: url(images/treeitem-expanded.svg);
+  --treeitem-collapsed-icon: url(images/treeitem-collapsed.svg);
+  --toolbarButton-editorFreeText-icon: url(images/toolbarButton-editorFreeText.svg);
+  --toolbarButton-editorInk-icon: url(images/toolbarButton-editorInk.svg);
+  --toolbarButton-editorStamp-icon: url(images/toolbarButton-editorStamp.svg);
+  --toolbarButton-menuArrow-icon: url(images/toolbarButton-menuArrow.svg);
+  --toolbarButton-sidebarToggle-icon: url(images/toolbarButton-sidebarToggle.svg);
+  --toolbarButton-secondaryToolbarToggle-icon: url(images/toolbarButton-secondaryToolbarToggle.svg);
+  --toolbarButton-pageUp-icon: url(images/toolbarButton-pageUp.svg);
+  --toolbarButton-pageDown-icon: url(images/toolbarButton-pageDown.svg);
+  --toolbarButton-zoomOut-icon: url(images/toolbarButton-zoomOut.svg);
+  --toolbarButton-zoomIn-icon: url(images/toolbarButton-zoomIn.svg);
+  --toolbarButton-presentationMode-icon: url(images/toolbarButton-presentationMode.svg);
+  --toolbarButton-fullscreen-icon: url(images/toolbarButton-fullscreen.svg);
+  --toolbarButton-print-icon: url(images/toolbarButton-print.svg);
+  --toolbarButton-openFile-icon: url(images/toolbarButton-openFile.svg);
+  --toolbarButton-download-icon: url(images/toolbarButton-download.svg);
+  --toolbarButton-bookmark-icon: url(images/toolbarButton-bookmark.svg);
+  --toolbarButton-viewThumbnail-icon: url(images/toolbarButton-viewThumbnail.svg);
+  --toolbarButton-viewOutline-icon: url(images/toolbarButton-viewOutline.svg);
+  --toolbarButton-viewAttachments-icon: url(images/toolbarButton-viewAttachments.svg);
+  --toolbarButton-viewLayers-icon: url(images/toolbarButton-viewLayers.svg);
+  --toolbarButton-currentOutlineItem-icon: url(images/toolbarButton-currentOutlineItem.svg);
+  --toolbarButton-search-icon: url(images/toolbarButton-search.svg);
+  --findbarButton-previous-icon: url(images/findbarButton-previous.svg);
+  --findbarButton-next-icon: url(images/findbarButton-next.svg);
+  --secondaryToolbarButton-firstPage-icon: url(images/secondaryToolbarButton-firstPage.svg);
+  --secondaryToolbarButton-lastPage-icon: url(images/secondaryToolbarButton-lastPage.svg);
+  --secondaryToolbarButton-rotateCcw-icon: url(images/secondaryToolbarButton-rotateCcw.svg);
+  --secondaryToolbarButton-rotateCw-icon: url(images/secondaryToolbarButton-rotateCw.svg);
+  --secondaryToolbarButton-selectTool-icon: url(images/secondaryToolbarButton-selectTool.svg);
+  --secondaryToolbarButton-handTool-icon: url(images/secondaryToolbarButton-handTool.svg);
+  --secondaryToolbarButton-scrollPage-icon: url(images/secondaryToolbarButton-scrollPage.svg);
+  --secondaryToolbarButton-scrollVertical-icon: url(images/secondaryToolbarButton-scrollVertical.svg);
+  --secondaryToolbarButton-scrollHorizontal-icon: url(images/secondaryToolbarButton-scrollHorizontal.svg);
+  --secondaryToolbarButton-scrollWrapped-icon: url(images/secondaryToolbarButton-scrollWrapped.svg);
+  --secondaryToolbarButton-spreadNone-icon: url(images/secondaryToolbarButton-spreadNone.svg);
+  --secondaryToolbarButton-spreadOdd-icon: url(images/secondaryToolbarButton-spreadOdd.svg);
+  --secondaryToolbarButton-spreadEven-icon: url(images/secondaryToolbarButton-spreadEven.svg);
+  --secondaryToolbarButton-documentProperties-icon: url(images/secondaryToolbarButton-documentProperties.svg);
+  --editorParams-stampAddImage-icon: url(images/toolbarButton-zoomIn.svg);
 }
 
 [dir="rtl"]:root {
@@ -2095,52 +2096,7 @@
   --inline-end: left;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --main-color: rgba(249, 249, 250, 1);
-    --body-bg-color: rgba(42, 42, 46, 1);
-    --progressBar-color: rgba(0, 96, 223, 1);
-    --progressBar-bg-color: rgba(40, 40, 43, 1);
-    --progressBar-blend-color: rgba(20, 68, 133, 1);
-    --scrollbar-color: rgba(121, 121, 123, 1);
-    --scrollbar-bg-color: rgba(35, 35, 39, 1);
-    --toolbar-icon-bg-color: rgba(255, 255, 255, 1);
-    --toolbar-icon-hover-bg-color: rgba(255, 255, 255, 1);
-
-    --sidebar-narrow-bg-color: rgba(42, 42, 46, 0.9);
-    --sidebar-toolbar-bg-color: rgba(50, 50, 52, 1);
-    --toolbar-bg-color: rgba(56, 56, 61, 1);
-    --toolbar-border-color: rgba(12, 12, 13, 1);
-    --button-hover-color: rgba(102, 102, 103, 1);
-    --toggled-btn-color: rgba(255, 255, 255, 1);
-    --toggled-btn-bg-color: rgba(0, 0, 0, 0.3);
-    --toggled-hover-active-btn-color: rgba(0, 0, 0, 0.4);
-    --dropdown-btn-bg-color: rgba(74, 74, 79, 1);
-    --separator-color: rgba(0, 0, 0, 0.3);
-    --field-color: rgba(250, 250, 250, 1);
-    --field-bg-color: rgba(64, 64, 68, 1);
-    --field-border-color: rgba(115, 115, 115, 1);
-    --treeitem-color: rgba(255, 255, 255, 0.8);
-    --treeitem-bg-color: rgba(255, 255, 255, 0.15);
-    --treeitem-hover-color: rgba(255, 255, 255, 0.9);
-    --treeitem-selected-color: rgba(255, 255, 255, 0.9);
-    --treeitem-selected-bg-color: rgba(255, 255, 255, 0.25);
-    --thumbnail-hover-color: rgba(255, 255, 255, 0.1);
-    --thumbnail-selected-color: rgba(255, 255, 255, 0.2);
-    --doorhanger-bg-color: rgba(74, 74, 79, 1);
-    --doorhanger-border-color: rgba(39, 39, 43, 1);
-    --doorhanger-hover-color: rgba(249, 249, 250, 1);
-    --doorhanger-hover-bg-color: rgba(93, 94, 98, 1);
-    --doorhanger-separator-color: rgba(92, 92, 97, 1);
-    --dialog-button-bg-color: rgba(92, 92, 97, 1);
-    --dialog-button-hover-bg-color: rgba(115, 115, 115, 1);
-
-    /* This image is used in <input> elements, which unfortunately means that
-     * the `mask-image` approach used with all of the other images doesn't work
-     * here; hence why we still have two versions of this particular image. */
-    --loading-icon: url(/static/js/pdfjs/images/loading-dark.svg);
-  }
-}
+/* CHANGED: removed dark colour scheme */
 
 @media screen and (forced-colors: active) {
   :root {
@@ -2920,6 +2876,12 @@ body {
 #editorStamp::before {
   -webkit-mask-image: var(--toolbarButton-editorStamp-icon);
           mask-image: var(--toolbarButton-editorStamp-icon);
+}
+
+#fullScreenMode::before,
+#secondaryFullScreenMode::before {
+  -webkit-mask-image: var(--toolbarButton-fullscreen-icon);
+          mask-image: var(--toolbarButton-fullscreen-icon);
 }
 
 #print::before,

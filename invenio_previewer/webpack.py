@@ -69,6 +69,7 @@ previewer = WebpackThemeBundle(
                 "bottom_js": "./js/invenio_previewer/bottom.js",
                 "zip_css": "./scss/invenio_previewer/zip.scss",
                 "bottom_css": "./scss/invenio_previewer/bottom.scss",
+                "pdfjs_css": "./css/invenio_previewer/pdfjs/viewer.css",
                 "simple_image_css": "./scss/invenio_previewer/simple_image.scss",
                 "txt_css": "./scss/invenio_previewer/txt.scss",
                 "videojs_js": "./node_modules/video.js/dist/video.min.js",
