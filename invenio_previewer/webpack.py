@@ -65,6 +65,7 @@ previewer = WebpackThemeBundle(
                 "fullscreen_js": "./js/invenio_previewer/fullscreen.js",
                 "prism_js": "./js/invenio_previewer/prismjs.js",
                 "prism_css": "./scss/invenio_previewer/prismjs.scss",
+                "open_pdf": "./js/invenio_previewer/open_pdf.js",
                 "bottom_js": "./js/invenio_previewer/bottom.js",
                 "zip_css": "./scss/invenio_previewer/zip.scss",
                 "bottom_css": "./scss/invenio_previewer/bottom.scss",

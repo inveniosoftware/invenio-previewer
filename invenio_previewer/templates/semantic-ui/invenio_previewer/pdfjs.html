@@ -18,25 +18,13 @@
   {{ super() }}
   <meta name="google" content="notranslate">
   <link rel="resource" type="application/l10n" href="{{ url_for('static', filename='js/pdfjs/web/locale/locale.properties') }}" />
-  <script>
-    window.WORKER_SRC = "{{ url_for('static', filename='js/pdfjs/pdf.worker.js') }}";
-  </script>
-  
   <link rel="stylesheet" href="{{ url_for('static', filename='css/pdfjs/viewer.css') }}">  
   <script src="{{ url_for('static', filename='js/pdfjs/pdf.js') }}";></script>
   <script src="{{ url_for('static', filename='js/pdfjs/viewer.js') }}"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // globalThis.pdfjsWorker = null;
-      // window.pdfjsLib.GlobalWorkerOptions.workerSrc = window.WORKER_SRC;
-      window.PDFViewerApplication.open({"url": "{{ file.uri }}"})
-      // window.PDFViewerApplicationOptions.set("defaultURL", "{{ file.uri }}");
-      // window.PDFViewerApplicationOptions.set("workerSrc", window.WORKER_SRC);
-    })
-  </script>
 {%- endblock %}
 
 {%- block page_body %}
+<input id="pdf-file-uri" type="hidden" value="{{ file.uri }}" />
 <div id="outerContainer">
 
   <div id="sidebarContainer">
