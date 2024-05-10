@@ -2060,6 +2060,7 @@
   --toolbarButton-zoomOut-icon: url(/static/js/pdfjs/images/toolbarButton-zoomOut.svg);
   --toolbarButton-zoomIn-icon: url(/static/js/pdfjs/images/toolbarButton-zoomIn.svg);
   --toolbarButton-presentationMode-icon: url(/static/js/pdfjs/images/toolbarButton-presentationMode.svg);
+  --toolbarButton-fullscreen-icon: url(/static/js/pdfjs/images/toolbarButton-fullscreen.svg);
   --toolbarButton-print-icon: url(/static/js/pdfjs/images/toolbarButton-print.svg);
   --toolbarButton-openFile-icon: url(/static/js/pdfjs/images/toolbarButton-openFile.svg);
   --toolbarButton-download-icon: url(/static/js/pdfjs/images/toolbarButton-download.svg);
@@ -2875,6 +2876,12 @@ body {
 #editorStamp::before {
   -webkit-mask-image: var(--toolbarButton-editorStamp-icon);
           mask-image: var(--toolbarButton-editorStamp-icon);
+}
+
+#fullScreenMode::before,
+#secondaryFullScreenMode::before {
+  -webkit-mask-image: var(--toolbarButton-fullscreen-icon);
+          mask-image: var(--toolbarButton-fullscreen-icon);
 }
 
 #print::before,
