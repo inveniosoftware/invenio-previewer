@@ -27,11 +27,11 @@
   <script src="{{ url_for('static', filename='js/pdfjs/viewer.js') }}"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      globalThis.pdfjsWorker = null;
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = window.WORKER_SRC;
+      // globalThis.pdfjsWorker = null;
+      // window.pdfjsLib.GlobalWorkerOptions.workerSrc = window.WORKER_SRC;
       window.PDFViewerApplication.open({"url": "{{ file.uri }}"})
-      window.PDFViewerApplicationOptions.set("defaultURL", "{{ file.uri }}");
-      window.PDFViewerApplicationOptions.set("workerSrc", window.WORKER_SRC);
+      // window.PDFViewerApplicationOptions.set("defaultURL", "{{ file.uri }}");
+      // window.PDFViewerApplicationOptions.set("workerSrc", window.WORKER_SRC);
     })
   </script>
 {%- endblock %}
@@ -155,7 +155,7 @@
 
     <div id="secondaryToolbar" class="secondaryToolbar hidden doorHangerRight">
       <div id="secondaryToolbarButtonContainer">
-        <button id="secondaryOpenFile" class="secondaryToolbarButton visibleLargeView" title="Open File" tabindex="51" data-l10n-id="open_file">
+        <button id="secondaryOpenFile" class="hidden secondaryToolbarButton visibleLargeView" title="Open File" tabindex="51" data-l10n-id="open_file">
           <span data-l10n-id="open_file_label">Open</span>
         </button>
 
@@ -269,7 +269,7 @@
             <span id="numPages" class="toolbarLabel"></span>
           </div>
           <div id="toolbarViewerRight">
-            <button id="openFile" class="toolbarButton hiddenLargeView" title="Open File" tabindex="31" data-l10n-id="open_file">
+            <button id="openFile" class="hidden toolbarButton hiddenLargeView" title="Open File" tabindex="31" data-l10n-id="open_file">
               <span data-l10n-id="open_file_label">Open</span>
             </button>
 
@@ -281,9 +281,9 @@
               <span data-l10n-id="save_label">Save</span>
             </button>
 
-            <div class="verticalToolbarSeparator hiddenMediumView"></div>
+            <div class="hidden verticalToolbarSeparator hiddenMediumView"></div>
 
-            <div id="editorModeButtons" class="splitToolbarButton toggled" role="radiogroup">
+            <div id="editorModeButtons" class="hidden splitToolbarButton toggled" role="radiogroup">
               <button id="editorFreeText" class="toolbarButton" disabled="disabled" title="Text" role="radio" aria-checked="false" aria-controls="editorFreeTextParamsToolbar" tabindex="34" data-l10n-id="editor_free_text2">
                 <span data-l10n-id="editor_free_text2_label">Text</span>
               </button>
