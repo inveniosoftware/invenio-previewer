@@ -27,6 +27,7 @@ recursive-include examples *.json
 recursive-include examples *.md
 recursive-include examples *.pdf
 recursive-include examples *.png
+recursive-include examples *.webp
 recursive-include examples *.xml
 recursive-include examples *.zip
 recursive-include invenio_previewer *.bcmap
