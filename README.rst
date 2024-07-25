@@ -28,7 +28,7 @@ Invenio module for previewing files.
 Features:
 
 - File previewing.
-- Support for PDF, ZIP, CSV, MARKDOWN, XML, JSON, PNG, JPG and GIF out-of-the-box.
+- Support for PDF, ZIP, CSV, MARKDOWN, XML, JSON, PNG, JPG, GIF, and WEBP out-of-the-box.
 - Extensible API to create new previewers.
 
 Further documentation available: https://invenio-previewer.readthedocs.io/
