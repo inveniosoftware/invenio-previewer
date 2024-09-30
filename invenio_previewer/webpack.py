@@ -40,7 +40,6 @@ previewer = WebpackThemeBundle(
                 "fullscreen_js": "./js/invenio_previewer/fullscreen.js",
                 "prism_js": "./js/invenio_previewer/prismjs.js",
                 "prism_css": "./scss/invenio_previewer/prismjs.scss",
-                "pdfjs_js": "./js/invenio_previewer/pdfjs.js",
                 "pdfjs_css": "./scss/invenio_previewer/pdfjs.scss",
                 "open_pdf": "./js/invenio_previewer/open_pdf.js",
                 "simple_image_css": "./scss/invenio_previewer/simple_image.scss",
@@ -65,10 +64,9 @@ previewer = WebpackThemeBundle(
                 "fullscreen_js": "./js/invenio_previewer/fullscreen.js",
                 "prism_js": "./js/invenio_previewer/prismjs.js",
                 "prism_css": "./scss/invenio_previewer/prismjs.scss",
-                "pdfjs_js": "./js/invenio_previewer/pdfjs.js",
+                "pdfjs_css": "./scss/invenio_previewer/pdfjs.scss",
                 "open_pdf": "./js/invenio_previewer/open_pdf.js",
                 "bottom_js": "./js/invenio_previewer/bottom.js",
-                "pdfjs_css": "./scss/invenio_previewer/pdfjs.scss",
                 "zip_css": "./scss/invenio_previewer/zip.scss",
                 "bottom_css": "./scss/invenio_previewer/bottom.scss",
                 "simple_image_css": "./scss/invenio_previewer/simple_image.scss",
@@ -82,10 +80,25 @@ previewer = WebpackThemeBundle(
                 "font-awesome": "~4.5.0",
                 "jquery": "^3.3.1",
                 "papaparse": "^5.4.1",
-                "pdfjs-dist": "^1.4.192",
                 "prismjs": "^1.15.0",
                 "video.js": "^8.6.1",
+                "pdfjs-dist": "^4.0",
             },
+            copy=[
+                # Copy the pdfjs-dist artifacts from `node_modules` into `static`
+                {
+                    "from": "../node_modules/pdfjs-dist/build",
+                    "to": "../../static/js/pdfjs/build",
+                },
+                {
+                    "from": "../node_modules/pdfjs-dist/cmaps",
+                    "to": "../../static/js/pdfjs/cmaps",
+                },
+                {
+                    "from": "../node_modules/pdfjs-dist/web",
+                    "to": "../../static/js/pdfjs/web",
+                },
+            ],
         ),
     },
 )
