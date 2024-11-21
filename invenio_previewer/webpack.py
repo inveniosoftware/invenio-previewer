@@ -37,11 +37,9 @@ previewer = WebpackThemeBundle(
             entry={
                 "papaparse_csv": "./js/invenio_previewer/csv_previewer/init.js",
                 "previewer_theme": "./js/invenio_previewer/previewer_theme.js",
-                "fullscreen_js": "./js/invenio_previewer/fullscreen.js",
                 "prism_js": "./js/invenio_previewer/prismjs.js",
                 "prism_css": "./scss/invenio_previewer/prismjs.scss",
                 "pdfjs_css": "./scss/invenio_previewer/pdfjs.scss",
-                "open_pdf": "./js/invenio_previewer/open_pdf.js",
                 "simple_image_css": "./scss/invenio_previewer/simple_image.scss",
             },
             dependencies={
@@ -76,11 +74,9 @@ previewer = WebpackThemeBundle(
             entry={
                 "papaparse_csv": "./js/invenio_previewer/csv_previewer/init.js",
                 "previewer_theme": "./js/invenio_previewer/previewer_theme.js",
-                "fullscreen_js": "./js/invenio_previewer/fullscreen.js",
                 "prism_js": "./js/invenio_previewer/prismjs.js",
                 "prism_css": "./scss/invenio_previewer/prismjs.scss",
                 "pdfjs_css": "./scss/invenio_previewer/pdfjs.scss",
-                "open_pdf": "./js/invenio_previewer/open_pdf.js",
                 "bottom_js": "./js/invenio_previewer/bottom.js",
                 "zip_css": "./scss/invenio_previewer/zip.scss",
                 "bottom_css": "./scss/invenio_previewer/bottom.scss",
