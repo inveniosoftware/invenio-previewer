@@ -39,7 +39,6 @@ previewer = WebpackThemeBundle(
                 "previewer_theme": "./js/invenio_previewer/previewer_theme.js",
                 "prism_js": "./js/invenio_previewer/prismjs.js",
                 "prism_css": "./scss/invenio_previewer/prismjs.scss",
-                "pdfjs_css": "./scss/invenio_previewer/pdfjs.scss",
                 "simple_image_css": "./scss/invenio_previewer/simple_image.scss",
             },
             dependencies={
@@ -76,7 +75,6 @@ previewer = WebpackThemeBundle(
                 "previewer_theme": "./js/invenio_previewer/previewer_theme.js",
                 "prism_js": "./js/invenio_previewer/prismjs.js",
                 "prism_css": "./scss/invenio_previewer/prismjs.scss",
-                "pdfjs_css": "./scss/invenio_previewer/pdfjs.scss",
                 "bottom_js": "./js/invenio_previewer/bottom.js",
                 "zip_css": "./scss/invenio_previewer/zip.scss",
                 "bottom_css": "./scss/invenio_previewer/bottom.scss",
