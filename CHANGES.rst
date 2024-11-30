@@ -10,6 +10,12 @@
 Changes
 =======
 
+
+Version 3.0.0 (release 2024-12-10)
+
+- fix: tests, compatibility with sqlalchemy>=2
+- setup: bump major dependencies
+
 Version 2.3.0 (released 2024-12-10)
 
 - zip: move fullscreen.js to fix the zip previewer
