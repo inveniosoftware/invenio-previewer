@@ -1,0 +1,667 @@
+/* Copyright 2014 Mozilla Foundation
+ * Copyright 2024 TU Wien
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+:root {
+  --dir-factor: 1;
+  --sidebar-width: 200px;
+  --sidebar-transition-duration: 200ms;
+  --sidebar-transition-timing-function: ease;
+  --toolbar-height: 32px;
+  --toolbar-horizontal-padding: 1px;
+  --toolbar-vertical-padding: 2px;
+  --icon-size: 16px;
+  --toolbar-icon-opacity: 0.7;
+  --doorhanger-icon-opacity: 0.9;
+  --doorhanger-height: 8px;
+  --main-color: #0c0c0d;
+  --body-bg-color: #d4d4d7;
+  --progressBar-color: #0a84ff;
+  --progressBar-bg-color: #ddddde;
+  --progressBar-blend-color: #74b1ef;
+  --scrollbar-color: auto;
+  --scrollbar-bg-color: auto;
+  --toolbar-icon-bg-color: black;
+  --toolbar-icon-hover-bg-color: black;
+  --sidebar-narrow-bg-color: rgba(212, 212, 215, 0.9);
+  --sidebar-toolbar-bg-color: #f5f6f7;
+  --toolbar-bg-color: #f9f9fa;
+  --toolbar-border-color: #b8b8b8;
+  --toolbar-box-shadow: 0 1px 0 var(--toolbar-border-color);
+  --toolbar-border-bottom: none;
+  --toolbarSidebar-box-shadow: inset calc(-1px * var(--dir-factor)) 0 0 rgba(0, 0, 0, 0.25), 0 1px 0 rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1);
+  --toolbarSidebar-border-bottom: none;
+  --button-hover-color: #dddedf;
+  --toggled-btn-color: black;
+  --toggled-btn-bg-color: rgba(0, 0, 0, 0.3);
+  --toggled-hover-active-btn-color: rgba(0, 0, 0, 0.4);
+  --toggled-hover-btn-outline: none;
+  --dropdown-btn-bg-color: #d7d7db;
+  --dropdown-btn-border: none;
+  --separator-color: rgba(0, 0, 0, 0.3);
+  --field-color: #060606;
+  --field-bg-color: white;
+  --field-border-color: #bbbbbc;
+  --treeitem-color: rgba(0, 0, 0, 0.8);
+  --treeitem-bg-color: rgba(0, 0, 0, 0.15);
+  --treeitem-hover-color: rgba(0, 0, 0, 0.9);
+  --treeitem-selected-color: rgba(0, 0, 0, 0.9);
+  --treeitem-selected-bg-color: rgba(0, 0, 0, 0.25);
+  --thumbnail-hover-color: rgba(0, 0, 0, 0.1);
+  --thumbnail-selected-color: rgba(0, 0, 0, 0.2);
+  --doorhanger-bg-color: white;
+  --doorhanger-border-color: rgba(12, 12, 13, 0.2);
+  --doorhanger-hover-color: #0c0c0d;
+  --doorhanger-hover-bg-color: #ededed;
+  --doorhanger-separator-color: #dedede;
+  --dialog-button-border: none;
+  --dialog-button-bg-color: rgba(12, 12, 13, 0.1);
+  --dialog-button-hover-bg-color: rgba(12, 12, 13, 0.3);
+  /* icon images for the buttons */
+  --loading-icon: url("/static/js/pdfjs/web/images/altText_spinner.svg");
+  --toolbarButton-menuArrow-icon: url("/static/js/pdfjs/web/images/toolbarButton-menuArrow.svg");
+  --toolbarButton-zoomOut-icon: url("/static/images/pdfjs/minus.svg");
+  --toolbarButton-zoomIn-icon: url("/static/images/pdfjs/plus.svg");
+  --toolbarButton-pageUp-icon: url("/static/images/pdfjs/previous.svg");
+  --toolbarButton-pageDown-icon: url("/static/images/pdfjs/next.svg");
+  --toolbarButton-fullScreenMode-icon: url("/static/images/pdfjs/fullscreen.svg");
+}
+:root:dir(rtl) {
+  --dir-factor: -1;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --main-color: #f9f9fa;
+    --body-bg-color: #2a2a2e;
+    --progressBar-color: #0060df;
+    --progressBar-bg-color: #28282b;
+    --progressBar-blend-color: #144485;
+    --scrollbar-color: #79797b;
+    --scrollbar-bg-color: #232327;
+    --toolbar-icon-bg-color: white;
+    --toolbar-icon-hover-bg-color: white;
+    --sidebar-narrow-bg-color: rgba(42, 42, 46, 0.9);
+    --sidebar-toolbar-bg-color: #323234;
+    --toolbar-bg-color: #38383d;
+    --toolbar-border-color: #0c0c0d;
+    --button-hover-color: #666667;
+    --toggled-btn-color: white;
+    --toggled-btn-bg-color: rgba(0, 0, 0, 0.3);
+    --toggled-hover-active-btn-color: rgba(0, 0, 0, 0.4);
+    --dropdown-btn-bg-color: #4a4a4f;
+    --separator-color: rgba(0, 0, 0, 0.3);
+    --field-color: #fafafa;
+    --field-bg-color: #404044;
+    --field-border-color: #737373;
+    --treeitem-color: rgba(255, 255, 255, 0.8);
+    --treeitem-bg-color: rgba(255, 255, 255, 0.15);
+    --treeitem-hover-color: rgba(255, 255, 255, 0.9);
+    --treeitem-selected-color: rgba(255, 255, 255, 0.9);
+    --treeitem-selected-bg-color: rgba(255, 255, 255, 0.25);
+    --thumbnail-hover-color: rgba(255, 255, 255, 0.1);
+    --thumbnail-selected-color: rgba(255, 255, 255, 0.2);
+    --doorhanger-bg-color: #4a4a4f;
+    --doorhanger-border-color: #27272b;
+    --doorhanger-hover-color: #f9f9fa;
+    --doorhanger-hover-bg-color: #5d5e62;
+    --doorhanger-separator-color: #5c5c61;
+    --dialog-button-bg-color: #5c5c61;
+    --dialog-button-hover-bg-color: #737373;
+  }
+}
+@media screen and (forced-colors: active) {
+  :root {
+    --button-hover-color: Highlight;
+    --doorhanger-hover-bg-color: Highlight;
+    --toolbar-icon-opacity: 1;
+    --toolbar-icon-bg-color: ButtonText;
+    --toolbar-icon-hover-bg-color: ButtonFace;
+    --toggled-hover-active-btn-color: ButtonText;
+    --toggled-hover-btn-outline: 2px solid ButtonBorder;
+    --toolbar-border-color: CanvasText;
+    --toolbar-border-bottom: 1px solid var(--toolbar-border-color);
+    --toolbar-box-shadow: none;
+    --toggled-btn-color: HighlightText;
+    --toggled-btn-bg-color: LinkText;
+    --doorhanger-hover-color: ButtonFace;
+    --doorhanger-border-color-whcm: 1px solid ButtonText;
+    --doorhanger-triangle-opacity-whcm: 0;
+    --dialog-button-border: 1px solid Highlight;
+    --dialog-button-hover-bg-color: Highlight;
+    --dialog-button-hover-color: ButtonFace;
+    --dropdown-btn-border: 1px solid ButtonText;
+    --field-border-color: ButtonText;
+    --main-color: CanvasText;
+    --separator-color: GrayText;
+    --doorhanger-separator-color: GrayText;
+    --toolbarSidebar-box-shadow: none;
+    --toolbarSidebar-border-bottom: 1px solid var(--toolbar-border-color);
+  }
+}
+@media screen and (prefers-reduced-motion: reduce) {
+  :root {
+    --sidebar-transition-duration: 0;
+  }
+}
+@keyframes progressIndeterminate {
+  0% {
+    transform: translateX(calc(-142px * var(--dir-factor)));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+html[data-toolbar-density="compact"] {
+  --toolbar-height: 30px;
+}
+html[data-toolbar-density="touch"] {
+  --toolbar-height: 44px;
+}
+html, body {
+  height: 100%;
+  width: 100%;
+}
+body {
+  margin: 0;
+  background-color: var(--body-bg-color);
+  scrollbar-color: var(--scrollbar-color) var(--scrollbar-bg-color);
+}
+.hidden, [hidden] {
+  display: none !important;
+}
+#outerContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin: 0;
+}
+#sidebarContainer {
+  position: absolute;
+  inset-block: var(--toolbar-height) 0;
+  inset-inline-start: calc(-1 * var(--sidebar-width));
+  width: var(--sidebar-width);
+  visibility: hidden;
+  z-index: 1;
+  font: message-box;
+  border-top: 1px solid transparent;
+  border-inline-end: var(--doorhanger-border-color-whcm);
+  transition-property: inset-inline-start;
+  transition-duration: var(--sidebar-transition-duration);
+  transition-timing-function: var(--sidebar-transition-timing-function);
+}
+#outerContainer:is(.sidebarMoving, .sidebarOpen) #sidebarContainer {
+  visibility: visible;
+}
+#outerContainer.sidebarOpen #sidebarContainer {
+  inset-inline-start: 0;
+}
+#mainContainer {
+  position: absolute;
+  inset: 0;
+  min-width: 350px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+#sidebarContent {
+  inset-block: var(--toolbar-height) 0;
+  inset-inline-start: 0;
+  overflow: auto;
+  position: absolute;
+  width: 100%;
+  box-shadow: inset calc(-1px * var(--dir-factor)) 0 0 rgba(0, 0, 0, 0.25);
+}
+#viewerContainer {
+  overflow: auto;
+  position: absolute;
+  inset: var(--toolbar-height) 0 0;
+  outline: none;
+  z-index: 0;
+}
+#viewerContainer:not(.pdfPresentationMode) {
+  transition-duration: var(--sidebar-transition-duration);
+  transition-timing-function: var(--sidebar-transition-timing-function);
+}
+#outerContainer.sidebarOpen #viewerContainer:not(.pdfPresentationMode) {
+  inset-inline-start: var(--sidebar-width);
+  transition-property: inset-inline-start;
+}
+#sidebarContainer :is(input, button, select) {
+  font: message-box;
+}
+.toolbar {
+  z-index: 2;
+}
+#toolbarSidebar {
+  width: 100%;
+  height: var(--toolbar-height);
+  background-color: var(--sidebar-toolbar-bg-color);
+  box-shadow: var(--toolbarSidebar-box-shadow);
+  border-bottom: var(--toolbarSidebar-border-bottom);
+  padding: var(--toolbar-vertical-padding) var(--toolbar-horizontal-padding);
+  justify-content: space-between;
+}
+#toolbarSidebar #toolbarSidebarLeft {
+  width: auto;
+  height: 100%;
+}
+#toolbarSidebar #toolbarSidebarRight {
+  width: auto;
+  height: 100%;
+  padding-inline-end: 2px;
+}
+#sidebarResizer {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: -6px;
+  width: 6px;
+  z-index: 200;
+  cursor: ew-resize;
+}
+#outerContainer.sidebarOpen #loadingBar {
+  inset-inline-start: var(--sidebar-width);
+}
+#outerContainer.sidebarResizing :is(#sidebarContainer, #viewerContainer, #loadingBar) {
+  /* Improve responsiveness and avoid visual glitches when the sidebar is resized. */
+  transition-duration: 0s;
+}
+.splitToolbarButtonSeparator {
+  float: var(--inline-start);
+  width: 0;
+  height: 62%;
+  border-left: 1px solid var(--separator-color);
+  border-right: none;
+}
+#previous::before {
+  mask-image: var(--toolbarButton-pageUp-icon);
+}
+#next::before {
+  mask-image: var(--toolbarButton-pageDown-icon);
+}
+#zoomOutButton::before {
+  mask-image: var(--toolbarButton-zoomOut-icon);
+}
+#zoomInButton::before {
+  mask-image: var(--toolbarButton-zoomIn-icon);
+}
+#fullScreenMode::before {
+  mask-image: var(--toolbarButton-fullScreenMode-icon);
+}
+.toolbarField {
+  padding: 4px 7px;
+  margin: 3px 0;
+  border-radius: 2px;
+  background-color: var(--field-bg-color);
+  background-clip: padding-box;
+  border: 1px solid var(--field-border-color);
+  box-shadow: none;
+  color: var(--field-color);
+  font-size: 12px;
+  line-height: 16px;
+  outline: none;
+}
+.toolbarField:focus {
+  border-color: #0a84ff;
+}
+#pageNumber {
+  -moz-appearance: textfield;
+  /* hides the spinner in moz */
+  appearance: textfield;
+  text-align: end;
+  width: 40px;
+  background-size: 0 0;
+  transition-property: none;
+  /*#if !MOZCENTRAL*/
+}
+#pageNumber::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  /*#endif*/
+}
+.loadingInput:has(> #pageNumber.loading)::after {
+  display: inline;
+  visibility: visible;
+  transition-property: visibility;
+  transition-delay: var(--loading-icon-delay);
+}
+.loadingInput {
+  position: relative;
+}
+.loadingInput::after {
+  position: absolute;
+  visibility: hidden;
+  display: none;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  content: "";
+  background-color: var(--toolbar-icon-bg-color);
+  mask-size: cover;
+  mask-image: var(--loading-icon);
+}
+.loadingInput.start::after {
+  inset-inline-start: 4px;
+}
+.loadingInput.end::after {
+  inset-inline-end: 4px;
+}
+.toolbarButton {
+  height: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--main-color);
+  outline: none;
+  border-radius: 2px;
+  box-sizing: border-box;
+  font: message-box;
+  flex: none;
+  position: relative;
+}
+.toolbarButton > span {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.toolbarButton::before {
+  opacity: var(--toolbar-icon-opacity);
+  display: inline-block;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  content: "";
+  background-color: var(--toolbar-icon-bg-color);
+  mask-size: cover;
+  mask-position: center;
+}
+.toolbarButton.toggled {
+  background-color: var(--toggled-btn-bg-color);
+  color: var(--toggled-btn-color);
+}
+.toolbarButton.toggled::before {
+  background-color: var(--toggled-btn-color);
+}
+.toolbarButton.toggled:hover {
+  outline: var(--toggled-hover-btn-outline) !important;
+}
+.toolbarButton.toggled:hover:active {
+  background-color: var(--toggled-hover-active-btn-color);
+}
+.toolbarButton:is(:hover, :focus-visible) {
+  background-color: var(--button-hover-color);
+}
+.toolbarButton:is(:hover, :focus-visible)::before {
+  background-color: var(--toolbar-icon-hover-bg-color);
+}
+.toolbarButton:is([disabled="disabled"], [disabled]) {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.toolbarButton.labeled {
+  width: 100%;
+  min-height: var(--menuitem-height);
+  justify-content: flex-start;
+  gap: 8px;
+  padding-inline-start: 12px;
+  aspect-ratio: unset;
+  text-align: start;
+  white-space: normal;
+  cursor: default;
+}
+.toolbarButton.labeled:is(a) {
+  text-decoration: none;
+}
+.toolbarButton.labeled:is(a)[href="#"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.toolbarButton.labeled::before {
+  opacity: var(--doorhanger-icon-opacity);
+}
+.toolbarButton.labeled:is(:hover, :focus-visible) {
+  background-color: var(--doorhanger-hover-bg-color);
+  color: var(--doorhanger-hover-color);
+}
+.toolbarButton.labeled > span {
+  display: inline-block;
+  width: max-content;
+  height: auto;
+}
+.toolbarButtonWithContainer {
+  height: 100%;
+  aspect-ratio: 1;
+  display: inline-block;
+  position: relative;
+  flex: none;
+}
+.toolbarButtonWithContainer > .toolbarButton {
+  width: 100%;
+  height: 100%;
+}
+.toolbarButtonWithContainer .menu {
+  padding-block: 5px;
+}
+.toolbarButtonWithContainer .menuContainer {
+  width: 100%;
+  height: auto;
+  max-height: calc(var(--viewer-container-height) - var(--toolbar-height) -
+        var(--doorhanger-height));
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+@page {
+  margin: 0;
+}
+#printContainer {
+  display: none;
+}
+.toolbarLabel {
+  width: max-content;
+  min-width: 16px;
+  height: 100%;
+  padding-inline: 4px;
+  margin: 2px;
+  border-radius: 2px;
+  color: var(--main-color);
+  font-size: 12px;
+  line-height: 14px;
+  text-align: left;
+  user-select: none;
+  cursor: default;
+  box-sizing: border-box;
+  display: inline flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.toolbarLabel > label {
+  width: 100%;
+}
+.toolbarHorizontalGroup {
+  height: 100%;
+  display: inline flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1px;
+  box-sizing: border-box;
+}
+.dropdownToolbarButton {
+  display: inline flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: fit-content;
+  min-width: 140px;
+  padding: 0;
+  background-color: var(--dropdown-btn-bg-color);
+  border: var(--dropdown-btn-border);
+  border-radius: 2px;
+  color: var(--main-color);
+  font-size: 12px;
+  line-height: 14px;
+  user-select: none;
+  cursor: default;
+  box-sizing: border-box;
+  outline: none;
+}
+.dropdownToolbarButton:hover {
+  background-color: var(--button-hover-color);
+}
+.dropdownToolbarButton > select {
+  appearance: none;
+  width: inherit;
+  min-width: inherit;
+  height: 28px;
+  font: message-box;
+  font-size: 12px;
+  color: var(--main-color);
+  margin: 0;
+  padding-block: 1px 2px;
+  padding-inline: 6px 38px;
+  border: none;
+  outline: none;
+  background-color: var(--dropdown-btn-bg-color);
+}
+.dropdownToolbarButton > select > option {
+  background: var(--doorhanger-bg-color);
+  color: var(--main-color);
+}
+.dropdownToolbarButton > select:is(:hover, :focus-visible) {
+  background-color: var(--button-hover-color);
+  color: var(--toggled-btn-color);
+}
+.dropdownToolbarButton::after {
+  /* All matching images have a size of 16x16
+   * All relevant containers have a size of 28x28 */
+  position: absolute;
+  display: inline;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  content: "";
+  background-color: var(--toolbar-icon-bg-color);
+  mask-size: cover;
+  inset-inline-end: 4px;
+  pointer-events: none;
+  mask-image: var(--toolbarButton-menuArrow-icon);
+}
+.dropdownToolbarButton:is(:hover, :focus-visible, :active)::after {
+  background-color: var(--toolbar-icon-hover-bg-color);
+}
+#toolbarContainer {
+  --menuitem-height: calc(var(--toolbar-height) - 6px);
+  width: 100%;
+  height: var(--toolbar-height);
+  padding: var(--toolbar-vertical-padding) var(--toolbar-horizontal-padding);
+  position: relative;
+  box-sizing: border-box;
+  font: message-box;
+  background-color: var(--toolbar-bg-color);
+  box-shadow: var(--toolbar-box-shadow);
+  border-bottom: var(--toolbar-border-bottom);
+}
+#toolbarContainer #toolbarViewer {
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+}
+#toolbarContainer #toolbarViewer > * {
+  flex: none;
+}
+#toolbarContainer #toolbarViewer input {
+  font: message-box;
+}
+#toolbarContainer #toolbarViewer .toolbarButtonSpacer {
+  width: 30px;
+  display: block;
+  height: 1px;
+}
+#toolbarContainer #toolbarViewer #toolbarViewerLeft #numPages.toolbarLabel {
+  padding-inline-start: 3px;
+  flex: none;
+}
+#toolbarContainer #loadingBar {
+  /* Define these variables here, and not in :root, to avoid reflowing the
+   entire viewer when updating progress (see issue 15958). */
+  --progressBar-percent: 0%;
+  --progressBar-end-offset: 0;
+  position: absolute;
+  top: var(--toolbar-height);
+  inset-inline: 0 var(--progressBar-end-offset);
+  height: 4px;
+  background-color: var(--progressBar-bg-color);
+  border-bottom: 1px solid var(--toolbar-border-color);
+  transition-property: inset-inline-start;
+  transition-duration: var(--sidebar-transition-duration);
+  transition-timing-function: var(--sidebar-transition-timing-function);
+}
+#toolbarContainer #loadingBar .progress {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  transform: scaleX(var(--progressBar-percent));
+  transform-origin: calc(50% - 50% * var(--dir-factor)) 0;
+  height: 100%;
+  background-color: var(--progressBar-color);
+  overflow: hidden;
+  transition: transform 200ms;
+}
+#toolbarContainer #loadingBar.indeterminate .progress {
+  transform: none;
+  background-color: var(--progressBar-bg-color);
+  transition: none;
+}
+#toolbarContainer #loadingBar.indeterminate .progress .glimmer {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  height: 100%;
+  width: calc(100% + 150px);
+  background: repeating-linear-gradient(135deg, var(--progressBar-blend-color) 0, var(--progressBar-bg-color) 5px, var(--progressBar-bg-color) 45px, var(--progressBar-color) 55px, var(--progressBar-color) 95px, var(--progressBar-blend-color) 100px);
+  animation: progressIndeterminate 1s linear infinite;
+}
+@media (max-width: 840px) {
+  #sidebarContainer {
+    background-color: var(--sidebar-narrow-bg-color);
+  }
+  #outerContainer.sidebarOpen #viewerContainer {
+    inset-inline-start: 0 !important;
+  }
+}
+@media (max-width: 750px) {
+  #outerContainer .hiddenMediumView {
+    display: none !important;
+  }
+  #outerContainer .visibleMediumView:not(.hidden, [hidden]) {
+    display: inline-block !important;
+  }
+}
+@media (max-width: 690px) {
+  .hiddenSmallView, .hiddenSmallView * {
+    display: none !important;
+  }
+  #toolbarContainer #toolbarViewer .toolbarButtonSpacer {
+    width: 0;
+  }
+}
+@media (max-width: 560px) {
+  #scaleSelectContainer {
+    display: none;
+  }
+}
