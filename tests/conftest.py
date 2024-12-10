@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2016-2019 CERN.
+# Copyright (C) 2024 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -141,7 +142,6 @@ def location(db):
     tmppath = tempfile.mkdtemp()
     loc = Location(name="testloc", uri=tmppath, default=True)
     db.session.add(loc)
-    db.session.commit()
     yield loc
     shutil.rmtree(tmppath)
 
@@ -158,7 +158,6 @@ def record(db, location):
         },
         id_=rec_uuid,
     )
-    db.session.commit()
     return record
 
 
@@ -180,7 +179,6 @@ def record_with_file(db, record, location):
         )
     )
     record.commit()
-    db.session.commit()
     return record, testfile
 
 
