@@ -10,11 +10,6 @@
 Changes
 =======
 
-Version 2.3.0 (released 2024-12-10)
-
-- zip: move fullscreen.js to fix the zip previewer
-- pdfjs: upgrade to pdf.js v4
-
 Version 2.2.2 (release 2024-11-30)
 
 - setup: change to reusable workflows
