@@ -22,8 +22,8 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/pdfjs.css') }}" />
   <script src="{{ url_for('static', filename='js/pdfjs/build/pdf.min.mjs') }}" type="module"></script>
   <script src="{{ url_for('static', filename='js/pdfjs/web/pdf_viewer.mjs') }}" type="module"></script>
-  <script src="{{ url_for('static', filename='js/open_pdf.js') }}" defer></script>
-  <script src="{{ url_for('static', filename='js/fullscreen.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/pdfjs/open_pdf.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/pdfjs/fullscreen.js') }}" defer></script>
 {%- endblock %}
 
 {%- block page_body %}

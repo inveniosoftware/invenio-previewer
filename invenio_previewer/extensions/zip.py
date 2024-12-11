@@ -91,6 +91,6 @@ def preview(file):
         tree=list,
         limit_reached=limit_reached,
         error=error,
-        js_bundles=current_previewer.js_bundles,
+        js_bundles=current_previewer.js_bundles + ["fullscreen_js.js"],
         css_bundles=current_previewer.css_bundles + ["zip_css.css"],
     )
