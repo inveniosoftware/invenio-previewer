@@ -1,0 +1,23 @@
+/*
+ * This file is part of Invenio.
+ * Copyright (C) 2025 Brian Kelly.
+ *
+ * Invenio is free software; you can redistribute it and/or modify it
+ * under the terms of the MIT License; see LICENSE file for more details.
+ */
+
+@import "leaflet/dist/leaflet.css";
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  height: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 400px;
+}
