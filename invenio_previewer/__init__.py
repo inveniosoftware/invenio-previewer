@@ -216,6 +216,10 @@ This module contains several previewers out-of-the-box:
   library. You can also configure the maximum file size in order to avoid
   client and server freezes. By default it is set to 1MB.
 
+- ``GeoJSON``: Previews GeoJSON files. It displays a
+  `Leaflet <https://leafletjs.com>`_ map using
+  `OpenStreetMap <https://www.openstreetmap.org/>`_ tiles.
+
 - ``CSV`` - Previews `CSV` files but it can actually work
   with any other tabular data format in plain text based on the idea of
   separated values due to it is detecting the delimiter between the characters
@@ -247,6 +251,22 @@ Some of the bundled previewers are only working with locally managed  files
 (i.e. files stored in Invenio-Files-REST, which supports many different storage
 backends). This is the case for JSON, XML, CSV, Markdown and ZIP previewers.
 The PDF and Image previewer doesn't need to have the files stored locally.
+
+OpenStreetmap & Content Securty Policy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In order for map tiles to load from OpenStreetmap your content security policy
+must allow images to load from OSM servers. For example:
+
+  .. code-block:: python
+
+    APP_DEFAULT_SECURE_HEADERS = {
+      'content_security_policy': {
+          'img-src': [
+              "'self'",
+              'data:',
+              "https://tile.openstreetmap.org",
+          ]
 
 Override default previewer
 --------------------------
