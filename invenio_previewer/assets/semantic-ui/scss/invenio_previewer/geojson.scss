@@ -8,7 +8,16 @@
 
 @import "leaflet/dist/leaflet.css";
 
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  height: 100%;
+}
+
 #map {
     width: 100%;
-    height: 480px;
+    height: 400px;
 }
