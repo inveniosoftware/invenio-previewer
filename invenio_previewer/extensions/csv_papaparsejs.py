@@ -14,18 +14,20 @@ from ..proxies import current_previewer
 
 previewable_extensions = ["csv", "dsv"]
 
+
 def validate_csv(file):
     """Validate a CSV file."""
-    max_file_size = current_app.config.get(
-        "PREVIEWER_CSV_MAX_BYTES", 100 * 1024 * 1024
-    )
+    max_file_size = current_app.config.get("PREVIEWER_CSV_MAX_BYTES", 100 * 1024 * 1024)
     if file.size > max_file_size:
         return False
     return True
 
+
 def can_preview(file):
     """Determine if the given file can be previewed."""
-    return file.is_local() and file.has_extensions(".csv", ".dsv") and validate_csv(file)
+    return (
+        file.is_local() and file.has_extensions(".csv", ".dsv") and validate_csv(file)
+    )
 
 
 def preview(file):
