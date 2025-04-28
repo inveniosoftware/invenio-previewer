@@ -21,7 +21,7 @@ It includes previewers for the following file types:
 - CSV (using d3.js)
 - Markdown (using Mistune library)
 - XML and JSON (using Prism.js)
-- Simple images (PNG, JPG, GIF)
+- Simple images (PNG, JPG, GIF, WEBP)
 - Jupyter Notebooks
 
 Invenio-Previewer only provides the front-end layer for displaying previews
@@ -169,6 +169,7 @@ We can then add a few demo files into the record:
 ...     'notebook.ipynb',
 ...     'jpgfile.jpg',
 ...     'pngfile.png',
+...     'webpfile.webp',
 ... )
 
 >>> for f in demo_files:
