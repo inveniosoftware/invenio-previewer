@@ -237,6 +237,9 @@ This module contains several previewers out-of-the-box:
 - ``Jupyter Notebook`` - Previews a Jupyter Notebook in your browser using
   `Jupyter notebook <https://jupyter.org>`_ python converter.
 
+- ``Web Archive`` - Previews a Web Archive in your browser using
+  `ReplayWeb <https://replayweb.page/>`_ embedded player.
+
 - ``Default`` - This previewer is intended to be a fallback previewer to those
   cases when there is no previewer to deal with some file type. It is showing a
   simple message that the file cannot be previewed.

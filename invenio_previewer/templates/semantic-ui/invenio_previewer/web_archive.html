@@ -1,0 +1,21 @@
+{# -*- coding: utf-8 -*-
+
+  This file is part of Invenio.
+  Copyright (C) 2016-2026 CERN.
+
+  Invenio is free software; you can redistribute it and/or modify it
+  under the terms of the MIT License; see LICENSE file for more details.
+#}
+
+{%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
+
+{% block panel %}
+  <script src="{{ url_for('static', filename='js/replay/ui.js') }}"></script>
+  <replay-web-page
+    replayBase="/static/js/replay/"
+    source="{{ file.uri }}"
+    {% if not range_requests %}
+    loading="eager"
+    {% endif %}
+  ></replay-web-page>
+{% endblock %}

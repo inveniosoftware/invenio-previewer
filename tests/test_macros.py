@@ -260,6 +260,44 @@ def test_txt_extension_large_file(testapp, webassets, record):
         assert "file truncated" in res.get_data(as_text=True)
 
 
+def test_wacz_extensions_range_requests_enabled(testapp, webassets, record):
+    """Test .wacz previewer."""
+    testapp.config.update(
+        dict(
+            PREVIEWER_WEB_ARCHIVE_RANGE_REQUESTS=True,
+        )
+    )
+
+    create_file(record, "test.wacz", BytesIO(b"test content"))
+
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], "test.wacz"))
+        text = res.get_data(as_text=True)
+
+        print(text)
+
+        assert '<script src="/static/js/replay/ui.js"></script>' in text
+        assert "loading=eager" not in text
+
+
+def test_wacz_extensions_range_requests_disabled(testapp, webassets, record):
+    """Test .wacz previewer."""
+    testapp.config.update(
+        dict(
+            PREVIEWER_WEB_ARCHIVE_RANGE_REQUESTS=False,
+        )
+    )
+
+    create_file(record, "test.wacz", BytesIO(b"test content"))
+
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], "test.wacz"))
+        text = res.get_data(as_text=True)
+
+        assert '<script src="/static/js/replay/ui.js"></script>' in text
+        assert 'loading="eager"' in text
+
+
 def test_view_macro_file_list(testapp):
     """Test file list macro."""
     with testapp.test_request_context():
