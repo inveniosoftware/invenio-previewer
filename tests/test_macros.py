@@ -274,8 +274,6 @@ def test_wacz_extensions_range_requests_enabled(testapp, webassets, record):
         res = client.get(preview_url(record["control_number"], "test.wacz"))
         text = res.get_data(as_text=True)
 
-        print(text)
-
         assert '<script src="/static/js/replay/ui.js"></script>' in text
         assert "loading=eager" not in text
 
