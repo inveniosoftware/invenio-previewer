@@ -4,6 +4,7 @@
 # Copyright (C) 2016-2022 CERN.
 # Copyright (C)      2022 TU Wien.
 # Copyright (C)      2023 Northwestern University.
+# Copyright (C) 2025 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -85,6 +86,7 @@ previewer = WebpackThemeBundle(
                 "video_videojs_css": "./scss/invenio_previewer/video_videojs.scss",
             },
             dependencies={
+                "ajv": "^8.0.0",
                 "flightjs": "~1.5.1",
                 "font-awesome": "~4.5.0",
                 "jquery": "^3.3.1",
