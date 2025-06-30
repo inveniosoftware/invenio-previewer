@@ -3,6 +3,7 @@
 # This file is part of Invenio.
 # Copyright (C) 2016-2024 CERN.
 # Copyright (C) 2024 Graz University of Technology.
+# Copyright (C) 2025 Brian Kelly.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
