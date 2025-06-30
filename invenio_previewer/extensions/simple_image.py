@@ -12,7 +12,7 @@ from flask import current_app, render_template
 
 from ..proxies import current_previewer
 
-previewable_extensions = ["jpg", "jpeg", "png", "gif"]
+previewable_extensions = ["jpg", "jpeg", "png", "gif", "webp"]
 
 
 def validate(file):
@@ -25,7 +25,7 @@ def validate(file):
 
 def can_preview(file):
     """Determine if the given file can be previewed."""
-    supported_extensions = (".jpg", ".jpeg", ".png", ".gif")
+    supported_extensions = tuple(f".{ext}" for ext in previewable_extensions)
     return file.has_extensions(*supported_extensions) and validate(file)
 
 

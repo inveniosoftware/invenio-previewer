@@ -2,7 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2016-2024 CERN.
-# Copyright (C) 2024 Graz University of Technology.
+# Copyright (C) 2024-2025 Graz University of Technology.
 # Copyright (C) 2025 Brian Kelly.
 #
 # Invenio is free software; you can redistribute it and/or modify it
@@ -22,7 +22,7 @@ It includes previewers for the following file types:
 - CSV (using d3.js)
 - Markdown (using Mistune library)
 - XML and JSON (using Prism.js)
-- Simple images (PNG, JPG, GIF)
+- Simple images (PNG, JPG, GIF, WEBP)
 - Jupyter Notebooks
 
 Invenio-Previewer only provides the front-end layer for displaying previews
@@ -170,6 +170,7 @@ We can then add a few demo files into the record:
 ...     'notebook.ipynb',
 ...     'jpgfile.jpg',
 ...     'pngfile.png',
+...     'webpfile.webp',
 ... )
 
 >>> for f in demo_files:
@@ -340,6 +341,6 @@ Now define the priority for all previewers by adding the newly created
 from .ext import InvenioPreviewer
 from .proxies import current_previewer
 
-__version__ = "3.0.0"
+__version__ = "3.0.1"
 
 __all__ = ("__version__", "current_previewer", "InvenioPreviewer")
