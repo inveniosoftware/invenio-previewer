@@ -10,6 +10,16 @@
 Changes
 =======
 
+Version 3.1.0 (release 2025-07-02)
+
+- fix(tests): add missing javascript dep
+- fix: pkg_resources DeprecationWarning
+- docs: add webp to all places formats are listed
+- feat: preview webp images
+- i18n: removed deprecated messages
+- fix: setuptools require underscores instead of dashes
+- csv: add max filesize check
+
 Version 3.0.1 (release 2025-02-25)
 
 - fix: ModuleWarning: Deprecation Warning

@@ -320,6 +320,6 @@ Now define the priority for all previewers by adding the newly created
 from .ext import InvenioPreviewer
 from .proxies import current_previewer
 
-__version__ = "3.0.1"
+__version__ = "3.1.0"
 
 __all__ = ("__version__", "current_previewer", "InvenioPreviewer")
