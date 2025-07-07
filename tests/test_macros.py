@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2016-2019 CERN.
+# Copyright (C) 2025 Brian Kelly.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -105,6 +106,36 @@ def test_zip_extension(testapp, webassets, record, zip_fp):
         with patch("zipfile.ZipFile", side_effect=Exception):
             res = client.get(preview_url(record["control_number"], "test.zip"))
             assert "Zipfile is not previewable" in res.get_data(as_text=True)
+
+
+def test_json_extension_valid_geojson_file(testapp, webassets, record):
+    """Test view with GeoJSON files."""
+    json_data = (
+        '{"type": "FeatureCollection","features":'
+        '[{"type":"Feature","geometry": {"type": "Point",'
+        '"coordinates": [102.0, 0.5]},"properties":{}}]}'
+    )
+    create_file(record, "geo.geojson", BytesIO(b(json_data)))
+
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], "geo.geojson"))
+
+        assert '<div id="map" data-file-uri' in res.get_data(as_text=True)
+
+
+def test_json_extension_valid_geojson_file2(testapp, webassets, record):
+    """Test view with GeoJSON files."""
+    json_data = (
+        '{"type": "FeatureCollection","features":'
+        '[{"type":"Feature","geometry": {"type": "Point",'
+        '"coordinates": [102.0, 0.5]},"properties":{}}]}'
+    )
+    create_file(record, "geo.json", BytesIO(b(json_data)))
+
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], "geo.json"))
+
+        assert '<div id="map" data-file-uri' in res.get_data(as_text=True)
 
 
 def test_json_extension_valid_file(testapp, webassets, record):
