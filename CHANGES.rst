@@ -10,6 +10,10 @@
 Changes
 =======
 
+Version v3.2.0 (released 2025-07-17)
+
+- i18n: pulled translations
+
 Version 3.1.0 (release 2025-07-02)
 
 - fix(tests): add missing javascript dep
