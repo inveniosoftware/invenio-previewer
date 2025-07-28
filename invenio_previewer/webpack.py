@@ -41,6 +41,7 @@ previewer = WebpackThemeBundle(
                 "prism_js": "./js/invenio_previewer/prismjs.js",
                 "prism_css": "./scss/invenio_previewer/prismjs.scss",
                 "simple_image_css": "./scss/invenio_previewer/simple_image.scss",
+                "web_archive_css": "./scss/invenio_previewer/web_archive.scss",
             },
             dependencies={
                 "bootstrap-sass": "~3.3.5",
@@ -84,6 +85,7 @@ previewer = WebpackThemeBundle(
                 "videojs_js": "./node_modules/video.js/dist/video.min.js",
                 "audio_videojs_css": "./scss/invenio_previewer/audio_videojs.scss",
                 "video_videojs_css": "./scss/invenio_previewer/video_videojs.scss",
+                "web_archive_css": "./scss/invenio_previewer/web_archive.scss",
             },
             dependencies={
                 "ajv": "^8.0.0",
