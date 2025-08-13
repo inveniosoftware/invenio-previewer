@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // (Optionally) enable hyperlinks within PDF files
   const pdfLinkService = new pdfjsViewer.PDFLinkService({
     eventBus,
+    externalLinkTarget: pdfjsLib.LinkTarget.BLANK,
   });
 
   // (Optionally) enable find controller
