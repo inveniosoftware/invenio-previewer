@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Get the PDF file's URL
   const PDF_URL = document.getElementById("pdf-file-uri").value;
   const ENABLE_XFA = true;
-  
+
   // Get scripting configuration from DOM (defaults to false for security)
   const enableScriptingElement = document.getElementById("pdf-enable-scripting");
   const ENABLE_SCRIPTING = enableScriptingElement ? enableScriptingElement.value === "true" : false;
@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // (Optionally) enable hyperlinks within PDF files
   const pdfLinkService = new pdfjsViewer.PDFLinkService({
     eventBus,
+    externalLinkTarget: pdfjsViewer.LinkTarget.BLANK,
   });
 
   // (Optionally) enable find controller
@@ -65,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     linkService: pdfLinkService,
     findController: pdfFindController,
   };
-  
+
   if (ENABLE_SCRIPTING) {
     pdfScriptingManager = new pdfjsViewer.PDFScriptingManager({
       eventBus,
@@ -76,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const pdfViewer = new pdfjsViewer.PDFViewer(pdfViewerOptions);
   pdfLinkService.setViewer(pdfViewer);
-  
+
   if (pdfScriptingManager) {
     pdfScriptingManager.setViewer(pdfViewer);
   }
