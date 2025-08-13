@@ -29,7 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Get the PDF file's URL
   const PDF_URL = document.getElementById("pdf-file-uri").value;
   const ENABLE_XFA = true;
-
+  
+  // Get scripting configuration from DOM (defaults to false for security)
+  const enableScriptingElement = document.getElementById("pdf-enable-scripting");
+  const ENABLE_SCRIPTING = enableScriptingElement ? enableScriptingElement.value === "true" : false;
   const SANDBOX_BUNDLE_SRC = "/static/js/pdfjs/build/pdf.sandbox.min.mjs";
 
   const container = document.getElementById("viewerContainer");
@@ -54,21 +57,29 @@ document.addEventListener("DOMContentLoaded", () => {
     linkService: pdfLinkService,
   });
 
-  // (Optionally) enable scripting support
-  const pdfScriptingManager = new pdfjsViewer.PDFScriptingManager({
-    eventBus,
-    sandboxBundleSrc: SANDBOX_BUNDLE_SRC,
-  });
-
-  const pdfViewer = new pdfjsViewer.PDFViewer({
+  // Conditionally create scripting manager based on configuration
+  let pdfScriptingManager = null;
+  let pdfViewerOptions = {
     container,
     eventBus,
     linkService: pdfLinkService,
     findController: pdfFindController,
-    scriptingManager: pdfScriptingManager,
-  });
+  };
+  
+  if (ENABLE_SCRIPTING) {
+    pdfScriptingManager = new pdfjsViewer.PDFScriptingManager({
+      eventBus,
+      sandboxBundleSrc: SANDBOX_BUNDLE_SRC,
+    });
+    pdfViewerOptions.scriptingManager = pdfScriptingManager;
+  }
+
+  const pdfViewer = new pdfjsViewer.PDFViewer(pdfViewerOptions);
   pdfLinkService.setViewer(pdfViewer);
-  pdfScriptingManager.setViewer(pdfViewer);
+  
+  if (pdfScriptingManager) {
+    pdfScriptingManager.setViewer(pdfViewer);
+  }
 
   // Register event handlers for controls
   nextPageButton.addEventListener("click", function() {
