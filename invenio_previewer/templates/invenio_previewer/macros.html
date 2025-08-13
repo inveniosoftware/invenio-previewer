@@ -13,6 +13,9 @@
    id="{{id}}"
    width="{{width}}"
    height="{{height}}"
+   {%- if config.PREVIEWER_IFRAME_SANDBOX_ATTRIBUTES %}
+   sandbox="{{ config.PREVIEWER_IFRAME_SANDBOX_ATTRIBUTES|join(' ') }}"
+   {%- endif %}
    src="{{ url_for(preview_endpoint, pid_value=pid.pid_value, filename=filename) }}"></iframe>
 {%- endmacro %}
 

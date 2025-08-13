@@ -38,6 +38,23 @@ PREVIEWER_ZIP_MAX_FILES = 1000
 PREVIEWER_PDF_JS_ENABLE_SCRIPTING = False
 """Enable JavaScript execution in PDF files (disabled by default for security)."""
 
+PREVIEWER_IFRAME_SANDBOX_ATTRIBUTES = [
+    # Required for previewers to access their own content and make same-origin requests
+    "allow-same-origin",
+    # Allows form submission within previewers (e.g., search functionality in PDF viewer)
+    "allow-forms",
+    # Enables opening links in new windows/tabs from preview content
+    "allow-popups",
+    # Allows popups to escape sandbox restrictions (so external links open normally)
+    "allow-popups-to-escape-sandbox",
+    # Permits download functionality from within the previewer
+    "allow-downloads",
+    # NOTE: "allow-scripts" is intentionally omitted by default to prevent JavaScript
+    # execution as a security measure. Add it to this list if you need to enable
+    # JavaScript in preview iframes (not recommended for security reasons).
+]
+"""Sandbox attributes for preview iframes (secure by default configuration)."""
+
 PREVIEWER_PREFERENCE = [
     "csv_papaparsejs",
     "simple_image",

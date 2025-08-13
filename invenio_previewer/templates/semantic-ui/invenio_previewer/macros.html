@@ -13,6 +13,9 @@
    id="{{id}}"
    width="{{width}}"
    height="{{height}}"
+   {%- if config.PREVIEWER_IFRAME_SANDBOX_ATTRIBUTES %}
+   sandbox="{{ config.PREVIEWER_IFRAME_SANDBOX_ATTRIBUTES|join(' ') }}"
+   {%- endif %}
    src="{{ url_for(preview_endpoint, pid_value=pid.pid_value, filename=filename) }}"></iframe>
 {%- endmacro %}
 
@@ -33,7 +36,7 @@
       <tr>
         <td>
           <a href="{{ file_url_download }}">{{ file.key }}</a>
-          <br/><small>{{file.checksum}} 
+          <br/><small>{{file.checksum}}
             <div class="ui icon inline-block" data-tooltip="{{_('This is the file fingerprint (checksum), which can be used to verify the file integrity.')}}">
               <i class="question circle checksum icon"></i>
             </div>
