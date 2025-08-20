@@ -8,7 +8,6 @@
 
 """Markdown rendering using mistune library."""
 
-import bleach
 import mistune
 from flask import current_app, render_template
 

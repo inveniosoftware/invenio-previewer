@@ -12,6 +12,7 @@
 import importlib
 from importlib.metadata import EntryPoint
 
+import pytest
 from flask import Flask
 from mock import patch
 
@@ -69,3 +70,37 @@ def test_entrypoint_previewer():
     ext = InvenioPreviewer(app)
     ext.load_entry_point_group("invenio_previewer.previewers")
     assert len(ext.previewers) == 2
+
+
+def test_register_previewer_duplicate():
+    """Test previewer duplicate registration handling."""
+    app = Flask("testapp")
+    ext = InvenioPreviewer(app)
+
+    # Mock previewer modules
+    class MockPreviewer1:
+        previewable_extensions = [".txt"]
+
+    class MockPreviewer2:
+        previewable_extensions = [".pdf"]
+
+    previewer1 = MockPreviewer1()
+    previewer2 = MockPreviewer2()
+
+    # Test normal registration
+    ext.register_previewer("test", previewer1)
+    assert ext.previewers["test"] is previewer1
+
+    # Test same instance re-registration (should be silent)
+    ext.register_previewer("test", previewer1)
+    assert ext.previewers["test"] is previewer1
+
+    # Test different instance registration (should raise RuntimeError)
+    with pytest.raises(
+        RuntimeError,
+        match="already registered with instance.*cannot register different instance",
+    ):
+        ext.register_previewer("test", previewer2)
+
+    # Ensure original previewer is still registered
+    assert ext.previewers["test"] is previewer1

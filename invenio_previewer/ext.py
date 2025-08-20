@@ -9,7 +9,6 @@
 
 """Invenio module for previewing files."""
 
-
 from flask import current_app
 from invenio_base.utils import entry_points
 from werkzeug.utils import cached_property, import_string
@@ -80,9 +79,14 @@ class _InvenioPreviewerState(object):
     def register_previewer(self, name, previewer):
         """Register a previewer in the system."""
         if name in self.previewers:
-            assert (
-                name not in self.previewers
-            ), "Previewer with same name already registered"
+            if self.previewers[name] is previewer:
+                return
+            else:
+                raise RuntimeError(
+                    f"Previewer '{name}' is already registered with instance "
+                    f"{self.previewers[name]!r}, cannot register different instance "
+                    f"{previewer!r}."
+                )
         self.previewers[name] = previewer
         if hasattr(previewer, "previewable_extensions"):
             self._previewable_extensions |= set(previewer.previewable_extensions)
