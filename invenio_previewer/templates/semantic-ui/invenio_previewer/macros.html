@@ -33,7 +33,7 @@
       <tr>
         <td>
           <a href="{{ file_url_download }}">{{ file.key }}</a>
-          <br/><small>{{file.checksum}} 
+          <br/><small>{{ file.checksum or _("Checksum not yet calculated.") }}
             <div class="ui icon inline-block" data-tooltip="{{_('This is the file fingerprint (checksum), which can be used to verify the file integrity.')}}">
               <i class="question circle checksum icon"></i>
             </div>
