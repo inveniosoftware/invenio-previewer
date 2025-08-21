@@ -36,7 +36,7 @@
           {%- else %}
             <a class="forcewrap" href="{{ file_url_download }}">{{ file.key }}</a>
           {%- endif %}
-          <br/><small class="text-muted nowrap">{{file.checksum}} <i class="fa fa-question-circle text-muted" data-toggle="tooltip" tooltip data-placement="top" title="{{_('This is the file fingerprint (checksum), which can be used to verify the file integrity.')}}"></i></small>
+          <br/><small class="text-muted nowrap">{{ file.checksum or _("Checksum not yet calculated.") }} <i class="fa fa-question-circle text-muted" data-toggle="tooltip" tooltip data-placement="top" title="{{_('This is the file fingerprint (checksum), which can be used to verify the file integrity.')}}"></i></small>
         </td>
         <td class="nowrap">{{ file.size|filesizeformat }}</td>
         <td class="nowrap">
