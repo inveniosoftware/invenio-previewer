@@ -10,6 +10,25 @@
 Changes
 =======
 
+Version v3.3.0 (released 2025-08-25)
+
+- fix(ext): avoid unecessary assert error
+    * The check for an already registered previewer was just checking by
+      name, instead of also verifying if the registered object is the same
+      instance.
+    * Instead of an assertion, we raise a `RuntimeError` with information
+      about the already registered and conflicting previewer instances.
+- feat(pdfjs): open links in new tabs
+    * Sets by default in the PDF.js settings that links open in a new tab.
+      The old behaviort was that when clicking a link inside a previewed
+      PDF, the navigation happens inside the iframe, which then because of
+      the `X-Frame-Options: sameorigin` setting blocked the content.
+- feat(pdfjs): disable sandboxed JS execution by default
+    * Adds a new `PREVIEWER_PDF_JS_ENABLE_SCRIPTING` config variable for
+      allowing to disable the sandboxed JS execution support in PDF.js.
+      This config is by default set to `False`.
+- file-list: show fallback message if file checksum is not available
+
 Version v3.2.0 (released 2025-07-17)
 
 - i18n: pulled translations
