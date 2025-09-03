@@ -289,6 +289,13 @@ to ``PREVIEWER_PREFERENCE`` in your configuration:
         ...
       ]
 
+Additionally, ReplayWeb.page works best with HTTP Range support. To enable
+it in Invenio RDM 13+, add the following entry to your configuration:
+
+   .. code-block:: python
+
+      FILES_REST_ALLOW_RANGE_REQUESTS = True
+
 Custom previewer
 ----------------
 
