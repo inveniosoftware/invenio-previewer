@@ -23,6 +23,7 @@ It includes previewers for the following file types:
 - XML and JSON (using Prism.js)
 - Simple images (PNG, JPG, GIF, WEBP)
 - Jupyter Notebooks
+- Web Archives (using ReplayWeb.page)
 
 Invenio-Previewer only provides the front-end layer for displaying previews
 of files. Specifically, Invenio-Previewer does not take care of generating
@@ -267,6 +268,26 @@ The default previewer for a file can be overridden in two ways:
 2. By listing the previewer plugin search order in ``PREVIEWER_PREFERENCES``.
    The first item in the list is the most prioritized previewer in case of
    collision.
+
+Enabling Web Archives
+---------------------
+
+Note: Enabling this previewer could potentially execute malicious content if
+an unknown vulnerability exists, even though it comes with Content Security
+Policy (CSP) rules to mitigate many common risks. When accpeting uploads from
+untrusted users, the safest approach is to expose and render the previewer
+under a different domain or sub-domain.
+
+To enable the ReplayWeb.page Web Archive viewer, add ``web_archive``
+to ``PREVIEWER_PREFERENCE`` in your configuration:
+
+   .. code-block:: python
+
+      PREVIEWER_PREFERENCE = [
+        ...
+        "web_archive",
+        ...
+      ]
 
 Custom previewer
 ----------------
