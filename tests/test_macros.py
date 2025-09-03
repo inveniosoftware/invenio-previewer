@@ -265,6 +265,7 @@ def test_wacz_extensions_range_requests_enabled(testapp, webassets, record):
     """Test .wacz previewer."""
     testapp.config.update(
         dict(
+            PREVIEWER_PREFERENCE=["web_archive"],
             PREVIEWER_WEB_ARCHIVE_RANGE_REQUESTS=True,
         )
     )
@@ -275,7 +276,11 @@ def test_wacz_extensions_range_requests_enabled(testapp, webassets, record):
         res = client.get(preview_url(record["control_number"], "test.wacz"))
         text = res.get_data(as_text=True)
 
-        assert '<script src="/static/js/replay/ui.js"></script>' in text
+        print(text)
+        assert (
+            '<script src="/static/js/replaywebpage/ui.js" type="module"></script>'
+            in text
+        )
         assert "loading=eager" not in text
 
 
@@ -283,6 +288,7 @@ def test_wacz_extensions_range_requests_disabled(testapp, webassets, record):
     """Test .wacz previewer."""
     testapp.config.update(
         dict(
+            PREVIEWER_PREFERENCE=["web_archive"],
             PREVIEWER_WEB_ARCHIVE_RANGE_REQUESTS=False,
         )
     )
@@ -293,7 +299,10 @@ def test_wacz_extensions_range_requests_disabled(testapp, webassets, record):
         res = client.get(preview_url(record["control_number"], "test.wacz"))
         text = res.get_data(as_text=True)
 
-        assert '<script src="/static/js/replay/ui.js"></script>' in text
+        assert (
+            '<script src="/static/js/replaywebpage/ui.js" type="module"></script>'
+            in text
+        )
         assert 'loading="eager"' in text
 
 
