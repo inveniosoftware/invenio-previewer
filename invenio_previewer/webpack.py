@@ -50,6 +50,7 @@ previewer = WebpackThemeBundle(
                 "jquery": "^3.3.1",
                 "pdfjs-dist": "^4.0",
                 "prismjs": "^1.15.0",
+                "replaywebpage": "^2.3.16",
             },
             aliases={
                 "@scss/invenio_previewer": "scss/invenio_previewer",
@@ -67,6 +68,10 @@ previewer = WebpackThemeBundle(
                 {
                     "from": "../node_modules/pdfjs-dist/web",
                     "to": "../../static/js/pdfjs/web",
+                },
+                {
+                    "from": "../node_modules/replaywebpage",
+                    "to": "../../static/js/replaywebpage",
                 },
             ],
         ),
@@ -94,6 +99,7 @@ previewer = WebpackThemeBundle(
                 "prismjs": "^1.15.0",
                 "video.js": "^8.6.1",
                 "pdfjs-dist": "^4.0",
+                "replaywebpage": "^2.3.16",
             },
             copy=[
                 # Copy the pdfjs-dist artifacts from `node_modules` into `static`
@@ -108,6 +114,10 @@ previewer = WebpackThemeBundle(
                 {
                     "from": "../node_modules/pdfjs-dist/web",
                     "to": "../../static/js/pdfjs/web",
+                },
+                {
+                    "from": "../node_modules/replaywebpage",
+                    "to": "../../static/js/replaywebpage",
                 },
             ],
         ),

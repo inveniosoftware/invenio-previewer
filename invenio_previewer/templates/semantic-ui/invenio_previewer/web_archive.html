@@ -10,9 +10,9 @@
 {%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
 
 {% block panel %}
-  <script src="{{ url_for('static', filename='js/replay/ui.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/replaywebpage/ui.js') }}" type="module"></script>
   <replay-web-page
-    replayBase="/static/js/replay/"
+    replayBase="/static/js/replaywebpage/"
     source="{{ file.uri }}"
     {% if not range_requests %}
     loading="eager"
