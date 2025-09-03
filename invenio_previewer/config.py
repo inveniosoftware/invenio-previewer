@@ -47,7 +47,7 @@ PREVIEWER_PREFERENCE = [
     "ipynb",
     "zip",
     "txt",
-    "web_archive",
+    # "web_archive",
 ]
 """Decides which previewers are available and their priority."""
 
