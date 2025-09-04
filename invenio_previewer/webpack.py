@@ -48,7 +48,7 @@ previewer = WebpackThemeBundle(
                 "flightjs": "~1.5.1",
                 "font-awesome": "~4.5.0",
                 "jquery": "^3.3.1",
-                "pdfjs-dist": "^4.0",
+                "pdfjs-dist": "^5.0",
                 "prismjs": "^1.15.0",
             },
             aliases={
@@ -93,7 +93,7 @@ previewer = WebpackThemeBundle(
                 "papaparse": "^5.4.1",
                 "prismjs": "^1.15.0",
                 "video.js": "^8.6.1",
-                "pdfjs-dist": "^4.0",
+                "pdfjs-dist": "^5.0",
             },
             copy=[
                 # Copy the pdfjs-dist artifacts from `node_modules` into `static`
