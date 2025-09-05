@@ -32,3 +32,11 @@ Features:
 - Extensible API to create new previewers.
 
 Further documentation available: https://invenio-previewer.readthedocs.io/
+
+------------------------
+ ReplayWeb.page License
+------------------------
+
+All webrecorder assets (including ui.js and sw.js), which are bundled in InvenioRDM when
+installed, are provided unmodified and licensed under AGPLv3, the source code is
+available at: https://github.com/webrecorder/replayweb.page
