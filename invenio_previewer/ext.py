@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2016-2019 CERN.
+# Copyright (C) 2016-2025 CERN.
+# Copyright (C) 2025 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Invenio module for previewing files."""
 
-import pkg_resources
 from flask import current_app
-from pkg_resources import DistributionNotFound, get_distribution
+from invenio_base.utils import entry_points
 from werkzeug.utils import cached_property, import_string
 
 from . import config
@@ -54,11 +54,10 @@ class _InvenioPreviewerState(object):
     def record_file_factory(self):
         """Load default record file factory."""
         try:
-            get_distribution("invenio-records-files")
             from invenio_records_files.utils import record_file_factory
 
             default = record_file_factory
-        except DistributionNotFound:
+        except ImportError:
 
             def default(pid, record, filename):
                 return None
@@ -80,16 +79,21 @@ class _InvenioPreviewerState(object):
     def register_previewer(self, name, previewer):
         """Register a previewer in the system."""
         if name in self.previewers:
-            assert (
-                name not in self.previewers
-            ), "Previewer with same name already registered"
+            if self.previewers[name] is previewer:
+                return
+            else:
+                raise RuntimeError(
+                    f"Previewer '{name}' is already registered with instance "
+                    f"{self.previewers[name]!r}, cannot register different instance "
+                    f"{previewer!r}."
+                )
         self.previewers[name] = previewer
         if hasattr(previewer, "previewable_extensions"):
             self._previewable_extensions |= set(previewer.previewable_extensions)
 
     def load_entry_point_group(self, entry_point_group):
         """Load previewers from an entry point group."""
-        for ep in pkg_resources.iter_entry_points(group=entry_point_group):
+        for ep in entry_points(group=entry_point_group):
             self.register_previewer(ep.name, ep.load())
 
     def iter_previewers(self, previewers=None):

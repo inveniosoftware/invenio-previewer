@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2015-2019 CERN.
+# Copyright (C) 2015-2025 CERN.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -34,6 +34,9 @@ PREVIEWER_CSV_MAX_BYTES = 100 * 1024 * 1024
 
 PREVIEWER_ZIP_MAX_FILES = 1000
 """Max number of files showed in the ZIP previewer."""
+
+PREVIEWER_PDF_JS_ENABLE_SCRIPTING = False
+"""Enable JavaScript execution in PDF files (disabled by default for security)."""
 
 PREVIEWER_PREFERENCE = [
     "csv_papaparsejs",

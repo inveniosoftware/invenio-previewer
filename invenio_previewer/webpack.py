@@ -4,6 +4,7 @@
 # Copyright (C) 2016-2022 CERN.
 # Copyright (C)      2022 TU Wien.
 # Copyright (C)      2023 Northwestern University.
+# Copyright (C) 2025 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it
 # and/or modify it under the terms of the GNU General Public License as
@@ -48,7 +49,7 @@ previewer = WebpackThemeBundle(
                 "flightjs": "~1.5.1",
                 "font-awesome": "~4.5.0",
                 "jquery": "^3.3.1",
-                "pdfjs-dist": "^4.0",
+                "pdfjs-dist": "^5.0",
                 "prismjs": "^1.15.0",
                 "replaywebpage": "^2.3.16",
             },
@@ -92,13 +93,14 @@ previewer = WebpackThemeBundle(
                 "web_archive_css": "./scss/invenio_previewer/web_archive.scss",
             },
             dependencies={
+                "ajv": "^8.0.0",
                 "flightjs": "~1.5.1",
                 "font-awesome": "~4.5.0",
                 "jquery": "^3.3.1",
                 "papaparse": "^5.4.1",
                 "prismjs": "^1.15.0",
                 "video.js": "^8.6.1",
-                "pdfjs-dist": "^4.0",
+                "pdfjs-dist": "^5.0",
                 "replaywebpage": "^2.3.16",
             },
             copy=[

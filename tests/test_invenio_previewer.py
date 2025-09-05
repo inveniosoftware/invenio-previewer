@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2016-2019 CERN.
+# Copyright (C) 2016-2025 CERN.
+# Copyright (C) 2025 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -9,10 +10,11 @@
 """Module tests."""
 
 import importlib
+from importlib.metadata import EntryPoint
 
+import pytest
 from flask import Flask
 from mock import patch
-from pkg_resources import EntryPoint
 
 from invenio_previewer import InvenioPreviewer
 
@@ -22,7 +24,7 @@ class MockEntryPoint(EntryPoint):
 
     def load(self):
         """Mock load entry point."""
-        return importlib.import_module(self.module_name)
+        return importlib.import_module(self.module)
 
 
 def _mock_entry_points(group=None):
@@ -30,12 +32,14 @@ def _mock_entry_points(group=None):
     data = {
         "invenio_previewer.previewers": [
             MockEntryPoint(
-                "default",
-                "invenio_previewer.extensions.default",
+                name="default",
+                value="invenio_previewer.extensions.default",
+                group="invenio_previewer.previewers",
             ),
             MockEntryPoint(
-                "zip",
-                "invenio_previewer.extensions.zip",
+                name="zip",
+                value="invenio_previewer.extensions.zip",
+                group="invenio_previewer.previewers",
             ),
         ],
     }
@@ -59,10 +63,44 @@ def test_init():
     assert "invenio-previewer" in app.extensions
 
 
-@patch("pkg_resources.iter_entry_points", _mock_entry_points)
+@patch("importlib.metadata.entry_points", _mock_entry_points)
 def test_entrypoint_previewer():
     """Test the entry points."""
     app = Flask("testapp")
     ext = InvenioPreviewer(app)
     ext.load_entry_point_group("invenio_previewer.previewers")
     assert len(ext.previewers) == 2
+
+
+def test_register_previewer_duplicate():
+    """Test previewer duplicate registration handling."""
+    app = Flask("testapp")
+    ext = InvenioPreviewer(app)
+
+    # Mock previewer modules
+    class MockPreviewer1:
+        previewable_extensions = [".txt"]
+
+    class MockPreviewer2:
+        previewable_extensions = [".pdf"]
+
+    previewer1 = MockPreviewer1()
+    previewer2 = MockPreviewer2()
+
+    # Test normal registration
+    ext.register_previewer("test", previewer1)
+    assert ext.previewers["test"] is previewer1
+
+    # Test same instance re-registration (should be silent)
+    ext.register_previewer("test", previewer1)
+    assert ext.previewers["test"] is previewer1
+
+    # Test different instance registration (should raise RuntimeError)
+    with pytest.raises(
+        RuntimeError,
+        match="already registered with instance.*cannot register different instance",
+    ):
+        ext.register_previewer("test", previewer2)
+
+    # Ensure original previewer is still registered
+    assert ext.previewers["test"] is previewer1

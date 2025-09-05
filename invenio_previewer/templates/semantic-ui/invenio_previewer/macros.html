@@ -1,7 +1,7 @@
 {# -*- coding: utf-8 -*-
 
   This file is part of Invenio.
-  Copyright (C) 2016-2020 CERN.
+  Copyright (C) 2016-2025 CERN.
 
   Invenio is free software; you can redistribute it and/or modify it
   under the terms of the MIT License; see LICENSE file for more details.
@@ -33,7 +33,7 @@
       <tr>
         <td>
           <a href="{{ file_url_download }}">{{ file.key }}</a>
-          <br/><small>{{file.checksum}} 
+          <br/><small>{{ file.checksum or _("Checksum not yet calculated.") }}
             <div class="ui icon inline-block" data-tooltip="{{_('This is the file fingerprint (checksum), which can be used to verify the file integrity.')}}">
               <i class="question circle checksum icon"></i>
             </div>
