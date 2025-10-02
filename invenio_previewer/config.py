@@ -50,6 +50,7 @@ PREVIEWER_PREFERENCE = [
     "ipynb",
     "zip",
     "txt",
+    # "web_archive",
 ]
 """Decides which previewers are available and their priority."""
 
@@ -64,3 +65,6 @@ PREVIEWER_BASE_JS_BUNDLES = ["previewer_theme.js"]
 
 PREVIEWER_RECORD_FILE_FACOTRY = None
 """Factory for extracting files from records."""
+
+PREVIEWER_WEB_ARCHIVE_RANGE_REQUESTS = False
+"""Whether the file server supports range requests or not."""

@@ -41,6 +41,7 @@ previewer = WebpackThemeBundle(
                 "prism_js": "./js/invenio_previewer/prismjs.js",
                 "prism_css": "./scss/invenio_previewer/prismjs.scss",
                 "simple_image_css": "./scss/invenio_previewer/simple_image.scss",
+                "web_archive_css": "./scss/invenio_previewer/web_archive.scss",
             },
             dependencies={
                 "bootstrap-sass": "~3.3.5",
@@ -50,6 +51,7 @@ previewer = WebpackThemeBundle(
                 "jquery": "^3.3.1",
                 "pdfjs-dist": "^5.0",
                 "prismjs": "^1.15.0",
+                "replaywebpage": "^2.3.16",
             },
             aliases={
                 "@scss/invenio_previewer": "scss/invenio_previewer",
@@ -68,6 +70,10 @@ previewer = WebpackThemeBundle(
                     "from": "../node_modules/pdfjs-dist/web",
                     "to": "../../static/js/pdfjs/web",
                 },
+                {
+                    "from": "../node_modules/replaywebpage",
+                    "to": "../../static/js/replaywebpage",
+                },
             ],
         ),
         "semantic-ui": dict(
@@ -84,6 +90,7 @@ previewer = WebpackThemeBundle(
                 "videojs_js": "./node_modules/video.js/dist/video.min.js",
                 "audio_videojs_css": "./scss/invenio_previewer/audio_videojs.scss",
                 "video_videojs_css": "./scss/invenio_previewer/video_videojs.scss",
+                "web_archive_css": "./scss/invenio_previewer/web_archive.scss",
             },
             dependencies={
                 "ajv": "^8.0.0",
@@ -94,6 +101,7 @@ previewer = WebpackThemeBundle(
                 "prismjs": "^1.15.0",
                 "video.js": "^8.6.1",
                 "pdfjs-dist": "^5.0",
+                "replaywebpage": "^2.3.16",
             },
             copy=[
                 # Copy the pdfjs-dist artifacts from `node_modules` into `static`
@@ -108,6 +116,10 @@ previewer = WebpackThemeBundle(
                 {
                     "from": "../node_modules/pdfjs-dist/web",
                     "to": "../../static/js/pdfjs/web",
+                },
+                {
+                    "from": "../node_modules/replaywebpage",
+                    "to": "../../static/js/replaywebpage",
                 },
             ],
         ),
