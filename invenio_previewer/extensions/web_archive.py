@@ -23,7 +23,7 @@ def can_preview(file):
 
 
 def preview(file):
-    """Render Markdown."""
+    """Render Web Archive files."""
     return render_template(
         "invenio_previewer/web_archive.html",
         file=file,
