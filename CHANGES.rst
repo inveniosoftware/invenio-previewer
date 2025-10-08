@@ -1,6 +1,6 @@
 ..
     This file is part of Invenio.
-    Copyright (C) 2016-2024 CERN.
+    Copyright (C) 2016-2025 CERN.
     Copyright (C) 2024-2025 Graz University of Technology.
 
     Invenio is free software; you can redistribute it and/or modify it
@@ -9,6 +9,10 @@
 
 Changes
 =======
+
+Version v3.4.0 (released 2025-10-08)
+
+- feat(warc): new Web Archive previewer
 
 Version v3.3.0 (released 2025-08-25)
 
