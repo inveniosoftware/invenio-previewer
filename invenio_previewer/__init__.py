@@ -3,6 +3,7 @@
 # This file is part of Invenio.
 # Copyright (C) 2016-2025 CERN.
 # Copyright (C) 2024-2025 Graz University of Technology.
+# Copyright (C) 2025 KTH Royal Institute of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -351,6 +352,6 @@ Now define the priority for all previewers by adding the newly created
 from .ext import InvenioPreviewer
 from .proxies import current_previewer
 
-__version__ = "3.4.0"
+__version__ = "3.4.1"
 
 __all__ = ("__version__", "current_previewer", "InvenioPreviewer")
