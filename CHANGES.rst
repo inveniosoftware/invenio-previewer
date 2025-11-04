@@ -11,6 +11,10 @@
 Changes
 =======
 
+Version v3.4.2 (released 2025-11-04)
+
+- fix(pdfjs): specify Wasm URL parameter for OpenJPEG decoding
+
 Version v3.4.1 (released 2025-10-21)
 
 - i18n: pulled translations
@@ -18,6 +22,7 @@ Version v3.4.1 (released 2025-10-21)
 Version v3.4.0 (released 2025-10-08)
 
 - feat(warc): new Web Archive previewer
+- feat(pdfjs): bump pdfjs-dist to v5.x
 
 Version v3.3.0 (released 2025-08-25)
 
