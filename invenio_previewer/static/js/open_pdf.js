@@ -26,6 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const CMAP_URL = "/static/js/pdfjs/cmaps/";
   const CMAP_PACKED = true;
 
+  // Some PDFs with JPEG 2000 images need the external OpenJPEG Wasm module
+  const WASM_URL = "/static/js/pdfjs/wasm/";
+
   // Get the PDF file's URL
   const PDF_URL = document.getElementById("pdf-file-uri").value;
   const ENABLE_XFA = true;
@@ -144,6 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     url: PDF_URL,
     cMapUrl: CMAP_URL,
     cMapPacked: CMAP_PACKED,
+    wasmUrl: WASM_URL,
     enableXfa: ENABLE_XFA,
   });
   (async function () {
