@@ -67,6 +67,10 @@ previewer = WebpackThemeBundle(
                     "to": "../../static/js/pdfjs/cmaps",
                 },
                 {
+                    "from": "../node_modules/pdfjs-dist/wasm",
+                    "to": "../../static/js/pdfjs/wasm",
+                },
+                {
                     "from": "../node_modules/pdfjs-dist/web",
                     "to": "../../static/js/pdfjs/web",
                 },
@@ -112,6 +116,10 @@ previewer = WebpackThemeBundle(
                 {
                     "from": "../node_modules/pdfjs-dist/cmaps",
                     "to": "../../static/js/pdfjs/cmaps",
+                },
+                {
+                    "from": "../node_modules/pdfjs-dist/wasm",
+                    "to": "../../static/js/pdfjs/wasm",
                 },
                 {
                     "from": "../node_modules/pdfjs-dist/web",
