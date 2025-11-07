@@ -149,6 +149,9 @@ document.addEventListener("DOMContentLoaded", () => {
     cMapPacked: CMAP_PACKED,
     wasmUrl: WASM_URL,
     enableXfa: ENABLE_XFA,
+    disableStream: true,
+    disableRange: true,
+    disableAutoFetch: true,
   });
   (async function () {
     const pdfDocument = await loadingTask.promise;
