@@ -15,6 +15,14 @@ API Docs
    :undoc-members:
 
 
+Configuration
+-------------
+
+.. automodule:: invenio_previewer.config
+   :members:
+   :undoc-members:
+
+
 API
 ---
 
