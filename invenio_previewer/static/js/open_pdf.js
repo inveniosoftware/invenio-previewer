@@ -38,6 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const ENABLE_SCRIPTING = enableScriptingElement ? enableScriptingElement.value === "true" : false;
   const SANDBOX_BUNDLE_SRC = "/static/js/pdfjs/build/pdf.sandbox.min.mjs";
 
+  // Get additional document init params from config (defaults to empty object)
+  const documentInitParamsElement = document.getElementById("pdf-document-init-params");
+  const DOCUMENT_INIT_PARAMS = documentInitParamsElement ? JSON.parse(documentInitParamsElement.value || '{}') : {};
+
   const container = document.getElementById("viewerContainer");
   const nextPageButton = document.getElementById("next");
   const prevPageButton = document.getElementById("previous");
@@ -149,6 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cMapPacked: CMAP_PACKED,
     wasmUrl: WASM_URL,
     enableXfa: ENABLE_XFA,
+    ...DOCUMENT_INIT_PARAMS,
   });
   (async function () {
     const pdfDocument = await loadingTask.promise;

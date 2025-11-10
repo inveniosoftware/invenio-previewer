@@ -38,6 +38,21 @@ PREVIEWER_ZIP_MAX_FILES = 1000
 PREVIEWER_PDF_JS_ENABLE_SCRIPTING = False
 """Enable JavaScript execution in PDF files (disabled by default for security)."""
 
+PREVIEWER_PDF_JS_DOCUMENT_INIT_PARAMS = None
+"""Additional DocumentInitParameters passed to pdfjsLib.getDocument().
+
+See https://mozilla.github.io/pdf.js/api/draft/module-pdfjsLib.html for the full
+list of available options.
+
+Example (disable range requests, streaming, and auto-fetching)::
+
+    PREVIEWER_PDF_JS_DOCUMENT_INIT_PARAMS = {
+        "disableStream": True,
+        "disableRange": True,
+        "disableAutoFetch": True,
+    }
+"""
+
 PREVIEWER_PREFERENCE = [
     "csv_papaparsejs",
     "simple_image",
