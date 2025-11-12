@@ -11,6 +11,13 @@
 Changes
 =======
 
+Version v3.5.0 (released 2025-11-12)
+
+- feat(pdfjs): allow passing parameters to document init
+    * Adds a new `PREVIEWER_PDF_JS_DOCUMENT_INIT_PARAMS` config to allow
+      passing init parameters to `pdfjsLib.getDocument()`.
+- docs: add config section in API reference
+
 Version v3.4.2 (released 2025-11-04)
 
 - fix(pdfjs): specify Wasm URL parameter for OpenJPEG decoding
