@@ -29,7 +29,7 @@
 {%- block page_body %}
 <input id="pdf-file-uri" type="hidden" value="{{ file.uri }}" />
 <input id="pdf-enable-scripting" type="hidden" value="{{ config.PREVIEWER_PDF_JS_ENABLE_SCRIPTING|default(false)|lower }}" />
-<input id="pdf-document-init-params" type="hidden" value="{{ config.PREVIEWER_PDF_JS_DOCUMENT_INIT_PARAMS|default({})|tojson }}" />
+<input id="pdf-document-init-params" type="hidden" value='{{ config.PREVIEWER_PDF_JS_DOCUMENT_INIT_PARAMS|default({})|tojson }}' />
 
   <div id="outerContainer">
       <div id="mainContainer">
