@@ -11,6 +11,10 @@
 Changes
 =======
 
+Version v3.5.1 (released 2025-11-20)
+
+- fix(pdfjs): use single quotes for passing init config
+
 Version v3.5.0 (released 2025-11-12)
 
 - feat(pdfjs): allow passing parameters to document init
