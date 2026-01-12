@@ -1,5 +1,6 @@
 /* Copyright 2014 Mozilla Foundation
  * Copyright 2024 TU Wien
+ * Copyright 2026 CERN
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const zoomInButton = document.getElementById("zoomInButton");
   const zoomOutButton = document.getElementById("zoomOutButton");
   const scaleSelect = document.getElementById("scaleSelect");
+  const downloadButton = document.getElementById("downloadButton");
 
   const eventBus = new pdfjsViewer.EventBus();
 
@@ -116,6 +118,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   scaleSelect.addEventListener("change", function(e) {
     pdfViewer.currentScaleValue = e.target.value;
+  });
+
+  downloadButton.addEventListener("click", async function() {
+    const pdfUrl = new URL(window.location.origin + PDF_URL);
+    pdfUrl.searchParams.append("download", "1");
+
+    const pathComponents = pdfUrl.pathname.split("/");
+    const filename = pathComponents[pathComponents.length - 1];
+
+    // Create and click an invisible link to trigger the download dialog
+    const a = document.createElement("a");
+    a.href = pdfUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   });
 
   // Register event handlers on the event bus
