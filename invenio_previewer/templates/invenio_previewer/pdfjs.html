@@ -8,7 +8,7 @@
   under the terms of the MIT License; see LICENSE file for more details.
 #}
 
-{%- extends config.PREVIEWER_BASE_TEMPLATE %}
+{%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
 
 {%- block html_tags %}
   {{ html_tags|safe }}
@@ -26,7 +26,8 @@
   <script src="{{ url_for('static', filename='js/fullscreen.js') }}" defer></script>
 {%- endblock %}
 
-{%- block page_body %}
+{%- block panel %}
+
 <input id="pdf-file-uri" type="hidden" value="{{ file.uri }}" />
 <input id="pdf-enable-scripting" type="hidden" value="{{ config.PREVIEWER_PDF_JS_ENABLE_SCRIPTING|default(false)|lower }}" />
 <input id="pdf-document-init-params" type="hidden" value='{{ config.PREVIEWER_PDF_JS_DOCUMENT_INIT_PARAMS|default({})|tojson }}' />
