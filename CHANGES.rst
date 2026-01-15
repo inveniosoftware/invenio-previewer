@@ -11,6 +11,11 @@
 Changes
 =======
 
+Version v3.6.0 (released 2026-01-15)
+
+- feat(pdfjs): add download button
+- fix(pdfjs): change inherited template for pdfjs
+
 Version v3.5.1 (released 2025-11-20)
 
 - fix(pdfjs): use single quotes for passing init config
