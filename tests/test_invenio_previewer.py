@@ -108,7 +108,7 @@ def test_register_previewer_duplicate():
 
 @patch("importlib.metadata.entry_points", lambda group=None: [])
 def test_iter_container_item_previewers():
-    """Test iter_container_previewers with CONTAINER_PREVIEWER_PREFERENCE."""
+    """Test iter_container_previewers with CONTAINER_ITEM_PREVIEWER_PREFERENCE."""
 
     # Mock previewer modules
     class MockPreviewer1:
@@ -124,7 +124,7 @@ def test_iter_container_item_previewers():
     previewer2 = MockPreviewer2()
     previewer3 = MockPreviewer3()
 
-    # Test with CONTAINER_PREVIEWER_PREFERENCE set
+    # Test with CONTAINER_ITEM_PREVIEWER_PREFERENCE set
     app = Flask("testapp")
     app.config["PREVIEWER_PREFERENCE"] = ["txt", "pdf", "zip"]
     app.config["CONTAINER_ITEM_PREVIEWER_PREFERENCE"] = ["zip", "pdf"]

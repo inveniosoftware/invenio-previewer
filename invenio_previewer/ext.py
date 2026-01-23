@@ -138,7 +138,7 @@ class _InvenioPreviewerState(object):
                 yield self.previewers[item]
 
     def iter_container_item_previewers(self, previewers=None):
-        """Get previewers ordered by CONTAINER_PREVIEWER_PREFERENCE."""
+        """Get previewers ordered by CONTAINER_ITEM_PREVIEWER_PREFERENCE."""
         return self.iter_previewers(
             previewers=previewers or self.container_item_previewer_preference
         )

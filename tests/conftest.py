@@ -63,7 +63,7 @@ def app_config(app_config):
             ),
         ),
         SERVER_NAME="localhost",
-        CONTAINER_PREVIEWER_PREFERENCE=["pdfjs", "zipfile"],
+        CONTAINER_ITEM_PREVIEWER_PREFERENCE=["pdfjs", "zipfile"],
     )
     return app_config
 
