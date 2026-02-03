@@ -3,6 +3,7 @@
 # This file is part of Invenio.
 # Copyright (C) 2016-2019 CERN.
 # Copyright (C) 2025 New York University.
+# Copyright (C) 2026 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -182,11 +183,7 @@ def test_xml_extension(testapp, webassets, record):
 
 def test_ipynb_extension(testapp, webassets, record):
     """Test view with IPython notebooks files."""
-    create_file(
-        record,
-        "test.ipynb",
-        BytesIO(
-            b"""
+    bytes_file = b"""
 {
   "cells": [
     {
@@ -219,7 +216,11 @@ def test_ipynb_extension(testapp, webassets, record):
   "nbformat":4,
   "nbformat_minor":0
 }"""
-        ),
+
+    create_file(
+        record,
+        "test.ipynb",
+        BytesIO(bytes_file),
     )
 
     with testapp.test_client() as client:

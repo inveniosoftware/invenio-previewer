@@ -11,7 +11,6 @@
 
 """Invenio Previewer Utilities."""
 
-
 import charset_normalizer
 from flask import current_app
 
