@@ -42,13 +42,36 @@ class _InvenioPreviewerState(object):
         self.entry_point_group = entry_point_group
         self.previewers = {}
         self._previewable_extensions = set()
+        self._container_item_previewable_extensions = set()
 
     @cached_property
     def previewable_extensions(self):
+        """Return previewable extensions for files."""
         if self.entry_point_group is not None:
             self.load_entry_point_group(self.entry_point_group)
             self.entry_point_group = None
         return self._previewable_extensions
+
+    @cached_property
+    def container_item_previewable_extensions(self):
+        """Return previewable extensions for container items."""
+        if self.entry_point_group is not None:
+            self.load_entry_point_group(self.entry_point_group)
+            self.entry_point_group = None
+        return self._container_item_previewable_extensions
+
+    @cached_property
+    def previewer_preference(self):
+        """Get previewer preference from config."""
+        return self.app.config.get("PREVIEWER_PREFERENCE", [])
+
+    @cached_property
+    def container_item_previewer_preference(self):
+        """Get container previewer preference from config."""
+        return (
+            self.app.config.get("CONTAINER_ITEM_PREVIEWER_PREFERENCE", [])
+            or self.previewer_preference
+        )
 
     @cached_property
     def record_file_factory(self):
@@ -89,7 +112,13 @@ class _InvenioPreviewerState(object):
                 )
         self.previewers[name] = previewer
         if hasattr(previewer, "previewable_extensions"):
-            self._previewable_extensions |= set(previewer.previewable_extensions)
+            # Add the extension only if the previewer is in the preference list (it is enabled).
+            if name in self.previewer_preference:
+                self._previewable_extensions |= set(previewer.previewable_extensions)
+            if name in self.container_item_previewer_preference:
+                self._container_item_previewable_extensions |= set(
+                    previewer.previewable_extensions
+                )
 
     def load_entry_point_group(self, entry_point_group):
         """Load previewers from an entry point group."""
@@ -102,11 +131,17 @@ class _InvenioPreviewerState(object):
             self.load_entry_point_group(self.entry_point_group)
             self.entry_point_group = None
 
-        previewers = previewers or self.app.config.get("PREVIEWER_PREFERENCE", [])
+        previewers = previewers or self.previewer_preference
 
         for item in previewers:
             if item in self.previewers:
                 yield self.previewers[item]
+
+    def iter_container_item_previewers(self, previewers=None):
+        """Get previewers ordered by CONTAINER_ITEM_PREVIEWER_PREFERENCE."""
+        return self.iter_previewers(
+            previewers=previewers or self.container_item_previewer_preference
+        )
 
 
 class InvenioPreviewer(object):

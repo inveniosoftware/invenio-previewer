@@ -104,3 +104,67 @@ def test_register_previewer_duplicate():
 
     # Ensure original previewer is still registered
     assert ext.previewers["test"] is previewer1
+
+
+@patch("importlib.metadata.entry_points", lambda group=None: [])
+def test_iter_container_item_previewers():
+    """Test iter_container_previewers with CONTAINER_ITEM_PREVIEWER_PREFERENCE."""
+
+    # Mock previewer modules
+    class MockPreviewer1:
+        previewable_extensions = [".txt"]
+
+    class MockPreviewer2:
+        previewable_extensions = [".pdf"]
+
+    class MockPreviewer3:
+        previewable_extensions = [".zip"]
+
+    previewer1 = MockPreviewer1()
+    previewer2 = MockPreviewer2()
+    previewer3 = MockPreviewer3()
+
+    # Test with CONTAINER_ITEM_PREVIEWER_PREFERENCE set
+    app = Flask("testapp")
+    app.config["PREVIEWER_PREFERENCE"] = ["txt", "pdf", "zip"]
+    app.config["CONTAINER_ITEM_PREVIEWER_PREFERENCE"] = ["zip", "pdf"]
+    ext = InvenioPreviewer(app)
+
+    ext.register_previewer("txt", previewer1)
+    ext.register_previewer("pdf", previewer2)
+    ext.register_previewer("zip", previewer3)
+
+    # Should return previewers in CONTAINER_ITEM_PREVIEWER_PREFERENCE order
+    result = list(ext.iter_container_item_previewers())
+    assert result == [previewer3, previewer2]
+
+    # Test fallback to PREVIEWER_PREFERENCE when CONTAINER_ITEM_PREVIEWER_PREFERENCE not set
+    app2 = Flask("testapp2")
+    app2.config["PREVIEWER_PREFERENCE"] = ["pdf", "txt"]
+    ext2 = InvenioPreviewer(app2)
+
+    ext2.register_previewer("txt", previewer1)
+    ext2.register_previewer("pdf", previewer2)
+    ext2.register_previewer("zip", previewer3)
+
+    # Should fall back to PREVIEWER_PREFERENCE order
+    result2 = list(ext2.iter_container_item_previewers())
+    assert result2 == [previewer2, previewer1]
+
+    # Test with custom previewers parameter
+    result3 = list(ext.iter_container_item_previewers(previewers=["txt", "zip"]))
+    assert result3 == [previewer1, previewer3]
+
+    # Test with empty CONTAINER_ITEM_PREVIEWER_PREFERENCE (should fall back)
+    app3 = Flask("testapp3")
+    app3.config["PREVIEWER_PREFERENCE"] = ["zip"]
+    app3.config["CONTAINER_ITEM_PREVIEWER_PREFERENCE"] = []
+    ext3 = InvenioPreviewer(app3)
+
+    ext3.register_previewer("txt", previewer1)
+    ext3.register_previewer("pdf", previewer2)
+    ext3.register_previewer("zip", previewer3)
+
+    # Empty list is falsy, should fall back to PREVIEWER_PREFERENCE
+    result4 = list(ext3.iter_container_item_previewers())
+    assert result4 == [previewer3]
