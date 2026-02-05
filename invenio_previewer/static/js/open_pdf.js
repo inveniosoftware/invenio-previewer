@@ -17,6 +17,32 @@
 
 "use strict";
 
+function getPageFromHash() {
+  let hash = window.location.hash || "";
+  // check if the parent window has a hash
+  if (window.parent && window.parent !== window) {
+    hash = window.parent.location.hash || "";
+  }
+  const match = hash.match(/page=(\d+)/);
+  if (match) {
+    return parseInt(match[1], 10);
+  }
+  return null;
+}
+
+function applyPageFromHash(pdfViewer, pageNumberField) {
+  if (!pdfViewer.pagesCount) return;
+  const pageFromHash = getPageFromHash();
+  if (
+    pageFromHash &&
+    pageFromHash >= 1 &&
+    pageFromHash <= pdfViewer.pagesCount
+  ) {
+    pdfViewer.currentPageNumber = pageFromHash;
+    pageNumberField.value = pageFromHash;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const { pdfjsLib, pdfjsViewer } = window;
 
@@ -162,7 +188,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Display the number of pages
     pageNumberLabel.textContent = `of ${pdfViewer.pagesCount}`;
+    applyPageFromHash(pdfViewer, pageNumberField);
   });
+
+  window.addEventListener("hashchange", function () {
+    applyPageFromHash(pdfViewer, pageNumberField);
+  });
+  // Listen to hash changes in the parent window
+  try {
+    if (window.parent && window.parent !== window) {
+      window.parent.addEventListener("hashchange", function () {
+        applyPageFromHash(pdfViewer, pageNumberField);
+      });
+    }
+  } catch (error) {
+    // Ignore.
+  }
 
   // Loading document
   const loadingTask = pdfjsLib.getDocument({
