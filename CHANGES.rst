@@ -11,6 +11,10 @@
 Changes
 =======
 
+Version v3.7.0 (released 2026-02-06)
+
+- feat(pdfjs): open pdf at page from URL parameter
+
 Version v3.6.0 (released 2026-01-15)
 
 - feat(pdfjs): add download button
