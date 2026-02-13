@@ -10,6 +10,7 @@
 
 """Pytest configuration."""
 
+import contextlib
 import os
 import shutil
 import tempfile
@@ -62,6 +63,7 @@ def app_config(app_config):
             ),
         ),
         SERVER_NAME="localhost",
+        CONTAINER_ITEM_PREVIEWER_PREFERENCE=["pdfjs", "zipfile"],
     )
     return app_config
 
@@ -194,3 +196,22 @@ def zip_fp(db):
 
     fp.seek(0)
     return fp
+
+
+@pytest.fixture(autouse=True)
+def clear_previewer_preference_cache(testapp):
+    """Clear cached previewer preferences.
+
+    Since we changed properties to cached_property,
+    the values must be cleared between tests as they change the configuration in some tests.
+    """
+    with contextlib.suppress(KeyError):
+        del testapp.extensions["invenio-previewer"].previewable_extensions
+    with contextlib.suppress(KeyError):
+        del testapp.extensions[
+            "invenio-previewer"
+        ].container_item_previewable_extensions
+    with contextlib.suppress(KeyError):
+        del testapp.extensions["invenio-previewer"].previewer_preference
+    with contextlib.suppress(KeyError):
+        del testapp.extensions["invenio-previewer"].container_item_previewer_preference

@@ -77,3 +77,9 @@ def preview(pid, record, template=None, **kwargs):
 def is_previewable(extension):
     """Test if a file can be previewed checking its extension."""
     return extension in current_previewer.previewable_extensions
+
+
+@blueprint.app_template_test("container_item_previewable")
+def is_container_item_previewable(extension):
+    """Decide if a container item (file inside zip) is previewable."""
+    return extension in current_previewer.container_item_previewable_extensions
