@@ -11,6 +11,11 @@
 Changes
 =======
 
+Version v4.1.0 (released 2026-03-03)
+
+- refactor(pdfjs): Display 'Download' text on button
+- feat(pdfjs): open PDF at page from URL hash
+
 Version v4.0.0 (released 2026-02-03)
 
 - chore(black): update formatting to >= 26.0
