@@ -59,7 +59,7 @@ previewer = WebpackThemeBundle(
             copy=[
                 # Copy the pdfjs-dist artifacts from `node_modules` into `static`
                 {
-                    "from": "../node_modules/pdfjs-dist/build",
+                    "from": "../node_modules/pdfjs-dist/legacy/build",
                     "to": "../../static/js/pdfjs/build",
                 },
                 {
@@ -71,7 +71,7 @@ previewer = WebpackThemeBundle(
                     "to": "../../static/js/pdfjs/wasm",
                 },
                 {
-                    "from": "../node_modules/pdfjs-dist/web",
+                    "from": "../node_modules/pdfjs-dist/legacy/web",
                     "to": "../../static/js/pdfjs/web",
                 },
                 {
@@ -110,7 +110,7 @@ previewer = WebpackThemeBundle(
             copy=[
                 # Copy the pdfjs-dist artifacts from `node_modules` into `static`
                 {
-                    "from": "../node_modules/pdfjs-dist/build",
+                    "from": "../node_modules/pdfjs-dist/legacy/build",
                     "to": "../../static/js/pdfjs/build",
                 },
                 {
@@ -122,7 +122,7 @@ previewer = WebpackThemeBundle(
                     "to": "../../static/js/pdfjs/wasm",
                 },
                 {
-                    "from": "../node_modules/pdfjs-dist/web",
+                    "from": "../node_modules/pdfjs-dist/legacy/web",
                     "to": "../../static/js/pdfjs/web",
                 },
                 {
