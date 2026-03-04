@@ -11,6 +11,10 @@
 Changes
 =======
 
+Version v4.1.1 (released 2026-03-04)
+
+- fix(pdfjs): switch to legacy bundle
+
 Version v4.1.0 (released 2026-03-03)
 
 - refactor(pdfjs): Display 'Download' text on button
