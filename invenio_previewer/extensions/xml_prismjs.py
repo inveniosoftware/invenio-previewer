@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2016-2019 CERN.
+# Copyright (C) 2026 KTH Royal Institute of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -29,8 +30,9 @@ def render(file):
             return parsed_xml.toprettyxml(indent="  ", newl="")
         except UnicodeDecodeError:
             return _(
-                "Error decoding the file. Are you sure it is '{encoding}'?"
-            ).format(encoding)
+                "Error decoding the file. Are you sure it is '%(encoding)s'?",
+                encoding=encoding,
+            )
 
 
 def validate_xml(file):
