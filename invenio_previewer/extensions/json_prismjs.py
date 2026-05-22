@@ -1,11 +1,6 @@
-# -*- coding: utf-8 -*-
-#
-# This file is part of Invenio.
-# Copyright (C) 2016-2019 CERN.
-# Copyright (C) 2025 Brian Kelly.
-#
-# Invenio is free software; you can redistribute it and/or modify it
-# under the terms of the MIT License; see LICENSE file for more details.
+# SPDX-FileCopyrightText: 2016-2019 CERN.
+# SPDX-FileCopyrightText: 2025 Brian Kelly.
+# SPDX-License-Identifier: MIT
 
 """Previews a JSON or GeoJSON file."""
 
