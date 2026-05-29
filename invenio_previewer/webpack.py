@@ -46,6 +46,7 @@ previewer = WebpackThemeBundle(
                 "web_archive_css": "./scss/invenio_previewer/web_archive.scss",
             },
             dependencies={
+                "@mikespub/epubjs-reader": "^2026.1.24",
                 "bootstrap-sass": "~3.3.5",
                 "leaflet": "^1.9.4",
                 "papaparse": "^5.4.1",
@@ -81,6 +82,14 @@ previewer = WebpackThemeBundle(
                     "from": "../node_modules/replaywebpage",
                     "to": "../../static/js/replaywebpage",
                 },
+                {
+                    "from": "../node_modules/@mikespub/epubjs-reader/dist/assets",
+                    "to": "../../static/epubreader/assets",
+                },
+                {
+                    "from": "../node_modules/@mikespub/epubjs-reader/dist/js",
+                    "to": "../../static/epubreader/js",
+                },
             ],
         ),
         "semantic-ui": dict(
@@ -102,6 +111,7 @@ previewer = WebpackThemeBundle(
                 "web_archive_css": "./scss/invenio_previewer/web_archive.scss",
             },
             dependencies={
+                "@mikespub/epubjs-reader": "^2026.1.24",
                 "ajv": "^8.0.0",
                 "flightjs": "~1.5.1",
                 "font-awesome": "~4.5.0",
@@ -134,6 +144,14 @@ previewer = WebpackThemeBundle(
                 {
                     "from": "../node_modules/replaywebpage",
                     "to": "../../static/js/replaywebpage",
+                },
+                {
+                    "from": "../node_modules/@mikespub/epubjs-reader/dist/assets",
+                    "to": "../../static/epubreader/assets",
+                },
+                {
+                    "from": "../node_modules/@mikespub/epubjs-reader/dist/js",
+                    "to": "../../static/epubreader/js",
                 },
             ],
         ),
