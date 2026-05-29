@@ -11,6 +11,13 @@
 Changes
 =======
 
+Version v5.0.0 (released 2026-05-29)
+
+- chore(setup): bump dependencies
+- feat: Extend support for container item previewers.
+- i18n: correct format string in error message
+- feat: GeoJSON support
+
 Version v4.1.1 (released 2026-03-04)
 
 - fix(pdfjs): switch to legacy bundle
