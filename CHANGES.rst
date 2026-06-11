@@ -11,6 +11,10 @@
 Changes
 =======
 
+Version v5.0.1 (released 2026-06-11)
+
+- fix(template): duplicated js load causing double rendering on text select
+
 Version v5.0.0 (released 2026-05-29)
 
 - chore(setup): bump dependencies
