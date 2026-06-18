@@ -54,5 +54,8 @@ def test_previewable_test(testapp):
     file["type"] = "pdf"
     assert render_template_string(template, file=file) == "Previewable"
 
+    file["type"] = "epub"
+    assert render_template_string(template, file=file) == "Previewable"
+
     file["type"] = ""
     assert render_template_string(template, file=file) == "Not previewable"

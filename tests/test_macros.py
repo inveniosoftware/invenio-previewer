@@ -7,6 +7,7 @@
 """Views module tests."""
 
 import zipfile
+from pathlib import Path
 
 from flask import render_template_string, url_for
 from invenio_db import db
@@ -255,6 +256,26 @@ def test_ipynb_extension(testapp, webassets, record):
         assert "This is an example notebook." in as_text
         # test HTML tag sanitize
         assert "<script>alert();</script>" not in as_text
+
+
+def test_epub_extension(testapp, webassets, record):
+    """Test view with EPUB files."""
+    demo_epub = (
+        Path(__file__).resolve().parent.parent
+        / "examples"
+        / "demo_files"
+        / "epubfile.epub"
+    )
+    with demo_epub.open("rb") as fp:
+        create_file(record, "epubfile.epub", BytesIO(fp.read()))
+
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], "epubfile.epub"))
+        as_text = res.get_data(as_text=True)
+        assert "epubreader/assets/css/main.css" in as_text
+        assert "epubreader/js/libs/epub.min.js" in as_text
+        assert "epubreader/js/epubreader.min.js" in as_text
+        assert "new Reader(path, settings);" in as_text
 
 
 def test_simple_image_extension(testapp, webassets, record):

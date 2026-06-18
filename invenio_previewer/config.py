@@ -58,6 +58,7 @@ PREVIEWER_PREFERENCE = [
     "video_videojs",
     "audio_videojs",
     "ipynb",
+    "epub",
     "zip",
     "txt",
     # "web_archive",

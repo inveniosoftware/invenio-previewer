@@ -1,0 +1,47 @@
+{# -*- coding: utf-8 -*-
+
+  This file is part of Invenio.
+  Copyright (C) 2026 CERN.
+  Copyright (C) 2026 Front Matter.
+
+  Invenio is free software; you can redistribute it and/or modify it
+  under the terms of the MIT License; see LICENSE file for more details.
+#}
+
+{%- extends config.PREVIEWER_ABSTRACT_TEMPLATE %}
+
+{%- block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="{{ url_for('static', filename='epubreader/assets/css/main.css') }}">
+  <script src="{{ url_for('static', filename='epubreader/js/libs/jszip.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='epubreader/js/libs/md5.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='epubreader/js/libs/epub.min.js') }}"></script>
+  <style>
+    body {
+      min-height: 100vh;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    #reader {
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+  </style>
+{%- endblock %}
+
+{%- block panel %}
+  <div id="reader"></div>
+  <script type="module">
+    import { Reader } from "{{ url_for('static', filename='epubreader/js/epubreader.min.js') }}";
+
+    const path = {{ book_path | tojson }};
+    const settings = {
+      target: "#reader",
+      flow: "paginated",
+      openbook: false,
+    };
+
+    window.onload = function () {
+      new Reader(path, settings);
+    };
+  </script>
+{%- endblock %}
