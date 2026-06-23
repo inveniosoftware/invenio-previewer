@@ -135,17 +135,17 @@ def test_json_extension_valid_geojson_file2(testapp, webassets, record):
         assert '<div id="map" data-file-uri' in res.get_data(as_text=True)
 
 
-def test_json_extension_valid_file(testapp, webassets, record):
+def test_json_extension_valid_object_file(testapp, webassets, record):
     """Test view with JSON files."""
     json_data = (
         '{"name":"invenio","num":42,'
         '"flt":3.14159,"lst":[1,2,3],'
         '"obj":{"field":"<script>alert(1)</script>","num":4}}'
     )
-    create_file(record, "test.json", BytesIO(b(json_data)))
+    create_file(record, "test_object.json", BytesIO(b(json_data)))
 
     with testapp.test_client() as client:
-        res = client.get(preview_url(record["control_number"], "test.json"))
+        res = client.get(preview_url(record["control_number"], "test_object.json"))
         assert 'class="language-javascript"' in res.get_data(as_text=True)
 
         rendered_json = (
@@ -164,6 +164,38 @@ def test_json_extension_valid_file(testapp, webassets, record):
             "        &#34;num&#34;: 4\n"
             "    }\n"
             "}"
+        )
+        assert rendered_json in res.get_data(as_text=True)
+
+
+def test_json_extension_valid_array_file(testapp, webassets, record):
+    """Test view with JSON files."""
+    json_data = (
+        '[{"name":"First item","num":1},'
+        '{"name":"Second item","num":2},'
+        '{"name":"Third item","num":3}]'
+    )
+    create_file(record, "test_array.json", BytesIO(b(json_data)))
+
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], "test_array.json"))
+        assert 'class="language-javascript"' in res.get_data(as_text=True)
+
+        rendered_json = (
+            "[\n"
+            "    {\n"
+            "        &#34;name&#34;: &#34;First item&#34;,\n"
+            "        &#34;num&#34;: 1\n"
+            "    },\n"
+            "    {\n"
+            "        &#34;name&#34;: &#34;Second item&#34;,\n"
+            "        &#34;num&#34;: 2\n"
+            "    },\n"
+            "    {\n"
+            "        &#34;name&#34;: &#34;Third item&#34;,\n"
+            "        &#34;num&#34;: 3\n"
+            "    }\n"
+            "]"
         )
         assert rendered_json in res.get_data(as_text=True)
 
