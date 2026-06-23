@@ -72,7 +72,9 @@ def is_geojson(file):
             "MultiPolygon",
         ]
 
-        return json_data.get("type", None) in valid_types
+        return (
+            isinstance(json_data, dict) and json_data.get("type", None) in valid_types
+        )
 
 
 def preview(file):
