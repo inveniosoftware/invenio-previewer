@@ -1,4 +1,137 @@
-[build-system]
-requires = ["setuptools", "wheel", "babel>2.8"]
-build-backend = "setuptools.build_meta"
+# SPDX-FileCopyrightText: 2016-2020 CERN.
+# SPDX-FileCopyrightText: 2022-2026 Graz University of Technology.
+# SPDX-FileCopyrightText: 2023 Northwestern University.
+# SPDX-FileCopyrightText: 2026 TU Wien.
+# SPDX-License-Identifier: MIT
 
+[project]
+name = "invenio-previewer"
+description = "Invenio module for previewing files."
+readme = "README.rst"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+  { name = "CERN", email = "info@inveniosoftware.org" },
+]
+keywords = [
+  "invenio",
+  "previewer",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+]
+dependencies = [
+  "charset_normalizer>=3.3.2",
+  "invenio-assets>=4.0.0,<5.0.0",
+  "invenio-base>=2.3.2,<3.0.0",
+  "invenio-formatter>=5.0.0,<6.0.0",
+  "invenio-i18n>=4.0.0,<5.0.0",
+  "invenio-pidstore>=4.0.0,<5.0.0",
+  "invenio-records-ui>=5.0.0,<6.0.0",
+  "lxml-html-clean>=0.1.1",
+  "mistune>=0.8.1",
+  "nbconvert>=7,<8",
+  "nbformat>=5.1,<6.0",
+]
+dynamic = ["version"]
+
+[project.urls]
+Repository = "https://github.com/inveniosoftware/invenio-previewer"
+
+[project.entry-points."invenio_assets.webpack"]
+invenio_previewer_theme = "invenio_previewer.webpack:previewer"
+
+[project.entry-points."invenio_base.apps"]
+invenio_previewer = "invenio_previewer:InvenioPreviewer"
+
+[project.entry-points."invenio_i18n.translations"]
+messages = "invenio_previewer"
+
+[project.entry-points."invenio_previewer.previewers"]
+audio_videojs = "invenio_previewer.extensions.audio_videojs"
+csv_papaparsejs = "invenio_previewer.extensions.csv_papaparsejs"
+default = "invenio_previewer.extensions.default"
+ipynb = "invenio_previewer.extensions.ipynb"
+json_prismjs = "invenio_previewer.extensions.json_prismjs"
+mistune = "invenio_previewer.extensions.mistune"
+pdfjs = "invenio_previewer.extensions.pdfjs"
+simple_image = "invenio_previewer.extensions.simple_image"
+txt = "invenio_previewer.extensions.txt"
+video_videojs = "invenio_previewer.extensions.video_videojs"
+web_archive = "invenio_previewer.extensions.web_archive"
+xml_prismjs = "invenio_previewer.extensions.xml_prismjs"
+zip = "invenio_previewer.extensions.zip"
+
+[project.optional-dependencies]
+docs = []
+files = [
+  "invenio-files-rest>=6.0.0,<7.0.0",
+  "invenio-records-files>=4.0.0,<5.0.0",
+]
+tests = [
+  "invenio-app>=3.0.0,<4.0.0",
+  "invenio-config>=1.0.3",
+  "invenio-db[postgresql,versioning]>=2.2.0,<3.0.0",
+  "invenio-files-rest>=6.0.0,<7.0.0",
+  "invenio-records-files>=4.0.0,<5.0.0",
+  "invenio-theme>=5.0.0,<6.0.0",
+  "mock>=1.3.0",
+  "pytest-black>=0.6.0",
+  "pytest-invenio>=4.0.0,<5.0.0",
+  "sphinx>=4.5",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# see https://babel.pocoo.org/en/latest/messages.html#toml-configuration-format
+[tool.babel]
+[tool.babel.compile_catalog]
+directory = "invenio_previewer/translations/"
+use_fuzzy = true
+
+[tool.babel.extract_messages]
+copyright_holder = "CERN"
+msgid_bugs_address = "info@inveniosoftware.org"
+mapping_file = "pyproject.toml"
+output_file = "invenio_previewer/translations/messages.pot"
+add_comments = "NOTE"
+
+[tool.babel.init_catalog]
+input_file = "invenio_previewer/translations/messages.pot"
+output_dir = "invenio_previewer/translations/"
+
+[[tool.babel.mappings]]
+method = "javascript"
+pattern = "**.js"
+encoding = "utf-8"
+extract_messages = "$._, jQuery._"
+
+[[tool.babel.mappings]]
+method = "python"
+pattern = "**.py"
+encoding = "utf-8"
+
+[[tool.babel.mappings]]
+method = "jinja2"
+pattern = "**/templates/**.html"
+encoding = "utf-8"
+
+[tool.hatch.version]
+path = "invenio_previewer/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/invenio_previewer",
+]
+
+[tool.isort]
+profile = "black"
+
+[tool.pydocstyle]
+add_ignore = "D401"
+
+[tool.pytest.ini_options]
+addopts = '--black --isort --pydocstyle --cov=invenio_previewer --cov-report=term-missing'
+testpaths = "tests invenio_previewer"
