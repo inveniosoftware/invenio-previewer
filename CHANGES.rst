@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version v6.0.1 (released 2026-06-30)
+
+- fix: GeoJSON check for JSON which is not an object
+
 Version v6.0.0 (released 2026-06-16)
 
 - chore(setup): bump dependencies
