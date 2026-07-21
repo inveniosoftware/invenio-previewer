@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version v5.0.2 (released 2026-07-21)
+
+- chore(setup): migrate from setuptools to hatchling
+- chore(licenses): update license headers to use SPDX
+
 Version v5.0.1 (released 2026-06-11)
 
 - fix(template): duplicated js load causing double rendering on text select
