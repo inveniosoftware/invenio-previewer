@@ -5,7 +5,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 # 
 # Translators:
-# Matti Lassila <matti.lassila@gmail.com>, 2026
+# Suthep Yonphimai <tomztt@gmail.com>, 2026
 # 
 #, fuzzy
 msgid ""
@@ -14,49 +14,49 @@ msgstr ""
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
 "POT-Creation-Date: 2026-06-22 20:43+0000\n"
 "PO-Revision-Date: 2016-08-25 14:09+0000\n"
-"Last-Translator: Matti Lassila <matti.lassila@gmail.com>, 2026\n"
-"Language-Team: Finnish (https://app.transifex.com/inveniosoftware/teams/23537/fi/)\n"
+"Last-Translator: Suthep Yonphimai <tomztt@gmail.com>, 2026\n"
+"Language-Team: Thai (https://app.transifex.com/inveniosoftware/teams/23537/th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
-"Language: fi\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: th\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: invenio_previewer/extensions/ipynb.py:33
 msgid "Error: Not a ipynb/json file"
-msgstr "Virhe: Tiedosto ei ole ipynb/json"
+msgstr "ข้อผิดพลาด: ไม่ใช่ไฟล์ ipynb/json"
 
 #: invenio_previewer/extensions/xml_prismjs.py:28
 #, python-format
 msgid "Error decoding the file. Are you sure it is '%(encoding)s'?"
-msgstr "Virhe tiedostoa purettaessa. Oletko varma, että se on '%(encoding)s'?"
+msgstr "เกิดข้อผิดพลาดในการถอดรหัสไฟล์ คุณแน่ใจหรือไม่ว่าเป็น '%(encoding)s'?"
 
 #: invenio_previewer/templates/invenio_previewer/base.html:8
 #: invenio_previewer/templates/invenio_previewer/macros.html:42
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/base.html:8
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:42
 msgid "Preview"
-msgstr "Esikatselu"
+msgstr "ดูตัวอย่าง"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:15
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/bottom.html:20
 msgid "Embed code"
-msgstr "Upotuskoodi"
+msgstr "โค้ดฝัง"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:25
 msgid "Close"
-msgstr "Sulje"
+msgstr "ปิด"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:68
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/bottom.html:37
 msgid "Previewing"
-msgstr "Esikatsellaan"
+msgstr "กำลังแสดงตัวอย่าง"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:70
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/bottom.html:39
 msgid "Embed"
-msgstr "Upota"
+msgstr "ฝัง"
 
 #: invenio_previewer/templates/invenio_previewer/bottom.html:71
 #: invenio_previewer/templates/invenio_previewer/macros.html:47
@@ -64,143 +64,141 @@ msgstr "Upota"
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/bottom.html:40
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:47
 msgid "Download"
-msgstr "Lataa"
+msgstr "ดาวน์โหลด"
 
 #: invenio_previewer/templates/invenio_previewer/csv_bar.html:16
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/csv_bar.html:16
 msgid "Show more"
-msgstr "Näytä lisää"
+msgstr "แสดงเพิ่มเติม"
 
 #: invenio_previewer/templates/invenio_previewer/default.html:13
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/default.html:15
 msgid "Cannot preview file"
-msgstr "Tiedostoa ei voi esikatsella"
+msgstr "ไม่สามารถแสดงตัวอย่างไฟล์ได้"
 
 #: invenio_previewer/templates/invenio_previewer/default.html:14
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/default.html:16
 msgid "Sorry, we are unfortunately not able to preview this file."
-msgstr "Valitettavasti tiedostoa tiedostoa ei voi esikatsella."
+msgstr "ขออภัย เราไม่สามารถแสดงตัวอย่างไฟล์นี้ได้"
 
 #: invenio_previewer/templates/invenio_previewer/macros.html:19
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:19
 msgid "Name"
-msgstr "Nimi"
+msgstr "ชื่อ"
 
 #: invenio_previewer/templates/invenio_previewer/macros.html:20
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:20
 msgid "Size"
-msgstr "Koko"
+msgstr "ขนาด"
 
 #: invenio_previewer/templates/invenio_previewer/macros.html:35
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:32
 msgid "Checksum not yet calculated."
-msgstr ""
+msgstr "ยังไม่ได้คำนวณ checksum"
 
 #: invenio_previewer/templates/invenio_previewer/macros.html:35
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/macros.html:33
 msgid ""
 "This is the file fingerprint (checksum), which can be used to verify the "
 "file integrity."
-msgstr ""
-"Tämä on tiedoston sormenjälki (tarkistussumma), jonka avulla voidaan "
-"varmistaa tiedoston eheys."
+msgstr "นี่คือลายนิ้วมือของไฟล์ (checksum) ซึ่งใช้ตรวจสอบความสมบูรณ์ของไฟล์"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:39
 msgid "Previous"
-msgstr "Edellinen"
+msgstr "ก่อนหน้า"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:52
 msgid "Next"
-msgstr "Seuraava"
+msgstr "ถัดไป"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:60
 msgid "Zoom Out"
-msgstr "Pienennä"
+msgstr "ย่อขนาด"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:66
 msgid "Automatic Zoom"
-msgstr "Automaattinen zoomaus"
+msgstr "ย่อ/ขยายอัตโนมัติ"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:67
 msgid "Actual Size"
-msgstr "Todellinen koko"
+msgstr "ขนาดจริง"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:68
 msgid "Page Fit"
-msgstr ""
+msgstr "พอดีหน้า"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:69
 msgid "Page Width"
-msgstr ""
+msgstr "ความกว้างหน้า"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:70
 #, python-format
 msgid "0%%"
-msgstr ""
+msgstr "0%%"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:71
 #, python-format
 msgid "50%%"
-msgstr ""
+msgstr "50%%"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:72
 #, python-format
 msgid "75%%"
-msgstr ""
+msgstr "75%%"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:73
 #, python-format
 msgid "100%%"
-msgstr ""
+msgstr "100%%"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:74
 #, python-format
 msgid "125%%"
-msgstr ""
+msgstr "125%%"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:75
 #, python-format
 msgid "150%%"
-msgstr ""
+msgstr "150%%"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:76
 #, python-format
 msgid "200%%"
-msgstr ""
+msgstr "200%%"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:77
 #, python-format
 msgid "300%%"
-msgstr ""
+msgstr "300%%"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:78
 #, python-format
 msgid "400%%"
-msgstr ""
+msgstr "400%%"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:84
 msgid "Zoom In"
-msgstr "Suurenna"
+msgstr "ขยายขนาด"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:91
 msgid "Download PDF file"
-msgstr ""
+msgstr "ดาวน์โหลดไฟล์ PDF"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:97
 msgid "Toggle Fullscreen Mode"
-msgstr ""
+msgstr "สลับโหมดเต็มหน้าจอ"
 
 #: invenio_previewer/templates/invenio_previewer/txt.html:12
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/txt.html:12
 msgid "Preview of large file truncated"
-msgstr "Suuren tiedoston esikatselu on katkaistu"
+msgstr "ตัวอย่างไฟล์ขนาดใหญ่ถูกตัดทอน"
 
 #: invenio_previewer/templates/invenio_previewer/zip.html:51
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/zip.html:20
 msgid "Full screen"
-msgstr "Koko näyttö"
+msgstr "เต็มหน้าจอ"
 
 #: invenio_previewer/templates/invenio_previewer/zip.html:58
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/zip.html:26
 msgid "The previewer is not showing all the files."
-msgstr "Esikatselu ei näytä kaikkia tiedostoja."
+msgstr "โปรแกรมดูตัวอย่างไม่ได้แสดงไฟล์ทั้งหมด"
