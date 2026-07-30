@@ -11,12 +11,25 @@ from ..utils import detect_encoding
 
 previewable_extensions = ["md"]
 
+# See: https://mistune.lepture.com/en/latest/guide.html
+# Using the same plugins as the ones enabled by default
+# in the `html()` method.
+# The difference with the `html()` method is that here
+# we are escaping HTML tags present in the Markdown file.
+markdown = mistune.create_markdown(
+    plugins=[
+        "strikethrough",
+        "footnotes",
+        "table",
+    ]
+)
+
 
 def render(file):
     """Render HTML from Markdown file content."""
     with file.open() as fp:
         encoding = detect_encoding(fp, default="utf-8")
-        return mistune.markdown(fp.read().decode(encoding))
+        return markdown(fp.read().decode(encoding))
 
 
 def can_preview(file):
