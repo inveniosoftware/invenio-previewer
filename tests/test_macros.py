@@ -53,11 +53,23 @@ def test_default_extension(testapp, webassets, record):
 
 def test_markdown_extension(testapp, webassets, record):
     """Test view with md files."""
-    create_file(record, "markdown.md", BytesIO(b"### Testing markdown ###"))
+    bytes_file = b"""
+### Testing markdown ###
+
+<div>Inline HTML tag</div>
+
+| header1 | header2 |
+| ------- | ------- |
+| data1   | data2   |
+"""
+    create_file(record, "markdown.md", BytesIO(bytes_file))
     with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "markdown.md"))
-        assert "<h3>Testing markdown" in res.get_data(as_text=True)
-        with patch("mistune.markdown", side_effect=Exception):
+        as_text = res.get_data(as_text=True)
+        assert "<h3>Testing markdown" in as_text
+        assert "&lt;div&gt;Inline HTML tag" in as_text
+        assert "<td>data1" in as_text
+        with patch("mistune.Markdown.__call__", side_effect=Exception):
             res = client.get(preview_url(record["control_number"], "markdown.md"))
             assert "we are unfortunately not" in res.get_data(as_text=True)
 
