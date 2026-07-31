@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version v5.2.0 (released 2026-07-31)
+
+- markdown: enable plugins strikethrough, footnotes, table
+
 Version v5.1.0 (released 2026-07-28)
 
 - fix(build): include mo files
