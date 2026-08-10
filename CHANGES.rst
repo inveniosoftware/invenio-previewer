@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version v5.2.1 (released 2026-08-10)
+
+- markdown: enable plugins strikethrough, footnotes, table
+
 Version v5.1.1 (released 2026-08-10)
 
 - fix: GeoJSON check for JSON which is not an object
