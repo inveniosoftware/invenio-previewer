@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version v5.1.1 (released 2026-08-10)
+
+- fix: GeoJSON check for JSON which is not an object
+
 Version v5.1.0 (released 2026-07-28)
 
 - fix(build): include mo files
