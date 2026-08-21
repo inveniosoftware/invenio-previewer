@@ -129,56 +129,56 @@ msgstr "الحجم الحالي"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:68
 msgid "Page Fit"
-msgstr ""
+msgstr " احتواء الصفحة"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:69
 msgid "Page Width"
-msgstr ""
+msgstr " عرض الصفحة"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:70
 #, python-format
 msgid "0%%"
-msgstr ""
+msgstr "%%0"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:71
 #, python-format
 msgid "50%%"
-msgstr ""
+msgstr "%%50"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:72
 #, python-format
 msgid "75%%"
-msgstr ""
+msgstr "%%75"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:73
 #, python-format
 msgid "100%%"
-msgstr ""
+msgstr "%%100"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:74
 #, python-format
 msgid "125%%"
-msgstr ""
+msgstr "%%125"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:75
 #, python-format
 msgid "150%%"
-msgstr ""
+msgstr "%%150"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:76
 #, python-format
 msgid "200%%"
-msgstr ""
+msgstr "%%200"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:77
 #, python-format
 msgid "300%%"
-msgstr ""
+msgstr "%%300"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:78
 #, python-format
 msgid "400%%"
-msgstr ""
+msgstr "%%400"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:84
 msgid "Zoom In"
@@ -186,11 +186,11 @@ msgstr "تكبير"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:91
 msgid "Download PDF file"
-msgstr ""
+msgstr " تنزيل ملف PDF"
 
 #: invenio_previewer/templates/invenio_previewer/pdfjs.html:97
 msgid "Toggle Fullscreen Mode"
-msgstr ""
+msgstr " تبديل وضع ملء الشاشة"
 
 #: invenio_previewer/templates/invenio_previewer/txt.html:12
 #: invenio_previewer/templates/semantic-ui/invenio_previewer/txt.html:12
