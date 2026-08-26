@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2016-2025 CERN.
 # SPDX-FileCopyrightText: 2024-2026 Graz University of Technology.
-# SPDX-FileCopyrightText: 2025 KTH Royal Institute of Technology.
+# SPDX-FileCopyrightText: 2025-2026 KTH Royal Institute of Technology.
 # SPDX-FileCopyrightText: 2025 Brian Kelly.
 # SPDX-License-Identifier: MIT
 
@@ -368,6 +368,6 @@ Now define the priority for all previewers by adding the newly created
 from .ext import InvenioPreviewer
 from .proxies import current_previewer
 
-__version__ = "5.2.1"
+__version__ = "5.2.2"
 
 __all__ = ("__version__", "current_previewer", "InvenioPreviewer")
