@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2015-2025 CERN.
+# SPDX-FileCopyrightText: 2015-2026 CERN.
 # SPDX-License-Identifier: MIT
 
 """Markdown rendering using mistune library."""
@@ -48,6 +48,10 @@ def preview(file):
             js_bundles=current_previewer.js_bundles,
             css_bundles=current_previewer.css_bundles,
         )
-    except Exception as e:
-        current_app.logger.exception(str(e))
-        return render_template("invenio_previewer/default.html")
+    except Exception:
+        return render_template(
+            "invenio_previewer/default.html",
+            file=file,
+            js_bundles=current_previewer.js_bundles,
+            css_bundles=current_previewer.css_bundles,
+        )
