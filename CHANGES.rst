@@ -9,6 +9,11 @@
 Changes
 =======
 
+Version v6.1.1 (released 2026-09-28)
+
+- markdown: fix default rendering in case of exceptions
+    * The template rdm_abstract_previewer.html expects a file to be passed to the context
+
 Version v6.1.0 (released 2026-07-31)
 
 - markdown: enable plugins strikethrough, footnotes, table
