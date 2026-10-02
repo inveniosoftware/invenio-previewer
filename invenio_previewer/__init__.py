@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2025 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-FileCopyrightText: 2024-2026 Graz University of Technology.
 # SPDX-FileCopyrightText: 2025 KTH Royal Institute of Technology.
 # SPDX-FileCopyrightText: 2025 Brian Kelly.
@@ -271,6 +271,50 @@ must allow images to load from OSM servers. For example:
               "https://tile.openstreetmap.org",
           ]
 
+Files served from another domain (S3)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Previews have their own Content-Security-Policy
+(:py:data:`invenio_previewer.config.PREVIEWER_CONTENT_SECURITY_POLICY`), which
+only allows loading files from the same domain. When file downloads redirect
+to another domain, the PDF, CSV, GeoJSON, audio and video previewers cannot
+load them. S3 storages do this: downloading a file sends the browser to a
+temporary download link on the S3 domain (a "presigned URL").
+
+If ``S3_ENDPOINT_URL`` of Invenio-S3 is set, for example for MinIO or Ceph, its
+domain is allowed for you. Otherwise, for example with AWS S3, add the domain
+of the redirect to
+:py:data:`invenio_previewer.config.PREVIEWER_EXTERNAL_DOMAINS`:
+
+  .. code-block:: python
+
+    PREVIEWER_EXTERNAL_DOMAINS = ["https://my-bucket.s3.eu-west-1.amazonaws.com"]
+
+To find the domain, request a file download and take the scheme, host and port
+of the ``Location`` header of the redirect, without the path.
+
+The domains are only allowed for fetching files (``connect-src``) and for audio
+and video (``media-src``), never for scripts.
+
+The PDF, CSV and GeoJSON previewers download the file with JavaScript. For
+that, the storage must also allow requests coming from your site's domain.
+The ``invenio s3 create-bucket`` command of Invenio-S3 sets this up.
+
+Browsers enforce every policy a page has, so the site's own policy (for
+example ``APP_DEFAULT_SECURE_HEADERS`` of Invenio-App) must allow the domain as well,
+for example in its ``default-src``:
+
+  .. code-block:: python
+
+    APP_DEFAULT_SECURE_HEADERS = {
+      'content_security_policy': {
+          'default-src': [
+              "'self'",
+              "https://my-bucket.s3.eu-west-1.amazonaws.com",
+          ],
+      },
+    }
+
 Override default previewer
 --------------------------
 
@@ -328,6 +372,26 @@ Let's try to create a ``txt`` file previewer. We need to implement:
 2. ``preview()`` method: called to render the preview.
 3. ``previewable_extensions`` property: string list of previewer's supported
    file extensions.
+4. ``sandbox`` property: set it to ``True`` if the preview can run in a
+   sandbox. The preview then gets the ``sandbox`` rule from
+   :py:data:`invenio_previewer.config.PREVIEWER_SANDBOX`, in two places:
+
+   - its Content-Security-Policy header, if the view returns
+     :func:`invenio_previewer.response.preview_response`, like the views of
+     Invenio-App-RDM do.
+   - its ``<iframe>``, with the ``previewer_iframe_sandbox()`` template
+     function. The ``preview_file`` macro of this module already uses it.
+
+   Previews show files uploaded by users, and a bad file can contain HTML or
+   scripts. Without a sandbox, the preview runs on the site's own domain, so
+   that script could act as the logged-in user. For example, it could call
+   the API on their behalf. In a sandbox, the browser keeps the preview apart
+   from the site, with no access to the user's cookies or session.
+
+   Only set it if the previewer builds the preview on the server, like the
+   text, Markdown and notebook previewers do. A sandboxed preview has no
+   session, so it can't download restricted files in the browser. Previewers
+   that do that, like PDF.js, would break.
 
 Here an example code:
 

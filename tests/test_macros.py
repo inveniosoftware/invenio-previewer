@@ -9,11 +9,14 @@
 import json
 import re
 from html.parser import HTMLParser
+from urllib.parse import urlsplit
 
 import pytest
-from flask import render_template_string, url_for
+from flask import redirect, render_template_string, url_for
 from invenio_db import db
 from invenio_files_rest.models import ObjectVersion
+from invenio_files_rest.storage import PyFSFileStorage
+from invenio_files_rest.views import ObjectResource
 from mock import patch
 from six import BytesIO, b
 
@@ -494,3 +497,167 @@ def test_view_macro_file_list(testapp):
         assert "<td>10 Bytes</td>" in result
         assert 'href="/record/1/files/test2.txt?download=1"' in result
         assert "<td>12.0 MB</td>" in result
+
+
+class ContentSecurityPolicyParser(HTMLParser):
+    """Collect the Content-Security-Policy set in `<meta>` tags."""
+
+    def __init__(self):
+        """Init parser."""
+        super().__init__()
+        self.policies = []
+
+    def handle_starttag(self, tag, attrs):
+        """Store the content of Content-Security-Policy meta tags."""
+        attrs = dict(attrs)
+        if tag == "meta" and attrs.get("http-equiv") == "Content-Security-Policy":
+            self.policies.append(attrs.get("content"))
+
+
+def preview_policies(testapp, record, filename, content):
+    """Preview a file and return the Content-Security-Policy meta tags."""
+    create_file(record, filename, BytesIO(content))
+
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], filename))
+        parser = ContentSecurityPolicyParser()
+        parser.feed(res.get_data(as_text=True))
+        return parser.policies
+
+
+def preview_directives(testapp, record, filename, content):
+    """Preview a file and return the directives of its Content-Security-Policy."""
+    policies = preview_policies(testapp, record, filename, content)
+    assert len(policies) == 1
+    return dict(directive.strip().split(" ", 1) for directive in policies[0].split(";"))
+
+
+def test_preview_content_security_policy(testapp, webassets, record):
+    """Test that previews forbid inline scripts and javascript: URLs."""
+    directives = preview_directives(testapp, record, "test.md", b"# Title")
+    assert directives["script-src"] == "'self'"
+    assert directives["object-src"] == "'none'"
+    # files can only be loaded from the same domain by default
+    assert directives["connect-src"] == "'self'"
+    assert directives["media-src"] == "'self' blob:"
+
+
+def test_preview_content_security_policy_external_domains(testapp, webassets, record):
+    """Test that files can be loaded from other domains, e.g. S3 storages."""
+    sources = {"PREVIEWER_EXTERNAL_DOMAINS": ["https://s3.example.org"]}
+    with patch.dict(testapp.config, sources):
+        directives = preview_directives(testapp, record, "test.pdf", b"Content")
+    assert directives["connect-src"] == "'self' https://s3.example.org"
+    assert directives["media-src"] == "'self' blob: https://s3.example.org"
+    assert directives["script-src"] == "'self'"
+    assert directives["default-src"] == "'self'"
+
+
+def test_preview_content_security_policy_redirect(testapp, webassets, record):
+    """Test that the policy allows files redirected to another domain.
+
+    Storages such as S3 serve files with a redirect to a presigned URL, and
+    browsers check the redirect target against the preview's policy.
+    """
+    s3_url = "https://s3.example.org/bucket/data?X-Amz-Signature=x"
+    send_file = patch.object(
+        PyFSFileStorage, "send_file", return_value=redirect(s3_url)
+    )
+    # permissions are not under test (and need invenio-access)
+    check_permission = patch.object(ObjectResource, "check_object_permission")
+    with send_file, check_permission:
+        directives = preview_directives(testapp, record, "test.pdf", b"Content")
+        with testapp.test_client() as client:
+            res = client.get(f"/record/{record['control_number']}/files/test.pdf")
+        assert res.status_code == 302
+        target = urlsplit(res.headers["Location"])
+        domain = f"{target.scheme}://{target.netloc}"
+        assert domain not in directives["connect-src"].split()
+
+        with patch.dict(testapp.config, {"PREVIEWER_EXTERNAL_DOMAINS": [domain]}):
+            directives = preview_directives(testapp, record, "test.pdf", b"Content")
+        assert domain in directives["connect-src"].split()
+        assert domain in directives["media-src"].split()
+
+
+def test_preview_content_security_policy_disabled(testapp, webassets, record):
+    """Test that the previews policy can be disabled."""
+    config = {
+        "PREVIEWER_CONTENT_SECURITY_POLICY": None,
+        "PREVIEWER_EXTERNAL_DOMAINS": ["https://s3.example.org"],
+    }
+    with patch.dict(testapp.config, config):
+        assert preview_policies(testapp, record, "test.md", b"# Title") == []
+
+
+def test_preview_content_security_policy_external_domains_string(testapp):
+    """Test that external domains can be a space-separated string."""
+    config = {
+        "PREVIEWER_EXTERNAL_DOMAINS": "https://a.example.org https://b.example.org"
+    }
+    with patch.dict(testapp.config, config):
+        policy = testapp.extensions["invenio-previewer"].content_security_policy
+    directives = dict(d.strip().split(" ", 1) for d in policy.split(";"))
+    sources = "https://a.example.org https://b.example.org"
+    assert directives["connect-src"] == f"'self' {sources}"
+    assert directives["media-src"] == f"'self' blob: {sources}"
+
+
+@pytest.mark.parametrize(
+    "default_src, expected",
+    [
+        ("'self' https://cdn.example.org", "'self' https://cdn.example.org"),
+        ("'none'", ""),
+    ],
+)
+def test_preview_content_security_policy_external_domains_default_src(
+    testapp, default_src, expected
+):
+    """Test that missing directives start from default-src, not only 'self'."""
+    config = {
+        "PREVIEWER_CONTENT_SECURITY_POLICY": {
+            "default-src": default_src,
+            "script-src": "'self'",
+        },
+        "PREVIEWER_EXTERNAL_DOMAINS": ["https://s3.example.org"],
+    }
+    with patch.dict(testapp.config, config):
+        policy = testapp.extensions["invenio-previewer"].content_security_policy
+    directives = dict(d.strip().split(" ", 1) for d in policy.split(";"))
+    assert directives["default-src"] == default_src
+    for name in ("connect-src", "media-src"):
+        assert directives[name] == f"{expected} https://s3.example.org".strip()
+
+
+def test_preview_content_security_policy_external_domains_no_default_src(testapp):
+    """Test that external domains do not restrict a policy without default-src."""
+    config = {
+        "PREVIEWER_CONTENT_SECURITY_POLICY": {"script-src": "'self'"},
+        "PREVIEWER_EXTERNAL_DOMAINS": ["https://s3.example.org"],
+    }
+    with patch.dict(testapp.config, config):
+        policy = testapp.extensions["invenio-previewer"].content_security_policy
+    assert policy == "script-src 'self'"
+
+
+def test_preview_content_security_policy_s3_endpoint_url(testapp):
+    """Test that the domain of Invenio-S3's S3_ENDPOINT_URL is allowed."""
+    config = {"S3_ENDPOINT_URL": "https://minio.example.org:9000/some/path"}
+    with patch.dict(testapp.config, config):
+        policy = testapp.extensions["invenio-previewer"].content_security_policy
+    directives = dict(d.strip().split(" ", 1) for d in policy.split(";"))
+    assert directives["connect-src"] == "'self' https://minio.example.org:9000"
+    assert directives["media-src"] == "'self' blob: https://minio.example.org:9000"
+    assert directives["script-src"] == "'self'"
+
+
+def test_preview_content_security_policy_s3_endpoint_url_not_duplicated(testapp):
+    """Test that a domain in both configs is only added once."""
+    config = {
+        "S3_ENDPOINT_URL": "https://minio.example.org",
+        "PREVIEWER_EXTERNAL_DOMAINS": ["https://minio.example.org"],
+    }
+    with patch.dict(testapp.config, config):
+        policy = testapp.extensions["invenio-previewer"].content_security_policy
+    directives = dict(d.strip().split(" ", 1) for d in policy.split(";"))
+    assert directives["connect-src"] == "'self' https://minio.example.org"

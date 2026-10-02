@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2015-2019 CERN.
+# SPDX-FileCopyrightText: 2015-2026 CERN.
 # SPDX-License-Identifier: MIT
 
 """Default rendering returning a default web page."""
@@ -8,6 +8,10 @@ from flask import render_template
 from ..proxies import current_previewer
 
 previewable_extensions = []
+
+# This previewer builds the whole preview on the server, so it still works
+# when the browser isolates it in a sandbox. See PREVIEWER_SANDBOX in config.py.
+sandbox = True
 
 
 def can_preview(file):

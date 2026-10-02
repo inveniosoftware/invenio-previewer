@@ -16,6 +16,10 @@ from ..proxies import current_previewer
 
 previewable_extensions = ["ipynb"]
 
+# This previewer builds the whole preview on the server, so it still works
+# when the browser isolates it in a sandbox. See PREVIEWER_SANDBOX in config.py.
+sandbox = True
+
 # relative paths to the extra CSS of the default `lab` theme
 NBCONVERT_THEME_LAB_EXTRA_CSS = [
     os.path.join("nbconvert", "templates", "lab", "static", "index.css"),

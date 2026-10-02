@@ -44,6 +44,14 @@ Views
    :undoc-members:
 
 
+Response
+--------
+
+.. automodule:: invenio_previewer.response
+   :members:
+   :undoc-members:
+
+
 Webpack
 -------
 

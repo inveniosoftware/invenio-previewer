@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2021 Northwestern University.
+# SPDX-FileCopyrightText: 2026 CERN.
 # SPDX-License-Identifier: MIT
 
 """Text rendering."""
@@ -9,6 +10,10 @@ from ..proxies import current_previewer
 from ..utils import detect_encoding
 
 previewable_extensions = ["txt"]
+
+# This previewer builds the whole preview on the server, so it still works
+# when the browser isolates it in a sandbox. See PREVIEWER_SANDBOX in config.py.
+sandbox = True
 max_bytes = current_app.config.get("PREVIEWER_TXT_MAX_BYTES", -1)
 
 
