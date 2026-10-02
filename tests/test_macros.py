@@ -7,6 +7,7 @@
 """Views module tests."""
 
 import zipfile
+from html.parser import HTMLParser
 
 from flask import render_template_string, url_for
 from invenio_db import db
@@ -408,3 +409,46 @@ def test_view_macro_file_list(testapp):
         assert "<td>10 Bytes</td>" in result
         assert 'href="/record/1/files/test2.txt?download=1"' in result
         assert "<td>12.0 MB</td>" in result
+
+
+class ContentSecurityPolicyParser(HTMLParser):
+    """Collect the Content-Security-Policy set in `<meta>` tags."""
+
+    def __init__(self):
+        """Init parser."""
+        super().__init__()
+        self.policies = []
+
+    def handle_starttag(self, tag, attrs):
+        """Store the content of Content-Security-Policy meta tags."""
+        attrs = dict(attrs)
+        if tag == "meta" and attrs.get("http-equiv") == "Content-Security-Policy":
+            self.policies.append(attrs.get("content"))
+
+
+def preview_policies(testapp, record, filename, content):
+    """Preview a file and return the Content-Security-Policy meta tags."""
+    create_file(record, filename, BytesIO(content))
+
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], filename))
+        parser = ContentSecurityPolicyParser()
+        parser.feed(res.get_data(as_text=True))
+        return parser.policies
+
+
+def test_preview_content_security_policy(testapp, webassets, record):
+    """Test that previews forbid inline scripts and javascript: URLs."""
+    policies = preview_policies(testapp, record, "test.md", b"# Title")
+    assert len(policies) == 1
+    directives = dict(
+        directive.strip().split(" ", 1) for directive in policies[0].split(";")
+    )
+    assert directives["script-src"] == "'self'"
+    assert directives["object-src"] == "'none'"
+
+
+def test_preview_content_security_policy_disabled(testapp, webassets, record):
+    """Test that the previews policy can be disabled."""
+    with patch.dict(testapp.config, {"PREVIEWER_CONTENT_SECURITY_POLICY": None}):
+        assert preview_policies(testapp, record, "test.md", b"# Title") == []

@@ -68,6 +68,12 @@ def preview(pid, record, template=None, **kwargs):
     return default.preview(fileobj)
 
 
+@blueprint.app_template_global()
+def previewer_content_security_policy():
+    """Return the Content-Security-Policy of previews for a `<meta>` tag."""
+    return current_previewer.content_security_policy
+
+
 @blueprint.app_template_test("previewable")
 def is_previewable(extension):
     """Test if a file can be previewed checking its extension."""

@@ -8,6 +8,10 @@
     <title>{{_('Preview')}}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {%- set content_security_policy = previewer_content_security_policy() %}
+    {%- if content_security_policy %}
+    <meta http-equiv="Content-Security-Policy" content="{{ content_security_policy }}">
+    {%- endif %}
     {% block head %}
       {% for css_bundle in css_bundles %}
         {{ webpack[css_bundle] }}
