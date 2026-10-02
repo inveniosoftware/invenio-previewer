@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2019 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-FileCopyrightText: 2021 Northwestern University.
 # SPDX-License-Identifier: MIT
 
@@ -15,6 +15,9 @@ from traitlets.config import Config
 from ..proxies import current_previewer
 
 previewable_extensions = ["ipynb"]
+
+# rendered on the server, so it can be served in a sandbox (opaque origin)
+sandbox = True
 
 # relative paths to the extra CSS of the default `lab` theme
 NBCONVERT_THEME_LAB_EXTRA_CSS = [
