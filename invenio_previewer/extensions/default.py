@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2015-2019 CERN.
+# SPDX-FileCopyrightText: 2015-2026 CERN.
 # SPDX-License-Identifier: MIT
 
 """Default rendering returning a default web page."""
@@ -8,6 +8,9 @@ from flask import render_template
 from ..proxies import current_previewer
 
 previewable_extensions = []
+
+# rendered on the server, so it can be served in a sandbox (opaque origin)
+sandbox = True
 
 
 def can_preview(file):

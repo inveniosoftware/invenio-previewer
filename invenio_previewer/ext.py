@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2025 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-FileCopyrightText: 2025 Graz University of Technology.
 # SPDX-License-Identifier: MIT
 
@@ -93,6 +93,30 @@ class _InvenioPreviewerState(object):
     @property
     def js_bundles(self):
         return self.app.config["PREVIEWER_BASE_JS_BUNDLES"]
+
+    @property
+    def content_security_policy(self):
+        """Return the Content-Security-Policy of previews as a string."""
+        config = self.app.config
+        policy = {
+            name: sources.split() if isinstance(sources, str) else list(sources)
+            for name, sources in (
+                config.get("PREVIEWER_CONTENT_SECURITY_POLICY") or {}
+            ).items()
+        }
+        if not policy:
+            return ""
+
+        # files redirected to another origin, e.g. presigned S3 URLs, are
+        # fetched by pdf.js/csv/geojson and loaded by the audio/video players
+        file_sources = config.get("PREVIEWER_FILE_SOURCES") or []
+        if file_sources:
+            for name in ("connect-src", "media-src"):
+                policy.setdefault(name, ["'self'"]).extend(file_sources)
+
+        return "; ".join(
+            f"{name} {' '.join(sources)}".strip() for name, sources in policy.items()
+        )
 
     def register_previewer(self, name, previewer):
         """Register a previewer in the system."""

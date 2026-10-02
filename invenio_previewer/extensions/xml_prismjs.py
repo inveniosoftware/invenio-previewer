@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2019 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-FileCopyrightText: 2026 KTH Royal Institute of Technology.
 # SPDX-License-Identifier: MIT
 
@@ -13,6 +13,9 @@ from ..proxies import current_previewer
 from ..utils import detect_encoding
 
 previewable_extensions = ["xml"]
+
+# rendered on the server, so it can be served in a sandbox (opaque origin)
+sandbox = True
 
 
 def render(file):

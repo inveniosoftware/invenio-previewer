@@ -16,6 +16,9 @@ from ..proxies import current_previewer
 
 previewable_extensions = ["ipynb"]
 
+# rendered on the server, so it can be served in a sandbox (opaque origin)
+sandbox = True
+
 # relative paths to the extra CSS of the default `lab` theme
 NBCONVERT_THEME_LAB_EXTRA_CSS = [
     os.path.join("nbconvert", "templates", "lab", "static", "index.css"),
