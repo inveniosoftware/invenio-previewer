@@ -14,6 +14,9 @@ from ..utils import detect_encoding
 
 previewable_extensions = ["xml"]
 
+# rendered on the server, so it can be served in a sandbox (opaque origin)
+sandbox = True
+
 
 def render(file):
     """Pretty print the XML file for rendering."""

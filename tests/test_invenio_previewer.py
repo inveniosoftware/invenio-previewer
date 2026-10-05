@@ -163,3 +163,28 @@ def test_iter_container_item_previewers():
     # Empty list is falsy, should fall back to PREVIEWER_PREFERENCE
     result4 = list(ext3.iter_container_item_previewers())
     assert result4 == [previewer3]
+
+
+@pytest.mark.parametrize(
+    "name, sandbox",
+    [
+        ("default", True),
+        ("ipynb", True),
+        ("mistune", True),
+        ("txt", True),
+        ("xml_prismjs", True),
+        # these load the file from its URL, which fails in an opaque origin
+        ("audio_videojs", False),
+        ("csv_papaparsejs", False),
+        ("json_prismjs", False),
+        ("pdfjs", False),
+        ("simple_image", False),
+        ("video_videojs", False),
+        ("web_archive", False),
+        ("zip", False),
+    ],
+)
+def test_previewer_sandbox(name, sandbox):
+    """Test which previewers can be served in a sandbox."""
+    previewer = importlib.import_module(f"invenio_previewer.extensions.{name}")
+    assert getattr(previewer, "sandbox", False) is sandbox

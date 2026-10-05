@@ -9,6 +9,9 @@ from ..proxies import current_previewer
 
 previewable_extensions = []
 
+# rendered on the server, so it can be served in a sandbox (opaque origin)
+sandbox = True
+
 
 def can_preview(file):
     """Return if file type can be previewed."""

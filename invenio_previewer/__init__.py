@@ -328,6 +328,12 @@ Let's try to create a ``txt`` file previewer. We need to implement:
 2. ``preview()`` method: called to render the preview.
 3. ``previewable_extensions`` property: string list of previewer's supported
    file extensions.
+4. ``sandbox`` property (optional): set it to ``True`` if the preview can be
+   served in a sandbox, i.e. in an opaque origin without access to the user's
+   session. Only do so if the previewer renders the file on the server: a
+   sandboxed preview cannot load restricted files from their URL. Applications
+   serving the previews (e.g. Invenio-App-RDM) use it to add the ``sandbox``
+   directive to the preview's Content-Security-Policy.
 
 Here an example code:
 

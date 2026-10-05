@@ -9,6 +9,9 @@ from ..proxies import current_previewer
 from ..utils import detect_encoding
 
 previewable_extensions = ["txt"]
+
+# rendered on the server, so it can be served in a sandbox (opaque origin)
+sandbox = True
 max_bytes = current_app.config.get("PREVIEWER_TXT_MAX_BYTES", -1)
 
 
