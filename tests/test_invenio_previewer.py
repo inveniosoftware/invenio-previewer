@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2025 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-FileCopyrightText: 2025 Graz University of Technology.
 # SPDX-License-Identifier: MIT
 

@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2019 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-License-Identifier: MIT
 
 """View method for Invenio-Records-UI for previewing files."""

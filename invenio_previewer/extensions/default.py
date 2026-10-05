@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2015-2019 CERN.
+# SPDX-FileCopyrightText: 2015-2026 CERN.
 # SPDX-License-Identifier: MIT
 
 """Default rendering returning a default web page."""

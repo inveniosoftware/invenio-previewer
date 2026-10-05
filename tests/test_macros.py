@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2019 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-FileCopyrightText: 2025 New York University.
 # SPDX-FileCopyrightText: 2026 Graz University of Technology.
 # SPDX-FileCopyrightText: 2025 Brian Kelly.

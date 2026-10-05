@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2021 Northwestern University.
+# SPDX-FileCopyrightText: 2026 CERN.
 # SPDX-License-Identifier: MIT
 
 """Text rendering."""

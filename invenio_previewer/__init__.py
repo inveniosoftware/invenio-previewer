@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2025 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-FileCopyrightText: 2024-2026 Graz University of Technology.
 # SPDX-FileCopyrightText: 2025 KTH Royal Institute of Technology.
 # SPDX-FileCopyrightText: 2025 Brian Kelly.
