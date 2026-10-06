@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2025 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-FileCopyrightText: 2025 Graz University of Technology.
 # SPDX-License-Identifier: MIT
 
@@ -93,6 +93,17 @@ class _InvenioPreviewerState(object):
     @property
     def js_bundles(self):
         return self.app.config["PREVIEWER_BASE_JS_BUNDLES"]
+
+    @property
+    def content_security_policy(self):
+        """Returnt he Content-Security-Policy of previwes as a string."""
+        policy = self.app.config.get("PREVIEWER_CONTENT_SECURITY_POLICY") or {}
+        directives = []
+        for name, sources in policy.items():
+            if isinstance(sources, list):
+                sources = " ".join(sources)
+            directives.append(f"{name} {sources}".strip())
+        return "; ".join(directives)
 
     def register_previewer(self, name, previewer):
         """Register a previewer in the system."""

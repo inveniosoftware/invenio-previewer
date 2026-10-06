@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2015-2025 CERN.
+# SPDX-FileCopyrightText: 2015-2026 CERN.
 # SPDX-License-Identifier: MIT
 
 """Package configuration."""
@@ -29,6 +29,25 @@ PREVIEWER_CSV_MAX_BYTES = 100 * 1024 * 1024
 
 PREVIEWER_ZIP_MAX_FILES = 1000
 """Max number of files showed in the ZIP previewer."""
+
+PREVIEWER_CONTENT_SECURITY_POLICY = {
+    "default-src": ["'self'"],
+    "script-src": ["'self'"],
+    "style-src": ["'self'", "'unsafe-inline'"],
+    # images cannot run scirpts, and notebooks, markdown files and the GeoJSON
+    # map tiles load them from other hosts
+    "img-src": ["*", "data:", "blob:"],
+    "font-src": ["'self'", "data:"],
+    "media-src": ["'self'", "blob:"],
+    "worker-src": ["'self'", "blob:"],
+    "object-src": ["'none'"],
+    "base-uri": ["'none'"],
+    "form-action": ["'self'"],
+}
+"""Content-Security-Policy applied to file previws.
+
+`script-src` does not allow `unsafie-inline` nor `unsafe-eval`.
+"""
 
 PREVIEWER_PDF_JS_ENABLE_SCRIPTING = False
 """Enable JavaScript execution in PDF files (disabled by default for security)."""
