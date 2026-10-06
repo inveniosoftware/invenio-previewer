@@ -9,6 +9,10 @@
 Changes
 =======
 
+Version v6.1.2 (released 2026-10-06)
+
+- Sanitize harmful protocols in nbconvert markdown rendering 
+
 Version v6.1.1 (released 2026-09-28)
 
 - markdown: fix default rendering in case of exceptions
