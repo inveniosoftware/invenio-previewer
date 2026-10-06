@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2019 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-FileCopyrightText: 2025 New York University.
 # SPDX-FileCopyrightText: 2026 Graz University of Technology.
 # SPDX-FileCopyrightText: 2025 Brian Kelly.
@@ -6,8 +6,12 @@
 
 """Views module tests."""
 
+import json
+import re
 import zipfile
+from html.parser import HTMLParser
 
+import pytest
 from flask import render_template_string, url_for
 from invenio_db import db
 from invenio_files_rest.models import ObjectVersion
@@ -299,6 +303,83 @@ def test_ipynb_extension(testapp, webassets, record):
         assert "This is an example notebook." in as_text
         # test HTML tag sanitize
         assert "<script>alert();</script>" not in as_text
+
+
+def notebook_with_markdown(source):
+    """Serialize a minimal notebook with a single markdown cell."""
+    notebook = {
+        "cells": [{"cell_type": "markdown", "metadata": {}, "source": source}],
+        "metadata": {},
+        "nbformat": 4,
+        "nbformat_minor": 4,
+    }
+    return json.dumps(notebook).encode("utf-8")
+
+
+class URLAttributeParser(HTMLParser):
+    """Collect the entity-decoded values of URL-bearing attributes."""
+
+    URL_ATTRIBUTES = {"href", "src", "xlink:href", "action", "formaction"}
+
+    def __init__(self):
+        """Init the parser."""
+        super().__init__()
+        self.urls = []
+
+    def handle_starttag(self, tag, attrs):
+        """Store URL attribute values of every tag."""
+        for name, value in attrs:
+            if name in self.URL_ATTRIBUTES and value:
+                self.urls.append(value)
+
+
+HARMFUL_URL_PREFIXES = ("javascript:", "vbscript:", "data:text/html")
+# Spaces tabs, newelines
+WHITESPACE_AND_CONTROL_CHARS = re.compile(r"[\x00-\x20]")
+
+
+def is_harmful_url(url):
+    """Check if a URL would execute script when followed by a browser."""
+    url = WHITESPACE_AND_CONTROL_CHARS.sub("", url).lower()
+    return url.startswith(HARMFUL_URL_PREFIXES)
+
+
+@pytest.mark.parametrize(
+    "source",
+    [
+        "[click](javascript:alert(document.domain))",
+        "[click](JaVaScriPt:alert(document.domain))",
+        "[click](javascript&#58alert(document.domain))",
+        "![img](javascript:alert(document.domain))",
+        "<javascript:alert(document.domain)>",
+        "[click][ref]\n\n[ref]: javascript:alert(document.domain)",
+        # base64 of "<script>alert(1)</script>"
+        "[click](data:text/html;bas64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==)",
+        '<a href="javascript:alert(document.domain")>click</a>',
+    ],
+)
+def test_ipynb_markdown_harmful_links(testapp, webassets, record, source):
+    """Tests that markdown cannon render script executing URLs"""
+    create_file(record, "test.ipynb", BytesIO(notebook_with_markdown(source)))
+
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], "test.ipynb"))
+        parser = URLAttributeParser()
+        parser.feed(res.get_data(as_text=True))
+        # Check there are no harmful urls.
+        assert [url for url in parser.urls if is_harmful_url(url)] == []
+
+
+def test_ipynb_markdown_safe_links(testapp, webassets, record):
+    """Test that markdown can still render safe links."""
+    source = (
+        "# Title\n\n"
+        "[zenodo](https://zenodo.org) [notes](notes.md) "
+        "![img](https://zenodo.org/logo.png)"
+    )
+    create_file(record, "test.ipynb", BytesIO(notebook_with_markdown(source)))
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], "test.ipynb"))
 
 
 def test_simple_image_extension(testapp, webassets, record):
