@@ -28,10 +28,13 @@ def _check_file_count(fp, max_files_count):
 def make_tree(file):
     """Create tree structure from ZIP archive."""
     max_files_count = current_app.config.get("PREVIEWER_ZIP_MAX_FILES", 1000)
+    max_file_size = current_app.config.get("PREVIEWER_ZIP_MAX_BYTES", 100 * 1024 * 1024)
     tree = {"type": "folder", "id": -1, "children": {}}
 
     try:
         with file.open() as fp:
+            if file.size > max_file_size:
+                raise zipfile.LargeZipFile("Zip file is too large.")
             _check_file_count(fp, max_files_count)
             zf = zipfile.ZipFile(fp)
             # Detect filenames encoding.
