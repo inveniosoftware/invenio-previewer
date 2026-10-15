@@ -9,19 +9,34 @@ import zipfile
 
 from charset_normalizer import detect
 from flask import current_app, render_template
+from invenio_i18n import gettext as _
 
 from ..proxies import current_previewer
 
 previewable_extensions = ["zip"]
 
 
+def _check_file_count(fp, max_files_count):
+    """Raise LargeZipFile if the ZIP archive has too many files to be previewed."""
+    endrec = zipfile._EndRecData(fp)
+    if not endrec:
+        raise zipfile.BadZipFile(_("File is not a ZIP file"))
+    files_count = endrec[zipfile._ECD_ENTRIES_TOTAL]
+    if files_count > max_files_count:
+        raise zipfile.LargeZipFile(_("Too many files inside the ZIP file."))
+
+
 def make_tree(file):
     """Create tree structure from ZIP archive."""
     max_files_count = current_app.config.get("PREVIEWER_ZIP_MAX_FILES", 1000)
+    max_file_size = current_app.config.get("PREVIEWER_ZIP_MAX_BYTES", 100 * 1024 * 1024)
     tree = {"type": "folder", "id": -1, "children": {}}
 
     try:
+        if file.size > max_file_size:
+            raise zipfile.LargeZipFile(_("ZIP file is too large to be previewed."))
         with file.open() as fp:
+            _check_file_count(fp, max_files_count)
             zf = zipfile.ZipFile(fp)
             # Detect filenames encoding.
             sample = " ".join(zf.namelist()[:max_files_count])
@@ -29,8 +44,6 @@ def make_tree(file):
                 sample = sample.encode("utf-16be")
             encoding = detect(sample).get("encoding", "utf-8")
             for i, info in enumerate(zf.infolist()):
-                if i > max_files_count:
-                    raise BufferError("Too many files inside the ZIP file.")
                 comps = info.filename.split(os.sep)
                 node = tree
                 for c in comps:
@@ -48,13 +61,11 @@ def make_tree(file):
                         }
                     node = node["children"][c]
                 node["size"] = info.file_size
-    except BufferError:
-        return tree, True, None
-    except zipfile.LargeZipFile:
-        return tree, False, "Zipfile is too large to be previewed."
+    except (zipfile.BadZipFile, zipfile.LargeZipFile) as e:
+        return tree, False, str(e)
     except Exception as e:
         current_app.logger.warning(str(e), exc_info=True)
-        return tree, False, "Zipfile is not previewable."
+        return tree, False, _("ZIP file is not previewable.")
 
     return tree, False, None
 
