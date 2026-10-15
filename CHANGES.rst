@@ -9,6 +9,17 @@
 Changes
 =======
 
+Version v6.2.0 (released 2026-10-15)
+
+- feat(zip): do not preview archives with too many files
+    * zipfile.ZipFile parses the whole central directory upfront,
+      before the PREVIEWER_ZIP_MAX_FILES limit was applied.
+      Now we check the number of files in the end of
+      central directory record first.
+- feat(zip): add file size check
+- feat(zip): add translations to zip previewer
+- feat(zip): add zip previewer test
+
 Version v6.1.2 (released 2026-10-06)
 
 - Sanitize harmful protocols in nbconvert markdown rendering 
