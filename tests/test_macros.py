@@ -8,7 +8,6 @@
 
 import json
 import re
-import zipfile
 from html.parser import HTMLParser
 
 import pytest
@@ -112,13 +111,19 @@ def test_zip_extension(testapp, webassets, record, zip_fp):
         assert "Example.txt" in res.get_data(as_text=True)
         assert "Lé UTF8 test.txt" in res.get_data(as_text=True)
 
-        with patch("zipfile.ZipFile", side_effect=zipfile.LargeZipFile):
+        with patch.dict(testapp.config, {"PREVIEWER_ZIP_MAX_FILES": 1}):
             res = client.get(preview_url(record["control_number"], "test.zip"))
-            assert "Zipfile is too large" in res.get_data(as_text=True)
+            assert "Too many files inside the ZIP file." in res.get_data(as_text=True)
+
+        with patch.dict(testapp.config, {"PREVIEWER_ZIP_MAX_BYTES": 1}):
+            res = client.get(preview_url(record["control_number"], "test.zip"))
+            assert "ZIP file is too large to be previewed." in res.get_data(
+                as_text=True
+            )
 
         with patch("zipfile.ZipFile", side_effect=Exception):
             res = client.get(preview_url(record["control_number"], "test.zip"))
-            assert "Zipfile is not previewable" in res.get_data(as_text=True)
+            assert "ZIP file is not previewable." in res.get_data(as_text=True)
 
 
 def test_json_extension_valid_geojson_file(testapp, webassets, record):
