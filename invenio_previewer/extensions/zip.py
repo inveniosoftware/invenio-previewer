@@ -15,6 +15,16 @@ from ..proxies import current_previewer
 previewable_extensions = ["zip"]
 
 
+def _check_file_count(fp, max_files_count):
+    """Raise LargeZipFile if the ZIP archive has too many files to be previewed."""
+    endrec = zipfile._EndRecData(fp)
+    if not endrec:
+        raise zipfile.BadZipFile("File is not a zip file")
+    files_count = endrec[zipfile._ECD_ENTRIES_TOTAL]
+    if files_count > max_files_count:
+        raise zipfile.LargeZipFile("Too many files inside the ZIP file.")
+
+
 def make_tree(file):
     """Create tree structure from ZIP archive."""
     max_files_count = current_app.config.get("PREVIEWER_ZIP_MAX_FILES", 1000)
@@ -22,6 +32,7 @@ def make_tree(file):
 
     try:
         with file.open() as fp:
+            _check_file_count(fp, max_files_count)
             zf = zipfile.ZipFile(fp)
             # Detect filenames encoding.
             sample = " ".join(zf.namelist()[:max_files_count])
