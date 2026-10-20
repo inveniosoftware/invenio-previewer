@@ -50,7 +50,12 @@ def render(file):
 
 def can_preview(file):
     """Determine if file can be previewed."""
-    return file.is_local() and file.has_extensions(".ipynb")
+    max_file_size = current_app.config.get(
+        "PREVIEWER_MAX_FILE_SIZE_BYTES", 1 * 1024 * 1024
+    )
+    return (
+        file.is_local() and file.has_extensions(".ipynb") and file.size <= max_file_size
+    )
 
 
 def preview(file):
