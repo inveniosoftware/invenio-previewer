@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2019 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-License-Identifier: MIT
 
 """View method for Invenio-Records-UI for previewing files."""
@@ -66,6 +66,12 @@ def preview(pid, record, template=None, **kwargs):
                     exc_info=True,
                 )
     return default.preview(fileobj)
+
+
+@blueprint.app_template_global()
+def previewer_content_security_policy():
+    """Return the Content-Security-Policy of previews for a `<meta>` tag."""
+    return current_previewer.content_security_policy
 
 
 @blueprint.app_template_test("previewable")
