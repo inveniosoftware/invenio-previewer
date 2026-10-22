@@ -42,7 +42,9 @@ def render(file):
     # but passing the `lexer_options` keyword arguments allows us to
     # override this functionality.
     c.HTMLExporter.lexer_options = {"allow_harmful_protocols": False}
-    html_exporter = HTMLExporter(config=c, embed_images=True)
+    # Keep False: with embed_images=True, nbconvert inlines relative image paths
+    # from the server's disk, so an uploaded notebook could read local files.
+    html_exporter = HTMLExporter(config=c, embed_images=False)
     html_exporter.template_file = "base"
     body, resources = html_exporter.from_notebook_node(notebook)
     return body, resources
