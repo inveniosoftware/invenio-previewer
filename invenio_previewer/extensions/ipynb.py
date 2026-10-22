@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2019 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-FileCopyrightText: 2021 Northwestern University.
 # SPDX-License-Identifier: MIT
 
@@ -37,7 +37,8 @@ def render(file):
     c.SanitizeHTML.tags = current_app.config.get("ALLOWED_HTML_TAGS", [])
     c.SanitizeHTML.attributes = current_app.config.get("ALLOWED_HTML_ATTRS", {})
     c.SanitizeHTML.strip = True
-    html_exporter = HTMLExporter(config=c, embed_images=True)
+    # do not inline relative image paths: they resolve against the server's disk
+    html_exporter = HTMLExporter(config=c, embed_images=False)
     html_exporter.template_file = "base"
     body, resources = html_exporter.from_notebook_node(notebook)
     return body, resources

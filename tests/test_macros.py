@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2019 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-FileCopyrightText: 2025 New York University.
 # SPDX-FileCopyrightText: 2026 Graz University of Technology.
 # SPDX-FileCopyrightText: 2025 Brian Kelly.
@@ -6,6 +6,8 @@
 
 """Views module tests."""
 
+import base64
+import json
 import zipfile
 
 from flask import render_template_string, url_for
@@ -299,6 +301,74 @@ def test_ipynb_extension(testapp, webassets, record):
         assert "This is an example notebook." in as_text
         # test HTML tag sanitize
         assert "<script>alert();</script>" not in as_text
+
+
+def notebook(cells):
+    """Serialize a minimal notebook with the given cells."""
+    return json.dumps(
+        {"cells": cells, "metadata": {}, "nbformat": 4, "nbformat_minor": 5}
+    ).encode("utf-8")
+
+
+PNG_B64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+
+
+def test_ipynb_does_not_inline_local_files(
+    testapp, webassets, record, tmp_path, monkeypatch
+):
+    """Relative image paths must not inline files from the server."""
+    marker = b"server-local-file-content"
+    (tmp_path / "secret.txt").write_bytes(marker)
+    monkeypatch.chdir(tmp_path)
+    source = '![x](secret.txt)\n\n<img src="secret.txt">'
+    create_file(
+        record,
+        "test.ipynb",
+        BytesIO(
+            notebook([{"cell_type": "markdown", "metadata": {}, "source": source}])
+        ),
+    )
+
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], "test.ipynb"))
+        as_text = res.get_data(as_text=True)
+        assert res.status_code == 200
+        assert base64.b64encode(marker).decode("ascii") not in as_text
+        assert "data:text/plain" not in as_text
+
+
+def test_ipynb_renders_images(testapp, webassets, record):
+    """Pasted images, plot outputs and image URLs are still rendered."""
+    url = "https://example.org/figure.png"
+    cells = [
+        {"cell_type": "markdown", "metadata": {}, "source": f"![remote]({url})"},
+        {
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": "![pasted](attachment:pasted.png)",
+            "attachments": {"pasted.png": {"image/png": PNG_B64}},
+        },
+        {
+            "cell_type": "code",
+            "execution_count": 1,
+            "metadata": {},
+            "source": "plot()",
+            "outputs": [
+                {
+                    "output_type": "display_data",
+                    "data": {"image/png": PNG_B64},
+                    "metadata": {},
+                }
+            ],
+        },
+    ]
+    create_file(record, "test.ipynb", BytesIO(notebook(cells)))
+
+    with testapp.test_client() as client:
+        res = client.get(preview_url(record["control_number"], "test.ipynb"))
+        as_text = res.get_data(as_text=True)
+        assert as_text.count(f"data:image/png;base64,{PNG_B64}") == 2
+        assert f'src="{url}"' in as_text
 
 
 def test_simple_image_extension(testapp, webassets, record):
