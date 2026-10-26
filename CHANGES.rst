@@ -9,6 +9,10 @@
 Changes
 =======
 
+Version v6.2.1 (released 2026-10-26)
+
+- fix: enforce size limits for notebook and Markdown previews
+
 Version v6.2.0 (released 2026-10-15)
 
 - feat(zip): do not preview archives with too many files
