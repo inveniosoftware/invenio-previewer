@@ -293,6 +293,19 @@ and video (``media-src``), never for scripts. The storage must also allow
 cross-origin ``GET`` requests (CORS) for the PDF, CSV and GeoJSON previewers,
 e.g. with ``invenio s3 create-bucket`` of Invenio-S3.
 
+Browsers enforce every policy a page has, so the site's own policy (e.g.
+``APP_DEFAULT_SECURE_HEADERS`` of Invenio-App) must allow the origin as well,
+for example in its ``default-src``:
+
+  .. code-block:: python
+
+    APP_DEFAULT_SECURE_HEADERS = {
+      'content_security_policy': {
+          'default-src': [
+              "'self'",
+              "https://my-bucket.s3.eu-west-1.amazonaws.com",
+          ]
+
 Override default previewer
 --------------------------
 

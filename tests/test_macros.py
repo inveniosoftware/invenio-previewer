@@ -588,3 +588,51 @@ def test_preview_content_security_policy_disabled(testapp, webassets, record):
     }
     with patch.dict(testapp.config, config):
         assert preview_policies(testapp, record, "test.md", b"# Title") == []
+
+
+def test_preview_content_security_policy_file_sources_string(testapp):
+    """Test that file sources can be a space-separated string."""
+    config = {"PREVIEWER_FILE_SOURCES": "https://a.example.org https://b.example.org"}
+    with patch.dict(testapp.config, config):
+        policy = testapp.extensions["invenio-previewer"].content_security_policy
+    directives = dict(d.strip().split(" ", 1) for d in policy.split(";"))
+    sources = "https://a.example.org https://b.example.org"
+    assert directives["connect-src"] == f"'self' {sources}"
+    assert directives["media-src"] == f"'self' blob: {sources}"
+
+
+@pytest.mark.parametrize(
+    "default_src, expected",
+    [
+        ("'self' https://cdn.example.org", "'self' https://cdn.example.org"),
+        ("'none'", ""),
+    ],
+)
+def test_preview_content_security_policy_file_sources_default_src(
+    testapp, default_src, expected
+):
+    """Test that missing directives start from default-src, not only 'self'."""
+    config = {
+        "PREVIEWER_CONTENT_SECURITY_POLICY": {
+            "default-src": default_src,
+            "script-src": "'self'",
+        },
+        "PREVIEWER_FILE_SOURCES": ["https://s3.example.org"],
+    }
+    with patch.dict(testapp.config, config):
+        policy = testapp.extensions["invenio-previewer"].content_security_policy
+    directives = dict(d.strip().split(" ", 1) for d in policy.split(";"))
+    assert directives["default-src"] == default_src
+    for name in ("connect-src", "media-src"):
+        assert directives[name] == f"{expected} https://s3.example.org".strip()
+
+
+def test_preview_content_security_policy_file_sources_no_default_src(testapp):
+    """Test that file sources do not restrict a policy without default-src."""
+    config = {
+        "PREVIEWER_CONTENT_SECURITY_POLICY": {"script-src": "'self'"},
+        "PREVIEWER_FILE_SOURCES": ["https://s3.example.org"],
+    }
+    with patch.dict(testapp.config, config):
+        policy = testapp.extensions["invenio-previewer"].content_security_policy
+    assert policy == "script-src 'self'"

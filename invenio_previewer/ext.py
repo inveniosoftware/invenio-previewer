@@ -98,8 +98,13 @@ class _InvenioPreviewerState(object):
     def content_security_policy(self):
         """Return the Content-Security-Policy of previews as a string."""
         config = self.app.config
+
+        def as_list(sources):
+            """Sources can be a list or a space-separated string."""
+            return sources.split() if isinstance(sources, str) else list(sources or [])
+
         policy = {
-            name: sources.split() if isinstance(sources, str) else list(sources)
+            name: as_list(sources)
             for name, sources in (
                 config.get("PREVIEWER_CONTENT_SECURITY_POLICY") or {}
             ).items()
@@ -109,10 +114,16 @@ class _InvenioPreviewerState(object):
 
         # files redirected to another origin, e.g. presigned S3 URLs, are
         # fetched by pdf.js/csv/geojson and loaded by the audio/video players
-        file_sources = config.get("PREVIEWER_FILE_SOURCES") or []
-        if file_sources:
-            for name in ("connect-src", "media-src"):
-                policy.setdefault(name, ["'self'"]).extend(file_sources)
+        file_sources = as_list(config.get("PREVIEWER_FILE_SOURCES"))
+        for name in ("connect-src", "media-src") if file_sources else ():
+            if name not in policy:
+                if "default-src" not in policy:
+                    # without default-src, any origin is already allowed
+                    continue
+                # the browser falls back to default-src for a missing
+                # directive, so start from it to not restrict it further
+                policy[name] = [s for s in policy["default-src"] if s != "'none'"]
+            policy[name].extend(file_sources)
 
         return "; ".join(
             f"{name} {' '.join(sources)}".strip() for name, sources in policy.items()
