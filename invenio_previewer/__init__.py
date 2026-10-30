@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2025 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-FileCopyrightText: 2024-2026 Graz University of Technology.
 # SPDX-FileCopyrightText: 2025 KTH Royal Institute of Technology.
 # SPDX-FileCopyrightText: 2025 Brian Kelly.
@@ -271,6 +271,41 @@ must allow images to load from OSM servers. For example:
               "https://tile.openstreetmap.org",
           ]
 
+Files served from another origin (S3)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Previews have their own Content-Security-Policy
+(:py:data:`invenio_previewer.config.PREVIEWER_CONTENT_SECURITY_POLICY`), which
+only allows loading files from the same origin. When file downloads redirect
+to another origin, as S3 storages do with presigned URLs, the PDF, CSV,
+GeoJSON, audio and video previewers cannot load them. Allow the origin of the
+redirect with :py:data:`invenio_previewer.config.PREVIEWER_FILE_SOURCES`:
+
+  .. code-block:: python
+
+    PREVIEWER_FILE_SOURCES = ["https://my-bucket.s3.eu-west-1.amazonaws.com"]
+
+To find the origin, request a file download and take the scheme, host and port
+of the ``Location`` header of the redirect, without the path.
+
+The origins are only allowed for fetching files (``connect-src``) and for audio
+and video (``media-src``), never for scripts. The storage must also allow
+cross-origin ``GET`` requests (CORS) for the PDF, CSV and GeoJSON previewers,
+e.g. with ``invenio s3 create-bucket`` of Invenio-S3.
+
+Browsers enforce every policy a page has, so the site's own policy (e.g.
+``APP_DEFAULT_SECURE_HEADERS`` of Invenio-App) must allow the origin as well,
+for example in its ``default-src``:
+
+  .. code-block:: python
+
+    APP_DEFAULT_SECURE_HEADERS = {
+      'content_security_policy': {
+          'default-src': [
+              "'self'",
+              "https://my-bucket.s3.eu-west-1.amazonaws.com",
+          ]
+
 Override default previewer
 --------------------------
 
@@ -328,6 +363,12 @@ Let's try to create a ``txt`` file previewer. We need to implement:
 2. ``preview()`` method: called to render the preview.
 3. ``previewable_extensions`` property: string list of previewer's supported
    file extensions.
+4. ``sandbox`` property (optional): set it to ``True`` if the preview can be
+   served in a sandbox, i.e. in an opaque origin without access to the user's
+   session. Only do so if the previewer renders the file on the server: a
+   sandboxed preview cannot load restricted files from their URL. Applications
+   serving the previews (e.g. Invenio-App-RDM) use it to add the ``sandbox``
+   directive to the preview's Content-Security-Policy.
 
 Here an example code:
 
