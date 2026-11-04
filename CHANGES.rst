@@ -9,6 +9,10 @@
 Changes
 =======
 
+Version v7.0.0 (released 2026-11-04)
+
+- feat(pdfjs): bump pdfjs-dist to v6.x
+
 Version v6.2.1 (released 2026-10-26)
 
 - fix: enforce size limits for notebook and Markdown previews
