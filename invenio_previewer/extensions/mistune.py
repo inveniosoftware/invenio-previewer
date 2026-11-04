@@ -11,6 +11,9 @@ from ..utils import detect_encoding
 
 previewable_extensions = ["md"]
 
+# rendered on the server, so it can be served in a sandbox (opaque origin)
+sandbox = True
+
 # See: https://mistune.lepture.com/en/latest/guide.html
 # Using the same plugins as the ones enabled by default
 # in the `html()` method.
