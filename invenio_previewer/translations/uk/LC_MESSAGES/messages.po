@@ -7,7 +7,6 @@
 # Translators:
 # Vasyl Ostrovskyi <vasyusya@yahoo.com>, 2023
 # 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: invenio-previewer 2.2.1\n"
