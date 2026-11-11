@@ -8,7 +8,6 @@
 # Martin Jantson <martinjantson97@gmail.com>, 2022
 # Mart Jantson, 2022
 # 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: invenio-previewer 2.2.1\n"
