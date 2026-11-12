@@ -7,12 +7,12 @@
 """Views module tests."""
 
 import zipfile
+from io import BytesIO
 
 from flask import render_template_string, url_for
 from invenio_db import db
 from invenio_files_rest.models import ObjectVersion
 from mock import patch
-from six import BytesIO, b
 
 
 def create_file(record, filename, stream):
@@ -124,7 +124,7 @@ def test_json_extension_valid_geojson_file(testapp, webassets, record):
         '[{"type":"Feature","geometry": {"type": "Point",'
         '"coordinates": [102.0, 0.5]},"properties":{}}]}'
     )
-    create_file(record, "geo.geojson", BytesIO(b(json_data)))
+    create_file(record, "geo.geojson", BytesIO(json_data.encode("utf-8")))
 
     with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "geo.geojson"))
@@ -139,7 +139,7 @@ def test_json_extension_valid_geojson_file2(testapp, webassets, record):
         '[{"type":"Feature","geometry": {"type": "Point",'
         '"coordinates": [102.0, 0.5]},"properties":{}}]}'
     )
-    create_file(record, "geo.json", BytesIO(b(json_data)))
+    create_file(record, "geo.json", BytesIO(json_data.encode("utf-8")))
 
     with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "geo.json"))
@@ -154,7 +154,7 @@ def test_json_extension_valid_object_file(testapp, webassets, record):
         '"flt":3.14159,"lst":[1,2,3],'
         '"obj":{"field":"<script>alert(1)</script>","num":4}}'
     )
-    create_file(record, "test_object.json", BytesIO(b(json_data)))
+    create_file(record, "test_object.json", BytesIO(json_data.encode("utf-8")))
 
     with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test_object.json"))
@@ -187,7 +187,7 @@ def test_json_extension_valid_array_file(testapp, webassets, record):
         '{"name":"Second item","num":2},'
         '{"name":"Third item","num":3}]'
     )
-    create_file(record, "test_array.json", BytesIO(b(json_data)))
+    create_file(record, "test_array.json", BytesIO(json_data.encode("utf-8")))
 
     with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test_array.json"))
@@ -215,7 +215,7 @@ def test_json_extension_valid_array_file(testapp, webassets, record):
 def test_json_extension_invalid_file(testapp, webassets, record):
     """Test view with JSON files."""
     wrong_json_data = '{"name":"invenio","num'
-    create_file(record, "test_wrong.json", BytesIO(b(wrong_json_data)))
+    create_file(record, "test_wrong.json", BytesIO(wrong_json_data.encode("utf-8")))
 
     with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test_wrong.json"))
@@ -226,7 +226,7 @@ def test_max_file_size(testapp, webassets, record):
     """Test file size limitation."""
     max_file_size = testapp.config.get("PREVIEWER_MAX_FILE_SIZE_BYTES", 1 * 1024 * 1024)
     too_large_string = "1" * (max_file_size + 1)
-    create_file(record, "test.json", BytesIO(b(too_large_string)))
+    create_file(record, "test.json", BytesIO(too_large_string.encode("utf-8")))
 
     with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test.json"))
@@ -325,7 +325,7 @@ def test_txt_extension_large_file(testapp, webassets, record):
     """Text .txt file viewer for large files."""
     max_file_size = testapp.config.get("PREVIEWER_TXT_MAX_BYTES", 1 * 1024 * 1024)
     too_large_string = "1" * (max_file_size + 1)
-    create_file(record, "test1.txt", BytesIO(b(too_large_string)))
+    create_file(record, "test1.txt", BytesIO(too_large_string.encode("utf-8")))
 
     with testapp.test_client() as client:
         res = client.get(preview_url(record["control_number"], "test1.txt"))

@@ -128,7 +128,7 @@ record. Therefore, before creating the record, we need to initialize a
 default location:
 
 >>> import tempfile
->>> from six import BytesIO
+>>> from io import BytesIO
 >>> from invenio_files_rest.models import Bucket, Location, \
 ...    ObjectVersion
 >>> from invenio_records_files.api import RecordsBuckets
