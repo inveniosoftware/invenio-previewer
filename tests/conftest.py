@@ -9,6 +9,7 @@ import os
 import shutil
 import tempfile
 import uuid
+from io import BytesIO
 from zipfile import ZipFile
 
 import pytest
@@ -27,7 +28,6 @@ from invenio_records import InvenioRecords
 from invenio_records_files.api import Record
 from invenio_records_ui import InvenioRecordsUI
 from invenio_records_ui.views import create_blueprint_from_app
-from six import BytesIO
 
 from invenio_previewer import InvenioPreviewer
 
