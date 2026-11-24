@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2015-2025 CERN.
+# SPDX-FileCopyrightText: 2015-2026 CERN.
 # SPDX-License-Identifier: MIT
 
 """Package configuration."""
@@ -32,6 +32,81 @@ PREVIEWER_ZIP_MAX_FILES = 1000
 
 PREVIEWER_ZIP_MAX_BYTES = 100 * 1024 * 1024
 """Max size of ZIP file showed in the ZIP previewer."""
+
+PREVIEWER_CONTENT_SECURITY_POLICY = {
+    "default-src": ["'self'"],
+    "script-src": ["'self'"],
+    "style-src": ["'self'", "'unsafe-inline'"],
+    # Allow images from any site. Notebooks, Markdown files and GeoJSON map
+    # tiles show images from other sites, and an image can't run code.
+    "img-src": ["*", "data:", "blob:"],
+    "font-src": ["'self'", "data:"],
+    "connect-src": ["'self'"],
+    "media-src": ["'self'", "blob:"],
+    "worker-src": ["'self'", "blob:"],
+    "object-src": ["'none'"],
+    "base-uri": ["'none'"],
+    "form-action": ["'self'"],
+}
+"""Content-Security-Policy applied to file previews.
+
+This policy goes in a ``<meta http-equiv="Content-Security-Policy">`` tag in
+the preview page. It is not sent as an HTTP header. Browsers ignore some rules
+in a meta tag, like ``frame-ancestors``, ``report-uri`` and ``sandbox``. Those
+have to be set in the HTTP header instead.
+:func:`invenio_previewer.response.preview_response` does this for ``sandbox``.
+
+``script-src`` has neither ``'unsafe-inline'`` nor ``'unsafe-eval'``, so
+scripts written inside the page and ``eval()`` are blocked. Only script files
+from our own site run.
+
+Set it to ``None`` to turn the policy off.
+"""
+
+PREVIEWER_EXTERNAL_DOMAINS = []
+"""Set the external domains that previews may load files from.
+
+You need this when file downloads redirect to another domain, for example to
+the links of an S3 storage. Use the scheme, host and port of the redirect,
+without the path. For example
+``["https://my-bucket.s3.eu-west-1.amazonaws.com"]``.
+
+If ``S3_ENDPOINT_URL`` of Invenio-S3 is set, its domain is added for you. So
+you only need this for AWS S3, where ``S3_ENDPOINT_URL`` is not set, or when
+the browser reaches the storage on a different domain than
+``S3_ENDPOINT_URL``.
+
+The domains are only added to ``connect-src`` and ``media-src``. Files from
+them can be downloaded and played, but never run as scripts. Use the exact
+host of your bucket, not a wildcard like ``https://*.s3.amazonaws.com``, which
+allows any bucket.
+"""
+
+PREVIEWER_SANDBOX = "allow-scripts allow-popups allow-popups-to-escape-sandbox"
+"""Sandbox for previews whose previewer has ``sandbox = True``.
+
+The browser isolates a sandboxed preview from the site: it has no access to
+the user's cookies or session. So a malicious uploaded file can't act as the
+logged-in user.
+
+The value is a list of things the sandbox still allows:
+
+- ``allow-scripts``: some previews need JavaScript, for example for code
+  highlighting. This is safe, because the scripts run isolated from the site.
+- ``allow-popups allow-popups-to-escape-sandbox``: links in a preview can
+  open in a new tab, as a normal page.
+
+Never add ``allow-same-origin``. Together with ``allow-scripts`` it lets the
+preview's scripts remove the sandbox, so the preview is not isolated anymore.
+
+This value is used in two places:
+
+- the ``sandbox`` rule of the preview's Content-Security-Policy HTTP header,
+  set by :func:`invenio_previewer.response.preview_response`.
+- the ``sandbox`` attribute of the preview ``<iframe>``.
+
+Set it to ``None`` to turn sandboxing off.
+"""
 
 PREVIEWER_PDF_JS_ENABLE_SCRIPTING = False
 """Enable JavaScript execution in PDF files (disabled by default for security)."""

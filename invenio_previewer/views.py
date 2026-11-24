@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2019 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-License-Identifier: MIT
 
 """View method for Invenio-Records-UI for previewing files."""
@@ -66,6 +66,28 @@ def preview(pid, record, template=None, **kwargs):
                     exc_info=True,
                 )
     return default.preview(fileobj)
+
+
+@blueprint.app_template_global()
+def previewer_content_security_policy():
+    """Return the Content-Security-Policy of previews for a `<meta>` tag."""
+    return current_previewer.content_security_policy
+
+
+@blueprint.app_template_global()
+def previewer_iframe_sandbox(filename, previewer_name=None):
+    """Return the ``sandbox`` attribute for a file's preview ``<iframe>``.
+
+    Returns ``""`` if the file's preview is not sandboxed. For example::
+
+        <iframe src="..." sandbox="{{ previewer_iframe_sandbox("notes.txt") }}">
+
+    This is a second layer of protection. The main one is the ``sandbox`` rule
+    in the preview's Content-Security-Policy header, which
+    :func:`invenio_previewer.response.preview_response` sets.
+    """
+    previewer = current_previewer.find_previewer_for_file_name(filename, previewer_name)
+    return current_previewer.sandbox_for_previewer(previewer)
 
 
 @blueprint.app_template_test("previewable")

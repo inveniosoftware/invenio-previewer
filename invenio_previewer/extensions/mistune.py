@@ -11,6 +11,10 @@ from ..utils import detect_encoding
 
 previewable_extensions = ["md"]
 
+# This previewer builds the whole preview on the server, so it still works
+# when the browser isolates it in a sandbox. See PREVIEWER_SANDBOX in config.py.
+sandbox = True
+
 # See: https://mistune.lepture.com/en/latest/guide.html
 # Using the same plugins as the ones enabled by default
 # in the `html()` method.

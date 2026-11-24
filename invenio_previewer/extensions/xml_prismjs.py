@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2019 CERN.
+# SPDX-FileCopyrightText: 2016-2026 CERN.
 # SPDX-FileCopyrightText: 2026 KTH Royal Institute of Technology.
 # SPDX-License-Identifier: MIT
 
@@ -13,6 +13,10 @@ from ..proxies import current_previewer
 from ..utils import detect_encoding
 
 previewable_extensions = ["xml"]
+
+# This previewer builds the whole preview on the server, so it still works
+# when the browser isolates it in a sandbox. See PREVIEWER_SANDBOX in config.py.
+sandbox = True
 
 
 def render(file):
