@@ -290,11 +290,18 @@ The default previewer for a file can be overridden in two ways:
 Enabling Web Archives
 ---------------------
 
-Note: Enabling this previewer could potentially execute malicious content if
-an unknown vulnerability exists, even though it comes with Content Security
-Policy (CSP) rules to mitigate many common risks. When accpeting uploads from
-untrusted users, the safest approach is to expose and render the previewer
-under a different domain or sub-domain.
+.. important::
+
+   **Serve the Web Archive previewer from a separate domain.**
+
+   To replay web archives, the previewer runs the JavaScript they contain.
+   If served from the same domain as your application, this code could act
+   on behalf of the logged-in user (cross-site scripting, XSS). The bundled
+   Content Security Policy (CSP) rules reduce, but cannot remove, this risk.
+
+   When accepting uploads from untrusted users, only enable this previewer if
+   it is served from a separate domain or sub-domain that does not share
+   cookies with your main site. Otherwise, keep it disabled.
 
 To enable the ReplayWeb.page Web Archive viewer, add ``web_archive``
 to ``PREVIEWER_PREFERENCE`` in your configuration:

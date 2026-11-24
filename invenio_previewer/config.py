@@ -63,7 +63,7 @@ PREVIEWER_PREFERENCE = [
     "ipynb",
     "zip",
     "txt",
-    # "web_archive",
+    # "web_archive",  # serve it from a separate domain, see the docs
 ]
 """Decides which previewers are available and their priority."""
 
