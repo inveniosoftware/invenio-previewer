@@ -11,6 +11,7 @@ from zlib import crc32
 
 import pytest
 
+from invenio_previewer.ext import finalize_app
 from invenio_previewer.extensions import zip as zip_previewer
 
 TOO_LARGE = "ZIP file is too large to be previewed."
@@ -87,9 +88,9 @@ def zip_with_large_file_size():
 
 
 def make_tree_without_check(file):
-    """Make the tree without checking the number of files (previous behaviour)."""
+    """Make the tree without checking the archive (previous behaviour)."""
     with patch.object(
-        zip_previewer, "_check_file_count", lambda fp, max_files_count: None
+        zip_previewer, "_open_zip", lambda fp, max_files_count: zipfile.ZipFile(fp)
     ):
         return zip_previewer.make_tree(file)
 
@@ -164,6 +165,56 @@ def test_zip_preview_reads_only_the_end_of_large_archives(testapp):
     assert error == TOO_MANY_FILES
     assert len(data) > 10 * 2**20
     assert file.fp.bytes_read < 128 * 2**10
+
+
+def understate_files(data, zip64=False):
+    """Make the end of central directory record declare a single file."""
+    data = bytearray(data)
+    if zip64:
+        # files on this disk and in total, 8 bytes each
+        end = data.rfind(b"PK\x06\x06")
+        data[end + 24 : end + 40] = struct.pack("<QQ", 1, 1)
+    else:
+        # files on this disk and in total, 2 bytes each
+        end = data.rfind(b"PK\x05\x06")
+        data[end + 8 : end + 12] = struct.pack("<HH", 1, 1)
+    return bytes(data)
+
+
+@pytest.mark.parametrize("zip64", [False, True])
+def test_zip_preview_understated_files(testapp, zip64):
+    """Test an understated count of files is caught after parsing."""
+    data = understate_files(make_zip(many_files(6), zip64=zip64), zip64=zip64)
+    with patch.dict(testapp.config, {"PREVIEWER_ZIP_MAX_FILES": 5}):
+        with testapp.app_context():
+            tree, _, error = zip_previewer.make_tree(ZipFileObject(data))
+
+    assert error == TOO_MANY_FILES
+    assert tree["children"] == {}
+
+
+def test_zip_preview_large_central_directory(testapp):
+    """Test a large central directory is refused before reading it."""
+    # more than 65535 files: zipfile writes the ZIP64 end records
+    file = ZipFileObject(understate_files(make_zip(many_files(100000)), zip64=True))
+    with testapp.app_context():
+        tree, _, error = zip_previewer.make_tree(file)
+
+    assert error == TOO_LARGE
+    assert file.fp.bytes_read < 128 * 2**10
+
+
+@pytest.mark.parametrize(
+    "records_limit, warns", [(None, False), (1000, False), (500, True)]
+)
+def test_zip_limits_alignment_warning(testapp, records_limit, warns):
+    """Test a warning is logged when the ZIP limits differ."""
+    config = {"RECORDS_RESOURCES_ZIP_MAX_ENTRIES": records_limit}
+    with patch.dict(testapp.config, config):
+        with patch.object(testapp.logger, "warning") as warning:
+            finalize_app(testapp)
+
+    assert warning.called is warns
 
 
 def test_zip_preview_not_a_zip(testapp):
