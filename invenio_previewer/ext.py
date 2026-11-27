@@ -28,6 +28,26 @@ def load_or_import_from_config(key, app=None, default=None):
     return obj_or_import_string(imp, default=default)
 
 
+def finalize_app(app):
+    """Check the configuration, once all extensions have set theirs."""
+    _warn_if_zip_limits_differ(app)
+
+
+def _warn_if_zip_limits_differ(app):
+    """Warn if the maximum number of files in ZIP archives is not aligned."""
+    # invenio-previewer doesn't depend on invenio-records-resources, but when
+    # both are installed (as in InvenioRDM) they should accept the same archives.
+    records_limit = app.config.get("RECORDS_RESOURCES_ZIP_MAX_ENTRIES")
+    previewer_limit = app.config.get("PREVIEWER_ZIP_MAX_FILES")
+    if records_limit is not None and records_limit != previewer_limit:
+        app.logger.warning(
+            "PREVIEWER_ZIP_MAX_FILES (%s) differs from "
+            "RECORDS_RESOURCES_ZIP_MAX_ENTRIES (%s): set them to the same value.",
+            previewer_limit,
+            records_limit,
+        )
+
+
 class _InvenioPreviewerState(object):
     """State object."""
 

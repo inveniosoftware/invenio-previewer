@@ -28,7 +28,19 @@ PREVIEWER_CSV_MAX_BYTES = 100 * 1024 * 1024
 """Maximum file size in bytes for CSV files."""
 
 PREVIEWER_ZIP_MAX_FILES = 1000
-"""Max number of files showed in the ZIP previewer."""
+"""Max entries (files and folders) of a ZIP file shown in the previewer.
+
+ZIP files with more entries are not previewed at all.
+
+It protects the memory of the server, as the whole table of contents of a ZIP is
+loaded to open it. For the same reason, the size of the table of contents is
+limited to this value multiplied by 512 bytes (about 0.5 MB by default): a ZIP with
+very long file names can be refused with fewer entries.
+
+Keep aligned with ``RECORDS_RESOURCES_ZIP_MAX_ENTRIES`` in
+invenio-records-resources (``invenio_records_resources/config.py``): when both are
+installed, a warning is logged on startup if their values differ.
+"""
 
 PREVIEWER_ZIP_MAX_BYTES = 100 * 1024 * 1024
 """Max size of ZIP file showed in the ZIP previewer."""

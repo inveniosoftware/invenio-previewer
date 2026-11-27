@@ -44,6 +44,9 @@ invenio_previewer_theme = "invenio_previewer.webpack:previewer"
 [project.entry-points."invenio_base.apps"]
 invenio_previewer = "invenio_previewer:InvenioPreviewer"
 
+[project.entry-points."invenio_base.finalize_app"]
+invenio_previewer = "invenio_previewer.ext:finalize_app"
+
 [project.entry-points."invenio_i18n.translations"]
 messages = "invenio_previewer"
 

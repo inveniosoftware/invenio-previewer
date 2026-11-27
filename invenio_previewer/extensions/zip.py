@@ -16,28 +16,42 @@ from ..proxies import current_previewer
 previewable_extensions = ["zip"]
 
 
-def _check_file_count(fp, max_files_count):
-    """Raise LargeZipFile if the ZIP archive has too many files to be previewed."""
+def _open_zip(fp, max_files_count):
+    """Open a ZIP archive, raising LargeZipFile if it has too many files.
+
+    ``zipfile`` loads the whole central directory (table of contents) in memory
+    when opening an archive. The number of files and the size of the central
+    directory are therefore checked first, reading only the end of the archive.
+    The declared number of files can be understated, so the files are also
+    counted after parsing.
+    """
+    # A similar check exists in invenio-records-resources: keep them aligned.
     endrec = zipfile._EndRecData(fp)
     if not endrec:
         raise zipfile.BadZipFile(_("File is not a ZIP file"))
-    files_count = endrec[zipfile._ECD_ENTRIES_TOTAL]
-    if files_count > max_files_count:
+    if endrec[zipfile._ECD_ENTRIES_TOTAL] > max_files_count:
         raise zipfile.LargeZipFile(_("Too many files inside the ZIP file."))
+    # The declared number of files can be fake, so also limit the size of the
+    # table of contents. 512 bytes per file is generous: it is mostly the file name.
+    if endrec[zipfile._ECD_SIZE] > max_files_count * 512:
+        raise zipfile.LargeZipFile(_("ZIP file is too large to be previewed."))
+    zf = zipfile.ZipFile(fp)
+    if len(zf.infolist()) > max_files_count:
+        raise zipfile.LargeZipFile(_("Too many files inside the ZIP file."))
+    return zf
 
 
 def make_tree(file):
     """Create tree structure from ZIP archive."""
-    max_files_count = current_app.config.get("PREVIEWER_ZIP_MAX_FILES", 1000)
-    max_file_size = current_app.config.get("PREVIEWER_ZIP_MAX_BYTES", 100 * 1024 * 1024)
+    max_files_count = current_app.config["PREVIEWER_ZIP_MAX_FILES"]
+    max_file_size = current_app.config["PREVIEWER_ZIP_MAX_BYTES"]
     tree = {"type": "folder", "id": -1, "children": {}}
 
     try:
         if file.size > max_file_size:
             raise zipfile.LargeZipFile(_("ZIP file is too large to be previewed."))
         with file.open() as fp:
-            _check_file_count(fp, max_files_count)
-            zf = zipfile.ZipFile(fp)
+            zf = _open_zip(fp, max_files_count)
             # Detect filenames encoding.
             sample = " ".join(zf.namelist()[:max_files_count])
             if not isinstance(sample, bytes):
